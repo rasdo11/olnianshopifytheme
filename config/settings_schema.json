@@ -1,0 +1,113 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Olnian",
+    "theme_version": "1.0.0",
+    "theme_author": "Olnian",
+    "theme_documentation_url": "https://olnian.com",
+    "theme_support_url": "https://olnian.com"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "color", "id": "color_background",      "label": "Background",          "default": "#FFF8F0" },
+      { "type": "color", "id": "color_text",             "label": "Body text",           "default": "#2E1206" },
+      { "type": "color", "id": "color_accent_primary",   "label": "Coral (primary)",     "default": "#FF5A2C" },
+      { "type": "color", "id": "color_accent_secondary", "label": "Flamingo",            "default": "#FEB3A0" },
+      { "type": "color", "id": "color_accent_gold",      "label": "Gold",                "default": "#E8A13C" },
+      { "type": "color", "id": "color_accent_mint",      "label": "Mint",                "default": "#3ECFB2" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "header", "content": "Heading font" },
+      {
+        "type": "select",
+        "id": "display_font",
+        "label": "Heading font family",
+        "options": [
+          { "value": "Nunito Sans",         "label": "Nunito Sans (sans)" },
+          { "value": "DM Sans",             "label": "DM Sans (sans)" },
+          { "value": "Space Grotesk",       "label": "Space Grotesk (sans)" },
+          { "value": "Plus Jakarta Sans",   "label": "Plus Jakarta Sans (sans)" },
+          { "value": "Belleza",             "label": "Belleza (serif)" },
+          { "value": "Cormorant Garamond",  "label": "Cormorant Garamond (serif)" },
+          { "value": "Instrument Serif",    "label": "Instrument Serif (serif)" },
+          { "value": "Playfair Display",    "label": "Playfair Display (serif)" },
+          { "value": "Fraunces",            "label": "Fraunces (serif)" },
+          { "value": "Newsreader",          "label": "Newsreader (serif)" }
+        ],
+        "default": "Nunito Sans"
+      },
+      {
+        "type": "select",
+        "id": "display_font_weight",
+        "label": "Heading weight",
+        "info": "Belleza & Instrument Serif are one weight only (400) — heavier weights fall back to 400 for those.",
+        "options": [
+          { "value": "300", "label": "Light (300)" },
+          { "value": "400", "label": "Regular (400)" },
+          { "value": "500", "label": "Medium (500)" },
+          { "value": "600", "label": "Semi-bold (600)" },
+          { "value": "700", "label": "Bold (700)" },
+          { "value": "800", "label": "Extra-bold (800)" },
+          { "value": "900", "label": "Black (900)" }
+        ],
+        "default": "800"
+      },
+      { "type": "header", "content": "Body font" },
+      {
+        "type": "select",
+        "id": "body_font",
+        "label": "Body font family",
+        "options": [
+          { "value": "Nunito Sans",       "label": "Nunito Sans" },
+          { "value": "DM Sans",           "label": "DM Sans" },
+          { "value": "Space Grotesk",     "label": "Space Grotesk" },
+          { "value": "Plus Jakarta Sans", "label": "Plus Jakarta Sans" },
+          { "value": "Jost",              "label": "Jost" },
+          { "value": "Epilogue",          "label": "Epilogue" }
+        ],
+        "default": "Nunito Sans"
+      },
+      {
+        "type": "select",
+        "id": "body_font_weight",
+        "label": "Body weight",
+        "options": [
+          { "value": "300", "label": "Light (300)" },
+          { "value": "400", "label": "Regular (400)" },
+          { "value": "500", "label": "Medium (500)" },
+          { "value": "600", "label": "Semi-bold (600)" },
+          { "value": "700", "label": "Bold (700)" }
+        ],
+        "default": "400"
+      }
+    ]
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "text",     "id": "brand_name",        "label": "Brand name",    "default": "ØLNIAN" },
+      { "type": "textarea", "id": "brand_tagline",     "label": "Tagline",       "default": "Pure supplements. Made the week you order." },
+      { "type": "image_picker", "id": "favicon",       "label": "Favicon" },
+      {
+        "type": "range",
+        "id": "brand_logo_padding_left",
+        "label": "Brand name — left padding (px)",
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "default": 15
+      }
+    ]
+  },
+  {
+    "name": "Shipping badge",
+    "settings": [
+      { "type": "checkbox", "id": "show_ship_badge",  "label": "Show shipping badge",  "default": true },
+      { "type": "text",     "id": "ship_badge_text",  "label": "Badge text",           "default": "Ships in 2\u20134 weeks" }
+    ]
+  }
+]

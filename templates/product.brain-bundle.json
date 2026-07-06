@@ -1,0 +1,328 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "gallery_image_YmNPht": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/woman_getting_ready4.png"
+          }
+        },
+        "gallery_image_GFV7iz": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/mg_sleep.png"
+          }
+        },
+        "gallery_image_kVFePQ": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/pdp-4-facts.png"
+          }
+        },
+        "gallery_image_DYwd7U": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/pomelli_photoshoot_image_4_5_0425_3_5015f584-da73-4530-8435-36337a7689fa.png"
+          }
+        },
+        "gallery_image_mzGAtN": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/pdp-6-spoon.jpg"
+          }
+        },
+        "gallery_image_AXTDCa": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/pdp-2-pour.png"
+          }
+        },
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Clearer thinking in the afternoon, even on the hard days"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Deeper sleep that actually delivers recovery, not just hours"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Less cortisol drag pulling at your mornings"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Workouts that don't hollow you out for the next 48 hours"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Mental sharpness that comes from a brain with both fuel and rest"
+          }
+        },
+        "b6": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "The only two-supplement stack studied specifically in women going through hormonal change"
+          }
+        },
+        "s1": {
+          "type": "support_item",
+          "settings": {
+            "text": "Brain ATP synthesis — cellular energy for sustained thought"
+          }
+        },
+        "s2": {
+          "type": "support_item",
+          "settings": {
+            "text": "Sleep architecture — time in slow-wave and REM sleep"
+          }
+        },
+        "s3": {
+          "type": "support_item",
+          "settings": {
+            "text": "Cognitive performance: memory, processing speed, reaction time"
+          }
+        },
+        "s4": {
+          "type": "support_item",
+          "settings": {
+            "text": "Cortisol regulation and stress hormone response"
+          }
+        },
+        "s5": {
+          "type": "support_item",
+          "settings": {
+            "text": "Muscle recovery and reduced delayed-onset soreness"
+          }
+        },
+        "s6": {
+          "type": "support_item",
+          "settings": {
+            "text": "Hormonal resilience through perimenopause and beyond"
+          }
+        }
+      },
+      "block_order": [
+        "gallery_image_YmNPht",
+        "gallery_image_GFV7iz",
+        "gallery_image_kVFePQ",
+        "gallery_image_DYwd7U",
+        "gallery_image_mzGAtN",
+        "gallery_image_AXTDCa",
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ],
+      "settings": {
+        "hero_image": "shopify://shop_images/brain_bundle_crop.png",
+        "show_rating": true,
+        "rating_value": 46,
+        "rating_count": "61 reviews",
+        "tagline": "Creatine powers your brain. Magnesium protects your sleep. Together they run the full protocol.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What it supports",
+        "show_gift_banner": true,
+        "gift_banner_text": "First subscription includes a free gold measuring spoon.",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": ""
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": {
+          "type": "stat",
+          "settings": {
+            "number": "4 weeks",
+            "label": "To measurable cognitive improvement with creatine in women",
+            "citation": "Smith et al., 2003"
+          }
+        },
+        "st2": {
+          "type": "stat",
+          "settings": {
+            "number": "7 days",
+            "label": "Typical onset of sleep improvement with magnesium glycinate",
+            "citation": "Abbasi et al., 2012"
+          }
+        },
+        "st3": {
+          "type": "stat",
+          "settings": {
+            "number": "2",
+            "label": "Supplements. Because more isn't better. Right is better.",
+            "citation": ""
+          }
+        }
+      },
+      "block_order": [
+        "st1",
+        "st2",
+        "st3"
+      ],
+      "settings": {
+        "kicker": "The protocol",
+        "headline": "Input and recovery. Not one or the other.",
+        "body": "Cognitive performance has two levers: the fuel your neurons run on, and the recovery that resets them. Creatine raises brain phosphocreatine — the substrate that powers ATP synthesis under demand. Magnesium glycinate repairs the sleep architecture that determines how much of that fuel is actually available by morning. Neither is redundant. Neither is optional if you want the full effect.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "Why these two together?",
+            "answer": "Creatine does one thing well: it raises phosphocreatine in the brain, giving neurons more ATP to fire with under cognitive load. It works best when the brain is actually recovering at night. Magnesium glycinate does one thing well: it improves sleep architecture and cortisol regulation, so the brain has the recovery window creatine needs to do its job. They don't overlap. They complete each other."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "Is there a specific order or timing?",
+            "answer": "Yes. Creatine in the morning — it dissolves in water, coffee, or anything you drink when you wake up. Magnesium glycinate in the evening, 30–60 minutes before sleep. Separating them by time isn't because they interact; they don't. It's because each is most effective when timed to its primary mechanism. Creatine works best when it's being loaded consistently throughout the day. Magnesium works best when it supports the transition into sleep."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "Do I need both, or can I start with just one?",
+            "answer": "You can start with either. Creatine alone will improve cognitive performance, strength, and recovery. Magnesium alone will improve sleep quality and stress resilience. But if what you're dealing with is cognitive fatigue that feels connected to both poor sleep and daytime mental fog — which is the pattern we see most often in women during perimenopause — the combination addresses both the input and the recovery simultaneously. That's why the bundle exists."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "This sounds like a lot to take daily. Is it?",
+            "answer": "No. Both are pure, unflavored powders — no capsules to count. Creatine is 5 grams dissolved in any liquid. Magnesium glycinate is 400mg dissolved in water or something warm. Two steps in your routine, separated by 12 hours. That's the entire protocol."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "What's the realistic timeline?",
+            "answer": "Magnesium: sleep improvement and muscle relaxation typically within 7–14 days. Creatine: cognitive improvements measurable at week 4, with continued gains through week 8–12. The compounding effect — where better sleep amplifies creatine's cognitive action — is typically noticeable at 6–8 weeks of consistent daily use. Week 2 usually brings the first signal. Week 8 is when people tend to stop questioning whether it's working."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Is this appropriate during perimenopause?",
+            "answer": "Yes. This is specifically where the combination was designed to matter. Perimenopause accelerates both magnesium depletion (through stress and hormonal fluctuation) and brain energy deficits (creatine synthesis slows with estrogen decline). The clinical literature on both compounds has a meaningful body of research in this age group. If you're managing hormone therapy or other medications, the general guidance is to space supplements 2 hours from prescriptions — and check with your doctor if you have kidney or cardiac conditions."
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    },
+    "testing-strip": {
+      "type": "testing-strip",
+      "blocks": {
+        "a": {
+          "type": "item",
+          "settings": {
+            "label": "Heavy metals"
+          }
+        },
+        "b": {
+          "type": "item",
+          "settings": {
+            "label": "Microbials"
+          }
+        },
+        "c": {
+          "type": "item",
+          "settings": {
+            "label": "Identity"
+          }
+        },
+        "d": {
+          "type": "item",
+          "settings": {
+            "label": "Potency"
+          }
+        }
+      },
+      "block_order": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "settings": {
+        "heading": "Third-party tested every batch",
+        "heading_size": 22,
+        "heading_kerning": 0,
+        "item_size": 13,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading_margin_bottom": 16,
+        "background": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "science",
+    "faq",
+    "testing-strip"
+  ]
+}

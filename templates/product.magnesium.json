@@ -1,0 +1,304 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "gallery_image_iA8bT9": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/mg_sleep.png"
+          }
+        },
+        "gallery_image_hVhnEe": {
+          "type": "gallery_image",
+          "settings": {}
+        },
+        "gallery_image_pGnYdQ": {
+          "type": "gallery_image",
+          "settings": {}
+        },
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Fall asleep faster and stay in deeper sleep through the night"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Wake up without the muscle tension that accumulates through the week"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Less reactive to stress that used to spiral into your whole day"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Fewer PMS and perimenopausal mood crashes"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Calm that builds over weeks, not a sedative that hits in an hour"
+          }
+        },
+        "b6": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Backed by research on magnesium's role in female hormonal health"
+          }
+        },
+        "s1": {
+          "type": "support_item",
+          "settings": {
+            "text": "Sleep architecture — time in deep and REM stages"
+          }
+        },
+        "s2": {
+          "type": "support_item",
+          "settings": {
+            "text": "Cortisol regulation and stress response"
+          }
+        },
+        "s3": {
+          "type": "support_item",
+          "settings": {
+            "text": "Muscle relaxation and recovery after training"
+          }
+        },
+        "s4": {
+          "type": "support_item",
+          "settings": {
+            "text": "Hormonal balance through the cycle and perimenopause"
+          }
+        },
+        "s5": {
+          "type": "support_item",
+          "settings": {
+            "text": "Bone density maintenance alongside calcium and vitamin D"
+          }
+        },
+        "s6": {
+          "type": "support_item",
+          "settings": {
+            "text": "Migraine frequency in women with documented deficiency"
+          }
+        }
+      },
+      "block_order": [
+        "gallery_image_iA8bT9",
+        "gallery_image_hVhnEe",
+        "gallery_image_pGnYdQ",
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ],
+      "settings": {
+        "hero_image": "shopify://shop_images/mg-pdp-1.png",
+        "crosssell_product": "creatine",
+        "show_rating": true,
+        "rating_value": 47,
+        "rating_count": "89 reviews",
+        "tagline": "The mineral most women are deficient in. In the form your body actually absorbs.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What it supports",
+        "show_gift_banner": false,
+        "gift_banner_text": "",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": ""
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": {
+          "type": "stat",
+          "settings": {
+            "number": "68%",
+            "label": "Women over 35 with suboptimal magnesium levels",
+            "citation": "NHANES, 2022"
+          }
+        },
+        "st2": {
+          "type": "stat",
+          "settings": {
+            "number": "4 weeks",
+            "label": "To measurable improvement in sleep quality",
+            "citation": "Abbasi et al., 2012"
+          }
+        },
+        "st3": {
+          "type": "stat",
+          "settings": {
+            "number": "80%",
+            "label": "Bioavailability of glycinate vs. ~4% for magnesium oxide",
+            "citation": "Schuette et al., 1994"
+          }
+        }
+      },
+      "block_order": [
+        "st1",
+        "st2",
+        "st3"
+      ],
+      "settings": {
+        "kicker": "The research",
+        "headline": "The form matters as much as the mineral.",
+        "body": "Most magnesium supplements use the oxide form — cheap to produce, nearly impossible to absorb. Glycinate binds magnesium to glycine, an amino acid the gut readily recognizes. The result is absorption that actually reaches the tissues that need it: the brain, the muscles, the adrenals.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "What makes glycinate different from other magnesium forms?",
+            "answer": "Magnesium oxide — the form in most supplements and cheap multivitamins — absorbs at roughly 4%. Magnesium glycinate binds the mineral to glycine, an amino acid your gut recognizes easily. Absorption runs at roughly 80%. This is why people who have tried magnesium before and felt nothing often notice a real difference with glycinate."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "Why are so many women deficient?",
+            "answer": "Three reasons compound together. First, modern farming practices have depleted soil magnesium, so even a vegetable-rich diet delivers less than it did 50 years ago. Second, stress and hormonal fluctuation accelerate magnesium excretion through the kidneys — the more cortisol you produce, the faster you burn through your stores. Third, most people simply aren't eating the magnesium-dense foods (dark leafy greens, pumpkin seeds, dark chocolate) in the quantities that would close the gap."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "When should I take it?",
+            "answer": "Evening, 30–60 minutes before sleep. Magnesium's muscle-relaxing and nervous-system-calming effects work best when timed with your wind-down. You'll still absorb the mineral if you take it in the morning — but you'll miss the sleep optimization window that makes most women notice the difference fastest."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "How long until I notice something?",
+            "answer": "Most women notice improved sleep depth and less muscle tension within 7–14 days. Mood and stress resilience improvements typically appear at 3–4 weeks of consistent daily use. Bone density effects are a long-game — measurable at 6–12 months. The sleep effect tends to be the first thing people feel, which then creates a positive loop for everything else."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "Is it safe with medications?",
+            "answer": "Magnesium glycinate is one of the lowest-risk supplements available and is generally well-tolerated. If you take antibiotics, diuretics, or medications for heart conditions, spacing them 2 hours apart from magnesium is standard protocol to avoid absorption interference. If you're managing a kidney condition, check with your doctor first — kidneys handle magnesium excretion, and impaired function can affect how much accumulates."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Can I stack this with your Creatine?",
+            "answer": "Yes — and this is the combination we designed around. Creatine powers cognitive output by raising brain ATP. Magnesium glycinate supports the sleep and stress recovery that makes cognitive performance sustainable. They don't interfere with each other. They compound. Creatine in the morning, magnesium at night."
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    },
+    "testing-strip": {
+      "type": "testing-strip",
+      "blocks": {
+        "a": {
+          "type": "item",
+          "settings": {
+            "label": "Heavy metals"
+          }
+        },
+        "b": {
+          "type": "item",
+          "settings": {
+            "label": "Microbials"
+          }
+        },
+        "c": {
+          "type": "item",
+          "settings": {
+            "label": "Identity"
+          }
+        },
+        "d": {
+          "type": "item",
+          "settings": {
+            "label": "Potency"
+          }
+        }
+      },
+      "block_order": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "settings": {
+        "heading": "Third-party tested every batch",
+        "heading_size": 22,
+        "heading_kerning": 0,
+        "item_size": 13,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading_margin_bottom": 16,
+        "background": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "science",
+    "faq",
+    "testing-strip"
+  ]
+}

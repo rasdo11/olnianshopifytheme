@@ -1,0 +1,103 @@
+<section class="how-it-works section--{{ section.settings.scheme | default: 'mint-tint' }}" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+">
+  <div class="container">
+    <div class="sku-row__header">
+      {%- if section.settings.kicker != blank -%}
+        <div class="sku-row__kicker" style="
+          font-size: {{ section.settings.kicker_size }}px;
+          letter-spacing: {{ section.settings.kicker_kerning | divided_by: 100.0 }}em;
+        ">{{ section.settings.kicker }}</div>
+      {%- endif -%}
+      {%- if section.settings.headline != blank -%}
+        <h2 class="sku-row__headline" style="
+          font-size: {{ section.settings.headline_size }}px;
+          letter-spacing: {{ section.settings.headline_kerning | divided_by: 100.0 }}em;
+        ">{{ section.settings.headline }}</h2>
+      {%- endif -%}
+    </div>
+    <div class="how-it-works__grid">
+      {%- for block in section.blocks -%}
+        <div class="how-it-works__step" {{ block.shopify_attributes }}>
+          <div class="how-it-works__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+          <h3 class="how-it-works__heading">{{ block.settings.heading }}</h3>
+          <p class="how-it-works__body">{{ block.settings.body }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.cta_label != blank -%}
+      <div style="text-align: center; margin-top: 56px;">
+        {%- if section.settings.cta_opens_quiz -%}
+          <button type="button" class="btn btn--primary" data-quiz-open aria-haspopup="dialog">
+            {{ section.settings.cta_label }}
+          </button>
+        {%- else -%}
+          <a href="{{ section.settings.cta_link }}" class="btn btn--primary">
+            {{ section.settings.cta_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How it works",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "How it works" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Small batches. Tested. Sent." },
+    { "type": "header", "content": "CTA button" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Take the Quiz" },
+    { "type": "checkbox", "id": "cta_opens_quiz", "label": "Button opens quiz modal", "default": true },
+    { "type": "url", "id": "cta_link", "label": "Button link (if not opening quiz)" },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 24, "max": 80, "step": 2, "default": 48 },
+    { "type": "range", "id": "headline_kerning", "label": "Headline letter-spacing (em \u00d7 100)", "min": -5, "max": 10, "step": 1, "default": -2, "info": "Divide by 100 to get em value. -2 = -0.02em" },
+    { "type": "range", "id": "kicker_size", "label": "Kicker size (px)", "min": 9, "max": 16, "step": 1, "default": 11 },
+    { "type": "range", "id": "kicker_kerning", "label": "Kicker letter-spacing (em \u00d7 100)", "min": 0, "max": 40, "step": 1, "default": 22 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "header", "content": "Color band" },
+    { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "mint-tint", "info": "Full-bleed section background. Rotate schemes down the page.", "options": [
+      { "value": "blush", "label": "Blush (cream)" },
+      { "value": "cream", "label": "Warm white" },
+      { "value": "white", "label": "White" },
+      { "value": "flamingo", "label": "Flamingo (peach)" },
+      { "value": "coral", "label": "Coral (bold)" },
+      { "value": "peach", "label": "Soft peach" },
+      { "value": "gold-tint", "label": "Gold tint" },
+      { "value": "gold", "label": "Gold (bold)" },
+      { "value": "mint-tint", "label": "Mint tint" },
+      { "value": "mint", "label": "Mint (bold)" },
+      { "value": "espresso", "label": "Espresso (dark)" }
+    ]},
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "You order" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Pick your protocol. Subscribe for refills and save 15%." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works",
+      "blocks": [
+        { "type": "step", "settings": { "heading": "You order",   "body": "Pick your protocol. Subscribe for refills and save 15%." } },
+        { "type": "step", "settings": { "heading": "We make it",  "body": "Your batch is milled, tested, and weighed out the week of shipping." } },
+        { "type": "step", "settings": { "heading": "It ships",    "body": "Ships in 2\u20134 weeks. Refills arrive on schedule. No new bottle each time." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,451 @@
+{%- comment -%}
+  sections/quiz.liquid
+  "Should I take creatine?" — 4-question recommendation quiz
+  Adds the recommended product to cart via /cart/add.js AJAX API.
+  Trigger: renders a strip section + listens for [data-quiz-open] clicks anywhere on the page.
+{%- endcomment -%}
+
+{%- if section.settings.show_trigger_strip -%}
+<section class="quiz-strip">
+  <div class="container quiz-strip__inner">
+    <div>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="quiz-strip__eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      <h2 class="quiz-strip__headline">{{ section.settings.headline }}</h2>
+      {%- if section.settings.subtext != blank -%}
+        <p class="quiz-strip__sub">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+    </div>
+    <button
+      type="button"
+      class="btn btn--primary quiz-strip__btn"
+      data-quiz-open
+      aria-haspopup="dialog"
+    >
+      {{ section.settings.trigger_label }}
+    </button>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} Modal — always in DOM, shown/hidden via JS {%- endcomment -%}
+<div
+  id="OlnianQuiz"
+  class="quiz-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ section.settings.headline | escape }}"
+  aria-hidden="true"
+  data-creatine-url="{{ section.settings.creatine_url }}"
+  data-bundle-url="{{ section.settings.bundle_url }}"
+>
+  <div class="quiz-backdrop" data-quiz-close></div>
+  <div class="quiz-panel" role="document">
+    <button class="quiz-panel__close" type="button" data-quiz-close aria-label="Close quiz">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M3 3L15 15M15 3L3 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="quiz-panel__progress" id="QuizProgress" aria-hidden="true"></div>
+    <div class="quiz-panel__content" id="QuizContent"></div>
+  </div>
+</div>
+
+<style>
+  /* ── Quiz trigger strip ───────────────────────────────────── */
+  .quiz-strip {
+    padding: 72px 0;
+    background: var(--espresso);
+    color: var(--blush);
+  }
+  .quiz-strip__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .quiz-strip__eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--flamingo);
+    margin-bottom: 12px;
+  }
+  .quiz-strip__headline {
+    font-family: var(--body-font);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--blush);
+    margin: 0;
+    max-width: 540px;
+  }
+  .quiz-strip__sub {
+    margin-top: 12px;
+    font-size: 16px;
+    opacity: 0.72;
+    font-weight: 300;
+    max-width: 480px;
+  }
+  .quiz-strip__btn {
+    flex-shrink: 0;
+    background: var(--tangerine);
+    color: var(--blush);
+    padding: 16px 32px;
+    font-size: 15px;
+  }
+  .quiz-strip__btn:hover { background: var(--blush); color: var(--espresso); }
+
+  /* ── Modal overlay ────────────────────────────────────────── */
+  .quiz-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .quiz-overlay[aria-hidden="false"] {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  .quiz-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(35, 12, 0, 0.42);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+  .quiz-overlay[aria-hidden="false"] .quiz-backdrop { opacity: 1; }
+
+  /* ── Modal panel ──────────────────────────────────────────── */
+  .quiz-panel {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    background: var(--blush);
+    color: var(--espresso);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 240ms ease, opacity 240ms ease, background 300ms ease, color 300ms ease;
+    overscroll-behavior: contain;
+  }
+  .quiz-overlay[aria-hidden="false"] .quiz-panel {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .quiz-panel--verdict-yes        { background: var(--tangerine); color: var(--blush); }
+  .quiz-panel--verdict-no         { background: var(--blush);     color: var(--espresso); }
+  .quiz-panel--verdict-physician  { background: var(--mint);      color: var(--espresso); }
+
+  .quiz-panel__close {
+    position: absolute;
+    top: 18px; right: 18px; z-index: 2;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.6; transition: opacity 0.15s; color: inherit;
+  }
+  .quiz-panel__close:hover { opacity: 1; }
+
+  .quiz-panel__progress {
+    display: flex; align-items: center; gap: 6px;
+    padding: 28px 48px 0;
+  }
+  .quiz-panel__progress-bar {
+    height: 2px; flex: 1;
+    background: var(--espresso-12);
+    transition: background 180ms ease;
+  }
+  .quiz-panel__progress-bar--filled { background: currentColor; opacity: 0.7; }
+  .quiz-panel__progress-counter {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    opacity: 0.5; margin-left: 14px; font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+
+  .quiz-panel__content { padding: 44px 48px 56px; }
+  .quiz-panel--result .quiz-panel__content { padding-top: 72px; }
+
+  /* ── Quiz typography ─────────────────────────────────────── */
+  .quiz-eyebrow { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.6; }
+  .quiz-headline {
+    font-family: var(--display-font); font-style: italic;
+    font-size: clamp(34px, 4.6vw, 52px); font-weight: 400;
+    line-height: 1.02; letter-spacing: -0.015em;
+    margin: 14px 0 0; text-wrap: balance;
+  }
+  .quiz-headline--lg { font-size: clamp(44px, 6vw, 72px); line-height: 0.97; }
+  .quiz-body { margin-top: 18px; font-size: 16px; line-height: 1.55; font-weight: 300; max-width: 540px; opacity: 0.85; }
+  .quiz-hint { margin-top: 10px; font-size: 14px; font-weight: 300; opacity: 0.6; }
+  .quiz-disclaimer { font-size: 11px; opacity: 0.5; line-height: 1.5; font-weight: 300; max-width: 460px; }
+
+  /* ── Quiz options ─────────────────────────────────────────── */
+  .quiz-options { margin-top: 32px; display: flex; flex-direction: column; gap: 10px; }
+  .quiz-option {
+    width: 100%; padding: 18px 22px;
+    border: 1px solid var(--espresso-30);
+    background: transparent; color: inherit;
+    font-family: var(--body-font); font-size: 15px; text-align: left;
+    cursor: pointer;
+    transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+  .quiz-option:hover:not(.quiz-option--selected) { background: var(--espresso-06); }
+  .quiz-option--selected { background: var(--tangerine); color: var(--blush); border-color: var(--tangerine); }
+  .quiz-panel--verdict-yes .quiz-option--selected { background: var(--espresso); border-color: var(--espresso); }
+
+  /* ── Quiz actions ─────────────────────────────────────────── */
+  .quiz-actions { margin-top: 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .quiz-btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 26px; background: var(--espresso); color: var(--blush);
+    font-family: var(--body-font); font-size: 14px; font-weight: 500; letter-spacing: 0.02em;
+    cursor: pointer; border: none; transition: opacity 0.15s;
+  }
+  .quiz-btn-primary:hover { opacity: 0.85; }
+  .quiz-btn-primary:disabled { opacity: 0.5; cursor: wait; }
+  .quiz-btn-ghost {
+    background: none; border: none; font-family: var(--body-font);
+    font-size: 13px; cursor: pointer; opacity: 0.6; color: inherit;
+    text-decoration: underline; padding: 0;
+  }
+  .quiz-btn-ghost:hover { opacity: 1; }
+
+  /* ── Result footer ───────────────────────────────────────── */
+  .quiz-result-footer {
+    margin-top: 48px; display: flex;
+    justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap;
+  }
+
+  /* ── Success state ───────────────────────────────────────── */
+  .quiz-success { margin-top: 20px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; opacity: 0.85; }
+  .quiz-success__dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* ── Mobile ──────────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .quiz-panel__progress { padding: 20px 24px 0; }
+    .quiz-panel__content { padding: 32px 24px 40px; }
+    .quiz-panel--result .quiz-panel__content { padding-top: 48px; }
+    .quiz-strip__inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+<script>
+(function () {
+  const overlay    = document.getElementById('OlnianQuiz');
+  const progressEl = document.getElementById('QuizProgress');
+  const contentEl  = document.getElementById('QuizContent');
+  const panel      = overlay && overlay.querySelector('.quiz-panel');
+
+  if (!overlay || !contentEl) return;
+
+  const CREATINE_URL = overlay.dataset.creatineUrl;
+  const BUNDLE_URL   = overlay.dataset.bundleUrl;
+
+  /* ── State ──────────────────────────────────────────────── */
+  const state = { step: 0, answers: { q1: null, q2: [], q3: null, q4: null }, loading: false, added: false };
+
+  function reset() {
+    state.step = 0;
+    state.answers = { q1: null, q2: [], q3: null, q4: null };
+    state.loading = false;
+    state.added   = false;
+  }
+
+  /* ── Logic ──────────────────────────────────────────────── */
+  function verdict() {
+    if (state.answers.q3 === 'yes') return 'physician';
+    if (state.answers.q1 === 'no')  return 'no';
+    return 'yes';
+  }
+
+  function yesCopy() {
+    if (state.answers.q4 === 'meh')  return { headline: 'Creatine: this time, done right.', body: "Your answers suggest creatine is a strong fit. If you\u2019ve tried it before without noticeable effect, it was likely the dose or the form. Pure micronized monohydrate at 3\u20135\u202fg daily is the studied amount, and the majority of off-the-shelf powders miss that mark. \u00d8lnian doesn\u2019t." };
+    if (state.answers.q4 === 'good') return { headline: 'You already know.', body: "You\u2019ve felt the effect. \u00d8LNIAN is the cleanest version of it we know how to make: pharmaceutical-grade monohydrate, nothing else, tested for heavy metals every batch." };
+    const hasSymptoms = state.answers.q2.length > 0 && !state.answers.q2.includes('none');
+    if (!hasSymptoms) return { headline: 'A quiet yes.', body: "Even without specific symptoms, the research on women 30+ is some of the most compelling in the category: strength, cognition, bone density, mood. Creatine isn\u2019t a fix for a problem. It\u2019s a floor you set, daily." };
+    return { headline: 'Creatine was made for this.', body: "Your answers suggest creatine + magnesium glycinate is a strong fit. The research on women in your demographic is some of the most compelling in the category, and \u00d8lnian is the cleanest version of it we know how to make. Every batch tested. Ships within days of production." };
+  }
+
+  function recommendedUrl() {
+    return (state.answers.q2.includes('sleep') && BUNDLE_URL) ? BUNDLE_URL : CREATINE_URL;
+  }
+
+  /* ── Helpers ─────────────────────────────────────────────── */
+  function esc(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  const ARROW_SVG = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  /* ── Render ──────────────────────────────────────────────── */
+  function renderProgress() {
+    if (state.step >= 1 && state.step <= 4) {
+      progressEl.innerHTML = [1,2,3,4].map(n =>
+        `<div class="quiz-panel__progress-bar${n <= state.step ? ' quiz-panel__progress-bar--filled' : ''}"></div>`
+      ).join('') + `<span class="quiz-panel__progress-counter">${state.step}\u202f/\u202f4</span>`;
+    } else {
+      progressEl.innerHTML = '';
+    }
+  }
+
+  function opts(list, selectedVal, multi) {
+    return list.map(o => {
+      const sel = multi ? state.answers.q2.includes(o.v) : selectedVal === o.v;
+      return `<button type="button" class="quiz-option${sel ? ' quiz-option--selected' : ''}" data-option="${esc(o.v)}" data-multi="${multi?'1':'0'}">${esc(o.label)}</button>`;
+    }).join('');
+  }
+
+  function render() {
+    renderProgress();
+    panel.classList.remove('quiz-panel--result','quiz-panel--verdict-yes','quiz-panel--verdict-no','quiz-panel--verdict-physician');
+
+    if (state.step === 0) {
+      contentEl.innerHTML = `
+        <div class="quiz-eyebrow">Four questions \u00b7 30 seconds</div>
+        <h2 class="quiz-headline quiz-headline--lg">Should I take creatine?</h2>
+        <p class="quiz-body">An honest look at whether \u00d8LNIAN is for you. No email required. No sales pitch if the answer is no.</p>
+        <div class="quiz-actions" style="margin-top:36px">
+          <button type="button" class="quiz-btn-primary" data-quiz-start>Begin ${ARROW_SVG}</button>
+        </div>
+        <p class="quiz-disclaimer" style="margin-top:40px">This quiz is for informational purposes only and does not constitute medical advice.</p>`;
+
+    } else if (state.step === 1) {
+      contentEl.innerHTML = `
+        <div class="quiz-eyebrow">Question 1</div>
+        <h2 class="quiz-headline">Are you a woman over 30?</h2>
+        <div class="quiz-options">${opts([{v:'yes',label:'Yes'},{v:'no',label:'No'}], state.answers.q1, false)}</div>`;
+
+    } else if (state.step === 2) {
+      contentEl.innerHTML = `
+        <div class="quiz-eyebrow">Question 2</div>
+        <h2 class="quiz-headline">Do you experience any of the following?</h2>
+        <p class="quiz-hint">Select all that apply.</p>
+        <div class="quiz-options">${opts([
+          {v:'fog',     label:'Brain fog or difficulty concentrating'},
+          {v:'fatigue', label:'Low energy or muscle fatigue'},
+          {v:'sleep',   label:'Poor or disrupted sleep'},
+          {v:'none',    label:'None of the above'},
+        ], null, true)}</div>
+        ${state.answers.q2.length > 0 ? `<div class="quiz-actions"><button type="button" class="quiz-btn-primary" data-quiz-continue>Continue ${ARROW_SVG}</button></div>` : ''}`;
+
+    } else if (state.step === 3) {
+      contentEl.innerHTML = `
+        <div class="quiz-eyebrow">Question 3</div>
+        <h2 class="quiz-headline">Are you currently pregnant, breastfeeding, or managing a kidney condition?</h2>
+        <div class="quiz-options">${opts([{v:'no',label:'No'},{v:'yes',label:'Yes'}], state.answers.q3, false)}</div>`;
+
+    } else if (state.step === 4) {
+      contentEl.innerHTML = `
+        <div class="quiz-eyebrow">Question 4</div>
+        <h2 class="quiz-headline">Have you tried creatine before?</h2>
+        <div class="quiz-options">${opts([
+          {v:'never', label:'No, never tried it'},
+          {v:'meh',   label:"Yes, and I didn\u2019t notice much"},
+          {v:'good',  label:'Yes, and I had a good experience'},
+        ], state.answers.q4, false)}</div>`;
+
+    } else if (state.step === 5) {
+      const v = verdict();
+      panel.classList.add('quiz-panel--result', `quiz-panel--verdict-${v}`);
+
+      let inner = '';
+      if (v === 'yes') {
+        const copy = yesCopy();
+        const destUrl = recommendedUrl();
+        const ctaHTML = `<div class="quiz-actions" style="margin-top:36px"><a href="${esc(destUrl || '/collections/all')}" class="quiz-btn-primary">Start the Journey ${ARROW_SVG}</a></div>`;
+        inner = `<h2 class="quiz-headline quiz-headline--lg">${esc(copy.headline)}</h2><p class="quiz-body">${esc(copy.body)}</p>${ctaHTML}`;
+      } else if (v === 'no') {
+        inner = `<h2 class="quiz-headline quiz-headline--lg">Creatine probably isn\u2019t your next move.</h2>
+          <p class="quiz-body">Based on your answers, creatine isn\u2019t the right fit right now. That\u2019s the honest answer. If things change or you want to revisit, we\u2019ll be here.</p>
+          <div class="quiz-actions" style="margin-top:32px"><button type="button" class="quiz-btn-ghost" data-quiz-close>Learn what we make and why \u2192</button></div>`;
+      } else {
+        inner = `<h2 class="quiz-headline quiz-headline--lg">Talk to your doctor first.</h2>
+          <p class="quiz-body">One of your answers flags a situation where a physician should weigh in before you start any new supplement. That\u2019s not a no; it\u2019s just the right order of operations. We\u2019d rather you ask first.</p>`;
+      }
+
+      contentEl.innerHTML = `${inner}
+        <div class="quiz-result-footer">
+          <p class="quiz-disclaimer">This quiz is for informational purposes only and does not constitute medical advice.</p>
+          <button type="button" class="quiz-btn-ghost" data-quiz-retake>Retake \u2192</button>
+        </div>`;
+    }
+  }
+
+  /* ── Open / close ────────────────────────────────────────── */
+  function openQuiz() {
+    reset(); render();
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => { const f = contentEl.querySelector('button'); if (f) f.focus(); });
+  }
+
+  function closeQuiz() {
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  /* ── Events ──────────────────────────────────────────────── */
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-quiz-open]'))  { e.preventDefault(); openQuiz();  return; }
+    if (e.target.closest('[data-quiz-close]') && overlay.getAttribute('aria-hidden') === 'false') { e.preventDefault(); closeQuiz(); return; }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') closeQuiz();
+  });
+
+  contentEl.addEventListener('click', function (e) {
+    if (e.target.closest('[data-quiz-start]'))    { state.step = 1; render(); return; }
+    if (e.target.closest('[data-quiz-continue]')) { state.step = 3; render(); return; }
+    if (e.target.closest('[data-quiz-retake]'))   { reset(); render(); return; }
+
+    const opt = e.target.closest('[data-option]');
+    if (!opt) return;
+
+    if (opt.dataset.multi === '1') {
+      const v = opt.dataset.option;
+      if (v === 'none') { state.answers.q2 = state.answers.q2.includes('none') ? [] : ['none']; }
+      else {
+        const w = state.answers.q2.filter(x => x !== 'none');
+        state.answers.q2 = w.includes(v) ? w.filter(x => x !== v) : [...w, v];
+      }
+      render(); return;
+    }
+
+    // Single-select — auto-advance
+    const v = opt.dataset.option;
+    if (state.step === 1) { state.answers.q1 = v; render(); setTimeout(() => { state.step = 2; render(); }, 160); }
+    else if (state.step === 3) { state.answers.q3 = v; render(); setTimeout(() => { state.step = v === 'yes' ? 5 : 4; render(); }, 160); }
+    else if (state.step === 4) { state.answers.q4 = v; render(); setTimeout(() => { state.step = 5; render(); }, 160); }
+  });
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Quiz \u2014 recommendation",
+  "settings": [
+    { "type": "header", "content": "Trigger strip" },
+    { "type": "checkbox", "id": "show_trigger_strip", "label": "Show trigger strip", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Find your protocol" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Should I take creatine?" },
+    { "type": "textarea", "id": "subtext", "label": "Sub-text", "default": "Four questions. No email required. No pitch if the answer\u2019s no." },
+    { "type": "text", "id": "trigger_label", "label": "Button label", "default": "Is creatine for me, right now?" },
+    { "type": "header", "content": "Result destinations" },
+    { "type": "url", "id": "creatine_url", "label": "Creatine product URL", "info": "Where 'Start the Journey' goes for most quiz results." },
+    { "type": "url", "id": "bundle_url", "label": "Bundle URL (sleep result)", "info": "Where 'Start the Journey' goes when user selects Poor or disrupted sleep." }
+  ],
+  "presets": [
+    { "name": "Quiz \u2014 recommendation", "category": "Promotions" }
+  ]
+}
+{% endschema %}

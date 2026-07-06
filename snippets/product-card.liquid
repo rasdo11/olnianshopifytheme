@@ -1,0 +1,67 @@
+{%- comment -%}
+  Product card. Expects: product (Product object)
+  Renders: image (+ optional badge), title, subtitle, optional variant
+  swatch carousel, and a full-width pill CTA with the price inside it.
+{%- endcomment -%}
+
+{%- comment -%} Pick the first real multi-value option for swatches (Color/Scent/Flavor…) {%- endcomment -%}
+{%- assign swatch_option = null -%}
+{%- for opt in product.options_with_values -%}
+  {%- if opt.values.size > 1 -%}
+    {%- assign lc = opt.name | downcase -%}
+    {%- if lc contains 'color' or lc contains 'colour' or lc contains 'scent' or lc contains 'flavor' or lc contains 'flavour' or lc contains 'shade' -%}
+      {%- assign swatch_option = opt -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<a href="{{ product.url }}" class="sku-card" aria-label="{{ product.title }}">
+  <div class="sku-card__image">
+    {%- if product.compare_at_price > product.price -%}
+      {%- assign _save = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+      <span class="sku-card__badge">Save {{ _save }}%</span>
+    {%- elsif product.metafields.custom.badge != blank -%}
+      <span class="sku-card__badge">{{ product.metafields.custom.badge }}</span>
+    {%- endif -%}
+    {%- if product.featured_image -%}
+      {{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: product.title }}
+    {%- endif -%}
+  </div>
+
+  <div>
+    <div class="sku-card__name">{{ product.title }}</div>
+    {%- if product.metafields.custom.subtitle != blank -%}
+      <div class="sku-card__sub">{{ product.metafields.custom.subtitle }}</div>
+    {%- elsif product.description != blank -%}
+      <div class="sku-card__sub">{{ product.description | strip_html | truncatewords: 12 }}</div>
+    {%- endif -%}
+
+    {%- if swatch_option -%}
+      <div class="sku-card__swatches">
+        <button type="button" class="sku-card__swatch-nav" data-swatch-prev aria-label="Previous colors" tabindex="-1">&lsaquo;</button>
+        <div class="sku-card__swatch-track" data-swatch-track>
+          {%- for value in swatch_option.values -%}
+            {%- assign palette = 'var(--flamingo)' -%}
+            {%- case forloop.index0 | modulo: 4 -%}
+              {%- when 0 -%}{%- assign palette = 'var(--flamingo)' -%}
+              {%- when 1 -%}{%- assign palette = 'var(--gold)' -%}
+              {%- when 2 -%}{%- assign palette = 'var(--mint)' -%}
+              {%- when 3 -%}{%- assign palette = 'var(--tangerine)' -%}
+            {%- endcase -%}
+            <span class="sku-card__swatch" title="{{ value | escape }}" style="background-color: {{ palette }};"></span>
+          {%- endfor -%}
+        </div>
+        <button type="button" class="sku-card__swatch-nav" data-swatch-next aria-label="More colors" tabindex="-1">&rsaquo;</button>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="sku-card__footer">
+    <span class="btn btn--primary sku-card__add" aria-hidden="true">
+      Shop
+      {%- if product.price_varies %} · From {{ product.price_min | money }}
+      {%- else %} · {{ product.price | money }}{% endif -%}
+    </span>
+  </div>
+</a>

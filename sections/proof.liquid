@@ -1,0 +1,65 @@
+<section class="proof section--{{ section.settings.scheme | default: 'gold-tint' }}">
+  <div class="container">
+    <div class="sku-row__header">
+      {%- if section.settings.kicker != blank -%}
+        <div class="sku-row__kicker">{{ section.settings.kicker }}</div>
+      {%- endif -%}
+      {%- if section.settings.headline != blank -%}
+        <h2 class="sku-row__headline">{{ section.settings.headline }}</h2>
+      {%- endif -%}
+    </div>
+    <div class="proof__grid">
+      {%- for block in section.blocks -%}
+        <figure class="proof__card" {{ block.shopify_attributes }}>
+          <blockquote class="proof__quote">&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
+          <figcaption class="proof__attrib">{{ block.settings.attribution }}</figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Proof",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Testimonials" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Women in their 40s and up" },
+    { "type": "header", "content": "Color band" },
+    { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "gold-tint", "info": "Full-bleed section background. Rotate schemes down the page.", "options": [
+      { "value": "blush", "label": "Blush (cream)" },
+      { "value": "cream", "label": "Warm white" },
+      { "value": "white", "label": "White" },
+      { "value": "flamingo", "label": "Flamingo (peach)" },
+      { "value": "coral", "label": "Coral (bold)" },
+      { "value": "peach", "label": "Soft peach" },
+      { "value": "gold-tint", "label": "Gold tint" },
+      { "value": "gold", "label": "Gold (bold)" },
+      { "value": "mint-tint", "label": "Mint tint" },
+      { "value": "mint", "label": "Mint (bold)" },
+      { "value": "espresso", "label": "Espresso (dark)" }
+    ]}
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "I can tell within a week." },
+        { "type": "text", "id": "attribution", "label": "Attribution", "default": "— M., 47, Austin" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Proof",
+      "blocks": [
+        { "type": "testimonial", "settings": { "quote": "I can tell within a week.", "attribution": "— M., 47, Austin" } },
+        { "type": "testimonial", "settings": { "quote": "The only supplement I've stayed on.", "attribution": "— R., 52, Portland" } },
+        { "type": "testimonial", "settings": { "quote": "Sleep and strength, same bottle.", "attribution": "— L., 44, Brooklyn" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

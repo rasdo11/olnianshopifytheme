@@ -1,0 +1,37 @@
+<section class="sku-row">
+  <div class="container">
+    <div class="sku-row__header">
+      <div class="sku-row__kicker">Collection</div>
+      <h1 class="sku-row__headline">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <p style="max-width: 560px; margin: 16px auto 0; opacity: 0.72;">{{ collection.description | strip_html }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- paginate collection.products by 24 -%}
+      <div class="sku-row__grid">
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav style="margin-top: 64px; display: flex; gap: 12px; justify-content: center;">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="btn btn--outline">← Prev</a>
+          {%- endif -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="btn btn--outline">Next →</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection — main",
+  "settings": []
+}
+{% endschema %}

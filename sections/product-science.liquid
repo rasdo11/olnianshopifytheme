@@ -1,0 +1,89 @@
+<section class="product-science" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  background: {{ section.settings.background | default: 'var(--espresso)' }};
+  color: var(--blush);
+">
+  <div class="container">
+    <div class="product-science__grid">
+
+      <div class="product-science__copy">
+        {%- if section.settings.kicker != blank -%}
+          <div class="product-science__kicker">{{ section.settings.kicker }}</div>
+        {%- endif -%}
+        <h2 class="product-science__headline" style="font-size: {{ section.settings.headline_size }}px;">{{ section.settings.headline }}</h2>
+        {%- if section.settings.body != blank -%}
+          <p class="product-science__body">{{ section.settings.body }}</p>
+        {%- endif -%}
+
+        <div class="product-science__stats">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'stat' -%}
+              <div class="product-science__stat" {{ block.shopify_attributes }}>
+                <div class="product-science__stat-number">{{ block.settings.number }}</div>
+                <div class="product-science__stat-label">{{ block.settings.label }}</div>
+                {%- if block.settings.citation != blank -%}
+                  <div class="product-science__stat-citation">{{ block.settings.citation }}</div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.disclaimer != blank -%}
+          <p class="product-science__disclaimer">{{ section.settings.disclaimer }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="product-science__image">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: section.settings.headline }}
+        {%- else -%}
+          <div class="product-science__image-placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product science",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The research" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Studied specifically in women." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Randomized, placebo-controlled trials in perimenopausal women show measurable improvements in cognition, muscle recovery, and mood stability within 4 weeks." },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer (small print)", "default": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease." },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 24, "max": 72, "step": 2, "default": 48 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "color", "id": "background", "label": "Background color" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Research stat",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Stat / number", "default": "4 weeks" },
+        { "type": "text", "id": "label", "label": "Label", "default": "To measurable cognitive improvement" },
+        { "type": "text", "id": "citation", "label": "Citation / source", "default": "Benton & Donohoe, 2011" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product science",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "4 weeks", "label": "To measurable cognitive improvement", "citation": "Benton & Donohoe, 2011" } },
+        { "type": "stat", "settings": { "number": "+14%", "label": "Improvement in memory test scores in women 35–55", "citation": "Smith et al., 2003" } },
+        { "type": "stat", "settings": { "number": "5 g", "label": "The studied daily dose. No more, no less.", "citation": "ISSN Position Stand" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

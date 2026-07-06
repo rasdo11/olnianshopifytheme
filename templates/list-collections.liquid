@@ -1,0 +1,18 @@
+<div class="container" style="padding: 80px 0;">
+  <h1 class="display-md" style="font-size: clamp(40px, 5vw, 64px);">Collections</h1>
+  <div class="sku-row__grid" style="margin-top: 48px;">
+    {%- for collection in collections -%}
+      <a href="{{ collection.url }}" class="sku-card">
+        <div class="sku-card__image">
+          {%- if collection.image -%}
+            {{ collection.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: collection.title }}
+          {%- endif -%}
+        </div>
+        <div>
+          <div class="sku-card__name">{{ collection.title }}</div>
+          <div class="sku-card__sub">{{ collection.products_count }} products</div>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>

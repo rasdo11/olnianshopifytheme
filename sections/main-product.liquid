@@ -1,0 +1,490 @@
+<section class="product page-enter">
+  <div class="container">
+    <div class="product__grid">
+
+      {%- comment -%} ── Left: image gallery ── {%- endcomment -%}
+      <div class="product__media">
+
+        {%- comment -%}
+          Gallery sources (all Theme Editor controlled):
+          1. hero_image_filename setting — first slide, editable in Theme Editor
+          2. gallery_image blocks — add/remove in Theme Editor via "Add block"
+        {%- endcomment -%}
+        {%- assign _hero_file = section.settings.hero_image -%}
+        {%- assign gallery_asset_count = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
+            {%- assign gallery_asset_count = gallery_asset_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- assign total_slides = gallery_asset_count -%}
+        {%- if _hero_file != blank -%}{%- assign total_slides = total_slides | plus: 1 -%}{%- endif -%}
+        {%- assign has_gallery = false -%}
+        {%- if total_slides > 0 -%}{%- assign has_gallery = true -%}{%- endif -%}
+
+        <div class="pdp-gallery">
+
+          {%- comment -%} Hero image — large, full column width, clickable to open lightbox {%- endcomment -%}
+          <div class="pdp-gallery__main" id="PdpMainImage">
+            {%- if has_gallery -%}
+              {%- assign _slide_i = 0 -%}
+              {%- if _hero_file != blank -%}
+                <div class="pdp-gallery__slide is-active" data-slide="0">
+                  <button type="button" class="pdp-gallery__main-btn" data-lightbox-open="0" aria-label="View full image">
+                    <img src="{{ _hero_file | image_url: width: 1400 }}" alt="{{ product.title }}" class="pdp-gallery__img" loading="eager">
+                  </button>
+                </div>
+                {%- assign _slide_i = 1 -%}
+              {%- endif -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
+                  <div class="pdp-gallery__slide{% if _slide_i == 0 %} is-active{% endif %}" data-slide="{{ _slide_i }}" {{ block.shopify_attributes }}>
+                    <button type="button" class="pdp-gallery__main-btn" data-lightbox-open="{{ _slide_i }}" aria-label="View full image">
+                      <img src="{{ block.settings.image | image_url: width: 1400 }}"
+                        alt="{{ block.settings.image.alt | default: product.title }}"
+                        class="pdp-gallery__img"
+                        loading="lazy">
+                    </button>
+                  </div>
+                  {%- assign _slide_i = _slide_i | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
+              <div class="pdp-gallery__slide is-active">
+                <button type="button" class="pdp-gallery__main-btn" data-lightbox-open="0" aria-label="View full image">
+                  <img src="{{ 'pdp-1-hero.png' | asset_url }}" alt="{{ product.title }}" class="pdp-gallery__img" loading="eager">
+                </button>
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- comment -%} Thumbnail row — desktop only, below hero {%- endcomment -%}
+          {%- if has_gallery and total_slides > 1 -%}
+            <div class="pdp-gallery__thumbs" id="PdpThumbs">
+              {%- assign _thumb_i = 0 -%}
+              {%- if _hero_file != blank -%}
+                <button type="button" class="pdp-gallery__thumb is-active" data-thumb="0" aria-label="View image 1">
+                  <img src="{{ _hero_file | image_url: width: 300 }}" alt="{{ product.title }}" loading="lazy">
+                </button>
+                {%- assign _thumb_i = 1 -%}
+              {%- endif -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
+                  <button type="button"
+                    class="pdp-gallery__thumb{% if _thumb_i == 0 %} is-active{% endif %}"
+                    data-thumb="{{ _thumb_i }}"
+                    aria-label="View image {{ _thumb_i | plus: 1 }}">
+                    <img src="{{ block.settings.image | image_url: width: 300 }}" alt="{{ block.settings.image.alt | default: product.title }}" loading="lazy">
+                  </button>
+                  {%- assign _thumb_i = _thumb_i | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} Dot navigation — mobile only {%- endcomment -%}
+          {%- if has_gallery and total_slides > 1 -%}
+            <div class="pdp-gallery__dots" id="PdpDots" aria-hidden="true">
+              {%- for i in (1..total_slides) -%}
+                <button type="button" class="pdp-gallery__dot{% if forloop.first %} is-active{% endif %}" data-dot="{{ forloop.index0 }}"></button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+        </div>
+
+        {%- comment -%} Lightbox overlay {%- endcomment -%}
+        {%- if has_gallery -%}
+          <div id="PdpLightbox" class="pdp-lightbox" aria-hidden="true" aria-modal="true" role="dialog">
+            <button type="button" class="pdp-lightbox__close" data-lightbox-close aria-label="Close gallery">✕</button>
+            {%- if total_slides > 1 -%}
+              <button type="button" class="pdp-lightbox__prev" data-lightbox-prev aria-label="Previous image">‹</button>
+              <button type="button" class="pdp-lightbox__next" data-lightbox-next aria-label="Next image">›</button>
+            {%- endif -%}
+            <div class="pdp-lightbox__images">
+              {%- assign _lb_i = 0 -%}
+              {%- if _hero_file != blank -%}
+                <div class="pdp-lightbox__slide is-active" data-lightbox-slide="0">
+                  <img src="{{ _hero_file | image_url: width: 2000 }}" alt="{{ product.title }}" loading="lazy">
+                </div>
+                {%- assign _lb_i = 1 -%}
+              {%- endif -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
+                  <div class="pdp-lightbox__slide{% if _lb_i == 0 %} is-active{% endif %}" data-lightbox-slide="{{ _lb_i }}">
+                    <img src="{{ block.settings.image | image_url: width: 2000 }}" alt="{{ block.settings.image.alt | default: product.title }}" loading="lazy">
+                  </div>
+                  {%- assign _lb_i = _lb_i | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+      </div>
+
+      {%- comment -%} ── Right: product info (sticky on desktop) ── {%- endcomment -%}
+      <div class="product__info">
+
+        {%- if product.metafields.custom.eyebrow != blank -%}
+          <div class="hero__kicker" style="margin-bottom: 8px;">{{ product.metafields.custom.eyebrow }}</div>
+        {%- endif -%}
+
+        <h1 class="product__title">{{ product.title }}</h1>
+
+        {%- if section.settings.show_rating -%}
+          <div class="product__rating">
+            {%- assign rating_display = section.settings.rating_value | divided_by: 10.0 -%}
+            {%- assign full_stars = rating_display | floor -%}
+            {%- assign star_decimal = rating_display | minus: full_stars -%}
+            {%- assign has_half_star = false -%}
+            {%- if star_decimal >= 0.25 -%}{%- assign has_half_star = true -%}{%- endif -%}
+            {%- assign half_star_pos = full_stars | plus: 1 -%}
+            <span class="product__stars" aria-label="{{ rating_display }} out of 5 stars">
+              {%- for i in (1..5) -%}
+                {%- if i <= full_stars -%}<span class="star star--full">★</span>
+                {%- elsif i == half_star_pos and has_half_star -%}<span class="star star--half">★</span>
+                {%- else -%}<span class="star star--empty">★</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </span>
+            <span class="product__rating-value">{{ rating_display }}</span>
+            {%- if section.settings.rating_count != blank -%}
+              <span class="product__rating-count">({{ section.settings.rating_count }})</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Short tagline — above price, benefit-first {%- endcomment -%}
+        {%- if section.settings.tagline != blank -%}
+          <p class="product__tagline">{{ section.settings.tagline }}</p>
+        {%- elsif product.description != blank -%}
+          <div class="product__tagline">{{ product.description }}</div>
+        {%- endif -%}
+
+        {%- comment -%} Visible feature list — coloured dot bullets (Billie PDP format) {%- endcomment -%}
+        {%- assign _has_benefits = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'benefit' -%}{%- assign _has_benefits = true -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if _has_benefits -%}
+          <ul class="product__features">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'benefit' -%}
+                <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.show_ship_badge or settings.show_ship_badge -%}
+          <div class="product__ship-badge">
+            <span aria-hidden="true">●</span> {{ settings.ship_badge_text }}
+          </div>
+        {%- endif -%}
+
+        {%- assign _first_selling_plan = nil -%}
+        {%- for group in product.selling_plan_groups -%}
+          {%- for plan in group.selling_plans -%}
+            {%- if _first_selling_plan == nil -%}
+              {%- assign _first_selling_plan = plan -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+
+        <form data-product-form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" novalidate>
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="selling_plan" id="SellingPlanInput" value="">
+
+          {%- if product.variants.size > 1 -%}
+            {%- for option in product.options_with_values -%}
+              {%- assign option_index = forloop.index0 -%}
+              <div class="product__variant-group">
+                <div class="product__variant-label">{{ option.name }}</div>
+                <div class="product__variant-options">
+                  {%- for value in option.values -%}
+                    {%- assign variant_for_value = nil -%}
+                    {%- for v in product.variants -%}
+                      {%- if v.options[option_index] == value -%}
+                        {%- assign variant_for_value = v -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if variant_for_value -%}
+                      <button type="button" class="product__variant-option"
+                        data-variant-option
+                        data-variant-id="{{ variant_for_value.id }}"
+                        data-selected="{% if variant_for_value.id == product.selected_or_first_available_variant.id %}true{% else %}false{% endif %}">
+                        {{ value }}
+                      </button>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- comment -%} Trust line — before price so it's seen before cost {%- endcomment -%}
+          <p class="product__trust-line product__trust-line--top">Third-party tested &middot; Free shipping over $50 &middot; Cancel anytime</p>
+
+          {%- assign sub_price = product.selected_or_first_available_variant.price | times: 0.85 | round -%}
+          <div class="product__price" data-product-price>
+            {{ product.selected_or_first_available_variant.price | money }}
+          </div>
+          {%- if _first_selling_plan != nil -%}
+            <div class="product__sub-price">
+              <strong>Subscribe: {{ sub_price | money }}/mo</strong>
+              <del>{{ product.selected_or_first_available_variant.price | money }}</del>
+              <span>&middot; save 15%</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_gift_banner -%}
+            <div class="gift-banner">
+              <span class="gift-banner__icon">✦</span>
+              <span>{{ section.settings.gift_banner_text }}</span>
+            </div>
+          {%- endif -%}
+
+          <div class="product__qty-row">
+            <div class="stepper" data-quantity-stepper>
+              <button type="button" data-qty-down aria-label="Decrease">−</button>
+              <input class="stepper__value" type="number" name="quantity" value="1" min="1" max="99" readonly>
+              <button type="button" data-qty-up aria-label="Increase">+</button>
+            </div>
+          </div>
+
+          <div class="product__atc-row">
+            <button type="submit" class="btn btn--primary product__atc" data-product-submit
+              {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+              {% if product.selected_or_first_available_variant.available %}
+                Start Now
+              {% else %}
+                {{ 'general.product.sold_out' | t }}
+              {% endif %}
+            </button>
+            <button type="button" class="btn btn--outline product__expert-btn" data-expert-modal-open>Talk to an expert</button>
+          </div>
+
+          <div class="product__or-divider">or</div>
+          {{ form | payment_button }}
+
+          {%- comment -%} Subscribe & Save card {%- endcomment -%}
+          <div class="subscribe-card">
+            <div class="subscribe-card__badge">Save 15%</div>
+            <div class="subscribe-card__content">
+              <div class="subscribe-card__headline">Subscribe &amp; Save</div>
+              <div class="subscribe-card__body">Your next batch ships every month. Cancel anytime.</div>
+              <div class="subscribe-card__prices">
+                <span class="subscribe-card__price">{{ sub_price | money }}</span>
+                <del class="subscribe-card__compare">{{ product.selected_or_first_available_variant.price | money }}</del>
+                <span class="subscribe-card__per">/ month</span>
+              </div>
+            </div>
+            {%- if _first_selling_plan != nil -%}
+              <button type="submit" class="subscribe-card__cta" data-selling-plan-id="{{ _first_selling_plan.id }}">Add</button>
+            {%- else -%}
+              <button type="submit" class="subscribe-card__cta subscribe-card__cta--unavailable" disabled>Unavailable</button>
+            {%- endif -%}
+          </div>
+
+        </form>
+
+        <hr class="product__divider">
+
+        {%- comment -%} What it supports accordion {%- endcomment -%}
+        {%- assign _has_support = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'support_item' -%}{%- assign _has_support = true -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if _has_support -%}
+          <div class="product__accordion" data-accordion>
+            <button type="button" class="product__accordion__btn" aria-expanded="false" aria-controls="acc-supports">
+              <span>{{ section.settings.supports_heading | default: 'What it supports' }}</span>
+              <span class="product__accordion__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="product__accordion__body" id="acc-supports" hidden>
+              <ul class="product__acc-list">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'support_item' -%}
+                    <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Ingredients accordion {%- endcomment -%}
+        {%- if product.metafields.custom.ingredients.value -%}
+          <div class="product__accordion" data-accordion>
+            <button type="button" class="product__accordion__btn" aria-expanded="false" aria-controls="acc-ingredients">
+              <span>Ingredients</span>
+              <span class="product__accordion__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="product__accordion__body" id="acc-ingredients" hidden>
+              <div class="product__ingredients-list">
+                {%- for ing in product.metafields.custom.ingredients.value -%}
+                  <div class="product__ingredient">
+                    <span>{{ ing.name }}</span>
+                    <span>{{ ing.amount }}</span>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.__productVariants = window.__productVariants || {};
+    {%- for v in product.variants -%}
+      window.__productVariants["{{ v.id }}"] = {
+        id: {{ v.id }},
+        price: {{ v.price }},
+        available: {{ v.available }},
+        title: {{ v.title | json }}
+      };
+    {%- endfor -%}
+  </script>
+
+  {%- comment -%} ── Sticky cross-sell bar — slides up once main ATC scrolls out of view ── {%- endcomment -%}
+  {%- assign _cs = section.settings.crosssell_product -%}
+  <div class="pdp-sticky-bar" id="PdpStickyBar">
+    <div class="pdp-sticky-bar__inner container">
+      {%- if _cs != blank -%}
+        {%- assign _cs_variant = _cs.selected_or_first_available_variant -%}
+        <div class="pdp-sticky-bar__left">
+          <div class="pdp-sticky-bar__name">{{ _cs.title }}</div>
+          <div class="pdp-sticky-bar__price">{{ _cs_variant.price | money }}</div>
+        </div>
+        <div class="pdp-sticky-bar__actions">
+          <a href="{{ _cs.url }}" class="btn btn--primary pdp-sticky-bar__atc">
+            {%- if _cs_variant.available -%}Add to Routine{%- else -%}View{%- endif -%}
+          </a>
+        </div>
+      {%- else -%}
+        <div class="pdp-sticky-bar__left">
+          <div class="pdp-sticky-bar__name">{{ product.title }}</div>
+          <div class="pdp-sticky-bar__price">{{ product.selected_or_first_available_variant.price | money }}</div>
+        </div>
+        <div class="pdp-sticky-bar__actions">
+          {%- if _first_selling_plan != nil -%}
+            <button type="button" class="pdp-sticky-bar__sub" data-sticky-sub>Save 15%</button>
+          {%- endif -%}
+          <button type="button" class="btn btn--primary pdp-sticky-bar__atc" data-sticky-atc
+            {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+            {%- if product.selected_or_first_available_variant.available -%}Start Now{%- else -%}Sold Out{%- endif -%}
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── Talk to an expert modal ── {%- endcomment -%}
+  <div id="ExpertModal" class="expert-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ExpertModalTitle">
+    <div class="expert-modal__overlay" data-expert-modal-close></div>
+    <div class="expert-modal__dialog">
+      <button type="button" class="expert-modal__close" data-expert-modal-close aria-label="Close">&#x2715;</button>
+      <p class="expert-modal__eyebrow">One of our experts will text you</p>
+      <h2 class="expert-modal__headline" id="ExpertModalTitle">Talk to an expert</h2>
+      <p class="expert-modal__subtext">Have a question about which supplement is right for you? Leave your name and number and we'll reach out within 24 hours.</p>
+      <form class="expert-modal__form" id="ExpertModalForm" action="/contact" method="post" accept-charset="UTF-8">
+        <input type="hidden" name="form_type" value="contact">
+        <input type="hidden" name="utf8" value="&#x2713;">
+        <input type="hidden" name="contact[product]" value="{{ product.title }}">
+        <div class="expert-modal__field">
+          <label for="ExpertName">First name</label>
+          <input type="text" id="ExpertName" name="contact[name]" placeholder="Jane" required autocomplete="given-name">
+        </div>
+        <div class="expert-modal__field">
+          <label for="ExpertPhone">Phone number</label>
+          <input type="tel" id="ExpertPhone" name="contact[phone]" placeholder="(555) 000-0000" required autocomplete="tel">
+        </div>
+        <div class="expert-modal__field">
+          <label for="ExpertZip">ZIP code</label>
+          <input type="text" id="ExpertZip" name="contact[zip]" placeholder="90210" inputmode="numeric" maxlength="10" autocomplete="postal-code">
+        </div>
+        <div class="expert-modal__field">
+          <label>Preferred contact method</label>
+          <div class="expert-modal__channel-row">
+            <label class="expert-modal__channel-opt">
+              <input type="radio" name="contact[channel]" value="SMS" checked>
+              <span>SMS</span>
+            </label>
+            <label class="expert-modal__channel-opt">
+              <input type="radio" name="contact[channel]" value="WhatsApp">
+              <span>WhatsApp</span>
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn--primary expert-modal__submit">Text me</button>
+      </form>
+      <div class="expert-modal__success" hidden>
+        <p>Got it! An expert will text you shortly.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Product — main",
+  "blocks": [
+    {
+      "type": "gallery_image",
+      "name": "Gallery image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit pill",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji or symbol)", "default": "○" },
+        { "type": "text", "id": "text", "label": "Benefit text", "default": "One ingredient" }
+      ]
+    },
+    {
+      "type": "support_item",
+      "name": "What it supports",
+      "settings": [
+        { "type": "textarea", "id": "text", "label": "Support text", "default": "Cognitive clarity and reaction time" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "header", "content": "Gallery" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "header", "content": "Rating" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show star rating", "default": true },
+    { "type": "range", "id": "rating_value", "label": "Rating (×10, so 48 = 4.8)", "min": 10, "max": 50, "step": 1, "default": 48, "info": "Divide by 10 for display value" },
+    { "type": "text", "id": "rating_count", "label": "Review count label", "default": "142 reviews" },
+    { "type": "header", "content": "Tagline (above price)" },
+    { "type": "textarea", "id": "tagline", "label": "Short tagline", "default": "One ingredient. Clinically studied in women for cognitive clarity, muscle recovery, and mood stability. Made the week you order." },
+    { "type": "header", "content": "Benefits accordion" },
+    { "type": "text", "id": "benefits_heading", "label": "Benefits heading", "default": "Benefits" },
+    { "type": "header", "content": "What it supports accordion" },
+    { "type": "text", "id": "supports_heading", "label": "Supports heading", "default": "What it supports" },
+    { "type": "header", "content": "Gift banner" },
+    { "type": "checkbox", "id": "show_gift_banner", "label": "Show gift banner", "default": true },
+    { "type": "text", "id": "gift_banner_text", "label": "Gift banner text", "default": "First subscription includes a free gold measuring spoon." },
+    { "type": "header", "content": "Sticky cross-sell bar" },
+    { "type": "product", "id": "crosssell_product", "label": "Cross-sell product", "info": "Shown in the sticky bar at the bottom. Leave empty to show current product's ATC." },
+    { "type": "header", "content": "Bundle + Save card" },
+    { "type": "checkbox", "id": "show_bundle_upsell", "label": "Show bundle card", "default": true },
+    { "type": "text", "id": "bundle_upsell_headline", "label": "Headline (e.g. Bundle + Save 25%)", "default": "Bundle + Save 25%" },
+    { "type": "textarea", "id": "bundle_upsell_body", "label": "Description", "default": "Add Magnesium Glycinate to your routine and save on your first order." },
+    { "type": "text", "id": "bundle_sale_price", "label": "Sale price (text, e.g. $67.48)" },
+    { "type": "text", "id": "bundle_compare_price", "label": "Compare-at price (text, e.g. $89.98)" },
+    { "type": "text", "id": "bundle_image_filename", "label": "Bundle product image (asset filename)" },
+    { "type": "url", "id": "bundle_upsell_link", "label": "Bundle link" }
+  ]
+}
+{% endschema %}

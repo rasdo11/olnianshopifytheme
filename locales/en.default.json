@@ -1,0 +1,51 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "close": "Close",
+      "open_cart": "Open cart"
+    },
+    "cart": {
+      "title": "Your cart",
+      "empty": "Your cart is empty.",
+      "subtotal": "Subtotal",
+      "checkout": "Checkout",
+      "continue_shopping": "Continue shopping",
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      },
+      "remove": "Remove"
+    },
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "quantity": "Quantity",
+      "one_time": "One-time purchase",
+      "subscribe": "Subscribe and save",
+      "subscription_savings": "Save 15%",
+      "refill_note": "Renewals ship as refills, not a new bottle.",
+      "cancel_policy": "Cancel within 30 days of first delivery for a full refund."
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search…",
+      "no_results": "No results for \"{{ terms }}\".",
+      "results_count": {
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
+      }
+    },
+    "404": {
+      "title": "Page not found",
+      "subtext": "The page you were looking for doesn't exist.",
+      "link": "Back to shop"
+    }
+  },
+  "newsletter": {
+    "label": "Email",
+    "button": "Subscribe",
+    "success": "Thanks — you're on the list."
+  }
+}

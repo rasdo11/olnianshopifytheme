@@ -1,0 +1,29 @@
+<div class="container" style="padding: 80px 0; max-width: 720px;">
+  <h1 class="display-md" style="font-size: clamp(32px, 4vw, 48px);">Addresses</h1>
+
+  <div style="margin-top: 32px; display: grid; gap: 16px;">
+    {%- for address in customer.addresses -%}
+      <div style="padding: 24px; background: white; border-radius: 12px; border: 1px solid var(--espresso-06);">
+        {{ address | format_address }}
+        {%- if address == customer.default_address -%}
+          <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--tangerine); margin-top: 12px;">Default</div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <h2 class="serif" style="margin-top: 48px; font-size: 22px;">Add a new address</h2>
+  {% form 'customer_address', customer.new_address %}
+    {{ form.errors | default_errors }}
+    <div style="margin-top: 16px; display: grid; gap: 12px; grid-template-columns: 1fr 1fr;">
+      <input type="text" name="address[first_name]" placeholder="First name" style="padding: 12px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      <input type="text" name="address[last_name]" placeholder="Last name" style="padding: 12px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      <input type="text" name="address[address1]" placeholder="Address" style="padding: 12px; border-radius: 12px; border: 1px solid var(--espresso-12); grid-column: span 2;">
+      <input type="text" name="address[city]" placeholder="City" style="padding: 12px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      <input type="text" name="address[zip]" placeholder="ZIP" style="padding: 12px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      <button type="submit" class="btn btn--primary" style="grid-column: span 2;">Save</button>
+    </div>
+  {% endform %}
+
+  <a href="{{ routes.account_url }}" style="display: inline-block; margin-top: 32px; text-decoration: underline;">← Back to account</a>
+</div>

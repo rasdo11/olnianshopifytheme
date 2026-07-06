@@ -1,0 +1,25 @@
+<article class="container" style="padding: 64px 0; max-width: 720px;">
+  <div style="text-align: center;">
+    <div style="font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6;">
+      {{ article.published_at | date: '%b %d, %Y' }}
+    </div>
+    <h1 class="display-md" style="font-size: clamp(36px, 5vw, 64px); margin-top: 12px; line-height: 1.05;">{{ article.title }}</h1>
+    {%- if article.author != blank -%}
+      <div style="margin-top: 16px; font-size: 14px; opacity: 0.72;">By {{ article.author }}</div>
+    {%- endif -%}
+  </div>
+
+  {%- if article.image -%}
+    <div style="margin-top: 40px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 16px;">
+      {{ article.image | image_url: width: 1600 | image_tag: loading: 'eager', alt: article.title }}
+    </div>
+  {%- endif -%}
+
+  <div style="margin-top: 40px; font-size: 17px; line-height: 1.7;">
+    {{ article.content }}
+  </div>
+
+  <div style="margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--espresso-06);">
+    <a href="{{ blog.url }}" style="text-decoration: underline;">← Back to {{ blog.title }}</a>
+  </div>
+</article>

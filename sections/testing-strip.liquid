@@ -1,0 +1,61 @@
+<section class="testing-strip" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <div style="
+        font-family: var(--display-font);
+        font-size: {{ section.settings.heading_size }}px;
+        letter-spacing: {{ section.settings.heading_kerning | divided_by: 100.0 }}em;
+        margin-bottom: {{ section.settings.heading_margin_bottom }}px;
+      ">{{ section.settings.heading }}</div>
+    {%- endif -%}
+    <div class="testing-strip__row">
+      {%- for block in section.blocks -%}
+        <div class="testing-strip__item" style="font-size: {{ section.settings.item_size }}px;" {{ block.shopify_attributes }}>{{ block.settings.label }}</div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testing strip",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Third-party tested every batch" },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "heading_size", "label": "Heading size (px)", "min": 14, "max": 40, "step": 1, "default": 22 },
+    { "type": "range", "id": "heading_kerning", "label": "Heading letter-spacing (em × 100)", "min": -5, "max": 20, "step": 1, "default": 0, "info": "Divide by 100 for em value." },
+    { "type": "range", "id": "item_size", "label": "Item tag size (px)", "min": 10, "max": 18, "step": 1, "default": 13 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 120, "step": 8, "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 120, "step": 8, "default": 48 },
+    { "type": "range", "id": "heading_margin_bottom", "label": "Heading bottom spacing (px)", "min": 0, "max": 48, "step": 4, "default": 16 },
+    { "type": "color", "id": "background", "label": "Background color" }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Heavy metals" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testing strip",
+      "blocks": [
+        { "type": "item", "settings": { "label": "Heavy metals" } },
+        { "type": "item", "settings": { "label": "Microbials" } },
+        { "type": "item", "settings": { "label": "Identity" } },
+        { "type": "item", "settings": { "label": "Potency" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

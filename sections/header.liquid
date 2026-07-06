@@ -1,0 +1,105 @@
+<header class="site-header" role="banner">
+  <div class="container site-header__inner">
+    <div class="site-header__left">
+      <button class="site-header__hamburger" id="SiteNavToggle" aria-expanded="false" aria-controls="SiteNavOverlay" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-header__nav" id="SiteNav" aria-label="Primary">
+        {%- if section.settings.menu != blank -%}
+          {%- for link in section.settings.menu.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="{{ routes.collections_url }}/all">Products</a>
+        {%- endif -%}
+      </nav>
+    </div>
+
+    <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }}">
+      {{ settings.brand_name | default: shop.name }}
+    </a>
+
+    <div class="site-header__actions">
+      {%- if section.settings.show_quiz_link -%}
+        <button type="button" class="site-header__quiz" data-quiz-open aria-haspopup="dialog">{{ section.settings.quiz_link_label | default: 'Take the quiz' }}</button>
+      {%- endif -%}
+      {%- if section.settings.utility_text != blank -%}
+        {%- if section.settings.utility_link != blank -%}
+          <a href="{{ section.settings.utility_link }}" class="site-header__utility">{{ section.settings.utility_text }}</a>
+        {%- else -%}
+          <span class="site-header__utility">{{ section.settings.utility_text }}</span>
+        {%- endif -%}
+      {%- endif -%}
+      <button class="site-header__cart" data-cart-open aria-label="{{ 'general.accessibility.open_cart' | t }}">
+        Cart
+        <span class="site-header__cart-count"{% if cart.item_count == 0 %} style="display:none"{% endif %}>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{%- comment -%} Full-screen takeover menu (mobile) {%- endcomment -%}
+<div class="site-nav-overlay" id="SiteNavOverlay" aria-hidden="true" role="dialog" aria-label="Menu">
+  <div class="site-nav-overlay__bar">
+    <a href="{{ routes.root_url }}" class="site-nav-overlay__logo" aria-label="{{ shop.name }}">
+      {{ settings.brand_name | default: shop.name }}
+    </a>
+    <button class="site-nav-overlay__close" data-nav-close aria-label="Close menu">&times;</button>
+  </div>
+  <nav class="site-nav-overlay__links" aria-label="Mobile primary">
+    {%- if section.settings.menu != blank -%}
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    {%- else -%}
+      <a href="{{ routes.collections_url }}/all">Products</a>
+    {%- endif -%}
+    {%- if section.settings.show_quiz_link -%}
+      <button type="button" class="site-nav-overlay__quiz" data-quiz-open data-nav-close aria-haspopup="dialog">{{ section.settings.quiz_link_label | default: 'Take the quiz' }}</button>
+    {%- endif -%}
+  </nav>
+  {%- if section.settings.utility_text != blank -%}
+    <div class="site-nav-overlay__footer">
+      <span class="site-header__utility">{{ section.settings.utility_text }}</span>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "utility_text",
+      "label": "Utility callout (e.g. Free Shipping!)",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "url",
+      "id": "utility_link",
+      "label": "Utility callout link (optional)"
+    },
+    { "type": "header", "content": "Quiz" },
+    {
+      "type": "checkbox",
+      "id": "show_quiz_link",
+      "label": "Show \"Take the quiz\" link in header",
+      "default": true,
+      "info": "Opens the recommendation quiz modal (rendered site-wide via the Header group)."
+    },
+    {
+      "type": "text",
+      "id": "quiz_link_label",
+      "label": "Quiz link label",
+      "default": "Take the quiz"
+    }
+  ]
+}
+{% endschema %}

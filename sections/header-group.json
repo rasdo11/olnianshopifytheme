@@ -1,0 +1,27 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "quiz": {
+      "type": "quiz",
+      "settings": {
+        "show_trigger_strip": false,
+        "eyebrow": "Find your protocol",
+        "headline": "Should I take creatine?",
+        "subtext": "Four questions. No email required. No pitch if the answer’s no.",
+        "trigger_label": "Is creatine for me, right now?",
+        "creatine_url": "shopify://products/creatine-m-h-refill",
+        "bundle_url": "shopify://collections/brain-bundle"
+      }
+    }
+  },
+  "order": ["announcement-bar", "header", "quiz"]
+}

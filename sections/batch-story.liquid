@@ -1,0 +1,119 @@
+<section class="batch-story section--{{ section.settings.scheme | default: 'flamingo' }}" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+">
+  <div class="container">
+    <div class="batch-story__grid{% if section.settings.image_position == 'right' %} batch-story__grid--image-right{% endif %}">
+      <div class="batch-story__image">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.headline }}
+        {%- endif -%}
+      </div>
+      <div>
+        {%- if section.settings.kicker != blank -%}
+          <div class="sku-row__kicker" style="
+            text-align: left;
+            font-size: {{ section.settings.kicker_size }}px;
+            letter-spacing: {{ section.settings.kicker_kerning | divided_by: 100.0 }}em;
+          ">{{ section.settings.kicker }}</div>
+        {%- endif -%}
+        <h2 class="batch-story__headline" style="
+          font-size: {{ section.settings.headline_size }}px;
+          letter-spacing: {{ section.settings.headline_kerning | divided_by: 100.0 }}em;
+        ">{{ section.settings.headline }}</h2>
+        {%- if section.settings.body != blank -%}
+          <p class="batch-story__body" style="font-size: {{ section.settings.body_size }}px;">{{ section.settings.body }}</p>
+        {%- endif -%}
+        {%- if section.settings.body_2 != blank -%}
+          <p class="batch-story__body" style="margin-top: 16px; font-size: {{ section.settings.body_size }}px;">{{ section.settings.body_2 }}</p>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="batch-story__steps">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'step' -%}
+                <div class="batch-story__step" {{ block.shopify_attributes }}>
+                  <div class="batch-story__step-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+                  <div class="batch-story__step-text">
+                    <h3 class="batch-story__step-heading">{{ block.settings.heading }}</h3>
+                    <p class="batch-story__step-body">{{ block.settings.body }}</p>
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.cta_label != blank -%}
+          <a href="{{ section.settings.cta_link }}" class="btn btn--outline" style="margin-top: {{ section.settings.cta_margin_top }}px;">{{ section.settings.cta_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Batch story",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "You order" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Pick your protocol. Subscribe for refills and save 15%." }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The batch" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Made the week you order." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "No warehouses full of bottles losing potency. Each batch is milled, tested, and filled in the weeks before it ships to you." },
+    { "type": "textarea", "id": "body_2", "label": "Body paragraph 2 (optional)" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Join the next batch." },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 24, "max": 80, "step": 2, "default": 48 },
+    { "type": "range", "id": "headline_kerning", "label": "Headline letter-spacing (em \u00d7 100)", "min": -5, "max": 10, "step": 1, "default": -2, "info": "Divide by 100 for em value. -2 = -0.02em" },
+    { "type": "range", "id": "kicker_size", "label": "Kicker size (px)", "min": 9, "max": 16, "step": 1, "default": 11 },
+    { "type": "range", "id": "kicker_kerning", "label": "Kicker letter-spacing (em \u00d7 100)", "min": 0, "max": 40, "step": 1, "default": 22 },
+    { "type": "range", "id": "body_size", "label": "Body size (px)", "min": 13, "max": 22, "step": 1, "default": 17 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "range", "id": "cta_margin_top", "label": "CTA button top spacing (px)", "min": 8, "max": 64, "step": 4, "default": 32 },
+    { "type": "header", "content": "Color band" },
+    { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "flamingo", "info": "Full-bleed section background. Rotate schemes down the page.", "options": [
+      { "value": "blush", "label": "Blush (cream)" },
+      { "value": "cream", "label": "Warm white" },
+      { "value": "white", "label": "White" },
+      { "value": "flamingo", "label": "Flamingo (peach)" },
+      { "value": "coral", "label": "Coral (bold)" },
+      { "value": "peach", "label": "Soft peach" },
+      { "value": "gold-tint", "label": "Gold tint" },
+      { "value": "gold", "label": "Gold (bold)" },
+      { "value": "mint-tint", "label": "Mint tint" },
+      { "value": "mint", "label": "Mint (bold)" },
+      { "value": "espresso", "label": "Espresso (dark)" }
+    ]},
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" }
+  ],
+  "presets": [
+    { "name": "Batch story", "category": "Text" }
+  ]
+}
+{% endschema %}

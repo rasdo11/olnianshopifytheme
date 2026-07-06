@@ -1,0 +1,77 @@
+<section class="newsletter section--{{ section.settings.scheme | default: 'flamingo' }}" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+">
+  <div class="container">
+    <div class="newsletter__inner">
+      {%- if section.settings.kicker != blank -%}
+        <div class="newsletter__kicker">{{ section.settings.kicker }}</div>
+      {%- endif -%}
+      {%- if section.settings.headline != blank -%}
+        <h2 class="newsletter__headline">{{ section.settings.headline }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheadline != blank -%}
+        <p class="newsletter__sub">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+
+      {%- form 'customer', class: 'newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="visually-hidden" for="NewsletterEmail-{{ section.id }}">Email</label>
+        <input
+          type="email"
+          name="contact[email]"
+          id="NewsletterEmail-{{ section.id }}"
+          class="newsletter__input"
+          value="{{ form.email }}"
+          placeholder="{{ section.settings.placeholder | default: 'Enter your email' }}"
+          autocomplete="email"
+          required>
+        <button type="submit" class="newsletter__submit" aria-label="Subscribe">&rarr;</button>
+        {%- if form.errors -%}
+          <p class="newsletter__note" role="alert">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+        {%- if form.posted_successfully? -%}
+          <p class="newsletter__success" role="status">{{ section.settings.success_message | default: 'Thanks — you’re on the list.' }}</p>
+        {%- endif -%}
+      {%- endform -%}
+
+      {%- if section.settings.note != blank -%}
+        <p class="newsletter__note">{{ section.settings.note }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Where you do you" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Join the list." },
+    { "type": "textarea", "id": "subheadline", "label": "Sub-headline", "default": "Batch drops, restock alerts, and the occasional note on what actually works. No spam." },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Enter your email" },
+    { "type": "text", "id": "note", "label": "Small print", "default": "Unsubscribe anytime." },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks — you’re on the list." },
+    { "type": "header", "content": "Color band" },
+    { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "flamingo", "info": "Full-bleed section background.", "options": [
+      { "value": "blush", "label": "Blush (cream)" },
+      { "value": "cream", "label": "Warm white" },
+      { "value": "white", "label": "White" },
+      { "value": "flamingo", "label": "Flamingo (peach)" },
+      { "value": "coral", "label": "Coral (bold)" },
+      { "value": "peach", "label": "Soft peach" },
+      { "value": "gold-tint", "label": "Gold tint" },
+      { "value": "gold", "label": "Gold (bold)" },
+      { "value": "mint-tint", "label": "Mint tint" },
+      { "value": "mint", "label": "Mint (bold)" },
+      { "value": "espresso", "label": "Espresso (dark)" }
+    ]},
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 96 }
+  ],
+  "presets": [
+    { "name": "Newsletter", "category": "Promotional" }
+  ]
+}
+{% endschema %}

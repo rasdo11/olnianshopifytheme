@@ -1,0 +1,62 @@
+<div id="CartDrawerContent" data-cart-drawer-content>
+  <div class="cart-drawer__header">
+    <h2 class="cart-drawer__title" id="CartDrawerTitle">{{ 'general.cart.title' | t }}</h2>
+    <button class="cart-drawer__close" data-cart-close aria-label="{{ 'general.accessibility.close' | t }}">×</button>
+  </div>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-drawer__items">
+      <div class="cart-drawer__empty">{{ 'general.cart.empty' | t }}</div>
+    </div>
+    <div class="cart-drawer__footer">
+      <a href="{{ routes.collections_url }}/all" class="btn btn--outline" style="width: 100%;">{{ 'general.cart.continue_shopping' | t }}</a>
+    </div>
+  {%- else -%}
+    <div class="cart-drawer__items">
+      {%- for item in cart.items -%}
+        <div class="cart-drawer__item" data-cart-item data-line="{{ forloop.index }}" data-quantity="{{ item.quantity }}">
+          <div class="cart-drawer__thumb">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 144 }}" alt="{{ item.image.alt | escape }}" loading="lazy" width="72" height="72">
+            {%- endif -%}
+          </div>
+          <div>
+            <div class="cart-drawer__item-title">{{ item.product.title }}</div>
+            {%- if item.variant.title != 'Default Title' -%}
+              <div class="cart-drawer__item-sub">{{ item.variant.title }}</div>
+            {%- endif -%}
+            {%- if item.selling_plan_allocation -%}
+              <div class="cart-drawer__item-sub" style="color: var(--tangerine);">{{ item.selling_plan_allocation.selling_plan.name }}</div>
+            {%- endif -%}
+            <div class="cart-drawer__qty">
+              <button type="button" data-cart-decrement aria-label="Decrease">−</button>
+              <span>{{ item.quantity }}</span>
+              <button type="button" data-cart-increment aria-label="Increase">+</button>
+            </div>
+            <button type="button" class="cart-drawer__remove" data-cart-remove>{{ 'general.cart.remove' | t }}</button>
+          </div>
+          <div class="cart-drawer__item-price">{{ item.final_line_price | money }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="cart-drawer__footer">
+      <div class="cart-drawer__subtotal">
+        <span>{{ 'general.cart.subtotal' | t }}</span>
+        <span>{{ cart.total_price | money }}</span>
+      </div>
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <button type="submit" name="checkout" class="btn btn--primary" style="width: 100%;">{{ 'general.cart.checkout' | t }}</button>
+      </form>
+      {%- if settings.show_ship_badge -%}
+        <div class="cart-drawer__ship-note">{{ settings.ship_badge_text }}. Taxes & shipping at checkout.</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,99 @@
+<section class="product-faq" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+">
+  <div class="container product-faq__inner">
+
+    <div class="product-faq__header">
+      {%- if section.settings.kicker != blank -%}
+        <div class="sku-row__kicker">{{ section.settings.kicker }}</div>
+      {%- endif -%}
+      <h2 class="product-faq__headline" style="font-size: {{ section.settings.headline_size }}px;">{{ section.settings.headline }}</h2>
+    </div>
+
+    <div class="product-faq__list" id="FaqList">
+      {%- for block in section.blocks -%}
+        <div class="faq-item" {{ block.shopify_attributes }}>
+          <button type="button" class="faq-item__q" aria-expanded="false" aria-controls="faq-a-{{ forloop.index }}">
+            <span>{{ block.settings.question }}</span>
+            <span class="faq-item__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-item__a" id="faq-a-{{ forloop.index }}" hidden>
+            <div class="faq-item__a-inner">{{ block.settings.answer }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var list = document.getElementById('FaqList');
+  if (!list) return;
+  list.addEventListener('click', function (e) {
+    var btn = e.target.closest('.faq-item__q');
+    if (!btn) return;
+    var item = btn.closest('.faq-item');
+    var answer = item.querySelector('.faq-item__a');
+    var icon = btn.querySelector('.faq-item__icon');
+    var isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+    // Close all others
+    list.querySelectorAll('.faq-item__q[aria-expanded="true"]').forEach(function (other) {
+      if (other !== btn) {
+        other.setAttribute('aria-expanded', 'false');
+        other.closest('.faq-item').querySelector('.faq-item__a').hidden = true;
+        other.querySelector('.faq-item__icon').textContent = '+';
+      }
+    });
+
+    // Toggle this one
+    btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    answer.hidden = isOpen;
+    icon.textContent = isOpen ? '+' : '−';
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Questions" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Straight answers." },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 24, "max": 64, "step": 2, "default": 40 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 80 },
+    { "type": "color", "id": "background", "label": "Background color" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Will creatine make me look bulky?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "No. Creatine draws water into muscle cells, which can add a small amount of intracellular water weight in the first 1–2 weeks. This is not fat, and it is not visible bulk. In women, the effect is typically negligible. What you will notice over 4–8 weeks is improved strength, recovery, and mental energy." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "item", "settings": { "question": "Will creatine make me look bulky?", "answer": "No. Creatine draws water into muscle cells, which can add a small amount of intracellular water weight in the first 1–2 weeks. This is not fat, and it is not visible bulk. In women, the effect is typically negligible. What you will notice over 4–8 weeks is improved strength, recovery, and mental energy." } },
+        { "type": "item", "settings": { "question": "Is creatine safe for women?", "answer": "Yes. Creatine monohydrate is one of the most extensively studied supplements in the world, with over 1,000 peer-reviewed studies. It is considered safe for healthy adults at 3–5 g daily. If you are pregnant, breastfeeding, or managing a kidney condition, speak with your doctor first." } },
+        { "type": "item", "settings": { "question": "How long until I notice something?", "answer": "Most women report clearer thinking and faster recovery within 2–4 weeks of consistent daily use. Cognitive effects often come before physical ones. The research on perimenopausal women shows measurable improvements in memory and processing speed by week 4." } },
+        { "type": "item", "settings": { "question": "Why does it ship in 2–4 weeks?", "answer": "Because we make your batch after you order. No warehouse. No bottles sitting on shelves for months losing potency. Your creatine is milled, tested, and sealed the week before it ships to you." } },
+        { "type": "item", "settings": { "question": "What is actually in it?", "answer": "One thing: creatine monohydrate. No fillers, no anti-caking agents, no silicon dioxide, no flavoring, no proprietary blends. Third-party tested for heavy metals, microbials, identity, and potency before every shipment." } },
+        { "type": "item", "settings": { "question": "Can I cancel my subscription?", "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,38 @@
+{%- if section.settings.show_bar -%}
+<div class="announcement-bar" style="
+  background: {{ section.settings.background_color | default: settings.color_accent_primary }};
+  color: {{ section.settings.text_color | default: settings.color_text }};
+  font-size: {{ section.settings.text_size }}px;
+">
+  {%- if section.settings.bar_opens_quiz -%}
+    <button type="button" class="announcement-bar__inner" data-quiz-open>
+      {{ section.settings.bar_text }}
+      <span class="announcement-bar__arrow" aria-hidden="true">→</span>
+    </button>
+  {%- elsif section.settings.bar_link != blank -%}
+    <a href="{{ section.settings.bar_link }}" class="announcement-bar__inner">
+      {{ section.settings.bar_text }}
+      <span class="announcement-bar__arrow" aria-hidden="true">→</span>
+    </a>
+  {%- else -%}
+    <div class="announcement-bar__inner">
+      {{ section.settings.bar_text }}
+    </div>
+  {%- endif -%}
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    { "type": "checkbox", "id": "show_bar", "label": "Show bar", "default": true },
+    { "type": "text", "id": "bar_text", "label": "Bar text", "default": "Is Creatine Right for You?" },
+    { "type": "checkbox", "id": "bar_opens_quiz", "label": "Opens quiz", "default": true },
+    { "type": "url", "id": "bar_link", "label": "Link (if not quiz)" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#FF7E5F" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" },
+    { "type": "range", "id": "text_size", "label": "Text size (px)", "min": 11, "max": 18, "step": 1, "default": 13 }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,109 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand-col">
+        <div class="site-footer__brand">{{ settings.brand_name | default: shop.name }}</div>
+        <p class="site-footer__tagline">{{ settings.brand_tagline }}</p>
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'menu' -%}
+          <div class="site-footer__menu-col" {{ block.shopify_attributes }}>
+            <div class="site-footer__heading">{{ block.settings.heading }}</div>
+            <ul class="site-footer__list">
+              {%- if block.settings.menu != blank -%}
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              {%- endif -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="site-footer__signup-col">
+        <div class="site-footer__signup-heading">{{ section.settings.signup_heading | default: 'Join the list' }}</div>
+        {%- if section.settings.signup_text != blank -%}
+          <p class="site-footer__tagline" style="margin-bottom: 12px;">{{ section.settings.signup_text }}</p>
+        {%- endif -%}
+        {%- form 'customer', class: 'site-footer__signup-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="FooterEmail">Email</label>
+          <input
+            type="email"
+            name="contact[email]"
+            id="FooterEmail"
+            class="site-footer__signup-input"
+            value="{{ form.email }}"
+            placeholder="{{ section.settings.signup_placeholder | default: 'Email' }}"
+            autocomplete="email"
+            required>
+          <button type="submit" class="site-footer__signup-btn" aria-label="Subscribe">&rarr;</button>
+          {%- if form.posted_successfully? -%}
+            <p class="newsletter__success" role="status" style="flex-basis:100%; margin-top:8px;">Thanks — you’re on the list.</p>
+          {%- elsif form.errors -%}
+            <p class="site-footer__tagline" role="alert" style="flex-basis:100%; margin-top:8px;">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <div class="site-footer__social">
+        {%- if section.settings.social_instagram != blank -%}<a href="{{ section.settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+        {%- if section.settings.social_tiktok != blank -%}<a href="{{ section.settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
+        {%- if section.settings.social_facebook != blank -%}<a href="{{ section.settings.social_facebook }}" target="_blank" rel="noopener">Facebook</a>{%- endif -%}
+        {%- if section.settings.social_youtube != blank -%}<a href="{{ section.settings.social_youtube }}" target="_blank" rel="noopener">YouTube</a>{%- endif -%}
+      </div>
+
+      {%- if section.settings.legal_menu != blank -%}
+        <div class="site-footer__legal">
+          {%- for link in section.settings.legal_menu.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="site-footer__copy">© {{ 'now' | date: "%Y" }} {{ settings.brand_name | default: shop.name }}. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "header", "content": "Email signup" },
+    { "type": "text", "id": "signup_heading", "label": "Signup heading", "default": "Join the list" },
+    { "type": "text", "id": "signup_text", "label": "Signup text (optional)", "default": "Batch drops & restock alerts." },
+    { "type": "text", "id": "signup_placeholder", "label": "Input placeholder", "default": "Email" },
+    { "type": "header", "content": "Social" },
+    { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
+    { "type": "url", "id": "social_tiktok", "label": "TikTok URL" },
+    { "type": "url", "id": "social_facebook", "label": "Facebook URL" },
+    { "type": "url", "id": "social_youtube", "label": "YouTube URL" },
+    { "type": "header", "content": "Legal" },
+    { "type": "link_list", "id": "legal_menu", "label": "Legal links menu" }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        { "type": "menu", "settings": { "heading": "Shop" } },
+        { "type": "menu", "settings": { "heading": "Company" } },
+        { "type": "menu", "settings": { "heading": "Help" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

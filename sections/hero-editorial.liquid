@@ -1,0 +1,119 @@
+<section class="hero page-enter section--{{ section.settings.scheme | default: 'blush' }}" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+">
+  <div class="container hero__grid hero__grid--image-{{ section.settings.image_position | default: 'left' }}">
+    <div>
+      {%- if section.settings.kicker != blank -%}
+        <div class="hero__kicker" style="
+          font-size: {{ section.settings.kicker_size }}px;
+          letter-spacing: {{ section.settings.kicker_kerning | divided_by: 100.0 }}em;
+        ">{{ section.settings.kicker }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.badge != blank -%}
+        <div class="hero__badge">{{ section.settings.badge }}</div>
+      {%- endif -%}
+
+      <h1 class="hero__headline" style="
+        font-size: {{ section.settings.headline_size }}px;
+        letter-spacing: {{ section.settings.headline_kerning | divided_by: 100.0 }}em;
+      ">{{ section.settings.headline }}</h1>
+
+      {%- if section.settings.subheadline != blank -%}
+        <p class="hero__sub" style="font-size: {{ section.settings.subheadline_size }}px;">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.show_trust_row -%}
+        <div class="hero__trust">
+          {%- if section.settings.trust_1 != blank -%}<span>{{ section.settings.trust_1 }}</span>{%- endif -%}
+          {%- if section.settings.trust_2 != blank -%}<span>{{ section.settings.trust_2 }}</span>{%- endif -%}
+          {%- if section.settings.trust_3 != blank -%}<span>{{ section.settings.trust_3 }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="hero__ctas" style="margin-top: {{ section.settings.cta_margin_top }}px;">
+        {%- if section.settings.primary_cta_label != blank -%}
+          <a href="{{ section.settings.primary_cta_link | default: routes.collections_url | append: '/all' }}" class="btn btn--primary">
+            {{ section.settings.primary_cta_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.secondary_cta_label != blank -%}
+          {%- if section.settings.secondary_opens_quiz -%}
+            <button type="button" class="btn btn--outline" data-quiz-open aria-haspopup="dialog">
+              {{ section.settings.secondary_cta_label }}
+            </button>
+          {%- else -%}
+            <a href="{{ section.settings.secondary_cta_link }}" class="btn btn--outline">
+              {{ section.settings.secondary_cta_label }}
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="hero__image">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'eager', alt: section.settings.image.alt | default: section.settings.headline }}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero — editorial",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Pure Supplements for Her" },
+    { "type": "text", "id": "badge", "label": "Badge pill (optional)", "default": "New batch: ships in 2\u20134 weeks" },
+    { "type": "textarea", "id": "headline", "label": "Headline", "default": "Clean Creatine.\nClear Thinking." },
+    { "type": "textarea", "id": "subheadline", "label": "Sub-headline", "default": "Three to five grams of pure, micronized creatine monohydrate per serving. Studied specifically in women after 40." },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "select", "id": "image_position", "label": "Image position", "default": "left", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ]},
+    { "type": "header", "content": "Trust row" },
+    { "type": "checkbox", "id": "show_trust_row", "label": "Show trust row", "default": true },
+    { "type": "text", "id": "trust_1", "label": "Trust item 1", "default": "Third-party tested" },
+    { "type": "text", "id": "trust_2", "label": "Trust item 2", "default": "No fillers" },
+    { "type": "text", "id": "trust_3", "label": "Trust item 3", "default": "Made fresh to order" },
+    { "type": "header", "content": "CTAs" },
+    { "type": "text", "id": "primary_cta_label", "label": "Primary CTA label", "default": "Shop" },
+    { "type": "url", "id": "primary_cta_link", "label": "Primary CTA link" },
+    { "type": "text", "id": "secondary_cta_label", "label": "Secondary CTA label", "default": "Is creatine for me?" },
+    { "type": "checkbox", "id": "secondary_opens_quiz", "label": "Secondary CTA opens quiz", "default": true },
+    { "type": "url", "id": "secondary_cta_link", "label": "Secondary CTA link (if not quiz)" },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 28, "max": 100, "step": 2, "default": 64 },
+    { "type": "range", "id": "headline_kerning", "label": "Headline letter-spacing (em × 100)", "min": -5, "max": 10, "step": 1, "default": 0, "info": "Divide by 100 for em value. 0 = natural font spacing" },
+    { "type": "range", "id": "subheadline_size", "label": "Sub-headline size (px)", "min": 13, "max": 24, "step": 1, "default": 17 },
+    { "type": "range", "id": "kicker_size", "label": "Kicker size (px)", "min": 9, "max": 16, "step": 1, "default": 11 },
+    { "type": "range", "id": "kicker_kerning", "label": "Kicker letter-spacing (em × 100)", "min": 0, "max": 40, "step": 1, "default": 22 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 80 },
+    { "type": "range", "id": "cta_margin_top", "label": "CTA top spacing (px)", "min": 8, "max": 64, "step": 4, "default": 32 },
+    { "type": "header", "content": "Color band" },
+    { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "blush", "info": "Full-bleed section background. Rotate schemes down the page.", "options": [
+      { "value": "blush", "label": "Blush (cream)" },
+      { "value": "cream", "label": "Warm white" },
+      { "value": "white", "label": "White" },
+      { "value": "flamingo", "label": "Flamingo (peach)" },
+      { "value": "coral", "label": "Coral (bold)" },
+      { "value": "peach", "label": "Soft peach" },
+      { "value": "gold-tint", "label": "Gold tint" },
+      { "value": "gold", "label": "Gold (bold)" },
+      { "value": "mint-tint", "label": "Mint tint" },
+      { "value": "mint", "label": "Mint (bold)" },
+      { "value": "espresso", "label": "Espresso (dark)" }
+    ]},
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" }
+  ],
+  "presets": [
+    { "name": "Hero — editorial", "category": "Image" }
+  ]
+}
+{% endschema %}

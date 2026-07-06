@@ -1,0 +1,67 @@
+<section class="stat-strip-section section--{{ section.settings.scheme | default: 'coral' }}" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+">
+  <div class="container">
+    <div class="stat-strip">
+      {%- for block in section.blocks -%}
+        <div class="stat-strip__item" {{ block.shopify_attributes }}>
+          <div class="stat-strip__num" style="font-size: {{ section.settings.number_size }}px;">{{ block.settings.number }}</div>
+          <div class="stat-strip__label" style="font-size: {{ section.settings.label_size }}px;">{{ block.settings.label }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stat strip",
+  "settings": [
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "number_size", "label": "Number size (px)", "min": 24, "max": 72, "step": 2, "default": 40 },
+    { "type": "range", "id": "label_size", "label": "Label size (px)", "min": 10, "max": 18, "step": 1, "default": 13 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 120, "step": 8, "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 120, "step": 8, "default": 48 },
+    { "type": "header", "content": "Color band" },
+    { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "coral", "info": "Full-bleed section background.", "options": [
+      { "value": "blush", "label": "Blush (cream)" },
+      { "value": "cream", "label": "Warm white" },
+      { "value": "white", "label": "White" },
+      { "value": "flamingo", "label": "Flamingo (peach)" },
+      { "value": "coral", "label": "Coral (bold)" },
+      { "value": "peach", "label": "Soft peach" },
+      { "value": "gold-tint", "label": "Gold tint" },
+      { "value": "gold", "label": "Gold (bold)" },
+      { "value": "mint-tint", "label": "Mint tint" },
+      { "value": "mint", "label": "Mint (bold)" },
+      { "value": "espresso", "label": "Espresso (dark)" }
+    ]},
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "3–5 g" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Creatine per serving" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stat strip",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "3–5 g", "label": "Creatine per serving" } },
+        { "type": "stat", "settings": { "number": "0", "label": "Fillers or sweeteners" } },
+        { "type": "stat", "settings": { "number": "Monthly", "label": "Small batches" } },
+        { "type": "stat", "settings": { "number": "100%", "label": "Tested in every batch" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,126 @@
+<section class="sku-row section--{{ section.settings.scheme | default: 'cream' }}" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+">
+  <div class="container">
+    {%- if section.settings.header_layout == 'split' -%}
+      <div class="sku-row__header sku-row__header--split">
+        <div class="sku-row__header-copy">
+          {%- if section.settings.kicker != blank -%}
+            <div class="sku-row__kicker" style="
+              font-size: {{ section.settings.kicker_size }}px;
+              letter-spacing: {{ section.settings.kicker_kerning | divided_by: 100.0 }}em;
+            ">{{ section.settings.kicker }}</div>
+          {%- endif -%}
+          {%- if section.settings.headline != blank -%}
+            <h2 class="sku-row__headline" style="
+              font-size: {{ section.settings.headline_size }}px;
+              letter-spacing: {{ section.settings.headline_kerning | divided_by: 100.0 }}em;
+            ">{{ section.settings.headline }}</h2>
+          {%- endif -%}
+          {%- if section.settings.subheadline != blank -%}
+            <p class="sku-row__sub" style="font-size: {{ section.settings.subheadline_size }}px;">{{ section.settings.subheadline }}</p>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.view_all_label != blank -%}
+          {%- assign _va_link = section.settings.view_all_link -%}
+          {%- if _va_link == blank and section.settings.collection != blank -%}
+            {%- assign _va_link = collections[section.settings.collection].url -%}
+          {%- endif -%}
+          <a href="{{ _va_link | default: routes.collections_url | append: '/all' }}" class="sku-row__viewall">{{ section.settings.view_all_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <div class="sku-row__header">
+        {%- if section.settings.kicker != blank -%}
+          <div class="sku-row__kicker" style="
+            font-size: {{ section.settings.kicker_size }}px;
+            letter-spacing: {{ section.settings.kicker_kerning | divided_by: 100.0 }}em;
+          ">{{ section.settings.kicker }}</div>
+        {%- endif -%}
+        {%- if section.settings.headline != blank -%}
+          <h2 class="sku-row__headline" style="
+            font-size: {{ section.settings.headline_size }}px;
+            letter-spacing: {{ section.settings.headline_kerning | divided_by: 100.0 }}em;
+          ">{{ section.settings.headline }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheadline != blank -%}
+          <p class="sku-row__sub" style="font-size: {{ section.settings.subheadline_size }}px;">{{ section.settings.subheadline }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="sku-row__grid">
+      {%- assign coll = collections[section.settings.collection] -%}
+      {%- if coll != blank -%}
+        {%- for product in coll.products limit: section.settings.product_limit -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          {%- assign p = all_products[block.settings.product] -%}
+          {%- if p != blank -%}
+            {% render 'product-card', product: p %}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SKU row",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The line" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Two formulas. One protocol." },
+    { "type": "textarea", "id": "subheadline", "label": "Sub-headline (optional)" },
+    { "type": "collection", "id": "collection", "label": "Collection (preferred)" },
+    { "type": "range", "id": "product_limit", "label": "Max products", "min": 1, "max": 12, "step": 1, "default": 6 },
+    { "type": "select", "id": "header_layout", "label": "Header layout", "default": "split", "options": [
+      { "value": "split", "label": "Split (label left · View all right)" },
+      { "value": "center", "label": "Centered" }
+    ]},
+    { "type": "text", "id": "view_all_label", "label": "“View all” link label", "default": "View all", "info": "Shown on the right in split layout. Leave blank to hide." },
+    { "type": "url", "id": "view_all_link", "label": "“View all” link (defaults to the collection)" },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 24, "max": 72, "step": 2, "default": 40 },
+    { "type": "range", "id": "headline_kerning", "label": "Headline letter-spacing (em × 100)", "min": -5, "max": 10, "step": 1, "default": -2, "info": "Divide by 100 for em value. -2 = -0.02em" },
+    { "type": "range", "id": "subheadline_size", "label": "Sub-headline size (px)", "min": 13, "max": 22, "step": 1, "default": 16 },
+    { "type": "range", "id": "kicker_size", "label": "Kicker size (px)", "min": 9, "max": 16, "step": 1, "default": 11 },
+    { "type": "range", "id": "kicker_kerning", "label": "Kicker letter-spacing (em × 100)", "min": 0, "max": 40, "step": 1, "default": 22 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 64 },
+    { "type": "header", "content": "Color band" },
+    { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "cream", "info": "Full-bleed section background. Rotate schemes down the page.", "options": [
+      { "value": "blush", "label": "Blush (cream)" },
+      { "value": "cream", "label": "Warm white" },
+      { "value": "white", "label": "White" },
+      { "value": "flamingo", "label": "Flamingo (peach)" },
+      { "value": "coral", "label": "Coral (bold)" },
+      { "value": "peach", "label": "Soft peach" },
+      { "value": "gold-tint", "label": "Gold tint" },
+      { "value": "gold", "label": "Gold (bold)" },
+      { "value": "mint-tint", "label": "Mint tint" },
+      { "value": "mint", "label": "Mint (bold)" },
+      { "value": "espresso", "label": "Espresso (dark)" }
+    ]},
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product (manual)",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "SKU row", "category": "Products" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+<div class="container" style="padding: 64px 0;">
+  <h1 class="display-md" style="font-size: clamp(40px, 5vw, 64px);">{{ 'general.cart.title' | t }}</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <p style="margin-top: 24px; opacity: 0.72;">{{ 'general.cart.empty' | t }}</p>
+    <a href="{{ routes.collections_url }}/all" class="btn btn--primary" style="margin-top: 24px;">{{ 'general.cart.continue_shopping' | t }}</a>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate style="margin-top: 40px;">
+      {%- for item in cart.items -%}
+        <div style="display: grid; grid-template-columns: 120px 1fr auto; gap: 24px; padding: 24px 0; border-top: 1px solid var(--espresso-06);">
+          <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.image.alt | escape }}" loading="lazy" style="width: 120px; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
+          <div>
+            <h3 class="serif" style="font-size: 22px;">{{ item.product.title }}</h3>
+            {%- if item.variant.title != 'Default Title' -%}
+              <div style="opacity: 0.6; font-size: 14px; margin-top: 4px;">{{ item.variant.title }}</div>
+            {%- endif -%}
+            {%- if item.selling_plan_allocation -%}
+              <div style="font-size: 13px; color: var(--tangerine); margin-top: 6px;">{{ item.selling_plan_allocation.selling_plan.name }}</div>
+            {%- endif -%}
+            <div style="margin-top: 12px;">
+              <label>
+                {{ 'general.cart.item_count.one' | t: count: item.quantity }}:
+                <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width: 60px; padding: 4px 8px;">
+              </label>
+            </div>
+          </div>
+          <div style="text-align: right; font-family: var(--display-font); font-size: 20px;">
+            {{ item.final_line_price | money }}
+          </div>
+        </div>
+      {%- endfor -%}
+
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 32px 0; border-top: 1px solid var(--espresso-12); margin-top: 24px;">
+        <div style="font-family: var(--display-font); font-size: 28px;">
+          {{ 'general.cart.subtotal' | t }}: {{ cart.total_price | money }}
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button type="submit" name="update" class="btn btn--outline">Update</button>
+          <button type="submit" name="checkout" class="btn btn--primary">{{ 'general.cart.checkout' | t }}</button>
+        </div>
+      </div>
+    </form>
+  {%- endif -%}
+</div>

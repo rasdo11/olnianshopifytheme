@@ -1,0 +1,64 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "color_background": "#FFF8F0",
+    "color_text": "#2E1206",
+    "color_accent_primary": "#FF5A2C",
+    "color_accent_secondary": "#FEB3A0",
+    "color_accent_gold": "#E8A13C",
+    "color_accent_mint": "#3ECFB2",
+    "display_font": "Nunito Sans",
+    "display_font_weight": "800",
+    "body_font": "Nunito Sans",
+    "body_font_weight": "400",
+    "brand_name": "ØLNIAN",
+    "brand_tagline": "Beauty starts within.",
+    "favicon": "shopify://shop_images/Olnian_Favicon_1.png",
+    "show_ship_badge": false,
+    "ship_badge_text": "Ships in 2–4 weeks",
+    "sections": {
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {}
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "1768834845299682660": {
+        "type": "shopify://apps/subscriptions/blocks/app-embed-block/a3bfe9ec-96f8-4508-a003-df608a36d2ad",
+        "disabled": false,
+        "settings": {
+          "color_text_title": "#6D7175",
+          "color_text_body": "#6D7175",
+          "dividers_color": "#8F8D8D",
+          "bacgkround_color": "#FFFFFF",
+          "border_thickness": 1,
+          "border_radius": 0,
+          "subscription_policy_url": ""
+        }
+      }
+    }
+  },
+  "presets": {
+    "Default": {
+      "color_background": "#FFF8F0",
+      "color_text": "#5C1A00",
+      "color_accent_primary": "#FF7E5F",
+      "color_accent_secondary": "#FEB3A0",
+      "color_accent_gold": "#FFD166",
+      "color_accent_mint": "#3ECFB2",
+      "brand_name": "Olnian",
+      "brand_tagline": "Pure supplements. Made the week you order.",
+      "show_ship_badge": true,
+      "ship_badge_text": "Ships in 2–4 weeks"
+    }
+  }
+}

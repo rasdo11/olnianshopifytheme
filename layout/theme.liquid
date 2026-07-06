@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_background }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
+  <title>
+    {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  {%- assign _df = settings.display_font | default: 'Belleza' -%}
+  {%- assign _bf = settings.body_font | default: 'Nunito Sans' -%}
+  {%- assign _df_url = _df | replace: ' ', '+' -%}
+  {%- assign _bf_url = _bf | replace: ' ', '+' -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {%- comment -%} Belleza is always loaded for the OLNIAN brand wordmark (--brand-font), even when the display/body fonts are set to something else. {%- endcomment -%}
+  <link href="https://fonts.googleapis.com/css2?family=Belleza&family={{ _df_url }}:wght@300;400;500;600;700;800;900&family={{ _bf_url }}:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  {{ content_for_header }}
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <style>
+    :root {
+      --tangerine: {{ settings.color_accent_primary }};
+      --flamingo: {{ settings.color_accent_secondary }};
+      --gold: {{ settings.color_accent_gold }};
+      --mint: {{ settings.color_accent_mint }};
+      --blush: {{ settings.color_background }};
+      --espresso: {{ settings.color_text }};
+      --display-font: '{{ _df }}', serif;
+      --body-font: '{{ _bf }}', system-ui, -apple-system, sans-serif;
+      --display-weight: {{ settings.display_font_weight | default: '400' }};
+      --body-weight: {{ settings.body_font_weight | default: '300' }};
+    }
+  </style>
+
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</head>
+<body class="template-{{ template.name | handle }}">
+  <a class="skip-to-content" href="#MainContent">Skip to content</a>
+
+  {% sections 'header-group' %}
+
+  <main id="MainContent" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  <div id="CartDrawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping cart">
+    <div class="cart-drawer__overlay" data-cart-close></div>
+    <aside class="cart-drawer__panel" aria-labelledby="CartDrawerTitle">
+      {% section 'cart-drawer' %}
+    </aside>
+  </div>
+</body>
+</html>
