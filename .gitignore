@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Local-only working files — NOT part of the Shopify theme, must not sync
+.design-notes/
+Media/
+*.zip
+
+# Original repo docs kept out of the synced theme (Shopify ignores non-theme files,
+# but we keep the repo strictly theme-only for clean GitHub↔Shopify sync)
+Olnian Storefront _standalone_.html
+README.md
+REFUND_POLICY.md
+release-notes.md
