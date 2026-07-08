@@ -1,6 +1,6 @@
 <section class="category-feature section--{{ section.settings.scheme | default: 'cream' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}">
   <div class="container category-feature__grid category-feature__grid--image-{{ section.settings.image_position }}">
-    <div class="category-feature__media category-feature__media--{{ section.settings.media_shape }} category-feature__media--fit-{{ section.settings.media_fit }}" style="--category-media-ratio: {{ section.settings.media_ratio | default: '4 / 5' }}; --category-media-fit: {{ section.settings.media_fit | default: 'cover' }}; --category-media-position: {{ section.settings.media_position | default: 'center center' }};">
+    <div class="category-feature__media category-feature__media--{{ section.settings.media_shape }} category-feature__media--fit-{{ section.settings.media_fit }}" style="--category-media-ratio: {{ section.settings.media_ratio | default: '4 / 5' }}; --category-media-fit: {{ section.settings.media_fit | default: 'cover' }}; --category-media-position: {{ section.settings.media_position | default: 'center center' }}; --category-media-max-width: {{ section.settings.media_max_width | default: 100 }}%; --category-media-mobile-max-width: {{ section.settings.media_mobile_max_width | default: 100 }}%;">
       {%- if section.settings.video != blank -%}
         {{ section.settings.video | video_tag: autoplay: section.settings.autoplay_video, loop: true, muted: true, controls: section.settings.show_video_controls, image_size: '1200x' }}
       {%- elsif section.settings.image != blank -%}
@@ -39,6 +39,8 @@
     { "type": "select", "id": "media_ratio", "label": "Media ratio", "default": "4 / 5", "options": [{"value":"auto","label":"Natural"},{"value":"1 / 1","label":"Square"},{"value":"4 / 5","label":"Portrait"},{"value":"9 / 16","label":"Tall portrait"},{"value":"3 / 2","label":"Landscape"}] },
     { "type": "select", "id": "media_fit", "label": "Media fit", "default": "cover", "options": [{"value":"cover","label":"Fill/crop"},{"value":"contain","label":"Show full image"}] },
     { "type": "select", "id": "media_position", "label": "Crop focal position", "default": "center center", "options": [{"value":"center center","label":"Center"},{"value":"center top","label":"Top"},{"value":"center bottom","label":"Bottom"},{"value":"left center","label":"Left"},{"value":"right center","label":"Right"}] },
+    { "type": "range", "id": "media_max_width", "label": "Desktop media width", "min": 40, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "range", "id": "media_mobile_max_width", "label": "Mobile media width", "min": 60, "max": 100, "step": 5, "unit": "%", "default": 100 },
     { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop now" },
     { "type": "url", "id": "cta_link", "label": "CTA link" },
     { "type": "select", "id": "scheme", "label": "Color scheme", "default": "cream", "options": [{"value":"blush","label":"Blush"},{"value":"cream","label":"Cream"},{"value":"white","label":"White"},{"value":"lavender","label":"Lavender"},{"value":"sky","label":"Blue"},{"value":"coral","label":"Coral"},{"value":"espresso","label":"Espresso"}] },
