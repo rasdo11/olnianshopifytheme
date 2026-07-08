@@ -39,42 +39,42 @@
         "b1": {
           "type": "benefit",
           "settings": {
-            "icon": "○",
+            "icon": "\u25cb",
             "text": "Think more clearly through the afternoon without reaching for caffeine"
           }
         },
         "b2": {
           "type": "benefit",
           "settings": {
-            "icon": "○",
+            "icon": "\u25cb",
             "text": "Remember what you walked into the room for"
           }
         },
         "b3": {
           "type": "benefit",
           "settings": {
-            "icon": "○",
+            "icon": "\u25cb",
             "text": "Feel less derailed by the mood shifts that come with hormonal change"
           }
         },
         "b4": {
           "type": "benefit",
           "settings": {
-            "icon": "○",
+            "icon": "\u25cb",
             "text": "Recover from workouts without the next-day drag"
           }
         },
         "b5": {
           "type": "benefit",
           "settings": {
-            "icon": "○",
+            "icon": "\u25cb",
             "text": "Feed your brain the fuel it was already designed to run on"
           }
         },
         "b6": {
           "type": "benefit",
           "settings": {
-            "icon": "○",
+            "icon": "\u25cb",
             "text": "Backed by the first clinical trial on creatine in perimenopausal women"
           }
         },
@@ -150,7 +150,8 @@
         "bundle_sale_price": "",
         "bundle_compare_price": "",
         "bundle_image_filename": "",
-        "bundle_upsell_link": "shopify://collections/brain-bundle"
+        "bundle_upsell_link": "shopify://collections/brain-bundle",
+        "use_product_media": true
       }
     },
     "science": {
@@ -168,7 +169,7 @@
           "type": "stat",
           "settings": {
             "number": "+14%",
-            "label": "Memory test improvement in women 35–55",
+            "label": "Memory test improvement in women 35\u201355",
             "citation": "Smith et al., 2003"
           }
         },
@@ -204,27 +205,27 @@
           "type": "item",
           "settings": {
             "question": "Will creatine make me look bulky?",
-            "answer": "No. Creatine draws water into muscle cells, which can add a small amount of intracellular water weight in the first 1–2 weeks. This is not fat, and it is not visible bulk. In women, the effect is typically negligible. What you will notice over 4–8 weeks is improved strength, recovery, and mental clarity."
+            "answer": "No. Creatine draws water into muscle cells, which can add a small amount of intracellular water weight in the first 1\u20132 weeks. This is not fat, and it is not visible bulk. In women, the effect is typically negligible. What you will notice over 4\u20138 weeks is improved strength, recovery, and mental clarity."
           }
         },
         "q2": {
           "type": "item",
           "settings": {
             "question": "Is creatine safe for women?",
-            "answer": "Yes. Creatine monohydrate is one of the most extensively studied supplements in the world, with over 1,000 peer-reviewed studies. It is considered safe for healthy adults at 3–5 g daily. If you are pregnant, breastfeeding, or managing a kidney condition, speak with your doctor first."
+            "answer": "Yes. Creatine monohydrate is one of the most extensively studied supplements in the world, with over 1,000 peer-reviewed studies. It is considered safe for healthy adults at 3\u20135 g daily. If you are pregnant, breastfeeding, or managing a kidney condition, speak with your doctor first."
           }
         },
         "q3": {
           "type": "item",
           "settings": {
             "question": "How long until I notice something?",
-            "answer": "Most women report clearer thinking and faster recovery within 2–4 weeks of consistent daily use. Cognitive effects often come before physical ones. The research on perimenopausal women shows measurable improvements in memory and processing speed by week 4."
+            "answer": "Most women report clearer thinking and faster recovery within 2\u20134 weeks of consistent daily use. Cognitive effects often come before physical ones. The research on perimenopausal women shows measurable improvements in memory and processing speed by week 4."
           }
         },
         "q4": {
           "type": "item",
           "settings": {
-            "question": "Why does it ship in 2–4 weeks?",
+            "question": "Why does it ship in 2\u20134 weeks?",
             "answer": "Because we make your batch after you order. No warehouse. No bottles sitting on shelves for months losing potency. Your creatine is milled, tested, and sealed the week before it ships to you."
           }
         },
