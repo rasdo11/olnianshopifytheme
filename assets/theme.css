@@ -1639,3 +1639,131 @@ body.nav-open { overflow: hidden; }
   .main-collection__sort { width: 100%; justify-content: space-between; }
   .main-collection__sort select { max-width: 70%; }
 }
+
+/* ── Phase 6 mobile responsive polish ─────────────────────────── */
+@media (max-width: 900px) {
+  .brand-intro,
+  .category-feature,
+  .sku-row,
+  .newsletter { padding-top: 64px !important; padding-bottom: 64px !important; }
+
+  .sku-row__header,
+  .main-collection__header { margin-bottom: 32px; }
+  .sku-row__header--split { gap: 14px; text-align: center; }
+  .sku-row__header-copy { align-items: center; }
+
+  .category-feature__grid { gap: 28px; text-align: center; justify-items: center; }
+  .category-feature__content { max-width: 620px; margin-inline: auto; }
+  .category-feature__headline,
+  .category-feature__body { margin-left: auto; margin-right: auto; }
+  .category-feature__bullets { max-width: 440px; margin: 20px auto 0; text-align: left; gap: 9px; }
+  .category-feature__bullets li { line-height: 1.45; padding-left: 22px; }
+  .category-feature__cta { display: flex; justify-content: center; margin-top: 24px; width: 100%; }
+  .category-feature__cta .btn { width: min(100%, 320px); }
+
+  .hero { padding-bottom: 56px; }
+  .hero__image { max-height: min(62vh, 560px); }
+
+  .main-collection__header { padding-top: 8px; }
+  .main-collection__description { margin-top: 12px; }
+  .main-collection__toolbar { gap: 12px; margin-bottom: 20px; padding-bottom: 14px; }
+
+  .site-footer { margin-top: 72px; padding-top: 42px; padding-bottom: 32px; }
+  .site-footer__bottom { margin-top: 28px; padding-top: 24px; }
+}
+
+@media (max-width: 600px) {
+  .container { padding-left: 20px; padding-right: 20px; }
+
+  .brand-intro,
+  .category-feature,
+  .sku-row,
+  .newsletter { padding-top: 48px !important; padding-bottom: 48px !important; }
+
+  .brand-intro__inner { padding-left: 0; padding-right: 0; }
+  .brand-intro__kicker,
+  .category-feature__kicker,
+  .rich-text-band__kicker { margin-bottom: 10px; }
+  .brand-intro__headline,
+  .rich-text-band__heading,
+  .category-feature__headline,
+  .main-collection__title { font-size: clamp(36px, 12vw, 52px); line-height: .98; }
+  .brand-intro__body,
+  .rich-text-band__text,
+  .rich-text-band__page,
+  .category-feature__body { margin-top: 16px; font-size: 16px; line-height: 1.5; }
+  .brand-intro__cta { margin-top: 22px; }
+
+  .category-feature__grid { gap: 22px; }
+  .category-feature__media { max-width: min(var(--category-media-mobile-max-width, 100%), 420px); }
+  .category-feature__bullets { font-size: 15px; }
+  .category-feature__cta .btn { width: min(100%, 300px); }
+
+  .hero { padding-bottom: 44px; }
+  .hero__grid { gap: 24px; }
+  .hero__image {
+    margin-left: -20px;
+    margin-right: -20px;
+    width: calc(100% + 40px);
+    aspect-ratio: var(--hero-media-ratio, 3 / 2);
+    max-height: min(58vh, 420px);
+  }
+  .hero__image img { object-fit: var(--hero-media-fit, cover); }
+  .hero__ctas { margin-top: 28px; }
+
+  .sku-row__header { margin-bottom: 24px; }
+  .sku-row__headline { font-size: clamp(30px, 10vw, 42px); }
+  .sku-row__grid {
+    display: flex;
+    gap: 14px;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding: 0 20px 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sku-row__grid::-webkit-scrollbar { display: none; }
+  .sku-row__grid .sku-card { flex: 0 0 min(78vw, 320px); scroll-snap-align: start; }
+  .sku-card { padding: 14px; gap: 10px; }
+  .sku-card__image { border-radius: 14px; }
+  .sku-card__name { font-size: 18px; line-height: 1.12; }
+  .sku-card__sub { font-size: 13px; line-height: 1.35; }
+  .sku-card__price { font-size: 17px; line-height: 1.15; }
+  .sku-card__footer { gap: 8px; }
+  .sku-card__swatches { margin-top: -2px; }
+  .sku-card__add { margin-top: 0; }
+
+  .main-collection__header { margin-bottom: 22px; }
+  .main-collection__description { font-size: 15px; line-height: 1.5; }
+  .main-collection__toolbar { margin-bottom: 16px; padding-bottom: 12px; }
+  .main-collection__count,
+  .main-collection__sort { font-size: 12px; }
+
+  .pdp-gallery { gap: 6px; margin-left: -20px; margin-right: -20px; }
+  .pdp-gallery__main { gap: 8px; padding: 0 20px 4px; scroll-padding-left: 20px; }
+  .pdp-gallery__slide { flex-basis: 84%; width: 84%; }
+  .pdp-gallery__dots { margin-top: 8px; }
+
+  .cart-drawer__panel { width: 100vw; max-width: none; }
+  .cart-drawer__header,
+  .cart-drawer__footer { padding: 20px; }
+  .cart-drawer__items { padding: 12px 20px; }
+
+  .newsletter__sub { margin-top: 12px; font-size: 15px; }
+  .newsletter__form { flex-direction: column; gap: 10px; margin-top: 24px; max-width: 360px; }
+  .newsletter__input,
+  .newsletter__submit { width: 100%; }
+  .newsletter__submit { height: 48px; }
+
+  .site-footer { margin-top: 56px; padding-top: 34px; padding-bottom: 28px; }
+  .site-footer__grid { gap: 22px; }
+  .site-footer__brand { font-size: 25px; }
+  .site-footer__tagline { margin-top: 6px; }
+  .site-footer__heading,
+  .site-footer__signup-heading { margin-bottom: 8px; }
+  .site-footer__list { gap: 6px; }
+  .site-footer__bottom { gap: 12px; margin-top: 22px; padding-top: 20px; }
+  .site-footer__legal { gap: 12px 16px; }
+}
