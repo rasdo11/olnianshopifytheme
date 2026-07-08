@@ -56,7 +56,15 @@
     <div class="hero__image" style="--hero-media-ratio: {{ section.settings.media_ratio | default: '1 / 1.1' }}; --hero-media-fit: {{ section.settings.media_fit | default: 'cover' }};">
       {%- if section.settings.image != blank -%}
         {%- assign hero_image_alt = section.settings.image.alt | default: section.settings.headline -%}
-        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'eager', alt: hero_image_alt }}
+        {{ section.settings.image
+          | image_url: width: 1800
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '375, 550, 750, 900, 1100, 1400, 1800',
+            sizes: '(max-width: 600px) 100vw, (max-width: 900px) 92vw, 50vw',
+            alt: hero_image_alt
+        }}
       {%- endif -%}
     </div>
   </div>
