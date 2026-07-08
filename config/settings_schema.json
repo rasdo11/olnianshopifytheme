@@ -89,8 +89,8 @@
   {
     "name": "Brand",
     "settings": [
-      { "type": "text",     "id": "brand_name",        "label": "Brand name",    "default": "ØLNIAN" },
-      { "type": "textarea", "id": "brand_tagline",     "label": "Tagline",       "default": "Pure supplements. Made the week you order." },
+      { "type": "text",     "id": "brand_name",        "label": "Brand name",    "default": "OLNIAN" },
+      { "type": "textarea", "id": "brand_tagline",     "label": "Tagline",       "default": "Brain • Body • Balance." },
       { "type": "image_picker", "id": "favicon",       "label": "Favicon" },
       {
         "type": "range",
@@ -109,5 +109,20 @@
       { "type": "checkbox", "id": "show_ship_badge",  "label": "Show shipping badge",  "default": true },
       { "type": "text",     "id": "ship_badge_text",  "label": "Badge text",           "default": "Ships in 2\u20134 weeks" }
     ]
+  },
+  {
+    "name": "Design controls",
+    "settings": [
+      { "type": "color", "id": "color_lavender", "label": "Lavender", "default": "#DCC7FF" },
+      { "type": "color", "id": "color_sky", "label": "Editorial blue", "default": "#0066A6" },
+      { "type": "range", "id": "button_radius", "label": "Button radius (px)", "min": 0, "max": 40, "step": 1, "default": 28 },
+      { "type": "range", "id": "card_radius", "label": "Card radius (px)", "min": 0, "max": 40, "step": 1, "default": 24 },
+      { "type": "select", "id": "product_card_ratio", "label": "Product card image ratio", "default": "portrait", "options": [
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" },
+        { "value": "landscape", "label": "Landscape" }
+      ]}
+    ]
   }
+
 ]
