@@ -180,7 +180,7 @@
         // Reset selling plan so next "Start Now" click doesn't carry it over
         if (sellingPlanInput) sellingPlanInput.value = '';
         if (clickedSubBtn) { clickedSubBtn.disabled = false; clickedSubBtn.textContent = 'Add'; }
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Start Now'; }
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitBtn.dataset.defaultLabel || 'Start Now'; }
       }
     });
   }
