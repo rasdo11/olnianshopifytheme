@@ -1,0 +1,51 @@
+<section class="category-feature section--{{ section.settings.scheme | default: 'cream' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}">
+  <div class="container category-feature__grid category-feature__grid--image-{{ section.settings.image_position }}">
+    <div class="category-feature__media category-feature__media--{{ section.settings.media_shape }} category-feature__media--fit-{{ section.settings.media_fit }}" style="--category-media-ratio: {{ section.settings.media_ratio | default: '4 / 5' }}; --category-media-fit: {{ section.settings.media_fit | default: 'cover' }}; --category-media-position: {{ section.settings.media_position | default: 'center center' }};">
+      {%- if section.settings.video != blank -%}
+        {{ section.settings.video | video_tag: autoplay: section.settings.autoplay_video, loop: true, muted: true, controls: section.settings.show_video_controls, image_size: '1200x' }}
+      {%- elsif section.settings.image != blank -%}
+        {%- assign image_alt = section.settings.image.alt | default: section.settings.headline -%}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: image_alt }}
+      {%- endif -%}
+    </div>
+    <div class="category-feature__copy">
+      {%- if section.settings.kicker != blank -%}<p class="category-feature__kicker">{{ section.settings.kicker }}</p>{%- endif -%}
+      {%- if section.settings.headline != blank -%}<h2 class="category-feature__headline">{{ section.settings.headline }}</h2>{%- endif -%}
+      {%- if section.settings.body != blank -%}<div class="category-feature__body">{{ section.settings.body | newline_to_br }}</div>{%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+        <ul class="category-feature__bullets">
+          {%- for block in section.blocks -%}<li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>{%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}<a class="btn btn--primary category-feature__cta" href="{{ section.settings.cta_link | default: routes.collections_url | append: '/all' }}">{{ section.settings.cta_label }}</a>{%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Category feature",
+  "max_blocks": 6,
+  "blocks": [{ "type": "bullet", "name": "Bullet", "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Clinically studied daily support" }] }],
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The daily ritual" },
+    { "type": "textarea", "id": "headline", "label": "Headline", "default": "Brain, body, balance — in one polished scoop." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Premium Creatine M.H. is designed for women who want focus, cellular energy, and recovery support without fillers or fuss." },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "video", "id": "video", "label": "Shopify-hosted video" },
+    { "type": "checkbox", "id": "autoplay_video", "label": "Autoplay muted video", "default": true },
+    { "type": "checkbox", "id": "show_video_controls", "label": "Show video controls", "default": false },
+    { "type": "select", "id": "image_position", "label": "Media position", "default": "left", "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}] },
+    { "type": "select", "id": "media_shape", "label": "Media shape", "default": "rounded", "options": [{"value":"rounded","label":"Rounded"},{"value":"soft","label":"Soft arch"},{"value":"square","label":"Square"}] },
+    { "type": "select", "id": "media_ratio", "label": "Media ratio", "default": "4 / 5", "options": [{"value":"auto","label":"Natural"},{"value":"1 / 1","label":"Square"},{"value":"4 / 5","label":"Portrait"},{"value":"9 / 16","label":"Tall portrait"},{"value":"3 / 2","label":"Landscape"}] },
+    { "type": "select", "id": "media_fit", "label": "Media fit", "default": "cover", "options": [{"value":"cover","label":"Fill/crop"},{"value":"contain","label":"Show full image"}] },
+    { "type": "select", "id": "media_position", "label": "Crop focal position", "default": "center center", "options": [{"value":"center center","label":"Center"},{"value":"center top","label":"Top"},{"value":"center bottom","label":"Bottom"},{"value":"left center","label":"Left"},{"value":"right center","label":"Right"}] },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop now" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "select", "id": "scheme", "label": "Color scheme", "default": "cream", "options": [{"value":"blush","label":"Blush"},{"value":"cream","label":"Cream"},{"value":"white","label":"White"},{"value":"lavender","label":"Lavender"},{"value":"sky","label":"Blue"},{"value":"coral","label":"Coral"},{"value":"espresso","label":"Espresso"}] },
+    { "type": "color", "id": "background", "label": "Custom background" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 8, "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 8, "default": 80 }
+  ],
+  "presets": [{ "name": "Category feature", "category": "Image", "blocks": [{"type":"bullet"},{"type":"bullet"},{"type":"bullet"}] }]
+}
+{% endschema %}
