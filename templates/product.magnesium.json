@@ -71,7 +71,7 @@
         "s1": {
           "type": "support_item",
           "settings": {
-            "text": "Sleep architecture \u2014 time in deep and REM stages"
+            "text": "Sleep architecture: time in deep and REM stages"
           }
         },
         "s2": {
@@ -179,7 +179,7 @@
       "settings": {
         "kicker": "The research",
         "headline": "The form matters as much as the mineral.",
-        "body": "Most magnesium supplements use the oxide form \u2014 cheap to produce, nearly impossible to absorb. Glycinate binds magnesium to glycine, an amino acid the gut readily recognizes. The result is absorption that actually reaches the tissues that need it: the brain, the muscles, the adrenals.",
+        "body": "Most magnesium supplements use the oxide form, which is cheap to produce but nearly impossible to absorb. Glycinate binds magnesium to glycine, an amino acid the gut readily recognizes. The result is absorption that actually reaches the tissues that need it: the brain, the muscles, the adrenals.",
         "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
         "headline_size": 48,
         "padding_top": 96,
@@ -194,42 +194,42 @@
           "type": "item",
           "settings": {
             "question": "What makes glycinate different from other magnesium forms?",
-            "answer": "Magnesium oxide \u2014 the form in most supplements and cheap multivitamins \u2014 absorbs at roughly 4%. Magnesium glycinate binds the mineral to glycine, an amino acid your gut recognizes easily. Absorption runs at roughly 80%. This is why people who have tried magnesium before and felt nothing often notice a real difference with glycinate."
+            "answer": "Magnesium oxide, the form in most supplements and cheap multivitamins, absorbs at roughly 4%. Magnesium glycinate binds the mineral to glycine, an amino acid your gut recognizes easily. Absorption runs at roughly 80%. This is why people who have tried magnesium before and felt nothing often notice a real difference with glycinate."
           }
         },
         "q2": {
           "type": "item",
           "settings": {
             "question": "Why are so many women deficient?",
-            "answer": "Three reasons compound together. First, modern farming practices have depleted soil magnesium, so even a vegetable-rich diet delivers less than it did 50 years ago. Second, stress and hormonal fluctuation accelerate magnesium excretion through the kidneys \u2014 the more cortisol you produce, the faster you burn through your stores. Third, most people simply aren't eating the magnesium-dense foods (dark leafy greens, pumpkin seeds, dark chocolate) in the quantities that would close the gap."
+            "answer": "Three reasons compound together. First, modern farming practices have depleted soil magnesium, so even a vegetable-rich diet delivers less than it did 50 years ago. Second, stress and hormonal fluctuation accelerate magnesium excretion through the kidneys: the more cortisol you produce, the faster you burn through your stores. Third, most people simply aren't eating the magnesium-dense foods (dark leafy greens, pumpkin seeds, dark chocolate) in the quantities that would close the gap."
           }
         },
         "q3": {
           "type": "item",
           "settings": {
             "question": "When should I take it?",
-            "answer": "Evening, 30\u201360 minutes before sleep. Magnesium's muscle-relaxing and nervous-system-calming effects work best when timed with your wind-down. You'll still absorb the mineral if you take it in the morning \u2014 but you'll miss the sleep optimization window that makes most women notice the difference fastest."
+            "answer": "Evening, 30\u201360 minutes before sleep. Magnesium's muscle-relaxing and nervous-system-calming effects work best when timed with your wind-down. You'll still absorb the mineral if you take it in the morning, but you'll miss the sleep optimization window that makes most women notice the difference fastest."
           }
         },
         "q4": {
           "type": "item",
           "settings": {
             "question": "How long until I notice something?",
-            "answer": "Most women notice improved sleep depth and less muscle tension within 7\u201314 days. Mood and stress resilience improvements typically appear at 3\u20134 weeks of consistent daily use. Bone density effects are a long-game \u2014 measurable at 6\u201312 months. The sleep effect tends to be the first thing people feel, which then creates a positive loop for everything else."
+            "answer": "Most women notice improved sleep depth and less muscle tension within 7\u201314 days. Mood and stress resilience improvements typically appear at 3\u20134 weeks of consistent daily use. Bone density effects are a long game, measurable at 6\u201312 months. The sleep effect tends to be the first thing people feel, which then creates a positive loop for everything else."
           }
         },
         "q5": {
           "type": "item",
           "settings": {
             "question": "Is it safe with medications?",
-            "answer": "Magnesium glycinate is one of the lowest-risk supplements available and is generally well-tolerated. If you take antibiotics, diuretics, or medications for heart conditions, spacing them 2 hours apart from magnesium is standard protocol to avoid absorption interference. If you're managing a kidney condition, check with your doctor first \u2014 kidneys handle magnesium excretion, and impaired function can affect how much accumulates."
+            "answer": "Magnesium glycinate is one of the lowest-risk supplements available and is generally well-tolerated. If you take antibiotics, diuretics, or medications for heart conditions, spacing them 2 hours apart from magnesium is standard protocol to avoid absorption interference. If you're managing a kidney condition, check with your doctor first, since kidneys handle magnesium excretion, and impaired function can affect how much accumulates."
           }
         },
         "q6": {
           "type": "item",
           "settings": {
             "question": "Can I stack this with your Creatine?",
-            "answer": "Yes \u2014 and this is the combination we designed around. Creatine powers cognitive output by raising brain ATP. Magnesium glycinate supports the sleep and stress recovery that makes cognitive performance sustainable. They don't interfere with each other. They compound. Creatine in the morning, magnesium at night."
+            "answer": "Yes, and this is the combination we designed around. Creatine powers cognitive output by raising brain ATP. Magnesium glycinate supports the sleep and stress recovery that makes cognitive performance sustainable. They don't interfere with each other. They compound. Creatine in the morning, magnesium at night."
           }
         }
       },
