@@ -12,174 +12,252 @@
     "hero": {
       "type": "hero-editorial",
       "settings": {
-        "kicker": "Beauty starts within",
-        "badge": "",
-        "headline": "A clear mind can change your life.",
-        "subheadline": "Scientifically studied supplements specifically created for women who want to be in charge of their mental focus, muscle mass, and sleep.",
-        "image": "shopify://shop_images/woman_getting_ready5.png",
-        "image_position": "left",
-        "show_trust_row": false,
+        "kicker": "Brain \u2022 Body \u2022 Balance",
+        "badge": "Award-winning daily support",
+        "headline": "Your polished daily supplement ritual.",
+        "subheadline": "Science-backed essentials for focus, energy, recovery, sleep, immunity, and gut health \u2014 designed for women and made beautiful enough to keep on the counter.",
+        "image": "shopify://shop_images/pomelli_photoshoot_image_4_5_0425_3.png",
+        "image_position": "right",
+        "show_trust_row": true,
         "trust_1": "Third-party tested",
         "trust_2": "No fillers",
-        "trust_3": "",
-        "primary_cta_label": "Start the Journey",
-        "primary_cta_link": "shopify://products/creatine-m-h-refill",
+        "trust_3": "Daily formulas",
+        "primary_cta_label": "Shop the line",
+        "primary_cta_link": "shopify://collections/all",
         "secondary_cta_label": "Take the Quiz",
         "secondary_opens_quiz": true,
-        "secondary_cta_link": "shopify://products/creatine-m-h-refill",
+        "secondary_cta_link": "",
         "headline_size": 72,
-        "headline_kerning": -3,
-        "subheadline_size": 17,
+        "headline_kerning": -4,
+        "subheadline_size": 18,
         "kicker_size": 11,
         "kicker_kerning": 22,
-        "padding_top": 16,
-        "padding_bottom": 48,
-        "cta_margin_top": 20,
-        "scheme": "blush",
+        "padding_top": 40,
+        "padding_bottom": 64,
+        "cta_margin_top": 24,
+        "scheme": "lavender",
         "background": ""
       }
     },
-    "stats": {
-      "type": "stat-strip",
-      "blocks": {
-        "a": { "type": "stat", "settings": { "number": "5 g", "label": "Creatine per serving" } },
-        "b": { "type": "stat", "settings": { "number": "0", "label": "Calories" } },
-        "c": { "type": "stat", "settings": { "number": "USA", "label": "MADE domestically" } },
-        "d": { "type": "stat", "settings": { "number": "100%", "label": "Tested in every batch" } }
-      },
-      "block_order": ["a", "b", "c", "d"],
+    "intro": {
+      "type": "brand-intro",
       "settings": {
-        "number_size": 40,
-        "label_size": 13,
-        "padding_top": 48,
-        "padding_bottom": 48,
-        "scheme": "coral",
-        "background": ""
+        "kicker": "A little bit about us",
+        "headline": "Supplements that look like beauty and work like science.",
+        "body": "OLNIAN pairs clinically minded daily formulas with a counter-worthy ritual. Belleza carries the brand wordmark; Nunito Sans keeps every benefit, dosage, and direction crisp and easy to read.",
+        "cta_label": "About OLNIAN",
+        "cta_link": "shopify://pages/about",
+        "alignment": "center",
+        "scheme": "white",
+        "background": "",
+        "padding_top": 88,
+        "padding_bottom": 88
       }
     },
-    "sku-row": {
+    "daily-feature": {
+      "type": "category-feature",
+      "blocks": {
+        "b1": {
+          "type": "bullet",
+          "settings": {
+            "text": "Premium Creatine M.H. for brain, body, and balance"
+          }
+        },
+        "b2": {
+          "type": "bullet",
+          "settings": {
+            "text": "Clean scoop ritual with no unnecessary extras"
+          }
+        },
+        "b3": {
+          "type": "bullet",
+          "settings": {
+            "text": "Built for a small, easy-to-shop product line"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ],
+      "settings": {
+        "kicker": "The daily ritual",
+        "headline": "A scoop that feels more like self-care.",
+        "body": "Use the large media picker here for the blue award-winner creatine image. Swap the image, copy, bullets, color, and CTA any time in the Shopify theme editor.",
+        "image": "shopify://shop_images/pdp-1-hero.png",
+        "video": "",
+        "autoplay_video": true,
+        "show_video_controls": false,
+        "image_position": "left",
+        "media_shape": "rounded",
+        "cta_label": "Shop Creatine",
+        "cta_link": "shopify://products/creatine-m-h-refill",
+        "scheme": "sky",
+        "background": "",
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
+    },
+    "daily-products": {
       "type": "sku-row",
       "blocks": {
-        "product_rdLmB6": { "type": "product", "settings": { "product": "creatine-m-h-refill" } },
-        "product_TUCTqj": { "type": "product", "settings": { "product": "magnesium-glycinate-complex" } },
-        "product_zHPNUd": { "type": "product", "settings": { "product": "brain-bundle" } }
+        "p1": {
+          "type": "product",
+          "settings": {
+            "product": "creatine-m-h-refill",
+            "title_override": "Premium Creatine M.H.",
+            "subtitle_override": "Brain \u2022 Body \u2022 Balance",
+            "badge": "Daily",
+            "image_override": "",
+            "hover_image": "",
+            "cta_label": "Shop"
+          }
+        },
+        "p2": {
+          "type": "product",
+          "settings": {
+            "product": "premium-colostrum",
+            "title_override": "Premium Colostrum",
+            "subtitle_override": "Immunity \u2022 Gut \u2022 Recovery",
+            "badge": "Daily",
+            "image_override": "",
+            "hover_image": "",
+            "cta_label": "Shop"
+          }
+        },
+        "p3": {
+          "type": "product",
+          "settings": {
+            "product": "magnesium-glycinate-complex",
+            "title_override": "Magnesium Complex",
+            "subtitle_override": "Calm \u2022 Sleep \u2022 Restore",
+            "badge": "Nightly",
+            "image_override": "",
+            "hover_image": "",
+            "cta_label": "Shop"
+          }
+        }
       },
-      "block_order": ["product_rdLmB6", "product_TUCTqj", "product_zHPNUd"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
       "settings": {
-        "kicker": "The line",
-        "headline": "One Brain. Two Supplements.",
-        "subheadline": "",
+        "kicker": "Shop the line",
+        "headline": "Three essentials. One clean routine.",
+        "subheadline": "Small-catalog merchandising with editor-controlled product copy, badges, media overrides, and optional swatches.",
         "collection": "",
         "product_limit": 6,
         "header_layout": "split",
         "view_all_label": "View all",
-        "view_all_link": "",
-        "headline_size": 40,
-        "headline_kerning": -2,
-        "subheadline_size": 16,
+        "view_all_link": "shopify://collections/all",
+        "card_cta_label": "Shop",
+        "show_price": true,
+        "show_swatches": false,
+        "headline_size": 44,
+        "headline_kerning": -3,
+        "subheadline_size": 17,
         "kicker_size": 11,
         "kicker_kerning": 22,
-        "padding_top": 80,
-        "padding_bottom": 80,
+        "padding_top": 88,
+        "padding_bottom": 88,
         "scheme": "white",
         "background": ""
       }
     },
-    "batch-story": {
-      "type": "batch-story",
+    "night-feature": {
+      "type": "category-feature",
       "blocks": {
-        "s1": { "type": "step", "settings": { "heading": "You order", "body": "Pick your protocol. Subscribe for refills and save 15%." } },
-        "s2": { "type": "step", "settings": { "heading": "We make it", "body": "Your batch is milled, tested, and weighed out the week of shipping." } },
-        "s3": { "type": "step", "settings": { "heading": "It ships", "body": "Ships in 2–4 weeks. Refills arrive on schedule. No new bottle each time." } }
+        "b1": {
+          "type": "bullet",
+          "settings": {
+            "text": "Nightly magnesium support for calm routines"
+          }
+        },
+        "b2": {
+          "type": "bullet",
+          "settings": {
+            "text": "Colostrum support for gut and recovery"
+          }
+        },
+        "b3": {
+          "type": "bullet",
+          "settings": {
+            "text": "Warm editorial product photography and gold-lid accents"
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3"],
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ],
       "settings": {
-        "kicker": "The batch",
-        "headline": "Supplements shouldn't sit in a warehouse.",
-        "body": "Other supplements sit on shelves in warehouses for months.",
-        "body_2": "",
-        "image": "shopify://shop_images/powder_design.png",
-        "image_position": "left",
-        "cta_label": "Join the next batch.",
-        "cta_link": "shopify://products/creatine-m-h-refill",
-        "headline_size": 38,
-        "headline_kerning": -3,
-        "kicker_size": 11,
-        "kicker_kerning": 22,
-        "body_size": 17,
-        "padding_top": 96,
-        "padding_bottom": 96,
-        "cta_margin_top": 32,
+        "kicker": "Calm, gut, recovery",
+        "headline": "Build the routine around the way you want to feel.",
+        "body": "Use this module for the warm three-product countertop image. It mirrors Billie\u2019s category storytelling while staying tailored to OLNIAN\u2019s fewer-SKU supplement line.",
+        "image": "shopify://shop_images/pdp-6-spoon.jpg",
+        "video": "",
+        "autoplay_video": true,
+        "show_video_controls": false,
+        "image_position": "right",
+        "media_shape": "soft",
+        "cta_label": "Explore routines",
+        "cta_link": "shopify://collections/all",
         "scheme": "cream",
-        "background": ""
-      }
-    },
-    "science": {
-      "type": "product-science",
-      "blocks": {
-        "st1": { "type": "stat", "settings": { "number": "4 weeks", "label": "To measurable cognitive improvement", "citation": "Benton & Donohoe, 2011" } },
-        "st2": { "type": "stat", "settings": { "number": "+14%", "label": "Improvement in memory test scores in women 35–55", "citation": "Smith et al., 2003" } },
-        "st3": { "type": "stat", "settings": { "number": "5 g", "label": "The studied daily dose. No more, no less.", "citation": "ISSN Position Stand" } }
-      },
-      "block_order": ["st1", "st2", "st3"],
-      "settings": {
-        "kicker": "The research",
-        "headline": "Studied specifically in women.",
-        "body": "Randomized, placebo-controlled trials in perimenopausal women show measurable improvements in cognition, muscle recovery, and mood stability within 4 weeks.",
-        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
-        "headline_size": 48,
-        "padding_top": 96,
-        "padding_bottom": 96
+        "background": "",
+        "padding_top": 88,
+        "padding_bottom": 88
       }
     },
     "proof": {
       "type": "proof",
       "blocks": {
-        "t1": { "type": "testimonial", "settings": { "quote": "I can tell within a week.", "attribution": "— M., 47, Austin" } },
-        "t2": { "type": "testimonial", "settings": { "quote": "The only supplement I've stayed on.", "attribution": "— R., 52, Portland" } },
-        "t3": { "type": "testimonial", "settings": { "quote": "Sleep and strength, same bottle.", "attribution": "— L., 44, Brooklyn" } }
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Counter-worthy packaging, clean daily formulas.",
+            "attribution": "\u2014 OLNIAN customer"
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Easy to understand, easy to keep taking.",
+            "attribution": "\u2014 Verified buyer"
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The routine finally feels elevated.",
+            "attribution": "\u2014 Verified buyer"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
       "settings": {
-        "kicker": "Testimonials",
-        "headline": "Women in their 40s and up",
-        "scheme": "gold"
-      }
-    },
-    "how-it-works": {
-      "type": "how-it-works",
-      "blocks": {
-        "h1": { "type": "step", "settings": { "heading": "You order", "body": "Pick your protocol. Subscribe for refills and save 15%." } },
-        "h2": { "type": "step", "settings": { "heading": "We make it", "body": "Your batch is milled, tested, and weighed out the week of shipping." } },
-        "h3": { "type": "step", "settings": { "heading": "It ships", "body": "Ships in 2–4 weeks. Refills arrive on schedule. No new bottle each time." } }
-      },
-      "block_order": ["h1", "h2", "h3"],
-      "settings": {
-        "kicker": "How it works",
-        "headline": "Small batches. Tested. Sent.",
-        "cta_label": "Take the Quiz",
-        "cta_opens_quiz": true,
-        "cta_link": "",
-        "headline_size": 48,
-        "headline_kerning": -2,
-        "kicker_size": 11,
-        "kicker_kerning": 22,
-        "padding_top": 96,
-        "padding_bottom": 96,
-        "scheme": "white",
-        "background": ""
+        "kicker": "Proof",
+        "headline": "Beauty-counter polish. Daily supplement discipline.",
+        "scheme": "gold-tint"
       }
     },
     "newsletter": {
       "type": "newsletter",
       "settings": {
         "kicker": "Join the ritual",
-        "headline": "Beauty starts within.",
-        "subheadline": "Batch drops, restock alerts, and the occasional note on what actually works. No spam.",
+        "headline": "Get batch notes, restock alerts, and routine tips.",
+        "subheadline": "No spam \u2014 just the occasional note on what works and what\u2019s next.",
         "placeholder": "Enter your email",
         "note": "Unsubscribe anytime.",
-        "success_message": "Thanks — you’re on the list.",
-        "scheme": "coral",
+        "success_message": "Thanks \u2014 you\u2019re on the list.",
+        "scheme": "lavender",
         "padding_top": 96,
         "padding_bottom": 96
       }
@@ -187,12 +265,11 @@
   },
   "order": [
     "hero",
-    "stats",
-    "sku-row",
-    "batch-story",
-    "science",
+    "intro",
+    "daily-feature",
+    "daily-products",
+    "night-feature",
     "proof",
-    "how-it-works",
     "newsletter"
   ]
 }
