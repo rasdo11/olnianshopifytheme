@@ -234,14 +234,14 @@
           "type": "testimonial",
           "settings": {
             "quote": "Easy to understand, easy to keep taking.",
-            "attribution": "\u2014 Verified buyer"
+            "attribution": "— Verified buyer"
           }
         },
         "t3": {
           "type": "testimonial",
           "settings": {
             "quote": "The routine finally feels elevated.",
-            "attribution": "\u2014 Verified buyer"
+            "attribution": "— Verified buyer"
           }
         }
       },
@@ -261,10 +261,10 @@
       "settings": {
         "kicker": "Join the ritual",
         "headline": "Get batch notes, restock alerts, and routine tips.",
-        "subheadline": "No spam \u2014 just the occasional note on what works and what\u2019s next.",
+        "subheadline": "No spam — just the occasional note on what works and what’s next.",
         "placeholder": "Enter your email",
         "note": "Unsubscribe anytime.",
-        "success_message": "Thanks \u2014 you\u2019re on the list.",
+        "success_message": "Thanks — you’re on the list.",
         "scheme": "lavender",
         "padding_top": 96,
         "padding_bottom": 96
