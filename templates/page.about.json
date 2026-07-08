@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": { "type": "rich-text-band", "settings": { "kicker": "About OLNIAN", "heading": "Beauty-counter supplements for brain, body, and balance.", "text": "Use this template for your About page. Keep the page body in Shopify admin for long-form copy, and control the hero styling here.", "show_page_content": true, "scheme": "lavender", "padding_top": 96, "padding_bottom": 96 } },

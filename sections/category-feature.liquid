@@ -1,6 +1,6 @@
 <section class="category-feature section--{{ section.settings.scheme | default: 'cream' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}">
   <div class="container category-feature__grid category-feature__grid--image-{{ section.settings.image_position }}">
-    <div class="category-feature__media category-feature__media--{{ section.settings.media_shape }}" style="--category-media-ratio: {{ section.settings.media_ratio | default: '4 / 5' }}; --category-media-fit: {{ section.settings.media_fit | default: 'cover' }}; --category-media-position: {{ section.settings.media_position | default: 'center center' }};">
+    <div class="category-feature__media category-feature__media--{{ section.settings.media_shape }} category-feature__media--fit-{{ section.settings.media_fit }}" style="--category-media-ratio: {{ section.settings.media_ratio | default: '4 / 5' }}; --category-media-fit: {{ section.settings.media_fit | default: 'cover' }}; --category-media-position: {{ section.settings.media_position | default: 'center center' }};">
       {%- if section.settings.video != blank -%}
         {{ section.settings.video | video_tag: autoplay: section.settings.autoplay_video, loop: true, muted: true, controls: section.settings.show_video_controls, image_size: '1200x' }}
       {%- elsif section.settings.image != blank -%}

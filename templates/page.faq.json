@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": { "type": "rich-text-band", "settings": { "kicker": "Questions", "heading": "Straight answers before you scoop.", "text": "Use Shopify page content below for your frequently asked questions, shipping notes, subscriptions, and product guidance.", "show_page_content": true, "scheme": "white" } },
