@@ -239,7 +239,7 @@
           "type": "item",
           "settings": {
             "question": "This sounds like a lot to take daily. Is it?",
-            "answer": "No. Both are pure, unflavored powders \u2014 no capsules to count. Creatine is 5 grams dissolved in any liquid. Magnesium glycinate is 400mg dissolved in water or something warm. Two steps in your routine, separated by 12 hours. That's the entire protocol."
+                        "answer": "No. Both are pure, unflavored powders, no capsules to count. Creatine is 5 grams dissolved in any liquid. Magnesium glycinate is 400mg dissolved in water or something warm. Two steps in your routine, separated by 12 hours. That\u0027s the entire protocol."
           }
         },
         "q5": {
@@ -253,7 +253,7 @@
           "type": "item",
           "settings": {
             "question": "Is this appropriate during perimenopause?",
-            "answer": "Yes. This is specifically where the combination was designed to matter. Perimenopause accelerates both magnesium depletion (through stress and hormonal fluctuation) and brain energy deficits (creatine synthesis slows with estrogen decline). The clinical literature on both compounds has a meaningful body of research in this age group. If you're managing hormone therapy or other medications, the general guidance is to space supplements 2 hours from prescriptions \u2014 and check with your doctor if you have kidney or cardiac conditions."
+            "answer": "Yes. This is specifically where the combination was designed to matter. Perimenopause accelerates both magnesium depletion (through stress and hormonal fluctuation) and brain energy deficits (creatine synthesis slows with estrogen decline). The clinical literature on both compounds has a meaningful body of research in this age group. If you're managing hormone therapy or other medications, the general guidance is to space supplements 2 hours from prescriptions , and check with your doctor if you have kidney or cardiac conditions."
           }
         }
       },
