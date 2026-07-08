@@ -8,13 +8,31 @@
 
       {%- for block in section.blocks -%}
         {%- if block.type == 'menu' -%}
+          {%- assign footer_heading = block.settings.heading | default: 'Shop' -%}
           <div class="site-footer__menu-col" {{ block.shopify_attributes }}>
-            <div class="site-footer__heading">{{ block.settings.heading }}</div>
+            <div class="site-footer__heading">{{ footer_heading }}</div>
             <ul class="site-footer__list">
-              {%- if block.settings.menu != blank -%}
+              {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
                 {%- for link in block.settings.menu.links -%}
                   <li><a href="{{ link.url }}">{{ link.title }}</a></li>
                 {%- endfor -%}
+              {%- else -%}
+                {%- case footer_heading | handleize -%}
+                  {%- when 'shop' -%}
+                    <li><a href="/collections/all">Shop the Line</a></li>
+                    <li><a href="/products/creatine">Creatine</a></li>
+                    <li><a href="/products/magnesium-complex">Magnesium</a></li>
+                    <li><a href="/products/colostrum">Colostrum</a></li>
+                  {%- when 'company' -%}
+                    <li><a href="/pages/about-us">About OLNIAN</a></li>
+                    <li><a href="/pages/contact">Contact</a></li>
+                  {%- when 'help' -%}
+                    <li><a href="/pages/contact">Contact</a></li>
+                    <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+                    <li><a href="/policies/terms-of-service">Terms of Service</a></li>
+                    <li><a href="/policies/shipping-policy">Shipping Policy</a></li>
+                    <li><a href="/policies/refund-policy">Refund Policy</a></li>
+                {%- endcase -%}
               {%- endif -%}
             </ul>
           </div>
@@ -40,7 +58,7 @@
             required>
           <button type="submit" class="site-footer__signup-btn" aria-label="Subscribe">&rarr;</button>
           {%- if form.posted_successfully? -%}
-            <p class="newsletter__success" role="status" style="flex-basis:100%; margin-top:8px;">Thanks — you’re on the list.</p>
+            <p class="newsletter__success" role="status" style="flex-basis:100%; margin-top:8px;">Thanks, you are on the list.</p>
           {%- elsif form.errors -%}
             <p class="site-footer__tagline" role="alert" style="flex-basis:100%; margin-top:8px;">{{ form.errors | default_errors }}</p>
           {%- endif -%}
@@ -49,18 +67,23 @@
     </div>
 
     <div class="site-footer__bottom">
-      <div class="site-footer__social">
-        {%- if section.settings.social_instagram != blank -%}<a href="{{ section.settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
-        {%- if section.settings.social_tiktok != blank -%}<a href="{{ section.settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
-        {%- if section.settings.social_facebook != blank -%}<a href="{{ section.settings.social_facebook }}" target="_blank" rel="noopener">Facebook</a>{%- endif -%}
-        {%- if section.settings.social_youtube != blank -%}<a href="{{ section.settings.social_youtube }}" target="_blank" rel="noopener">YouTube</a>{%- endif -%}
+      <div class="site-footer__contact" aria-label="Contact OLNIAN">
+        <a href="tel:{{ section.settings.contact_phone | default: '+1 206-669-0016' | remove: ' ' }}">{{ section.settings.contact_phone | default: '+1 206-669-0016' }}</a>
+        <a href="mailto:{{ section.settings.contact_email | default: 'hello@olnian.com' }}">{{ section.settings.contact_email | default: 'hello@olnian.com' }}</a>
       </div>
 
-      {%- if section.settings.legal_menu != blank -%}
+      {%- if section.settings.legal_menu != blank and section.settings.legal_menu.links.size > 0 -%}
         <div class="site-footer__legal">
           {%- for link in section.settings.legal_menu.links -%}
             <a href="{{ link.url }}">{{ link.title }}</a>
           {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="site-footer__legal">
+          <a href="/policies/privacy-policy">Privacy Policy</a>
+          <a href="/policies/terms-of-service">Terms of Service</a>
+          <a href="/policies/shipping-policy">Shipping Policy</a>
+          <a href="/policies/refund-policy">Refund Policy</a>
         </div>
       {%- endif -%}
 
@@ -77,11 +100,9 @@
     { "type": "text", "id": "signup_heading", "label": "Signup heading", "default": "Join the list" },
     { "type": "text", "id": "signup_text", "label": "Signup text (optional)", "default": "Batch drops & restock alerts." },
     { "type": "text", "id": "signup_placeholder", "label": "Input placeholder", "default": "Email" },
-    { "type": "header", "content": "Social" },
-    { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
-    { "type": "url", "id": "social_tiktok", "label": "TikTok URL" },
-    { "type": "url", "id": "social_facebook", "label": "Facebook URL" },
-    { "type": "url", "id": "social_youtube", "label": "YouTube URL" },
+    { "type": "header", "content": "Contact" },
+    { "type": "text", "id": "contact_phone", "label": "Phone", "default": "+1 206-669-0016" },
+    { "type": "text", "id": "contact_email", "label": "Email", "default": "hello@olnian.com" },
     { "type": "header", "content": "Legal" },
     { "type": "link_list", "id": "legal_menu", "label": "Legal links menu" }
   ],

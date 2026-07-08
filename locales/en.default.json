@@ -46,6 +46,6 @@
   "newsletter": {
     "label": "Email",
     "button": "Subscribe",
-    "success": "Thanks — you're on the list."
+    "success": "Thanks, you are on the list."
   }
 }
