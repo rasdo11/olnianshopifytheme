@@ -44,7 +44,7 @@
       "settings": {
         "kicker": "A little bit about us",
         "headline": "Supplements that look like beauty and work like science.",
-        "body": "OLNIAN pairs clinically minded daily formulas with a counter-worthy ritual. Belleza carries the brand wordmark; Nunito Sans keeps every benefit, dosage, and direction crisp and easy to read.",
+        "body": "OLNIAN pairs clinically-backed daily formulas with a ritual that looks as good as it works — clean labels, real dosages, and nothing you can't pronounce.",
         "cta_label": "About OLNIAN",
         "cta_link": "shopify://pages/about",
         "alignment": "center",
@@ -84,7 +84,7 @@
       "settings": {
         "kicker": "The daily ritual",
         "headline": "A scoop that feels more like self-care.",
-        "body": "Use the large media picker here for the blue award-winner creatine image. Swap the image, copy, bullets, color, and CTA any time in the Shopify theme editor.",
+        "body": "Our award-winning Premium Creatine M.H. mixes clean into anything you're already drinking. No grit, no chalky aftertaste — just one scoop, once a day.",
         "image": "shopify://shop_images/model_b1.png",
         "autoplay_video": true,
         "show_video_controls": false,
@@ -145,7 +145,7 @@
       "settings": {
         "kicker": "Shop the line",
         "headline": "Three essentials. One clean routine.",
-        "subheadline": "Small-catalog merchandising with editor-controlled product copy, badges, media overrides, and optional swatches.",
+        "subheadline": "Three core formulas, zero guesswork. Pick your focus and build a routine that actually sticks.",
         "collection": "the-big-three",
         "product_limit": 6,
         "header_layout": "split",
@@ -183,7 +183,7 @@
         "b3": {
           "type": "bullet",
           "settings": {
-            "text": "Warm editorial product photography and gold-lid accents"
+            "text": "Third-party tested, no fillers, ever"
           }
         }
       },
@@ -195,7 +195,7 @@
       "settings": {
         "kicker": "Calm, gut, recovery",
         "headline": "Build the routine around the way you want to feel.",
-        "body": "Use this module for the warm three-product countertop image. It mirrors Billie’s category storytelling while staying tailored to OLNIAN’s fewer-SKU supplement line.",
+        "body": "Mix and match to fit the way you actually feel — calming magnesium for wind-down nights, colostrum for gut and recovery support, all in the same clean daily ritual.",
         "image": "shopify://shop_images/creatine_graphic7.png",
         "autoplay_video": true,
         "show_video_controls": false,
