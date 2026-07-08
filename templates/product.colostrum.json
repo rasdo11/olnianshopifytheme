@@ -1,0 +1,316 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "g1": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/pomelli_photoshoot_image_4_5_0425_3.png"
+          }
+        },
+        "g2": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/pdp-4-facts.png"
+          }
+        },
+        "gallery_image_rPL6pC": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/pdp-6-spoon.jpg"
+          }
+        },
+        "gallery_image_NqzpMX": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/pdp-2-pour.png"
+          }
+        },
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "\u25cb",
+            "text": "Think more clearly through the afternoon without reaching for caffeine"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "\u25cb",
+            "text": "Remember what you walked into the room for"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "\u25cb",
+            "text": "Feel less derailed by the mood shifts that come with hormonal change"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "\u25cb",
+            "text": "Recover from workouts without the next-day drag"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "\u25cb",
+            "text": "Feed your brain the fuel it was already designed to run on"
+          }
+        },
+        "b6": {
+          "type": "benefit",
+          "settings": {
+            "icon": "\u25cb",
+            "text": "Backed by the first clinical trial on creatine in perimenopausal women"
+          }
+        },
+        "s1": {
+          "type": "support_item",
+          "settings": {
+            "text": "Sharper thinking and faster recall on demanding days"
+          }
+        },
+        "s2": {
+          "type": "support_item",
+          "settings": {
+            "text": "Sustained mental energy without stimulants or crash"
+          }
+        },
+        "s3": {
+          "type": "support_item",
+          "settings": {
+            "text": "Mood stability through hormonal fluctuation"
+          }
+        },
+        "s4": {
+          "type": "support_item",
+          "settings": {
+            "text": "Muscle recovery and reduced fatigue after exercise"
+          }
+        },
+        "s5": {
+          "type": "support_item",
+          "settings": {
+            "text": "Brain creatine levels measurably raised in perimenopausal women"
+          }
+        },
+        "s6": {
+          "type": "support_item",
+          "settings": {
+            "text": "Tested in randomized, placebo-controlled clinical trials"
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "gallery_image_rPL6pC",
+        "gallery_image_NqzpMX",
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ],
+      "settings": {
+        "hero_image": "shopify://shop_images/pdp-1-hero.png",
+        "crosssell_product": "magnesium-glycincate",
+        "show_rating": true,
+        "rating_value": 46,
+        "rating_count": "142 reviews",
+        "tagline": "Pure creatine monohydrate for women that's clinically studied to support brain clarity, cognitive performance, and cellular energy. The only ingredient is the ingredient.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What It Supports",
+        "show_gift_banner": true,
+        "gift_banner_text": "First subscription includes a free gold measuring spoon.",
+        "show_bundle_upsell": true,
+        "bundle_upsell_headline": "Bundle + Save 25%",
+        "bundle_upsell_body": "Add Magnesium Glycinate to your routine and save on your first order.",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": "shopify://collections/brain-bundle",
+        "use_product_media": true
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": {
+          "type": "stat",
+          "settings": {
+            "number": "4 weeks",
+            "label": "To measurable cognitive improvement",
+            "citation": "Benton & Donohoe, 2011"
+          }
+        },
+        "st2": {
+          "type": "stat",
+          "settings": {
+            "number": "+14%",
+            "label": "Memory test improvement in women 35\u201355",
+            "citation": "Smith et al., 2003"
+          }
+        },
+        "st3": {
+          "type": "stat",
+          "settings": {
+            "number": "5 g",
+            "label": "The studied daily dose. No more, no less.",
+            "citation": "ISSN Position Stand"
+          }
+        }
+      },
+      "block_order": [
+        "st1",
+        "st2",
+        "st3"
+      ],
+      "settings": {
+        "kicker": "The research",
+        "headline": "Studied specifically in women.",
+        "body": "Randomized, placebo-controlled trials in perimenopausal women show measurable improvements in cognition, muscle recovery, and mood stability within 4 weeks.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "Will creatine make me look bulky?",
+            "answer": "No. Creatine draws water into muscle cells, which can add a small amount of intracellular water weight in the first 1\u20132 weeks. This is not fat, and it is not visible bulk. In women, the effect is typically negligible. What you will notice over 4\u20138 weeks is improved strength, recovery, and mental clarity."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "Is creatine safe for women?",
+            "answer": "Yes. Creatine monohydrate is one of the most extensively studied supplements in the world, with over 1,000 peer-reviewed studies. It is considered safe for healthy adults at 3\u20135 g daily. If you are pregnant, breastfeeding, or managing a kidney condition, speak with your doctor first."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "How long until I notice something?",
+            "answer": "Most women report clearer thinking and faster recovery within 2\u20134 weeks of consistent daily use. Cognitive effects often come before physical ones. The research on perimenopausal women shows measurable improvements in memory and processing speed by week 4."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "Why does it ship in 2\u20134 weeks?",
+            "answer": "Because we make your batch after you order. No warehouse. No bottles sitting on shelves for months losing potency. Your creatine is milled, tested, and sealed the week before it ships to you."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "What is actually in it?",
+            "answer": "One thing: creatine monohydrate. No fillers, no anti-caking agents, no silicon dioxide, no flavoring, no proprietary blends. Third-party tested for heavy metals, microbials, identity, and potency before every shipment."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Can I cancel my subscription?",
+            "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day."
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    },
+    "testing-strip": {
+      "type": "testing-strip",
+      "blocks": {
+        "a": {
+          "type": "item",
+          "settings": {
+            "label": "Heavy metals"
+          }
+        },
+        "b": {
+          "type": "item",
+          "settings": {
+            "label": "Microbials"
+          }
+        },
+        "c": {
+          "type": "item",
+          "settings": {
+            "label": "Identity"
+          }
+        },
+        "d": {
+          "type": "item",
+          "settings": {
+            "label": "Potency"
+          }
+        }
+      },
+      "block_order": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "settings": {
+        "heading": "Third-party tested every batch",
+        "heading_size": 22,
+        "heading_kerning": 0,
+        "item_size": 13,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading_margin_bottom": 16,
+        "background": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "science",
+    "faq",
+    "testing-strip"
+  ]
+}
