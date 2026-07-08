@@ -1,6 +1,6 @@
 <section class="category-feature section--{{ section.settings.scheme | default: 'cream' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}">
   <div class="container category-feature__grid category-feature__grid--image-{{ section.settings.image_position }}">
-    <div class="category-feature__media category-feature__media--{{ section.settings.media_shape }}">
+    <div class="category-feature__media category-feature__media--{{ section.settings.media_shape }}" style="--category-media-ratio: {{ section.settings.media_ratio | default: '4 / 5' }}; --category-media-fit: {{ section.settings.media_fit | default: 'cover' }}; --category-media-position: {{ section.settings.media_position | default: 'center center' }};">
       {%- if section.settings.video != blank -%}
         {{ section.settings.video | video_tag: autoplay: section.settings.autoplay_video, loop: true, muted: true, controls: section.settings.show_video_controls, image_size: '1200x' }}
       {%- elsif section.settings.image != blank -%}
@@ -36,6 +36,9 @@
     { "type": "checkbox", "id": "show_video_controls", "label": "Show video controls", "default": false },
     { "type": "select", "id": "image_position", "label": "Media position", "default": "left", "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}] },
     { "type": "select", "id": "media_shape", "label": "Media shape", "default": "rounded", "options": [{"value":"rounded","label":"Rounded"},{"value":"soft","label":"Soft arch"},{"value":"square","label":"Square"}] },
+    { "type": "select", "id": "media_ratio", "label": "Media ratio", "default": "4 / 5", "options": [{"value":"auto","label":"Natural"},{"value":"1 / 1","label":"Square"},{"value":"4 / 5","label":"Portrait"},{"value":"9 / 16","label":"Tall portrait"},{"value":"3 / 2","label":"Landscape"}] },
+    { "type": "select", "id": "media_fit", "label": "Media fit", "default": "cover", "options": [{"value":"cover","label":"Fill/crop"},{"value":"contain","label":"Show full image"}] },
+    { "type": "select", "id": "media_position", "label": "Crop focal position", "default": "center center", "options": [{"value":"center center","label":"Center"},{"value":"center top","label":"Top"},{"value":"center bottom","label":"Bottom"},{"value":"left center","label":"Left"},{"value":"right center","label":"Right"}] },
     { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop now" },
     { "type": "url", "id": "cta_link", "label": "CTA link" },
     { "type": "select", "id": "scheme", "label": "Color scheme", "default": "cream", "options": [{"value":"blush","label":"Blush"},{"value":"cream","label":"Cream"},{"value":"white","label":"White"},{"value":"lavender","label":"Lavender"},{"value":"sky","label":"Blue"},{"value":"coral","label":"Coral"},{"value":"espresso","label":"Espresso"}] },
