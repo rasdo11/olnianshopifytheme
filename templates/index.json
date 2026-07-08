@@ -12,11 +12,11 @@
     "hero": {
       "type": "hero-editorial",
       "settings": {
-        "kicker": "Brain \u2022 Body \u2022 Balance",
+        "kicker": "Brain • Body • Balance",
         "badge": "Award-winning daily support",
         "headline": "Your polished daily supplement ritual.",
-        "subheadline": "Science-backed essentials for focus, energy, recovery, sleep, immunity, and gut health \u2014 designed for women and made beautiful enough to keep on the counter.",
-        "image": "shopify://shop_images/pomelli_photoshoot_image_4_5_0425_3.png",
+        "subheadline": "Science-backed essentials for focus, energy, recovery, sleep, immunity, and gut health — designed for women and made beautiful enough to keep on the counter.",
+        "image": "shopify://shop_images/Creatine-pdp-6.png",
         "image_position": "right",
         "show_trust_row": true,
         "trust_1": "Third-party tested",
@@ -35,10 +35,8 @@
         "padding_top": 40,
         "padding_bottom": 64,
         "cta_margin_top": 24,
-        "scheme": "lavender",
-        "background": "",
-        "media_ratio": "1 / 1",
-        "media_fit": "cover"
+        "scheme": "gold-tint",
+        "background": ""
       }
     },
     "intro": {
@@ -87,21 +85,20 @@
         "kicker": "The daily ritual",
         "headline": "A scoop that feels more like self-care.",
         "body": "Use the large media picker here for the blue award-winner creatine image. Swap the image, copy, bullets, color, and CTA any time in the Shopify theme editor.",
-        "image": "shopify://shop_images/pdp-1-hero.png",
-        "video": "",
+        "image": "shopify://shop_images/selfie_model3.png",
         "autoplay_video": true,
         "show_video_controls": false,
         "image_position": "left",
         "media_shape": "rounded",
+        "media_ratio": "auto",
+        "media_fit": "contain",
+        "media_position": "center center",
         "cta_label": "Shop Creatine",
         "cta_link": "shopify://products/creatine-m-h-refill",
         "scheme": "sky",
         "background": "",
         "padding_top": 88,
-        "padding_bottom": 88,
-        "media_ratio": "9 / 16",
-        "media_fit": "cover",
-        "media_position": "center center"
+        "padding_bottom": 88
       }
     },
     "daily-products": {
@@ -112,10 +109,8 @@
           "settings": {
             "product": "creatine-m-h-refill",
             "title_override": "Premium Creatine M.H.",
-            "subtitle_override": "Brain \u2022 Body \u2022 Balance",
+            "subtitle_override": "Brain • Body • Balance",
             "badge": "Daily",
-            "image_override": "",
-            "hover_image": "",
             "cta_label": "Shop"
           }
         },
@@ -124,10 +119,8 @@
           "settings": {
             "product": "premium-colostrum",
             "title_override": "Premium Colostrum",
-            "subtitle_override": "Immunity \u2022 Gut \u2022 Recovery",
+            "subtitle_override": "Immunity • Gut • Recovery",
             "badge": "Daily",
-            "image_override": "",
-            "hover_image": "",
             "cta_label": "Shop"
           }
         },
@@ -136,10 +129,8 @@
           "settings": {
             "product": "magnesium-glycinate-complex",
             "title_override": "Magnesium Complex",
-            "subtitle_override": "Calm \u2022 Sleep \u2022 Restore",
+            "subtitle_override": "Calm • Sleep • Restore",
             "badge": "Nightly",
-            "image_override": "",
-            "hover_image": "",
             "cta_label": "Shop"
           }
         }
@@ -202,22 +193,20 @@
       "settings": {
         "kicker": "Calm, gut, recovery",
         "headline": "Build the routine around the way you want to feel.",
-        "body": "Use this module for the warm three-product countertop image. It mirrors Billie\u2019s category storytelling while staying tailored to OLNIAN\u2019s fewer-SKU supplement line.",
-        "image": "shopify://shop_images/pdp-6-spoon.jpg",
-        "video": "",
+        "body": "Use this module for the warm three-product countertop image. It mirrors Billie’s category storytelling while staying tailored to OLNIAN’s fewer-SKU supplement line.",
         "autoplay_video": true,
         "show_video_controls": false,
         "image_position": "right",
         "media_shape": "soft",
+        "media_ratio": "9 / 16",
+        "media_fit": "cover",
+        "media_position": "center center",
         "cta_label": "Explore routines",
         "cta_link": "shopify://collections/all",
         "scheme": "cream",
         "background": "",
         "padding_top": 88,
-        "padding_bottom": 88,
-        "media_ratio": "9 / 16",
-        "media_fit": "cover",
-        "media_position": "center center"
+        "padding_bottom": 88
       }
     },
     "proof": {
@@ -227,21 +216,21 @@
           "type": "testimonial",
           "settings": {
             "quote": "Counter-worthy packaging, clean daily formulas.",
-            "attribution": "\u2014 OLNIAN customer"
+            "attribution": "— OLNIAN customer"
           }
         },
         "t2": {
           "type": "testimonial",
           "settings": {
             "quote": "Easy to understand, easy to keep taking.",
-            "attribution": "\u2014 Verified buyer"
+            "attribution": "— Verified buyer"
           }
         },
         "t3": {
           "type": "testimonial",
           "settings": {
             "quote": "The routine finally feels elevated.",
-            "attribution": "\u2014 Verified buyer"
+            "attribution": "— Verified buyer"
           }
         }
       },
@@ -261,10 +250,10 @@
       "settings": {
         "kicker": "Join the ritual",
         "headline": "Get batch notes, restock alerts, and routine tips.",
-        "subheadline": "No spam \u2014 just the occasional note on what works and what\u2019s next.",
+        "subheadline": "No spam — just the occasional note on what works and what’s next.",
         "placeholder": "Enter your email",
         "note": "Unsubscribe anytime.",
-        "success_message": "Thanks \u2014 you\u2019re on the list.",
+        "success_message": "Thanks — you’re on the list.",
         "scheme": "lavender",
         "padding_top": 96,
         "padding_bottom": 96
