@@ -247,7 +247,7 @@
       "settings": {
         "kicker": "Proof",
         "headline": "Beauty-counter polish. Daily supplement discipline.",
-        "scheme": "gold-tint"
+        "scheme": "flamingo"
       }
     },
     "newsletter": {
@@ -255,11 +255,11 @@
       "settings": {
         "kicker": "Join the ritual",
         "headline": "Get batch notes, restock alerts, and routine tips.",
-        "subheadline": "No spam — just the occasional note on what works and what’s next.",
+        "subheadline": "No spam, just the occasional note on what works and what’s next.",
         "placeholder": "Enter your email",
         "note": "Unsubscribe anytime.",
-        "success_message": "Thanks — you’re on the list.",
-        "scheme": "lavender",
+        "success_message": "Thanks, you’re on the list!",
+        "scheme": "mint",
         "padding_top": 96,
         "padding_bottom": 96
       }
