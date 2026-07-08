@@ -19,11 +19,11 @@
     "display_font_weight": "800",
     "body_font": "Nunito Sans",
     "body_font_weight": "400",
-    "brand_name": "ØLNIAN",
-    "brand_tagline": "Beauty starts within.",
+    "brand_name": "OLNIAN",
+    "brand_tagline": "Brain \u2022 Body \u2022 Balance.",
     "favicon": "shopify://shop_images/Olnian_Favicon_1.png",
     "show_ship_badge": false,
-    "ship_badge_text": "Ships in 2–4 weeks",
+    "ship_badge_text": "Ships in 2\u20134 weeks",
     "sections": {
       "cart-drawer": {
         "type": "cart-drawer",
@@ -45,7 +45,12 @@
           "subscription_policy_url": ""
         }
       }
-    }
+    },
+    "color_lavender": "#DCC7FF",
+    "color_sky": "#0066A6",
+    "button_radius": 28,
+    "card_radius": 24,
+    "product_card_ratio": "portrait"
   },
   "presets": {
     "Default": {
@@ -58,7 +63,7 @@
       "brand_name": "Olnian",
       "brand_tagline": "Pure supplements. Made the week you order.",
       "show_ship_badge": true,
-      "ship_badge_text": "Ships in 2–4 weeks"
+      "ship_badge_text": "Ships in 2\u20134 weeks"
     }
   }
 }
