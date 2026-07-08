@@ -1,9 +1,10 @@
 {%- comment -%}
-  Product card. Expects: product (Product object)
-  Renders: image (+ optional badge), title, subtitle, optional variant
-  swatch carousel, and a full-width pill CTA with the price inside it.
+  Product card. Expects: product (Product object). Optional overrides: card_title, card_subtitle, card_badge, card_image, card_hover_image, cta_label, show_swatches, show_price
 {%- endcomment -%}
 
+{%- assign show_swatches = show_swatches | default: false, allow_false: true -%}
+{%- assign show_price = show_price | default: true, allow_false: true -%}
+{%- assign cta_label = cta_label | default: 'Shop' -%}
 {%- comment -%} Pick the first real multi-value option for swatches (Color/Scent/Flavor…) {%- endcomment -%}
 {%- assign swatch_option = null -%}
 {%- for opt in product.options_with_values -%}
@@ -18,26 +19,36 @@
 
 <a href="{{ product.url }}" class="sku-card" aria-label="{{ product.title }}">
   <div class="sku-card__image">
-    {%- if product.compare_at_price > product.price -%}
+    {%- if card_badge != blank -%}
+      <span class="sku-card__badge">{{ card_badge }}</span>
+    {%- elsif product.compare_at_price > product.price -%}
       {%- assign _save = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
       <span class="sku-card__badge">Save {{ _save }}%</span>
     {%- elsif product.metafields.custom.badge != blank -%}
       <span class="sku-card__badge">{{ product.metafields.custom.badge }}</span>
     {%- endif -%}
-    {%- if product.featured_image -%}
-      {{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: product.title }}
+    {%- assign _card_image = card_image | default: product.featured_image -%}
+    {%- if _card_image -%}
+      {%- assign _card_alt = _card_image.alt | default: product.title -%}
+      {{ _card_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: _card_alt, class: 'sku-card__primary-img' }}
+    {%- endif -%}
+    {%- if card_hover_image != blank -%}
+      {%- assign _hover_alt = card_hover_image.alt | default: product.title -%}
+      {{ card_hover_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: _hover_alt, class: 'sku-card__hover-img' }}
     {%- endif -%}
   </div>
 
   <div>
-    <div class="sku-card__name">{{ product.title }}</div>
-    {%- if product.metafields.custom.subtitle != blank -%}
+    <div class="sku-card__name">{{ card_title | default: product.title }}</div>
+    {%- if card_subtitle != blank -%}
+      <div class="sku-card__sub">{{ card_subtitle }}</div>
+    {%- elsif product.metafields.custom.subtitle != blank -%}
       <div class="sku-card__sub">{{ product.metafields.custom.subtitle }}</div>
     {%- elsif product.description != blank -%}
       <div class="sku-card__sub">{{ product.description | strip_html | truncatewords: 12 }}</div>
     {%- endif -%}
 
-    {%- if swatch_option -%}
+    {%- if show_swatches and swatch_option -%}
       <div class="sku-card__swatches">
         <button type="button" class="sku-card__swatch-nav" data-swatch-prev aria-label="Previous colors" tabindex="-1">&lsaquo;</button>
         <div class="sku-card__swatch-track" data-swatch-track>
@@ -59,9 +70,11 @@
 
   <div class="sku-card__footer">
     <span class="btn btn--primary sku-card__add" aria-hidden="true">
-      Shop
-      {%- if product.price_varies %} · From {{ product.price_min | money }}
-      {%- else %} · {{ product.price | money }}{% endif -%}
+      {{ cta_label }}
+      {%- if show_price -%}
+        {%- if product.price_varies %} · From {{ product.price_min | money }}
+        {%- else %} · {{ product.price | money }}{% endif -%}
+      {%- endif -%}
     </span>
   </div>
 </a>
