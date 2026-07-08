@@ -2001,8 +2001,8 @@ body.nav-open { overflow: hidden; }
 }
 .proof__quote {
   margin-top: 24px;
-  font-size: clamp(23px, 2.8vw, 34px);
-  line-height: 1.12;
+  font-size: var(--proof-quote-size, 24px);
+  line-height: 1.18;
 }
 .proof__attrib {
   margin-top: 18px;
@@ -2060,5 +2060,24 @@ body.nav-open { overflow: hidden; }
   .proof__social-note { margin-top: 12px; font-size: 11px; }
   .proof__grid { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
   .proof__card { flex-basis: min(84vw, 320px); padding: 20px; border-radius: 24px; }
-  .proof__quote { margin-top: 22px; font-size: clamp(22px, 7vw, 28px); }
+  .proof__quote { margin-top: 22px; font-size: calc(var(--proof-quote-size, 24px) * .9); }
+}
+
+/* ── Footer build-out: fallback links + contact line ─────────── */
+.site-footer__contact {
+  display: flex;
+  gap: 14px 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.site-footer__contact a {
+  opacity: .72;
+  transition: opacity .15s;
+}
+.site-footer__contact a:hover { opacity: 1; }
+@media (max-width: 600px) {
+  .site-footer__contact {
+    justify-content: center;
+    gap: 8px 14px;
+  }
 }
