@@ -220,22 +220,22 @@
         "t1": {
           "type": "testimonial",
           "settings": {
-            "quote": "Counter-worthy packaging, clean daily formulas.",
-            "attribution": "— OLNIAN customer"
+            "quote": "I actually love having this on my counter!",
+            "attribution": "-Geena LUDWIG"
           }
         },
         "t2": {
           "type": "testimonial",
           "settings": {
-            "quote": "Easy to understand, easy to keep taking.",
-            "attribution": "— Verified buyer"
+            "quote": "After three weeks, my brain fog literally went away. Glad I started taking creatine, even if it doesn't sound like the most feminine supplement haha.",
+            "attribution": "- Patricia Kearney"
           }
         },
         "t3": {
           "type": "testimonial",
           "settings": {
-            "quote": "The routine finally feels elevated.",
-            "attribution": "— Verified buyer"
+            "quote": "For me, I was happy to just have simple supplements that don't add calories to my day. I tried gummies, but not I put creatine in my coffee every morning.",
+            "attribution": "- Gabriella Suarez"
           }
         }
       },
