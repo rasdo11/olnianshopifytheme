@@ -225,7 +225,9 @@
           {%- endif -%}
 
           {%- comment -%} Trust line — before price so it's seen before cost {%- endcomment -%}
-          <p class="product__trust-line product__trust-line--top">Third-party tested &middot; Free shipping over $50 &middot; Cancel anytime</p>
+          {%- if section.settings.trust_line != blank -%}
+            <p class="product__trust-line product__trust-line--top">{{ section.settings.trust_line }}</p>
+          {%- endif -%}
 
           {%- assign sub_price = product.selected_or_first_available_variant.price | times: 0.85 | round -%}
           <div class="product__price" data-product-price>
@@ -255,21 +257,24 @@
           </div>
 
           <div class="product__atc-row">
-            <button type="submit" class="btn btn--primary product__atc" data-product-submit
+            <button type="submit" class="btn btn--primary product__atc" data-product-submit data-default-label="{{ section.settings.atc_label | default: 'Start Now' }}"
               {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
               {% if product.selected_or_first_available_variant.available %}
-                Start Now
+                {{ section.settings.atc_label | default: 'Start Now' }}
               {% else %}
                 {{ 'general.product.sold_out' | t }}
               {% endif %}
             </button>
-            <button type="button" class="btn btn--outline product__expert-btn" data-expert-modal-open>Talk to an expert</button>
+            {%- if section.settings.show_expert_modal -%}<button type="button" class="btn btn--outline product__expert-btn" data-expert-modal-open>{{ section.settings.expert_button_label }}</button>{%- endif -%}
           </div>
 
-          <div class="product__or-divider">or</div>
-          {{ form | payment_button }}
+          {%- if section.settings.show_dynamic_checkout -%}
+            <div class="product__or-divider">or</div>
+            {{ form | payment_button }}
+          {%- endif -%}
 
           {%- comment -%} Subscribe & Save card {%- endcomment -%}
+          {%- if section.settings.show_subscription_card -%}
           <div class="subscribe-card">
             <div class="subscribe-card__badge">Save 15%</div>
             <div class="subscribe-card__content">
@@ -287,6 +292,7 @@
               <button type="submit" class="subscribe-card__cta subscribe-card__cta--unavailable" disabled>Unavailable</button>
             {%- endif -%}
           </div>
+          {%- endif -%}
 
         </form>
 
@@ -472,6 +478,13 @@
     { "type": "text", "id": "benefits_heading", "label": "Benefits heading", "default": "Benefits" },
     { "type": "header", "content": "What it supports accordion" },
     { "type": "text", "id": "supports_heading", "label": "Supports heading", "default": "What it supports" },
+    { "type": "header", "content": "Purchase controls" },
+    { "type": "text", "id": "trust_line", "label": "Trust line", "default": "Third-party tested · Free shipping over $50 · Cancel anytime" },
+    { "type": "text", "id": "atc_label", "label": "Add-to-cart label", "default": "Start Now" },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button", "default": true },
+    { "type": "checkbox", "id": "show_subscription_card", "label": "Show subscription card", "default": true },
+    { "type": "checkbox", "id": "show_expert_modal", "label": "Show expert modal", "default": true },
+    { "type": "text", "id": "expert_button_label", "label": "Expert button label", "default": "Talk to an expert" },
     { "type": "header", "content": "Gift banner" },
     { "type": "checkbox", "id": "show_gift_banner", "label": "Show gift banner", "default": true },
     { "type": "text", "id": "gift_banner_text", "label": "Gift banner text", "default": "First subscription includes a free gold measuring spoon." },

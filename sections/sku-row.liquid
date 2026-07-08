@@ -55,13 +55,14 @@
       {%- assign coll = collections[section.settings.collection] -%}
       {%- if coll != blank -%}
         {%- for product in coll.products limit: section.settings.product_limit -%}
-          {% render 'product-card', product: product %}
+          {% render 'product-card', product: product, show_swatches: section.settings.show_swatches, show_price: section.settings.show_price, cta_label: section.settings.card_cta_label %}
         {%- endfor -%}
       {%- else -%}
         {%- for block in section.blocks -%}
           {%- assign p = all_products[block.settings.product] -%}
           {%- if p != blank -%}
-            {% render 'product-card', product: p %}
+            {%- assign _card_cta = block.settings.cta_label | default: section.settings.card_cta_label -%}
+            {% render 'product-card', product: p, card_title: block.settings.title_override, card_subtitle: block.settings.subtitle_override, card_badge: block.settings.badge, card_image: block.settings.image_override, card_hover_image: block.settings.hover_image, show_swatches: section.settings.show_swatches, show_price: section.settings.show_price, cta_label: _card_cta %}
           {%- endif -%}
         {%- endfor -%}
       {%- endif -%}
@@ -85,6 +86,10 @@
     ]},
     { "type": "text", "id": "view_all_label", "label": "“View all” link label", "default": "View all", "info": "Shown on the right in split layout. Leave blank to hide." },
     { "type": "url", "id": "view_all_link", "label": "“View all” link (defaults to the collection)" },
+    { "type": "header", "content": "Product cards" },
+    { "type": "text", "id": "card_cta_label", "label": "Default card CTA label", "default": "Shop" },
+    { "type": "checkbox", "id": "show_price", "label": "Show price in card CTA", "default": true },
+    { "type": "checkbox", "id": "show_swatches", "label": "Show variant swatches", "default": false },
     { "type": "header", "content": "Typography" },
     { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 24, "max": 72, "step": 2, "default": 40 },
     { "type": "range", "id": "headline_kerning", "label": "Headline letter-spacing (em × 100)", "min": -5, "max": 10, "step": 1, "default": -2, "info": "Divide by 100 for em value. -2 = -0.02em" },
@@ -115,7 +120,13 @@
       "type": "product",
       "name": "Product (manual)",
       "settings": [
-        { "type": "product", "id": "product", "label": "Product" }
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "title_override", "label": "Title override" },
+        { "type": "textarea", "id": "subtitle_override", "label": "Subtitle override" },
+        { "type": "text", "id": "badge", "label": "Badge override" },
+        { "type": "image_picker", "id": "image_override", "label": "Image override" },
+        { "type": "image_picker", "id": "hover_image", "label": "Hover image" },
+        { "type": "text", "id": "cta_label", "label": "CTA label override" }
       ]
     }
   ],
