@@ -1023,8 +1023,6 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
     width: 88%;
     scroll-snap-align: start;
   }
-  /* Cap: hide slides 4+ on mobile */
-  .pdp-gallery__slide:nth-child(n+4) { display: none; }
   /* Dots */
   .pdp-gallery__dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
   .pdp-gallery__dot {
