@@ -1,20 +1,41 @@
 <section class="proof section--{{ section.settings.scheme | default: 'gold-tint' }}">
-  <div class="container">
-    <div class="sku-row__header">
+  <div class="container proof__container">
+    <div class="sku-row__header proof__header">
       {%- if section.settings.kicker != blank -%}
-        <div class="sku-row__kicker">{{ section.settings.kicker }}</div>
+        <div class="sku-row__kicker proof__kicker">{{ section.settings.kicker }}</div>
       {%- endif -%}
       {%- if section.settings.headline != blank -%}
-        <h2 class="sku-row__headline">{{ section.settings.headline }}</h2>
+        <h2 class="sku-row__headline proof__headline">{{ section.settings.headline }}</h2>
       {%- endif -%}
+      <div class="proof__social-note" aria-label="Social proof source">
+        <span class="proof__social-dot"></span>
+        Real notes from the OLNIAN community
+      </div>
     </div>
-    <div class="proof__grid">
-      {%- for block in section.blocks -%}
-        <figure class="proof__card" {{ block.shopify_attributes }}>
-          <blockquote class="proof__quote">&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
-          <figcaption class="proof__attrib">{{ block.settings.attribution }}</figcaption>
-        </figure>
-      {%- endfor -%}
+
+    <div class="proof__stage" aria-label="Customer testimonials">
+      <div class="proof__halo proof__halo--one" aria-hidden="true"></div>
+      <div class="proof__halo proof__halo--two" aria-hidden="true"></div>
+      <div class="proof__grid">
+        {%- for block in section.blocks -%}
+          <figure class="proof__card proof__card--{{ forloop.index }}" {{ block.shopify_attributes }}>
+            <div class="proof__card-top">
+              <div class="proof__profile" aria-hidden="true">
+                <span class="proof__avatar">O</span>
+                <span class="proof__handle">Instagram</span>
+              </div>
+              <span class="proof__badge">Loved</span>
+            </div>
+            <blockquote class="proof__quote" style="--proof-quote-size: {{ block.settings.quote_font_size | default: 24 }}px;">&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
+            <figcaption class="proof__attrib">{{ block.settings.attribution }}</figcaption>
+            <div class="proof__actions" aria-hidden="true">
+              <span>♡</span>
+              <span>💬</span>
+              <span>↗</span>
+            </div>
+          </figure>
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 </section>
@@ -47,7 +68,8 @@
       "name": "Testimonial",
       "settings": [
         { "type": "textarea", "id": "quote", "label": "Quote", "default": "I can tell within a week." },
-        { "type": "text", "id": "attribution", "label": "Attribution", "default": "— M., 47, Austin" }
+        { "type": "range", "id": "quote_font_size", "label": "Quote font size", "min": 16, "max": 34, "step": 1, "unit": "px", "default": 24 },
+        { "type": "text", "id": "attribution", "label": "Attribution", "default": "M., 47, Austin" }
       ]
     }
   ],
@@ -55,9 +77,9 @@
     {
       "name": "Proof",
       "blocks": [
-        { "type": "testimonial", "settings": { "quote": "I can tell within a week.", "attribution": "— M., 47, Austin" } },
-        { "type": "testimonial", "settings": { "quote": "The only supplement I've stayed on.", "attribution": "— R., 52, Portland" } },
-        { "type": "testimonial", "settings": { "quote": "Sleep and strength, same bottle.", "attribution": "— L., 44, Brooklyn" } }
+        { "type": "testimonial", "settings": { "quote": "I can tell within a week.", "attribution": "M., 47, Austin" } },
+        { "type": "testimonial", "settings": { "quote": "The only supplement I've stayed on.", "attribution": "R., 52, Portland" } },
+        { "type": "testimonial", "settings": { "quote": "Sleep and strength, same bottle.", "attribution": "L., 44, Brooklyn" } }
       ]
     }
   ]

@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   {%- comment -%} Belleza is always loaded for the OLNIAN brand wordmark (--brand-font), even when the display/body fonts are set to something else. {%- endcomment -%}
-  <link href="https://fonts.googleapis.com/css2?family=Belleza&family={{ _df_url }}:wght@300;400;500;600;700;800;900&family={{ _bf_url }}:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Belleza&family={{ _df_url }}:wght@300;400;500;600;800&family={{ _bf_url }}:wght@300;400;500;600;800&display=swap" rel="stylesheet">
 
   {{ content_for_header }}
 
@@ -52,7 +52,7 @@
 
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
 </head>
-<body class="template-{{ template.name | handle }}">
+<body class="template-{{ template.name | handle }}" data-scroll-fade="{{ settings.enable_scroll_fade }}" data-scroll-parallax="{{ settings.enable_scroll_parallax }}" data-parallax-strength="{{ settings.parallax_strength | default: 15 }}">
   <a class="skip-to-content" href="#MainContent">Skip to content</a>
 
   {% sections 'header-group' %}
@@ -62,6 +62,8 @@
   </main>
 
   {% sections 'footer-group' %}
+
+  {% section 'email-popup' %}
 
   <div id="CartDrawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping cart">
     <div class="cart-drawer__overlay" data-cart-close></div>
