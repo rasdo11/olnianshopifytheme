@@ -43,9 +43,9 @@
       "type": "brand-intro",
       "settings": {
         "kicker": "A little bit about us",
-        "headline": "Supplements that look like beauty and work like science.",
+        "headline": "",
         "body": "OLNIAN pairs clinically-backed daily formulas with a ritual that looks as good as it works. Clean labels, real dosages, and nothing you can't pronounce.",
-        "cta_label": "About OLNIAN",
+        "cta_label": "",
         "cta_link": "shopify://pages/about-us",
         "alignment": "center",
         "scheme": "white",
@@ -221,6 +221,7 @@
           "type": "testimonial",
           "settings": {
             "quote": "I actually love having this on my counter!",
+            "quote_font_size": 24,
             "attribution": "-Geena LUDWIG"
           }
         },
@@ -228,6 +229,7 @@
           "type": "testimonial",
           "settings": {
             "quote": "After three weeks, my brain fog literally went away. Glad I started taking creatine, even if it doesn't sound like the most feminine supplement haha.",
+            "quote_font_size": 24,
             "attribution": "- Patricia Kearney"
           }
         },
@@ -235,6 +237,7 @@
           "type": "testimonial",
           "settings": {
             "quote": "For me, I was happy to just have simple supplements that don't add calories to my day. I tried gummies, but not I put creatine in my coffee every morning.",
+            "quote_font_size": 24,
             "attribution": "- Gabriella Suarez"
           }
         }
