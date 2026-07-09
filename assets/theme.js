@@ -591,11 +591,54 @@
   }
 
   function initHeroVideoToggle() {
+    const mobileQuery = window.matchMedia('(max-width: 600px)');
+
     $$('.hero__video').forEach((video) => {
+      const mediaFrame = video.closest('.hero__image');
+      const playButton = mediaFrame ? mediaFrame.querySelector('[data-hero-video-play]') : null;
+
+      const syncState = () => {
+        if (!mediaFrame) return;
+        mediaFrame.classList.toggle('is-video-paused', video.paused);
+        mediaFrame.classList.toggle('is-video-playing', !video.paused);
+      };
+
+      const playVideo = () => {
+        video.play().catch(() => {}).finally(syncState);
+      };
+
+      const pauseVideo = () => {
+        video.pause();
+        syncState();
+      };
+
+      if (mobileQuery.matches) {
+        pauseVideo();
+      } else {
+        syncState();
+      }
+
+      video.addEventListener('play', syncState);
+      video.addEventListener('pause', syncState);
+
+      if (playButton) {
+        playButton.addEventListener('click', (event) => {
+          event.stopPropagation();
+          playVideo();
+        });
+      }
+
       video.addEventListener('click', () => {
-        if (video.paused) video.play().catch(() => {});
-        else video.pause();
+        if (video.paused) playVideo();
+        else pauseVideo();
       });
+
+      if (mobileQuery.addEventListener) {
+        mobileQuery.addEventListener('change', (event) => {
+          if (event.matches) pauseVideo();
+          else syncState();
+        });
+      }
     });
   }
 

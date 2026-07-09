@@ -69,10 +69,14 @@
     <div class="hero__image" style="--hero-media-ratio: {{ section.settings.media_ratio | default: '1 / 1.1' }}; --hero-media-fit: {{ section.settings.media_fit | default: 'cover' }};">
       {%- if section.settings.hero_video != blank -%}
         {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1800x', class: 'hero__video' }}
-        <span class="hero__video-hint" aria-hidden="true">Tap to pause</span>
+        <button type="button" class="hero__video-play" aria-label="Play hero video" data-hero-video-play>
+          <span aria-hidden="true">▶</span>
+        </button>
       {%- elsif section.settings.hero_video_url != blank -%}
         <video class="hero__video" src="{{ section.settings.hero_video_url | escape }}" autoplay loop muted playsinline></video>
-        <span class="hero__video-hint" aria-hidden="true">Tap to pause</span>
+        <button type="button" class="hero__video-play" aria-label="Play hero video" data-hero-video-play>
+          <span aria-hidden="true">▶</span>
+        </button>
       {%- elsif section.settings.image != blank -%}
         {%- assign hero_image_alt = section.settings.image.alt | default: section.settings.headline -%}
         {{ section.settings.image
