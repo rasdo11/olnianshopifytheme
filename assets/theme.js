@@ -555,11 +555,15 @@
   function initEmailPopup() {
     const popup = $('[data-email-popup]');
     if (!popup) return;
-    const storageKey = 'olnianEmailPopupDismissed';
+    const storageKey = 'olnianEmailPopupSubmitted';
     try {
       if (localStorage.getItem(storageKey) === 'true') return;
     } catch (_) {}
     const delay = Number(popup.dataset.popupDelay || 5) * 1000;
+    const makeReady = () => {
+      popup.classList.add('is-ready');
+      popup.setAttribute('aria-hidden', 'false');
+    };
     const open = () => {
       popup.classList.add('is-open');
       popup.setAttribute('aria-hidden', 'false');
@@ -569,12 +573,13 @@
     };
     const close = () => {
       popup.classList.remove('is-open');
-      popup.setAttribute('aria-hidden', 'true');
+      popup.classList.add('is-ready');
+      popup.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = '';
-      try { localStorage.setItem(storageKey, 'true'); } catch (_) {}
     };
-    setTimeout(open, delay);
+    setTimeout(makeReady, delay);
     popup.addEventListener('click', (e) => {
+      if (e.target.closest('[data-email-popup-open]')) open();
       if (e.target.closest('[data-email-popup-close]')) close();
     });
     popup.addEventListener('submit', () => {

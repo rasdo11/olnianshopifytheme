@@ -4,12 +4,17 @@
     data-email-popup
     data-popup-delay="{{ settings.email_popup_delay | default: 5 }}"
     aria-hidden="true"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="EmailPopupTitle"
   >
+    <button type="button" class="email-popup__tab" data-email-popup-open aria-label="Open 10 percent off email signup">
+      {{ section.settings.tab_label | default: '10% off' }}
+    </button>
     <div class="email-popup__overlay" data-email-popup-close></div>
-    <div class="email-popup__panel">
+    <div
+      class="email-popup__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="EmailPopupTitle"
+    >
       <button type="button" class="email-popup__close" data-email-popup-close aria-label="Close email signup">×</button>
       <p class="email-popup__kicker">{{ section.settings.kicker | default: 'First order treat' }}</p>
       <h2 class="email-popup__title" id="EmailPopupTitle">{{ section.settings.headline | default: 'Enjoy 10% off' }}</h2>
@@ -44,6 +49,7 @@
 {
   "name": "Email popup",
   "settings": [
+    { "type": "text", "id": "tab_label", "label": "Collapsed button label", "default": "10% off" },
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "First order treat" },
     { "type": "text", "id": "headline", "label": "Headline", "default": "Enjoy 10% off" },
     { "type": "textarea", "id": "body", "label": "Body", "default": "Sign up for emails and receive 10% off your first order." },

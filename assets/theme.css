@@ -2217,3 +2217,59 @@ body.nav-open { overflow: hidden; }
   .motion-parallax { transform: none !important; }
   .email-popup__panel { animation: none; }
 }
+
+/* ── Email popup v2: collapsed 10% tab ───────────────────────── */
+.email-popup {
+  inset: auto 0 0 0;
+  z-index: 1000;
+  display: block;
+  pointer-events: none;
+}
+.email-popup__tab {
+  position: fixed;
+  left: 20px;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 1002;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 132px;
+  min-height: 58px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: #c6d0ff;
+  color: #000;
+  font-family: var(--brand-font);
+  font-size: clamp(28px, 8vw, 42px);
+  line-height: 1;
+  box-shadow: 0 12px 28px rgba(46, 18, 6, .12);
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.email-popup.is-ready .email-popup__tab,
+.email-popup.is-open .email-popup__tab {
+  opacity: 1;
+  transform: translateY(0);
+}
+.email-popup.is-open .email-popup__tab { opacity: 0; pointer-events: none; }
+.email-popup__overlay,
+.email-popup__panel { display: none; }
+.email-popup.is-open .email-popup__overlay,
+.email-popup.is-open .email-popup__panel { display: block; pointer-events: auto; }
+.email-popup.is-open .email-popup__overlay { position: fixed; inset: 0; }
+.email-popup.is-open .email-popup__panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+@media (min-width: 720px) {
+  .email-popup.is-open .email-popup__panel {
+    left: 50%;
+    right: auto;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+  }
+}
