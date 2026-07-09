@@ -20,14 +20,35 @@
     "body_font": "Nunito Sans",
     "body_font_weight": "400",
     "brand_name": "OLNIAN",
-    "brand_tagline": "Brain \u2022 Body \u2022 Balance.",
+    "brand_tagline": "Brain • Body • Balance.",
     "favicon": "shopify://shop_images/Olnian_Favicon_1.png",
     "show_ship_badge": false,
-    "ship_badge_text": "Ships in 2\u20134 weeks",
+    "ship_badge_text": "Ships in 2–4 weeks",
+    "color_lavender": "#DCC7FF",
+    "color_sky": "#0066A6",
+    "button_radius": 28,
+    "card_radius": 24,
+    "product_card_ratio": "portrait",
+    "email_popup_delay": 5,
     "sections": {
       "cart-drawer": {
         "type": "cart-drawer",
         "settings": {}
+      },
+      "email-popup": {
+        "type": "email-popup",
+        "settings": {
+          "tab_label": "10% off",
+          "tab_position": "right",
+          "tab_font_size": 26,
+          "tab_background": "#c6d0ff",
+          "kicker": "First order treat",
+          "headline": "Enjoy 10% off",
+          "body": "Sign up for emails and receive 10% off your first order.",
+          "placeholder": "Email address",
+          "success_message": "Thanks, check your inbox for 10% off.",
+          "fineprint": "Offer valid for new email subscribers. By signing up, you agree to receive email from OLNIAN."
+        }
       }
     },
     "content_for_index": [],
@@ -45,12 +66,7 @@
           "subscription_policy_url": ""
         }
       }
-    },
-    "color_lavender": "#DCC7FF",
-    "color_sky": "#0066A6",
-    "button_radius": 28,
-    "card_radius": 24,
-    "product_card_ratio": "portrait"
+    }
   },
   "presets": {
     "Default": {
@@ -63,7 +79,7 @@
       "brand_name": "Olnian",
       "brand_tagline": "Pure supplements. Made the week you order.",
       "show_ship_badge": true,
-      "ship_badge_text": "Ships in 2\u20134 weeks"
+      "ship_badge_text": "Ships in 2–4 weeks"
     }
   }
 }
