@@ -2273,3 +2273,24 @@ body.nav-open { overflow: hidden; }
     transform: translate(-50%, 50%);
   }
 }
+
+/* ── Email popup controls: position + smaller tab type ────────── */
+.email-popup__tab {
+  left: auto;
+  right: 20px;
+  background: var(--email-tab-bg, #c6d0ff);
+  font-size: clamp(18px, 6vw, var(--email-tab-font-size, 26px));
+  min-width: 116px;
+  min-height: 52px;
+  padding: 12px 20px;
+}
+.email-popup--left .email-popup__tab { left: 20px; right: auto; }
+.email-popup--right .email-popup__tab { left: auto; right: 20px; }
+@media (max-width: 600px) {
+  .email-popup__tab {
+    right: 16px;
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .email-popup--left .email-popup__tab { left: 16px; right: auto; }
+  .email-popup--right .email-popup__tab { left: auto; right: 16px; }
+}

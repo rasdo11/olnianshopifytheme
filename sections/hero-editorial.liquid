@@ -85,9 +85,10 @@
     { "type": "text", "id": "badge", "label": "Badge pill (optional)", "default": "New batch: ships in 2\u20134 weeks" },
     { "type": "textarea", "id": "headline", "label": "Headline", "default": "Clean Creatine.\nClear Thinking." },
     { "type": "textarea", "id": "subheadline", "label": "Sub-headline", "default": "Three to five grams of pure, micronized creatine monohydrate per serving. Studied specifically in women after 40." },
-    { "type": "image_picker", "id": "image", "label": "Hero image" },
-    { "type": "video", "id": "hero_video", "label": "Hero looping video", "info": "Upload/select a Shopify-hosted video. If set, video replaces the hero image and pauses when tapped." },
-    { "type": "text", "id": "hero_video_url", "label": "Hero video MP4 URL", "default": "https://cdn.shopify.com/videos/c/o/v/db1af56a022b45339ec21f7c8facc30b.mp4", "info": "Optional fallback for a hosted MP4 URL." },
+    { "type": "header", "content": "Hero media video or image" },
+    { "type": "image_picker", "id": "image", "label": "Hero image fallback" },
+    { "type": "video", "id": "hero_video", "label": "Hero video picker", "info": "Optional Shopify-hosted video. If set, it replaces the hero image and pauses when tapped." },
+    { "type": "text", "id": "hero_video_url", "label": "Hero video MP4 URL", "default": "https://cdn.shopify.com/videos/c/o/v/db1af56a022b45339ec21f7c8facc30b.mp4", "info": "Paste a hosted MP4 URL here if the video picker is not showing your file." },
     { "type": "select", "id": "media_ratio", "label": "Hero image ratio", "default": "1 / 1.1", "options": [
       { "value": "auto", "label": "Natural" },
       { "value": "1 / 1", "label": "Square" },

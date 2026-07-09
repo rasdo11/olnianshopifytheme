@@ -57,7 +57,7 @@
       if (!this.el) return;
       this.el.setAttribute('data-open', 'true');
       this.el.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      if (!window.Shopify || !window.Shopify.designMode) document.body.style.overflow = 'hidden';
     },
     close() {
       if (!this.el) return;
@@ -567,7 +567,7 @@
     const open = () => {
       popup.classList.add('is-open');
       popup.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      if (!window.Shopify || !window.Shopify.designMode) document.body.style.overflow = 'hidden';
       const input = popup.querySelector('input[type="email"]');
       if (input) setTimeout(() => input.focus({ preventScroll: true }), 120);
     };
