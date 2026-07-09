@@ -2,6 +2,7 @@
   padding-top: {{ section.settings.padding_top }}px;
   padding-bottom: {{ section.settings.padding_bottom }}px;
   {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+  --hero-highlight-color: {{ section.settings.highlight_color | default: '#F3A08D' }};
 ">
   <div class="container hero__grid hero__grid--image-{{ section.settings.image_position | default: 'left' }}">
     <div>
@@ -16,10 +17,22 @@
         <div class="hero__badge">{{ section.settings.badge }}</div>
       {%- endif -%}
 
+      {%- assign hero_headline = section.settings.headline | escape | newline_to_br -%}
+      {%- if section.settings.highlight_1 != blank -%}
+        {%- assign highlight_1_text = section.settings.highlight_1 | escape -%}
+        {%- capture highlight_1_markup -%}<mark class="hero__highlight">{{ highlight_1_text }}</mark>{%- endcapture -%}
+        {%- assign hero_headline = hero_headline | replace: highlight_1_text, highlight_1_markup -%}
+      {%- endif -%}
+      {%- if section.settings.highlight_2 != blank -%}
+        {%- assign highlight_2_text = section.settings.highlight_2 | escape -%}
+        {%- capture highlight_2_markup -%}<mark class="hero__highlight">{{ highlight_2_text }}</mark>{%- endcapture -%}
+        {%- assign hero_headline = hero_headline | replace: highlight_2_text, highlight_2_markup -%}
+      {%- endif -%}
+
       <h1 class="hero__headline" style="
         font-size: {{ section.settings.headline_size }}px;
         letter-spacing: {{ section.settings.headline_kerning | divided_by: 100.0 }}em;
-      ">{{ section.settings.headline }}</h1>
+      ">{{ hero_headline }}</h1>
 
       {%- if section.settings.subheadline != blank -%}
         <p class="hero__sub" style="font-size: {{ section.settings.subheadline_size }}px;">{{ section.settings.subheadline }}</p>
@@ -54,9 +67,23 @@
     </div>
 
     <div class="hero__image" style="--hero-media-ratio: {{ section.settings.media_ratio | default: '1 / 1.1' }}; --hero-media-fit: {{ section.settings.media_fit | default: 'cover' }};">
-      {%- if section.settings.image != blank -%}
+      {%- if section.settings.hero_video != blank -%}
+        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1800x', class: 'hero__video' }}
+        <span class="hero__video-hint" aria-hidden="true">Tap to pause</span>
+      {%- elsif section.settings.hero_video_url != blank -%}
+        <video class="hero__video" src="{{ section.settings.hero_video_url | escape }}" autoplay loop muted playsinline></video>
+        <span class="hero__video-hint" aria-hidden="true">Tap to pause</span>
+      {%- elsif section.settings.image != blank -%}
         {%- assign hero_image_alt = section.settings.image.alt | default: section.settings.headline -%}
-        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'eager', alt: hero_image_alt }}
+        {{ section.settings.image
+          | image_url: width: 1800
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '375, 550, 750, 900, 1100, 1400, 1800',
+            sizes: '(max-width: 600px) 100vw, (max-width: 900px) 92vw, 50vw',
+            alt: hero_image_alt
+        }}
       {%- endif -%}
     </div>
   </div>
@@ -71,7 +98,14 @@
     { "type": "text", "id": "badge", "label": "Badge pill (optional)", "default": "New batch: ships in 2\u20134 weeks" },
     { "type": "textarea", "id": "headline", "label": "Headline", "default": "Clean Creatine.\nClear Thinking." },
     { "type": "textarea", "id": "subheadline", "label": "Sub-headline", "default": "Three to five grams of pure, micronized creatine monohydrate per serving. Studied specifically in women after 40." },
-    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "header", "content": "Headline highlights" },
+    { "type": "text", "id": "highlight_1", "label": "Highlight phrase 1", "default": "beauty" },
+    { "type": "text", "id": "highlight_2", "label": "Highlight phrase 2", "default": "science" },
+    { "type": "color", "id": "highlight_color", "label": "Highlighter color", "default": "#F3A08D" },
+    { "type": "header", "content": "Hero media video or image" },
+    { "type": "image_picker", "id": "image", "label": "Hero image fallback" },
+    { "type": "video", "id": "hero_video", "label": "Hero video picker", "info": "Optional Shopify-hosted video. If set, it replaces the hero image and pauses when tapped." },
+    { "type": "text", "id": "hero_video_url", "label": "Hero video MP4 URL", "default": "https://cdn.shopify.com/videos/c/o/v/db1af56a022b45339ec21f7c8facc30b.mp4", "info": "Paste a hosted MP4 URL here if the video picker is not showing your file." },
     { "type": "select", "id": "media_ratio", "label": "Hero image ratio", "default": "1 / 1.1", "options": [
       { "value": "auto", "label": "Natural" },
       { "value": "1 / 1", "label": "Square" },
