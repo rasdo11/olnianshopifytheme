@@ -1,6 +1,203 @@
+{% doc %}
+  @prompt
+    Create a two-column split row layout for desktop that places the existing Proof section and Newsletter section side by side (50/50 split). On mobile, the sections should stack vertically. The layout should integrate cleanly with the current theme styling.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-split-row-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.vertical_padding }}px {{ block.settings.horizontal_padding }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-split-row__container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: {{ block.settings.column_gap }}px;
+    align-items: {{ block.settings.vertical_alignment }};
+  }
+
+  .ai-split-row__column-{{ ai_gen_id }} {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-split-row__container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+
+    .ai-split-row-{{ ai_gen_id }} {
+      padding: {{ block.settings.mobile_vertical_padding }}px {{ block.settings.mobile_horizontal_padding }}px;
+    }
+
+    {% if block.settings.reverse_mobile %}
+      .ai-split-row__column-{{ ai_gen_id }}:first-child {
+        order: 2;
+      }
+
+      .ai-split-row__column-{{ ai_gen_id }}:last-child {
+        order: 1;
+      }
+    {% endif %}
+  }
+{% endstyle %}
+
+<div class="ai-split-row-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-split-row__container-{{ ai_gen_id }}">
+    <div class="ai-split-row__column-{{ ai_gen_id }}">
+      {% for block in section.blocks %}
+        {% if block.type == block.settings.left_block_type %}
+          {% render block %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="ai-split-row__column-{{ ai_gen_id }}">
+      {% for block in section.blocks %}
+        {% if block.type == block.settings.right_block_type %}
+          {% render block %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Split row layout",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        },
+        {
+          "value": "stretch",
+          "label": "Stretch"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse_mobile",
+      "label": "Reverse column order on mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_vertical_padding",
+      "label": "Mobile vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mobile_horizontal_padding",
+      "label": "Mobile horizontal padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFF8F0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Split row layout"
+    }
+  ]
+}
 {% endschema %}
