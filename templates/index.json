@@ -13,10 +13,16 @@
       "type": "hero-editorial",
       "settings": {
         "kicker": "Brain • Body • Balance",
-        "badge": "Award-winning daily support",
-        "headline": "Your polished daily supplement ritual.",
+        "badge": "",
+        "headline": "Looks like BEAUTY   \nWorks like SCIENCE",
         "subheadline": "Science-backed essentials for focus, energy, recovery, sleep, immunity, and gut health designed for women and made beautiful enough to keep on the counter.",
-        "image": "shopify://shop_images/Creatine-pdp-4.png",
+        "highlight_1": "BEAUTY",
+        "highlight_2": "SCIENCE",
+        "highlight_color": "#d7ef24",
+        "image": "shopify://shop_images/Creatine-pdp-6.png",
+        "hero_video_url": "https://cdn.shopify.com/videos/c/o/v/db1af56a022b45339ec21f7c8facc30b.mp4",
+        "media_ratio": "1 / 1.1",
+        "media_fit": "cover",
         "image_position": "right",
         "show_trust_row": true,
         "trust_1": "Third-party tested",
@@ -27,12 +33,12 @@
         "secondary_cta_label": "Take the Quiz",
         "secondary_opens_quiz": true,
         "secondary_cta_link": "",
-        "headline_size": 72,
+        "headline_size": 54,
         "headline_kerning": -4,
         "subheadline_size": 18,
         "kicker_size": 11,
         "kicker_kerning": 22,
-        "padding_top": 40,
+        "padding_top": 48,
         "padding_bottom": 64,
         "cta_margin_top": 24,
         "scheme": "gold-tint",
@@ -43,15 +49,26 @@
       "type": "brand-intro",
       "settings": {
         "kicker": "A little bit about us",
-        "headline": "Supplements that look like beauty and work like science.",
-        "body": "OLNIAN pairs clinically-backed daily formulas with a ritual that looks as good as it works — clean labels, real dosages, and nothing you can't pronounce.",
-        "cta_label": "About OLNIAN",
-        "cta_link": "shopify://pages/about",
+        "headline": "",
+        "body": "Hello! We believe in well designed, well-studied supplements that focus on one simple concept: Beauty Starts Within. We pair clinically-backed, daily formulas with a ritual that looks as good as it works. OLNIAN began long before we did, with family roots that pull from Norwegian strength and Armenian resilience.",
+        "cta_label": "",
+        "cta_link": "shopify://pages/about-us",
         "alignment": "center",
         "scheme": "white",
         "background": "",
         "padding_top": 88,
         "padding_bottom": 88
+      }
+    },
+    "section_divider_bar_nKEiTg": {
+      "type": "section-divider-bar",
+      "name": "Colored divider promo bar",
+      "settings": {
+        "text": "THE DAILY RITUAL",
+        "link": "",
+        "background": "#ff5a2d",
+        "text_color": "#ffffff",
+        "height": 44
       }
     },
     "daily-feature": {
@@ -82,9 +99,9 @@
         "b3"
       ],
       "settings": {
-        "kicker": "The daily ritual",
+        "kicker": "",
         "headline": "A scoop that feels more like self-care.",
-        "body": "Our award-winning Premium Creatine M.H. mixes clean into anything you're already drinking. No grit, no chalky aftertaste — just one scoop, once a day.",
+        "body": "Our Premium Creatine Monohydrate mixes clean into anything you're already drinking. No grit, no chalky aftertaste, just one scoop, once a day.",
         "image": "shopify://shop_images/model_b1.png",
         "autoplay_video": true,
         "show_video_controls": false,
@@ -96,7 +113,7 @@
         "media_max_width": 65,
         "media_mobile_max_width": 70,
         "cta_label": "Shop Creatine",
-        "cta_link": "shopify://products/creatine-m-h-refill",
+        "cta_link": "shopify://products/creatine",
         "scheme": "sky",
         "background": "",
         "padding_top": 88,
@@ -183,7 +200,7 @@
         "b3": {
           "type": "bullet",
           "settings": {
-            "text": "Third-party tested, no fillers, ever"
+            "text": "Third-party tested, COA verified"
           }
         }
       },
@@ -195,7 +212,7 @@
       "settings": {
         "kicker": "Calm, gut, recovery",
         "headline": "Build the routine around the way you want to feel.",
-        "body": "Mix and match to fit the way you actually feel — calming magnesium for wind-down nights, colostrum for gut and recovery support, all in the same clean daily ritual.",
+        "body": "Mix and match to fit the way you actually feel, like calming magnesium for wind-down nights, colostrum for gut and recovery support, all in the same clean daily ritual.",
         "image": "shopify://shop_images/creatine_graphic7.png",
         "autoplay_video": true,
         "show_video_controls": false,
@@ -220,22 +237,25 @@
         "t1": {
           "type": "testimonial",
           "settings": {
-            "quote": "Counter-worthy packaging, clean daily formulas.",
-            "attribution": "— OLNIAN customer"
+            "quote": "I actually love having this on my counter!",
+            "quote_font_size": 24,
+            "attribution": "-Geena LUDWIG"
           }
         },
         "t2": {
           "type": "testimonial",
           "settings": {
-            "quote": "Easy to understand, easy to keep taking.",
-            "attribution": "— Verified buyer"
+            "quote": "After three weeks, my brain fog literally went away. Glad I started taking creatine, even if it doesn't sound like the most feminine supplement haha.",
+            "quote_font_size": 24,
+            "attribution": "- Patricia Kearney"
           }
         },
         "t3": {
           "type": "testimonial",
           "settings": {
-            "quote": "The routine finally feels elevated.",
-            "attribution": "— Verified buyer"
+            "quote": "For me, I was happy to just have simple supplements that don't add calories to my day. I tried gummies, but not I put creatine in my coffee every morning.",
+            "quote_font_size": 24,
+            "attribution": "- Gabriella Suarez"
           }
         }
       },
@@ -245,7 +265,7 @@
         "t3"
       ],
       "settings": {
-        "kicker": "Proof",
+        "kicker": "",
         "headline": "Beauty-counter polish. Daily supplement discipline.",
         "scheme": "flamingo"
       }
@@ -268,6 +288,7 @@
   "order": [
     "hero",
     "intro",
+    "section_divider_bar_nKEiTg",
     "daily-feature",
     "daily-products",
     "night-feature",
