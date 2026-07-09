@@ -16,6 +16,11 @@
         "badge": "Award-winning daily support",
         "headline": "Looks like beauty. \nWorks like science.",
         "subheadline": "Science-backed essentials for focus, energy, recovery, sleep, immunity, and gut health designed for women and made beautiful enough to keep on the counter.",
+        "autoplay_video": true,
+        "show_video_controls": false,
+        "hero_video_url": "https://cdn.shopify.com/videos/c/o/v/db1af56a022b45339ec21f7c8facc30b.mp4",
+        "media_ratio": "1 / 1.1",
+        "media_fit": "cover",
         "image_position": "right",
         "show_trust_row": true,
         "trust_1": "Third-party tested",
@@ -53,6 +58,17 @@
         "padding_bottom": 88
       }
     },
+    "section_divider_bar_nKEiTg": {
+      "type": "section-divider-bar",
+      "name": "Colored divider promo bar",
+      "settings": {
+        "text": "THE DAILY RITUAL",
+        "link": "",
+        "background": "#FF5A2D",
+        "text_color": "#FFFFFF",
+        "height": 44
+      }
+    },
     "daily-feature": {
       "type": "category-feature",
       "blocks": {
@@ -81,9 +97,9 @@
         "b3"
       ],
       "settings": {
-        "kicker": "The daily ritual",
+        "kicker": "",
         "headline": "A scoop that feels more like self-care.",
-        "body": "Our award-winning Premium Creatine M.H. mixes clean into anything you're already drinking. No grit, no chalky aftertaste, just one scoop, once a day.",
+        "body": "Our Premium Creatine Monohydrate mixes clean into anything you're already drinking. No grit, no chalky aftertaste, just one scoop, once a day.",
         "image": "shopify://shop_images/model_b1.png",
         "autoplay_video": true,
         "show_video_controls": false,
@@ -270,6 +286,7 @@
   "order": [
     "hero",
     "intro",
+    "section_divider_bar_nKEiTg",
     "daily-feature",
     "daily-products",
     "night-feature",
