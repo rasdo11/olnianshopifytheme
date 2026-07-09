@@ -14,9 +14,9 @@
       "settings": {
         "kicker": "Brain • Body • Balance",
         "badge": "Award-winning daily support",
-        "headline": "Your polished daily supplement ritual.",
+        "headline": "Looks like beauty. \nWorks like science.",
         "subheadline": "Science-backed essentials for focus, energy, recovery, sleep, immunity, and gut health designed for women and made beautiful enough to keep on the counter.",
-        "image": "shopify://shop_images/Creatine-pdp-4.png",
+        "image": "shopify://shop_images/Creatine-pdp-6.png",
         "image_position": "right",
         "show_trust_row": true,
         "trust_1": "Third-party tested",
@@ -44,9 +44,9 @@
       "settings": {
         "kicker": "A little bit about us",
         "headline": "Supplements that look like beauty and work like science.",
-        "body": "OLNIAN pairs clinically-backed daily formulas with a ritual that looks as good as it works — clean labels, real dosages, and nothing you can't pronounce.",
+        "body": "OLNIAN pairs clinically-backed daily formulas with a ritual that looks as good as it works. Clean labels, real dosages, and nothing you can't pronounce.",
         "cta_label": "About OLNIAN",
-        "cta_link": "shopify://pages/about",
+        "cta_link": "shopify://pages/about-us",
         "alignment": "center",
         "scheme": "white",
         "background": "",
@@ -84,7 +84,7 @@
       "settings": {
         "kicker": "The daily ritual",
         "headline": "A scoop that feels more like self-care.",
-        "body": "Our award-winning Premium Creatine M.H. mixes clean into anything you're already drinking. No grit, no chalky aftertaste — just one scoop, once a day.",
+        "body": "Our award-winning Premium Creatine M.H. mixes clean into anything you're already drinking. No grit, no chalky aftertaste, just one scoop, once a day.",
         "image": "shopify://shop_images/model_b1.png",
         "autoplay_video": true,
         "show_video_controls": false,
@@ -183,7 +183,7 @@
         "b3": {
           "type": "bullet",
           "settings": {
-            "text": "Third-party tested, no fillers, ever"
+            "text": "Third-party tested, COA verified"
           }
         }
       },
@@ -195,7 +195,7 @@
       "settings": {
         "kicker": "Calm, gut, recovery",
         "headline": "Build the routine around the way you want to feel.",
-        "body": "Mix and match to fit the way you actually feel — calming magnesium for wind-down nights, colostrum for gut and recovery support, all in the same clean daily ritual.",
+        "body": "Mix and match to fit the way you actually feel, like calming magnesium for wind-down nights, colostrum for gut and recovery support, all in the same clean daily ritual.",
         "image": "shopify://shop_images/creatine_graphic7.png",
         "autoplay_video": true,
         "show_video_controls": false,
@@ -220,22 +220,22 @@
         "t1": {
           "type": "testimonial",
           "settings": {
-            "quote": "Counter-worthy packaging, clean daily formulas.",
-            "attribution": "— OLNIAN customer"
+            "quote": "I actually love having this on my counter!",
+            "attribution": "-Geena LUDWIG"
           }
         },
         "t2": {
           "type": "testimonial",
           "settings": {
-            "quote": "Easy to understand, easy to keep taking.",
-            "attribution": "— Verified buyer"
+            "quote": "After three weeks, my brain fog literally went away. Glad I started taking creatine, even if it doesn't sound like the most feminine supplement haha.",
+            "attribution": "- Patricia Kearney"
           }
         },
         "t3": {
           "type": "testimonial",
           "settings": {
-            "quote": "The routine finally feels elevated.",
-            "attribution": "— Verified buyer"
+            "quote": "For me, I was happy to just have simple supplements that don't add calories to my day. I tried gummies, but not I put creatine in my coffee every morning.",
+            "attribution": "- Gabriella Suarez"
           }
         }
       },
