@@ -276,11 +276,11 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .hero__headline {
   font-size: clamp(52px, 8vw, 104px);
-  line-height: 1.0;
+  line-height: .94;
   font-family: var(--display-font);
   font-weight: 800;
   letter-spacing: -0.03em;
-  white-space: pre-line;
+  white-space: normal;
   text-rendering: optimizeLegibility;
 }
 .hero__sub {
