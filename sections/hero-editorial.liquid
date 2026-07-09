@@ -54,7 +54,10 @@
     </div>
 
     <div class="hero__image" style="--hero-media-ratio: {{ section.settings.media_ratio | default: '1 / 1.1' }}; --hero-media-fit: {{ section.settings.media_fit | default: 'cover' }};">
-      {%- if section.settings.image != blank -%}
+      {%- if section.settings.hero_video != blank -%}
+        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1800x', class: 'hero__video' }}
+        <span class="hero__video-hint" aria-hidden="true">Tap to pause</span>
+      {%- elsif section.settings.image != blank -%}
         {%- assign hero_image_alt = section.settings.image.alt | default: section.settings.headline -%}
         {{ section.settings.image
           | image_url: width: 1800
@@ -80,6 +83,7 @@
     { "type": "textarea", "id": "headline", "label": "Headline", "default": "Clean Creatine.\nClear Thinking." },
     { "type": "textarea", "id": "subheadline", "label": "Sub-headline", "default": "Three to five grams of pure, micronized creatine monohydrate per serving. Studied specifically in women after 40." },
     { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "video", "id": "hero_video", "label": "Hero looping video", "info": "Optional. If set, video replaces the hero image and pauses when tapped." },
     { "type": "select", "id": "media_ratio", "label": "Hero image ratio", "default": "1 / 1.1", "options": [
       { "value": "auto", "label": "Natural" },
       { "value": "1 / 1", "label": "Square" },
