@@ -125,4 +125,17 @@
     ]
   }
 
+
+  ,
+  {
+    "name": "Motion and popup",
+    "settings": [
+      { "type": "checkbox", "id": "enable_scroll_fade", "label": "Enable scroll fade-in", "default": true },
+      { "type": "checkbox", "id": "enable_scroll_parallax", "label": "Enable tasteful parallax", "default": true },
+      { "type": "range", "id": "parallax_strength", "label": "Parallax strength", "min": 0, "max": 40, "step": 5, "default": 15 },
+      { "type": "checkbox", "id": "enable_email_popup", "label": "Enable 10% email popup", "default": true },
+      { "type": "range", "id": "email_popup_delay", "label": "Popup delay", "min": 1, "max": 15, "step": 1, "unit": "s", "default": 5 }
+    ]
+  }
+
 ]
