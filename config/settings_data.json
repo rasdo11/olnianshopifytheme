@@ -29,7 +29,7 @@
     "button_radius": 28,
     "card_radius": 24,
     "product_card_ratio": "portrait",
-    "parallax_strength": 35,
+    "parallax_strength": 40,
     "email_popup_delay": 5,
     "sections": {
       "cart-drawer": {
