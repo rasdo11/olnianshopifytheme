@@ -16,8 +16,10 @@
         "badge": "",
         "headline": "Looks like beauty. \nWorks like science.",
         "subheadline": "Science-backed essentials for focus, energy, recovery, sleep, immunity, and gut health designed for women and made beautiful enough to keep on the counter.",
-        "autoplay_video": true,
-        "show_video_controls": false,
+        "highlight_1": "beauty",
+        "highlight_2": "science",
+        "highlight_color": "#D7EF24",
+        "image": "shopify://shop_images/Creatine-pdp-6.png",
         "hero_video_url": "https://cdn.shopify.com/videos/c/o/v/db1af56a022b45339ec21f7c8facc30b.mp4",
         "media_ratio": "1 / 1.1",
         "media_fit": "cover",
@@ -48,7 +50,7 @@
       "settings": {
         "kicker": "A little bit about us",
         "headline": "",
-        "body": "OLNIAN pairs clinically-backed daily formulas with a ritual that looks as good as it works. Clean labels, real dosages, and nothing you can't pronounce. Drawing from Norwegian strength and Armenian resilience.",
+        "body": "Hello! We believe in well designed, well-studied supplements that focus on one simple concept: Beauty Starts Within. We pair clinically-backed, daily formulas with a ritual that looks as good as it works. OLNIAN began long before we did, with family roots that pull from Norwegian strength and Armenian resilience.",
         "cta_label": "",
         "cta_link": "shopify://pages/about-us",
         "alignment": "center",
@@ -64,8 +66,8 @@
       "settings": {
         "text": "THE DAILY RITUAL",
         "link": "",
-        "background": "#FF5A2D",
-        "text_color": "#FFFFFF",
+        "background": "#ff5a2d",
+        "text_color": "#ffffff",
         "height": 44
       }
     },
@@ -111,7 +113,7 @@
         "media_max_width": 65,
         "media_mobile_max_width": 70,
         "cta_label": "Shop Creatine",
-        "cta_link": "shopify://products/creatine-m-h-refill",
+        "cta_link": "shopify://products/creatine",
         "scheme": "sky",
         "background": "",
         "padding_top": 88,
@@ -263,7 +265,7 @@
         "t3"
       ],
       "settings": {
-        "kicker": "Proof",
+        "kicker": "",
         "headline": "Beauty-counter polish. Daily supplement discipline.",
         "scheme": "flamingo"
       }
