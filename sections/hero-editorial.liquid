@@ -54,8 +54,8 @@
     </div>
 
     <div class="hero__image" style="--hero-media-ratio: {{ section.settings.media_ratio | default: '1 / 1.1' }}; --hero-media-fit: {{ section.settings.media_fit | default: 'cover' }};">
-      {%- if section.settings.hero_video != blank -%}
-        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1800x', class: 'hero__video' }}
+      {%- if section.settings.video != blank -%}
+        {{ section.settings.video | video_tag: autoplay: section.settings.autoplay_video, loop: true, muted: true, playsinline: true, controls: section.settings.show_video_controls, image_size: '1800x', class: 'hero__video' }}
         <span class="hero__video-hint" aria-hidden="true">Tap to pause</span>
       {%- elsif section.settings.hero_video_url != blank -%}
         <video class="hero__video" src="{{ section.settings.hero_video_url | escape }}" autoplay loop muted playsinline></video>
@@ -87,7 +87,9 @@
     { "type": "textarea", "id": "subheadline", "label": "Sub-headline", "default": "Three to five grams of pure, micronized creatine monohydrate per serving. Studied specifically in women after 40." },
     { "type": "header", "content": "Hero media video or image" },
     { "type": "image_picker", "id": "image", "label": "Hero image fallback" },
-    { "type": "video", "id": "hero_video", "label": "Hero video picker", "info": "Optional Shopify-hosted video. If set, it replaces the hero image and pauses when tapped." },
+    { "type": "video", "id": "video", "label": "Shopify-hosted video" },
+    { "type": "checkbox", "id": "autoplay_video", "label": "Autoplay muted video", "default": true },
+    { "type": "checkbox", "id": "show_video_controls", "label": "Show video controls", "default": false },
     { "type": "text", "id": "hero_video_url", "label": "Hero video MP4 URL", "default": "https://cdn.shopify.com/videos/c/o/v/db1af56a022b45339ec21f7c8facc30b.mp4", "info": "Paste a hosted MP4 URL here if the video picker is not showing your file." },
     { "type": "select", "id": "media_ratio", "label": "Hero image ratio", "default": "1 / 1.1", "options": [
       { "value": "auto", "label": "Natural" },
