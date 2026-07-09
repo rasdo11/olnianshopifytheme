@@ -11,7 +11,25 @@
   "sections": {
     "main": {
       "type": "main-collection",
-      "settings": {}
+      "settings": {
+        "kicker": "Collection",
+        "header_alignment": "center",
+        "show_description": false,
+        "show_product_count": false,
+        "enable_sorting": false,
+        "products_per_page": 24,
+        "columns_desktop": "3",
+        "card_cta_label": "Shop",
+        "show_price": true,
+        "show_swatches": false,
+        "empty_heading": "No products yet",
+        "empty_text": "Check back soon or browse every formula in the shop.",
+        "empty_cta_label": "Browse collections",
+        "scheme": "cream",
+        "background": "",
+        "padding_top": 56,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
