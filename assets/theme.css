@@ -2294,3 +2294,27 @@ body.nav-open { overflow: hidden; }
   .email-popup--left .email-popup__tab { left: 16px; right: auto; }
   .email-popup--right .email-popup__tab { left: auto; right: 16px; }
 }
+
+/* ── Hero headline highlighter controls ──────────────────────── */
+.hero__highlight {
+  position: relative;
+  display: inline-block;
+  padding: 0 .08em;
+  color: inherit;
+  font-style: inherit;
+  background: transparent;
+  isolation: isolate;
+}
+.hero__highlight::before {
+  position: absolute;
+  z-index: -1;
+  inset: 29% -.08em 11%;
+  content: "";
+  background: var(--hero-highlight-color, #F3A08D);
+  border-radius: 45% 55% 48% 52% / 58% 40% 60% 42%;
+  opacity: .76;
+  transform: rotate(-1.5deg) skewX(-4deg);
+}
+.hero__highlight:nth-of-type(even)::before {
+  transform: rotate(1.25deg) skewX(3deg);
+}
