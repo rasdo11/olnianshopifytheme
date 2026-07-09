@@ -276,7 +276,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .hero__headline {
   font-size: clamp(52px, 8vw, 104px);
-  line-height: .94;
+  line-height: var(--hero-headline-line-height, .94);
   font-family: var(--display-font);
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -2442,9 +2442,13 @@ body.nav-open { overflow: hidden; }
 
 @media (max-width: 600px) {
   .hero__headline {
-    line-height: .92 !important;
+    line-height: var(--hero-mobile-headline-line-height, .9) !important;
     max-width: none !important;
     white-space: nowrap;
+  }
+  .hero > .container {
+    padding-left: var(--hero-mobile-side-padding, 20px);
+    padding-right: var(--hero-mobile-side-padding, 20px);
   }
   .hero__video-play { display: grid; place-items: center; }
   .hero__video-hint { display: none; }

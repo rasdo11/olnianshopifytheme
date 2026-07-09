@@ -3,6 +3,9 @@
   padding-bottom: {{ section.settings.padding_bottom }}px;
   {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
   --hero-highlight-color: {{ section.settings.highlight_color | default: '#F3A08D' }};
+  --hero-headline-line-height: {{ section.settings.headline_line_height | default: 94 | divided_by: 100.0 }};
+  --hero-mobile-headline-line-height: {{ section.settings.mobile_headline_line_height | default: 90 | divided_by: 100.0 }};
+  --hero-mobile-side-padding: {{ section.settings.mobile_side_padding | default: 20 }}px;
 ">
   <div class="container hero__grid hero__grid--image-{{ section.settings.image_position | default: 'left' }}">
     <div>
@@ -139,6 +142,9 @@
     { "type": "url", "id": "secondary_cta_link", "label": "Secondary CTA link (if not quiz)" },
     { "type": "header", "content": "Typography" },
     { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 28, "max": 100, "step": 2, "default": 64 },
+    { "type": "range", "id": "headline_line_height", "label": "Headline line spacing desktop (% line-height)", "min": 80, "max": 120, "step": 1, "default": 94 },
+    { "type": "range", "id": "mobile_headline_line_height", "label": "Headline line spacing mobile (% line-height)", "min": 80, "max": 120, "step": 1, "default": 90 },
+    { "type": "range", "id": "mobile_side_padding", "label": "Mobile side padding (px)", "min": 12, "max": 40, "step": 2, "default": 20 },
     { "type": "range", "id": "headline_kerning", "label": "Headline letter-spacing (em × 100)", "min": -5, "max": 10, "step": 1, "default": 0, "info": "Divide by 100 for em value. 0 = natural font spacing" },
     { "type": "range", "id": "subheadline_size", "label": "Sub-headline size (px)", "min": 13, "max": 24, "step": 1, "default": 17 },
     { "type": "range", "id": "kicker_size", "label": "Kicker size (px)", "min": 9, "max": 16, "step": 1, "default": 11 },
