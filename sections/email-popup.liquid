@@ -22,7 +22,7 @@
       {%- if section.settings.body != blank -%}
         <p class="email-popup__body">{{ section.settings.body }}</p>
       {%- endif -%}
-      {%- form 'customer', class: 'email-popup__form' -%}
+      {%- form 'customer', id: 'EmailPopupCustomerForm', class: 'email-popup__form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter,popup">
         <label class="visually-hidden" for="EmailPopupEmail">Email address</label>
         <input

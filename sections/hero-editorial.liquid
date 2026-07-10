@@ -70,13 +70,17 @@
     </div>
 
     <div class="hero__image" style="--hero-media-ratio: {{ section.settings.media_ratio | default: '1 / 1.1' }}; --hero-media-fit: {{ section.settings.media_fit | default: 'cover' }};">
+      {%- assign hero_video_poster = blank -%}
+      {%- if section.settings.image != blank -%}
+        {%- assign hero_video_poster = section.settings.image | image_url: width: 1800 -%}
+      {%- endif -%}
       {%- if section.settings.hero_video != blank -%}
-        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1800x', class: 'hero__video' }}
+        {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1800x', poster: hero_video_poster, class: 'hero__video' }}
         <button type="button" class="hero__video-play" aria-label="Play hero video" data-hero-video-play>
           <span aria-hidden="true">▶</span>
         </button>
       {%- elsif section.settings.hero_video_url != blank -%}
-        <video class="hero__video" src="{{ section.settings.hero_video_url | escape }}" autoplay loop muted playsinline></video>
+        <video class="hero__video" src="{{ section.settings.hero_video_url | escape }}"{% if hero_video_poster != blank %} poster="{{ hero_video_poster }}"{% endif %} autoplay loop muted playsinline></video>
         <button type="button" class="hero__video-play" aria-label="Play hero video" data-hero-video-play>
           <span aria-hidden="true">▶</span>
         </button>

@@ -10,7 +10,8 @@
       <div class="unsubscribe__body">{{ section.settings.body }}</div>
     {%- endif -%}
 
-    {%- form 'customer', class: 'unsubscribe__form' -%}
+    {%- assign unsubscribe_form_id = 'UnsubscribeForm-' | append: section.id -%}
+    {%- form 'customer', id: unsubscribe_form_id, class: 'unsubscribe__form' -%}
       <input type="hidden" name="contact[tags]" value="unsubscribe-request">
       <label class="visually-hidden" for="UnsubscribeEmail-{{ section.id }}">Email address</label>
       <input
@@ -57,6 +58,9 @@
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 32, "max": 160, "step": 8, "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 32, "max": 160, "step": 8, "default": 80 }
   ],
+  "enabled_on": {
+    "templates": ["page"]
+  },
   "presets": [
     { "name": "Unsubscribe form", "category": "Forms" }
   ]

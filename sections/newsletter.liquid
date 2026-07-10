@@ -14,7 +14,8 @@
         <p class="newsletter__sub">{{ section.settings.subheadline }}</p>
       {%- endif -%}
 
-      {%- form 'customer', class: 'newsletter__form' -%}
+      {%- assign newsletter_form_id = 'NewsletterForm-' | append: section.id -%}
+      {%- form 'customer', id: newsletter_form_id, class: 'newsletter__form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <label class="visually-hidden" for="NewsletterEmail-{{ section.id }}">Email</label>
         <input
