@@ -25,9 +25,9 @@
       {%- endif -%}
       {%- if section.settings.utility_text != blank -%}
         {%- if section.settings.utility_link != blank -%}
-          <a href="{{ section.settings.utility_link }}" class="site-header__utility">{{ section.settings.utility_text }}</a>
+          <a href="{{ section.settings.utility_link }}" class="site-header__utility"{% if section.settings.utility_tooltip != blank %} data-shipping-tooltip="{{ section.settings.utility_tooltip | escape }}"{% endif %}>{{ section.settings.utility_text }}</a>
         {%- else -%}
-          <span class="site-header__utility">{{ section.settings.utility_text }}</span>
+          <span class="site-header__utility" tabindex="0"{% if section.settings.utility_tooltip != blank %} data-shipping-tooltip="{{ section.settings.utility_tooltip | escape }}"{% endif %}>{{ section.settings.utility_text }}</span>
         {%- endif -%}
       {%- endif -%}
       <button class="site-header__cart" data-cart-open aria-label="{{ 'general.accessibility.open_cart' | t }}">
@@ -85,6 +85,12 @@
       "type": "url",
       "id": "utility_link",
       "label": "Utility callout link (optional)"
+    },
+    {
+      "type": "text",
+      "id": "utility_tooltip",
+      "label": "Utility hover bubble text",
+      "default": "FREESHIP on your first order over $30!"
     },
     { "type": "header", "content": "Quiz" },
     {

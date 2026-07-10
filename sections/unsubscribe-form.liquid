@@ -1,0 +1,68 @@
+<section class="unsubscribe section--{{ section.settings.scheme | default: 'blush' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="container unsubscribe__inner">
+    {%- if section.settings.kicker != blank -%}
+      <p class="unsubscribe__kicker">{{ section.settings.kicker }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h1 class="unsubscribe__heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <div class="unsubscribe__body">{{ section.settings.body }}</div>
+    {%- endif -%}
+
+    {%- assign unsubscribe_form_id = 'UnsubscribeForm-' | append: section.id -%}
+    {%- form 'customer', id: unsubscribe_form_id, class: 'unsubscribe__form' -%}
+      <input type="hidden" name="contact[tags]" value="unsubscribe-request">
+      <label class="visually-hidden" for="UnsubscribeEmail-{{ section.id }}">Email address</label>
+      <input
+        id="UnsubscribeEmail-{{ section.id }}"
+        class="unsubscribe__input"
+        type="email"
+        name="contact[email]"
+        value="{{ form.email }}"
+        placeholder="{{ section.settings.placeholder | default: 'Email address' }}"
+        autocomplete="email"
+        required>
+      <button type="submit" class="btn btn--primary unsubscribe__submit">{{ section.settings.button_label | default: 'Unsubscribe' }}</button>
+      {%- if form.posted_successfully? -%}
+        <p class="unsubscribe__success" role="status">{{ section.settings.success_message | default: 'Thanks. We received your unsubscribe request.' }}</p>
+      {%- elsif form.errors -%}
+        <p class="unsubscribe__error" role="alert">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+    {%- endform -%}
+
+    {%- if section.settings.note != blank -%}
+      <p class="unsubscribe__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Unsubscribe form",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Email preferences" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Unsubscribe from OLNIAN emails" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Enter your email address and we will mark it as an unsubscribe request in Shopify Customers.</p>" },
+    { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Email address" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Unsubscribe" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks. We received your unsubscribe request." },
+    { "type": "richtext", "id": "note", "label": "Note", "default": "<p>This theme-owned form creates an unsubscribe-request tag in Shopify. Marketing emails sent through Shopify Email also include Shopify's automatic unsubscribe link, which updates email consent directly.</p>" },
+    { "type": "select", "id": "scheme", "label": "Color scheme", "default": "blush", "options": [
+      { "value": "blush", "label": "Blush" },
+      { "value": "cream", "label": "Cream" },
+      { "value": "white", "label": "White" },
+      { "value": "flamingo", "label": "Flamingo" },
+      { "value": "espresso", "label": "Espresso" }
+    ]},
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 32, "max": 160, "step": 8, "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 32, "max": 160, "step": 8, "default": 80 }
+  ],
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "presets": [
+    { "name": "Unsubscribe form", "category": "Forms" }
+  ]
+}
+{% endschema %}
