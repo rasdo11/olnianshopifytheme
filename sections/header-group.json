@@ -1,14 +1,37 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "Header group",
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
-      "settings": {}
+      "settings": {
+        "show_bar": true,
+        "bar_text": "Is Creatine Right for You?",
+        "bar_opens_quiz": true,
+        "bar_link": "",
+        "background_color": "#ff7e5f",
+        "text_color": "#ffffff",
+        "text_size": 13
+      }
     },
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "menu": "main-menu",
+        "utility_text": "Free Shipping",
+        "utility_link": "",
+        "show_quiz_link": true,
+        "quiz_link_label": "Take the quiz"
+      }
     },
     "quiz": {
       "type": "quiz",
@@ -21,7 +44,28 @@
         "creatine_url": "shopify://products/creatine-m-h-refill",
         "bundle_url": "shopify://collections/brain-bundle"
       }
+    },
+    "unsubscribe_form_36D36U": {
+      "type": "unsubscribe-form",
+      "name": "Unsubscribe form",
+      "settings": {
+        "kicker": "Email preferences",
+        "heading": "Unsubscribe from OLNIAN emails",
+        "body": "<p>Enter your email address and we will mark it as an unsubscribe request in Shopify Customers.</p>",
+        "placeholder": "Email address",
+        "button_label": "Unsubscribe",
+        "success_message": "Thanks. We received your unsubscribe request.",
+        "note": "",
+        "scheme": "blush",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
-  "order": ["announcement-bar", "header", "quiz"]
+  "order": [
+    "announcement-bar",
+    "header",
+    "quiz",
+    "unsubscribe_form_36D36U"
+  ]
 }
