@@ -18,7 +18,7 @@
           "type": "menu",
           "settings": {
             "heading": "Shop",
-            "menu": "",
+            "menu": "main-menu",
             "link_label_1": "",
             "link_url_1": "",
             "link_label_2": "",
@@ -37,7 +37,7 @@
           "type": "menu",
           "settings": {
             "heading": "Company",
-            "menu": "",
+            "menu": "footer",
             "link_label_1": "",
             "link_url_1": "",
             "link_label_2": "",
@@ -56,7 +56,7 @@
           "type": "menu",
           "settings": {
             "heading": "Help",
-            "menu": "",
+            "menu": "customer-account-main-menu",
             "link_label_1": "",
             "link_url_1": "",
             "link_label_2": "",
