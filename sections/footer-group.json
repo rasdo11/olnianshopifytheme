@@ -1,26 +1,105 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer group",
   "sections": {
     "footer": {
       "type": "footer",
-      "settings": {},
       "blocks": {
         "shop": {
           "type": "menu",
-          "settings": { "heading": "Shop" }
+          "settings": {
+            "heading": "Shop",
+            "menu": "main-menu",
+            "link_label_1": "",
+            "link_url_1": "",
+            "link_label_2": "",
+            "link_url_2": "",
+            "link_label_3": "",
+            "link_url_3": "",
+            "link_label_4": "",
+            "link_url_4": "",
+            "link_label_5": "",
+            "link_url_5": "",
+            "link_label_6": "",
+            "link_url_6": ""
+          }
         },
         "company": {
           "type": "menu",
-          "settings": { "heading": "Company" }
+          "settings": {
+            "heading": "Company",
+            "menu": "footer",
+            "link_label_1": "",
+            "link_url_1": "",
+            "link_label_2": "",
+            "link_url_2": "",
+            "link_label_3": "",
+            "link_url_3": "",
+            "link_label_4": "",
+            "link_url_4": "",
+            "link_label_5": "",
+            "link_url_5": "",
+            "link_label_6": "",
+            "link_url_6": ""
+          }
         },
         "help": {
           "type": "menu",
-          "settings": { "heading": "Help" }
+          "settings": {
+            "heading": "Help",
+            "menu": "customer-account-main-menu",
+            "link_label_1": "",
+            "link_url_1": "",
+            "link_label_2": "",
+            "link_url_2": "",
+            "link_label_3": "",
+            "link_url_3": "",
+            "link_label_4": "",
+            "link_url_4": "",
+            "link_label_5": "",
+            "link_url_5": "",
+            "link_label_6": "",
+            "link_url_6": ""
+          }
         }
       },
-      "block_order": ["shop", "company", "help"]
+      "block_order": [
+        "shop",
+        "company",
+        "help"
+      ],
+      "settings": {
+        "signup_heading": "Join the list",
+        "signup_text": "Batch drops & restock alerts.",
+        "signup_placeholder": "Email",
+        "contact_phone": "",
+        "contact_email": "hello@olnian.com",
+        "legal_menu": "",
+        "legal_label_1": "",
+        "legal_url_1": "",
+        "legal_label_2": "Stay in Touch",
+        "legal_url_2": "shopify://pages/stay-in-touch",
+        "legal_label_3": "",
+        "legal_url_3": "",
+        "legal_label_4": "",
+        "legal_url_4": "",
+        "legal_label_5": "",
+        "legal_url_5": "",
+        "legal_label_6": "",
+        "legal_url_6": ""
+      }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }
