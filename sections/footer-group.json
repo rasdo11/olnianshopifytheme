@@ -18,21 +18,57 @@
           "type": "menu",
           "settings": {
             "heading": "Shop",
-            "menu": ""
+            "menu": "",
+            "link_label_1": "",
+            "link_url_1": "",
+            "link_label_2": "",
+            "link_url_2": "",
+            "link_label_3": "",
+            "link_url_3": "",
+            "link_label_4": "",
+            "link_url_4": "",
+            "link_label_5": "",
+            "link_url_5": "",
+            "link_label_6": "",
+            "link_url_6": ""
           }
         },
         "company": {
           "type": "menu",
           "settings": {
             "heading": "Company",
-            "menu": ""
+            "menu": "",
+            "link_label_1": "",
+            "link_url_1": "",
+            "link_label_2": "",
+            "link_url_2": "",
+            "link_label_3": "",
+            "link_url_3": "",
+            "link_label_4": "",
+            "link_url_4": "",
+            "link_label_5": "",
+            "link_url_5": "",
+            "link_label_6": "",
+            "link_url_6": ""
           }
         },
         "help": {
           "type": "menu",
           "settings": {
             "heading": "Help",
-            "menu": ""
+            "menu": "",
+            "link_label_1": "",
+            "link_url_1": "",
+            "link_label_2": "",
+            "link_url_2": "",
+            "link_label_3": "",
+            "link_url_3": "",
+            "link_label_4": "",
+            "link_url_4": "",
+            "link_label_5": "",
+            "link_url_5": "",
+            "link_label_6": "",
+            "link_url_6": ""
           }
         }
       },
@@ -47,7 +83,19 @@
         "signup_placeholder": "Email",
         "contact_phone": "",
         "contact_email": "hello@olnian.com",
-        "legal_menu": ""
+        "legal_menu": "",
+        "legal_label_1": "",
+        "legal_url_1": "",
+        "legal_label_2": "Stay in Touch",
+        "legal_url_2": "shopify://pages/stay-in-touch",
+        "legal_label_3": "",
+        "legal_url_3": "",
+        "legal_label_4": "",
+        "legal_url_4": "",
+        "legal_label_5": "",
+        "legal_url_5": "",
+        "legal_label_6": "",
+        "legal_url_6": ""
       }
     }
   },
