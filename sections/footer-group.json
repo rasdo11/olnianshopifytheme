@@ -1,26 +1,57 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer group",
   "sections": {
     "footer": {
       "type": "footer",
-      "settings": {},
       "blocks": {
         "shop": {
           "type": "menu",
-          "settings": { "heading": "Shop" }
+          "settings": {
+            "heading": "Shop",
+            "menu": ""
+          }
         },
         "company": {
           "type": "menu",
-          "settings": { "heading": "Company" }
+          "settings": {
+            "heading": "Company",
+            "menu": ""
+          }
         },
         "help": {
           "type": "menu",
-          "settings": { "heading": "Help" }
+          "settings": {
+            "heading": "Help",
+            "menu": ""
+          }
         }
       },
-      "block_order": ["shop", "company", "help"]
+      "block_order": [
+        "shop",
+        "company",
+        "help"
+      ],
+      "settings": {
+        "signup_heading": "Join the list",
+        "signup_text": "Batch drops & restock alerts.",
+        "signup_placeholder": "Email",
+        "contact_phone": "",
+        "contact_email": "hello@olnian.com",
+        "legal_menu": ""
+      }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }
