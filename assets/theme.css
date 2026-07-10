@@ -2453,3 +2453,63 @@ body.nav-open { overflow: hidden; }
   .hero__video-play { display: grid; place-items: center; }
   .hero__video-hint { display: none; }
 }
+
+/* ── Unsubscribe form section ────────────────────────────────── */
+.unsubscribe__inner {
+  max-width: 720px;
+  text-align: center;
+}
+.unsubscribe__kicker {
+  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  opacity: .62;
+}
+.unsubscribe__heading {
+  font-size: clamp(38px, 7vw, 72px);
+  line-height: .96;
+  letter-spacing: -.035em;
+}
+.unsubscribe__body {
+  margin: 18px auto 0;
+  max-width: 56ch;
+  opacity: .78;
+}
+.unsubscribe__form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 28px auto 0;
+  max-width: 560px;
+}
+.unsubscribe__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 1px solid var(--espresso-12);
+  border-radius: 999px;
+  background: rgba(255,255,255,.72);
+  color: var(--espresso);
+  padding: 14px 18px;
+  font: inherit;
+}
+.unsubscribe__success,
+.unsubscribe__error,
+.unsubscribe__note {
+  flex-basis: 100%;
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.unsubscribe__success { color: var(--tangerine); font-weight: 800; }
+.unsubscribe__error { color: #9f2f17; }
+.unsubscribe__note {
+  max-width: 58ch;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: .58;
+}
+@media (max-width: 600px) {
+  .unsubscribe__form { flex-direction: column; max-width: 360px; }
+  .unsubscribe__submit { width: 100%; }
+}
