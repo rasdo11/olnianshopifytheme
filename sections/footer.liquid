@@ -12,7 +12,19 @@
           <div class="site-footer__menu-col" {{ block.shopify_attributes }}>
             <div class="site-footer__heading">{{ footer_heading }}</div>
             <ul class="site-footer__list">
-              {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
+              {%- assign has_custom_links = false -%}
+              {%- if block.settings.link_label_1 != blank or block.settings.link_label_2 != blank or block.settings.link_label_3 != blank or block.settings.link_label_4 != blank or block.settings.link_label_5 != blank or block.settings.link_label_6 != blank -%}
+                {%- assign has_custom_links = true -%}
+              {%- endif -%}
+
+              {%- if has_custom_links -%}
+                {%- if block.settings.link_label_1 != blank -%}<li><a href="{{ block.settings.link_url_1 | default: '#' }}">{{ block.settings.link_label_1 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_2 != blank -%}<li><a href="{{ block.settings.link_url_2 | default: '#' }}">{{ block.settings.link_label_2 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_3 != blank -%}<li><a href="{{ block.settings.link_url_3 | default: '#' }}">{{ block.settings.link_label_3 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_4 != blank -%}<li><a href="{{ block.settings.link_url_4 | default: '#' }}">{{ block.settings.link_label_4 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_5 != blank -%}<li><a href="{{ block.settings.link_url_5 | default: '#' }}">{{ block.settings.link_label_5 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_6 != blank -%}<li><a href="{{ block.settings.link_url_6 | default: '#' }}">{{ block.settings.link_label_6 }}</a></li>{%- endif -%}
+              {%- elsif block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
                 {%- for link in block.settings.menu.links -%}
                   <li><a href="{{ link.url }}">{{ link.title }}</a></li>
                 {%- endfor -%}
@@ -72,7 +84,21 @@
         <a href="mailto:{{ section.settings.contact_email | default: 'hello@olnian.com' }}">{{ section.settings.contact_email | default: 'hello@olnian.com' }}</a>
       </div>
 
-      {%- if section.settings.legal_menu != blank and section.settings.legal_menu.links.size > 0 -%}
+      {%- assign has_custom_legal_links = false -%}
+      {%- if section.settings.legal_label_1 != blank or section.settings.legal_label_2 != blank or section.settings.legal_label_3 != blank or section.settings.legal_label_4 != blank or section.settings.legal_label_5 != blank or section.settings.legal_label_6 != blank -%}
+        {%- assign has_custom_legal_links = true -%}
+      {%- endif -%}
+
+      {%- if has_custom_legal_links -%}
+        <div class="site-footer__legal">
+          {%- if section.settings.legal_label_1 != blank -%}<a href="{{ section.settings.legal_url_1 | default: '#' }}">{{ section.settings.legal_label_1 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_2 != blank -%}<a href="{{ section.settings.legal_url_2 | default: '#' }}">{{ section.settings.legal_label_2 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_3 != blank -%}<a href="{{ section.settings.legal_url_3 | default: '#' }}">{{ section.settings.legal_label_3 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_4 != blank -%}<a href="{{ section.settings.legal_url_4 | default: '#' }}">{{ section.settings.legal_label_4 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_5 != blank -%}<a href="{{ section.settings.legal_url_5 | default: '#' }}">{{ section.settings.legal_label_5 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_6 != blank -%}<a href="{{ section.settings.legal_url_6 | default: '#' }}">{{ section.settings.legal_label_6 }}</a>{%- endif -%}
+        </div>
+      {%- elsif section.settings.legal_menu != blank and section.settings.legal_menu.links.size > 0 -%}
         <div class="site-footer__legal">
           {%- for link in section.settings.legal_menu.links -%}
             <a href="{{ link.url }}">{{ link.title }}</a>
@@ -104,7 +130,19 @@
     { "type": "text", "id": "contact_phone", "label": "Phone", "default": "+1 206-669-0016" },
     { "type": "text", "id": "contact_email", "label": "Email", "default": "hello@olnian.com" },
     { "type": "header", "content": "Legal" },
-    { "type": "link_list", "id": "legal_menu", "label": "Legal links menu" }
+    { "type": "link_list", "id": "legal_menu", "label": "Legal links menu", "info": "Optional. If custom legal links below are filled in, those links show instead of this menu." },
+    { "type": "text", "id": "legal_label_1", "label": "Legal link 1 label" },
+    { "type": "url", "id": "legal_url_1", "label": "Legal link 1 URL" },
+    { "type": "text", "id": "legal_label_2", "label": "Legal link 2 label" },
+    { "type": "url", "id": "legal_url_2", "label": "Legal link 2 URL" },
+    { "type": "text", "id": "legal_label_3", "label": "Legal link 3 label" },
+    { "type": "url", "id": "legal_url_3", "label": "Legal link 3 URL" },
+    { "type": "text", "id": "legal_label_4", "label": "Legal link 4 label" },
+    { "type": "url", "id": "legal_url_4", "label": "Legal link 4 URL" },
+    { "type": "text", "id": "legal_label_5", "label": "Legal link 5 label" },
+    { "type": "url", "id": "legal_url_5", "label": "Legal link 5 URL" },
+    { "type": "text", "id": "legal_label_6", "label": "Legal link 6 label" },
+    { "type": "url", "id": "legal_url_6", "label": "Legal link 6 URL" }
   ],
   "blocks": [
     {
@@ -112,7 +150,20 @@
       "name": "Menu",
       "settings": [
         { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
-        { "type": "link_list", "id": "menu", "label": "Menu" }
+        { "type": "link_list", "id": "menu", "label": "Menu", "info": "Optional. If you fill in the custom links below, those links show instead of this menu." },
+        { "type": "header", "content": "Custom links" },
+        { "type": "text", "id": "link_label_1", "label": "Link 1 label" },
+        { "type": "url", "id": "link_url_1", "label": "Link 1 URL" },
+        { "type": "text", "id": "link_label_2", "label": "Link 2 label" },
+        { "type": "url", "id": "link_url_2", "label": "Link 2 URL" },
+        { "type": "text", "id": "link_label_3", "label": "Link 3 label" },
+        { "type": "url", "id": "link_url_3", "label": "Link 3 URL" },
+        { "type": "text", "id": "link_label_4", "label": "Link 4 label" },
+        { "type": "url", "id": "link_url_4", "label": "Link 4 URL" },
+        { "type": "text", "id": "link_label_5", "label": "Link 5 label" },
+        { "type": "url", "id": "link_url_5", "label": "Link 5 URL" },
+        { "type": "text", "id": "link_label_6", "label": "Link 6 label" },
+        { "type": "url", "id": "link_url_6", "label": "Link 6 URL" }
       ]
     }
   ],
