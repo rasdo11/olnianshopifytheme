@@ -93,13 +93,13 @@
         "s1": {
           "type": "support_item",
           "settings": {
-            "text": "Brain ATP synthesis \u2014 cellular energy for sustained thought"
+            "text": "Brain ATP synthesis: cellular energy for sustained thought"
           }
         },
         "s2": {
           "type": "support_item",
           "settings": {
-            "text": "Sleep architecture \u2014 time in slow-wave and REM sleep"
+                      "text": "Sleep architecture: time in slow-wave and REM sleep"
           }
         },
         "s3": {
@@ -203,7 +203,7 @@
       "settings": {
         "kicker": "The protocol",
         "headline": "Input and recovery. Not one or the other.",
-        "body": "Cognitive performance has two levers: the fuel your neurons run on, and the recovery that resets them. Creatine raises brain phosphocreatine \u2014 the substrate that powers ATP synthesis under demand. Magnesium glycinate repairs the sleep architecture that determines how much of that fuel is actually available by morning. Neither is redundant. Neither is optional if you want the full effect.",
+                "body": "Cognitive performance has two levers: the fuel your neurons run on, and the recovery that resets them. Creatine raises brain phosphocreatine, the substrate that powers ATP synthesis under demand. Magnesium glycinate repairs the sleep architecture that determines how much of that fuel is actually available by morning. Neither is redundant. Neither is optional if you want the full effect.",
         "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
         "headline_size": 48,
         "padding_top": 96,
@@ -225,35 +225,35 @@
           "type": "item",
           "settings": {
             "question": "Is there a specific order or timing?",
-            "answer": "Yes. Creatine in the morning \u2014 it dissolves in water, coffee, or anything you drink when you wake up. Magnesium glycinate in the evening, 30\u201360 minutes before sleep. Separating them by time isn't because they interact; they don't. It's because each is most effective when timed to its primary mechanism. Creatine works best when it's being loaded consistently throughout the day. Magnesium works best when it supports the transition into sleep."
+                        "answer": "Yes. Creatine in the morning: it dissolves in water, coffee, or anything you drink when you wake up. Magnesium glycinate in the evening, 30\u201360 minutes before sleep. Separating them by time isn\u0027t because they interact; they don\u0027t. It\u0027s because each is most effective when timed to its primary mechanism. Creatine works best when it\u0027s being loaded consistently throughout the day. Magnesium works best when it supports the transition into sleep."
           }
         },
         "q3": {
           "type": "item",
           "settings": {
             "question": "Do I need both, or can I start with just one?",
-            "answer": "You can start with either. Creatine alone will improve cognitive performance, strength, and recovery. Magnesium alone will improve sleep quality and stress resilience. But if what you're dealing with is cognitive fatigue that feels connected to both poor sleep and daytime mental fog \u2014 which is the pattern we see most often in women during perimenopause \u2014 the combination addresses both the input and the recovery simultaneously. That's why the bundle exists."
+                        "answer": "You can start with either. Creatine alone will improve cognitive performance, strength, and recovery. Magnesium alone will improve sleep quality and stress resilience. But if what you\u0027re dealing with is cognitive fatigue that feels connected to both poor sleep and daytime mental fog (which is the pattern we see most often in women during perimenopause), the combination addresses both the input and the recovery simultaneously. That\u0027s why the bundle exists."
           }
         },
         "q4": {
           "type": "item",
           "settings": {
             "question": "This sounds like a lot to take daily. Is it?",
-            "answer": "No. Both are pure, unflavored powders \u2014 no capsules to count. Creatine is 5 grams dissolved in any liquid. Magnesium glycinate is 400mg dissolved in water or something warm. Two steps in your routine, separated by 12 hours. That's the entire protocol."
+                        "answer": "No. Both are pure, unflavored powders, no capsules to count. Creatine is 5 grams dissolved in any liquid. Magnesium glycinate is 400mg dissolved in water or something warm. Two steps in your routine, separated by 12 hours. That\u0027s the entire protocol."
           }
         },
         "q5": {
           "type": "item",
           "settings": {
             "question": "What's the realistic timeline?",
-            "answer": "Magnesium: sleep improvement and muscle relaxation typically within 7\u201314 days. Creatine: cognitive improvements measurable at week 4, with continued gains through week 8\u201312. The compounding effect \u2014 where better sleep amplifies creatine's cognitive action \u2014 is typically noticeable at 6\u20138 weeks of consistent daily use. Week 2 usually brings the first signal. Week 8 is when people tend to stop questioning whether it's working."
+                        "answer": "Magnesium: sleep improvement and muscle relaxation typically within 7\u201314 days. Creatine: cognitive improvements measurable at week 4, with continued gains through week 8\u201312. The compounding effect, where better sleep amplifies creatine\u0027s cognitive action, is typically noticeable at 6\u20138 weeks of consistent daily use. Week 2 usually brings the first signal. Week 8 is when people tend to stop questioning whether it\u0027s working."
           }
         },
         "q6": {
           "type": "item",
           "settings": {
             "question": "Is this appropriate during perimenopause?",
-            "answer": "Yes. This is specifically where the combination was designed to matter. Perimenopause accelerates both magnesium depletion (through stress and hormonal fluctuation) and brain energy deficits (creatine synthesis slows with estrogen decline). The clinical literature on both compounds has a meaningful body of research in this age group. If you're managing hormone therapy or other medications, the general guidance is to space supplements 2 hours from prescriptions \u2014 and check with your doctor if you have kidney or cardiac conditions."
+            "answer": "Yes. This is specifically where the combination was designed to matter. Perimenopause accelerates both magnesium depletion (through stress and hormonal fluctuation) and brain energy deficits (creatine synthesis slows with estrogen decline). The clinical literature on both compounds has a meaningful body of research in this age group. If you're managing hormone therapy or other medications, the general guidance is to space supplements 2 hours from prescriptions , and check with your doctor if you have kidney or cardiac conditions."
           }
         }
       },
