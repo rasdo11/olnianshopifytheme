@@ -13,17 +13,17 @@
             <div class="site-footer__heading">{{ footer_heading }}</div>
             <ul class="site-footer__list">
               {%- assign has_custom_links = false -%}
-              {%- if block.settings.link_label_1 != blank or block.settings.link_label_2 != blank or block.settings.link_label_3 != blank or block.settings.link_label_4 != blank or block.settings.link_label_5 != blank or block.settings.link_label_6 != blank -%}
+              {%- if block.settings.link_label_1 != blank or block.settings.link_url_1 != blank or block.settings.link_label_2 != blank or block.settings.link_url_2 != blank or block.settings.link_label_3 != blank or block.settings.link_url_3 != blank or block.settings.link_label_4 != blank or block.settings.link_url_4 != blank or block.settings.link_label_5 != blank or block.settings.link_url_5 != blank or block.settings.link_label_6 != blank or block.settings.link_url_6 != blank -%}
                 {%- assign has_custom_links = true -%}
               {%- endif -%}
 
               {%- if has_custom_links -%}
-                {%- if block.settings.link_label_1 != blank -%}<li><a href="{{ block.settings.link_url_1 | default: '#' }}">{{ block.settings.link_label_1 }}</a></li>{%- endif -%}
-                {%- if block.settings.link_label_2 != blank -%}<li><a href="{{ block.settings.link_url_2 | default: '#' }}">{{ block.settings.link_label_2 }}</a></li>{%- endif -%}
-                {%- if block.settings.link_label_3 != blank -%}<li><a href="{{ block.settings.link_url_3 | default: '#' }}">{{ block.settings.link_label_3 }}</a></li>{%- endif -%}
-                {%- if block.settings.link_label_4 != blank -%}<li><a href="{{ block.settings.link_url_4 | default: '#' }}">{{ block.settings.link_label_4 }}</a></li>{%- endif -%}
-                {%- if block.settings.link_label_5 != blank -%}<li><a href="{{ block.settings.link_url_5 | default: '#' }}">{{ block.settings.link_label_5 }}</a></li>{%- endif -%}
-                {%- if block.settings.link_label_6 != blank -%}<li><a href="{{ block.settings.link_url_6 | default: '#' }}">{{ block.settings.link_label_6 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_1 != blank or block.settings.link_url_1 != blank -%}<li><a href="{{ block.settings.link_url_1 | default: '#' }}">{{ block.settings.link_label_1 | default: block.settings.link_url_1 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_2 != blank or block.settings.link_url_2 != blank -%}<li><a href="{{ block.settings.link_url_2 | default: '#' }}">{{ block.settings.link_label_2 | default: block.settings.link_url_2 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_3 != blank or block.settings.link_url_3 != blank -%}<li><a href="{{ block.settings.link_url_3 | default: '#' }}">{{ block.settings.link_label_3 | default: block.settings.link_url_3 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_4 != blank or block.settings.link_url_4 != blank -%}<li><a href="{{ block.settings.link_url_4 | default: '#' }}">{{ block.settings.link_label_4 | default: block.settings.link_url_4 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_5 != blank or block.settings.link_url_5 != blank -%}<li><a href="{{ block.settings.link_url_5 | default: '#' }}">{{ block.settings.link_label_5 | default: block.settings.link_url_5 }}</a></li>{%- endif -%}
+                {%- if block.settings.link_label_6 != blank or block.settings.link_url_6 != blank -%}<li><a href="{{ block.settings.link_url_6 | default: '#' }}">{{ block.settings.link_label_6 | default: block.settings.link_url_6 }}</a></li>{%- endif -%}
               {%- elsif block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
                 {%- for link in block.settings.menu.links -%}
                   <li><a href="{{ link.url }}">{{ link.title }}</a></li>
@@ -79,24 +79,30 @@
     </div>
 
     <div class="site-footer__bottom">
-      <div class="site-footer__contact" aria-label="Contact OLNIAN">
-        <a href="tel:{{ section.settings.contact_phone | default: '+1 206-669-0016' | remove: ' ' }}">{{ section.settings.contact_phone | default: '+1 206-669-0016' }}</a>
-        <a href="mailto:{{ section.settings.contact_email | default: 'hello@olnian.com' }}">{{ section.settings.contact_email | default: 'hello@olnian.com' }}</a>
-      </div>
+      {%- if section.settings.contact_phone != blank or section.settings.contact_email != blank -%}
+        <div class="site-footer__contact" aria-label="Contact OLNIAN">
+          {%- if section.settings.contact_phone != blank -%}
+            <a href="tel:{{ section.settings.contact_phone | remove: ' ' }}">{{ section.settings.contact_phone }}</a>
+          {%- endif -%}
+          {%- if section.settings.contact_email != blank -%}
+            <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
 
       {%- assign has_custom_legal_links = false -%}
-      {%- if section.settings.legal_label_1 != blank or section.settings.legal_label_2 != blank or section.settings.legal_label_3 != blank or section.settings.legal_label_4 != blank or section.settings.legal_label_5 != blank or section.settings.legal_label_6 != blank -%}
+      {%- if section.settings.legal_label_1 != blank or section.settings.legal_url_1 != blank or section.settings.legal_label_2 != blank or section.settings.legal_url_2 != blank or section.settings.legal_label_3 != blank or section.settings.legal_url_3 != blank or section.settings.legal_label_4 != blank or section.settings.legal_url_4 != blank or section.settings.legal_label_5 != blank or section.settings.legal_url_5 != blank or section.settings.legal_label_6 != blank or section.settings.legal_url_6 != blank -%}
         {%- assign has_custom_legal_links = true -%}
       {%- endif -%}
 
       {%- if has_custom_legal_links -%}
         <div class="site-footer__legal">
-          {%- if section.settings.legal_label_1 != blank -%}<a href="{{ section.settings.legal_url_1 | default: '#' }}">{{ section.settings.legal_label_1 }}</a>{%- endif -%}
-          {%- if section.settings.legal_label_2 != blank -%}<a href="{{ section.settings.legal_url_2 | default: '#' }}">{{ section.settings.legal_label_2 }}</a>{%- endif -%}
-          {%- if section.settings.legal_label_3 != blank -%}<a href="{{ section.settings.legal_url_3 | default: '#' }}">{{ section.settings.legal_label_3 }}</a>{%- endif -%}
-          {%- if section.settings.legal_label_4 != blank -%}<a href="{{ section.settings.legal_url_4 | default: '#' }}">{{ section.settings.legal_label_4 }}</a>{%- endif -%}
-          {%- if section.settings.legal_label_5 != blank -%}<a href="{{ section.settings.legal_url_5 | default: '#' }}">{{ section.settings.legal_label_5 }}</a>{%- endif -%}
-          {%- if section.settings.legal_label_6 != blank -%}<a href="{{ section.settings.legal_url_6 | default: '#' }}">{{ section.settings.legal_label_6 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_1 != blank or section.settings.legal_url_1 != blank -%}<a href="{{ section.settings.legal_url_1 | default: '#' }}">{{ section.settings.legal_label_1 | default: section.settings.legal_url_1 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_2 != blank or section.settings.legal_url_2 != blank -%}<a href="{{ section.settings.legal_url_2 | default: '#' }}">{{ section.settings.legal_label_2 | default: section.settings.legal_url_2 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_3 != blank or section.settings.legal_url_3 != blank -%}<a href="{{ section.settings.legal_url_3 | default: '#' }}">{{ section.settings.legal_label_3 | default: section.settings.legal_url_3 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_4 != blank or section.settings.legal_url_4 != blank -%}<a href="{{ section.settings.legal_url_4 | default: '#' }}">{{ section.settings.legal_label_4 | default: section.settings.legal_url_4 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_5 != blank or section.settings.legal_url_5 != blank -%}<a href="{{ section.settings.legal_url_5 | default: '#' }}">{{ section.settings.legal_label_5 | default: section.settings.legal_url_5 }}</a>{%- endif -%}
+          {%- if section.settings.legal_label_6 != blank or section.settings.legal_url_6 != blank -%}<a href="{{ section.settings.legal_url_6 | default: '#' }}">{{ section.settings.legal_label_6 | default: section.settings.legal_url_6 }}</a>{%- endif -%}
         </div>
       {%- elsif section.settings.legal_menu != blank and section.settings.legal_menu.links.size > 0 -%}
         <div class="site-footer__legal">
