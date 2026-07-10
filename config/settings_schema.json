@@ -125,4 +125,17 @@
     ]
   }
 
+
+  ,
+  {
+    "name": "Sitewide motion and popup",
+    "settings": [
+      { "type": "checkbox", "id": "enable_scroll_fade", "label": "Scroll-triggered fade-in animations (all devices)", "default": true },
+      { "type": "checkbox", "id": "enable_scroll_parallax", "label": "Parallax on text and imagery (desktop and mobile)", "default": true },
+      { "type": "range", "id": "parallax_strength", "label": "Parallax strength for desktop and mobile", "min": 0, "max": 40, "step": 5, "default": 15 },
+      { "type": "checkbox", "id": "enable_email_popup", "label": "Enable 10% email popup", "default": true },
+      { "type": "range", "id": "email_popup_delay", "label": "Popup delay", "min": 1, "max": 15, "step": 1, "unit": "s", "default": 5 }
+    ]
+  }
+
 ]
