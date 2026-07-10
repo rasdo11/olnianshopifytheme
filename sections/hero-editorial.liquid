@@ -1,7 +1,13 @@
 <section class="hero page-enter section--{{ section.settings.scheme | default: 'blush' }}" style="
   padding-top: {{ section.settings.padding_top }}px;
   padding-bottom: {{ section.settings.padding_bottom }}px;
-  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+  {% if section.settings.background != blank %}background-color: {{ section.settings.background }};{% endif %}
+  {% if section.settings.background_image != blank %}
+    background-image: url({{ section.settings.background_image | image_url: width: 2400 }});
+    background-size: {{ section.settings.background_image_size | default: 'cover' }};
+    background-position: {{ section.settings.background_image_position | default: 'center center' }};
+    background-repeat: no-repeat;
+  {% endif %}
   --hero-highlight-color: {{ section.settings.highlight_color | default: '#F3A08D' }};
   --hero-headline-line-height: {{ section.settings.headline_line_height | default: 94 | divided_by: 100.0 }};
   --hero-mobile-headline-line-height: {{ section.settings.mobile_headline_line_height | default: 90 | divided_by: 100.0 }};
@@ -158,6 +164,18 @@
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 80 },
     { "type": "range", "id": "cta_margin_top", "label": "CTA top spacing (px)", "min": 8, "max": 64, "step": 4, "default": 32 },
     { "type": "header", "content": "Color band" },
+    { "type": "image_picker", "id": "background_image", "label": "Color band background image" },
+    { "type": "select", "id": "background_image_size", "label": "Background image size", "default": "cover", "options": [
+      { "value": "cover", "label": "Cover band" },
+      { "value": "contain", "label": "Show full image" }
+    ]},
+    { "type": "select", "id": "background_image_position", "label": "Background image position", "default": "center center", "options": [
+      { "value": "center center", "label": "Center" },
+      { "value": "center top", "label": "Top" },
+      { "value": "center bottom", "label": "Bottom" },
+      { "value": "left center", "label": "Left" },
+      { "value": "right center", "label": "Right" }
+    ]},
     { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "blush", "info": "Full-bleed section background. Rotate schemes down the page.", "options": [
       { "value": "blush", "label": "Blush (cream)" },
       { "value": "cream", "label": "Warm white" },
