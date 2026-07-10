@@ -44,28 +44,11 @@
         "creatine_url": "shopify://products/creatine-m-h-refill",
         "bundle_url": "shopify://collections/brain-bundle"
       }
-    },
-    "unsubscribe_form_36D36U": {
-      "type": "unsubscribe-form",
-      "name": "Unsubscribe form",
-      "settings": {
-        "kicker": "",
-        "heading": "",
-        "body": "<p>Enter your email address to unsubscribe from our list in one click.</p>",
-        "placeholder": "Email address",
-        "button_label": "Unsubscribe",
-        "success_message": "Thanks. We received your unsubscribe request.",
-        "note": "",
-        "scheme": "blush",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
     }
   },
   "order": [
     "announcement-bar",
     "header",
-    "quiz",
-    "unsubscribe_form_36D36U"
+    "quiz"
   ]
 }
