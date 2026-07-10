@@ -14,7 +14,8 @@
         <p class="newsletter__sub">{{ section.settings.subheadline }}</p>
       {%- endif -%}
 
-      {%- form 'customer', class: 'newsletter__form' -%}
+      {%- assign newsletter_form_id = 'NewsletterForm-' | append: section.id -%}
+      {%- form 'customer', id: newsletter_form_id, class: 'newsletter__form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <label class="visually-hidden" for="NewsletterEmail-{{ section.id }}">Email</label>
         <input
@@ -31,7 +32,7 @@
           <p class="newsletter__note" role="alert">{{ form.errors | default_errors }}</p>
         {%- endif -%}
         {%- if form.posted_successfully? -%}
-          <p class="newsletter__success" role="status">{{ section.settings.success_message | default: 'Thanks — you’re on the list.' }}</p>
+          <p class="newsletter__success" role="status">{{ section.settings.success_message | default: 'Thanks, you are on the list.' }}</p>
         {%- endif -%}
       {%- endform -%}
 
@@ -51,7 +52,7 @@
     { "type": "textarea", "id": "subheadline", "label": "Sub-headline", "default": "Batch drops, restock alerts, and the occasional note on what actually works. No spam." },
     { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Enter your email" },
     { "type": "text", "id": "note", "label": "Small print", "default": "Unsubscribe anytime." },
-    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks — you’re on the list." },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks, you are on the list." },
     { "type": "header", "content": "Color band" },
     { "type": "select", "id": "scheme", "label": "Band color scheme", "default": "flamingo", "info": "Full-bleed section background.", "options": [
       { "value": "blush", "label": "Blush (cream)" },
