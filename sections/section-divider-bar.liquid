@@ -1,0 +1,21 @@
+<section class="divider-bar" style="--divider-bg: {{ section.settings.background }}; --divider-text: {{ section.settings.text_color }}; --divider-height: {{ section.settings.height }}px;">
+  {%- if section.settings.link != blank -%}<a class="divider-bar__inner" href="{{ section.settings.link }}">{%- else -%}<div class="divider-bar__inner">{%- endif -%}
+    <span>{{ section.settings.text }}</span>
+  {%- if section.settings.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Colored divider promo bar",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "THE DAILY RITUAL" },
+    { "type": "url", "id": "link", "label": "Optional link" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#8EA8FF" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#2E1206" },
+    { "type": "range", "id": "height", "label": "Height", "min": 44, "max": 96, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "presets": [
+    { "name": "Colored divider promo bar", "category": "Text" }
+  ]
+}
+{% endschema %}
