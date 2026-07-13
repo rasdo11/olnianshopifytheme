@@ -1,13 +1,24 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "rich-text-band",
+      "disabled": true,
       "settings": {
         "kicker": "Stay in Touch",
         "heading": "Join the OLNIAN list.",
         "text": "Use this page for email signup, launch notes, and customer updates. Add or rearrange sections in the Theme Editor below.",
         "show_page_content": true,
         "scheme": "blush",
+        "background": "",
         "padding_top": 88,
         "padding_bottom": 56
       }
