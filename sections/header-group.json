@@ -45,27 +45,11 @@
         "creatine_url": "shopify://products/creatine-m-h-refill",
         "bundle_url": "shopify://collections/brain-bundle"
       }
-    },
-    "newsletter_hydara": {
-      "type": "newsletter",
-      "name": "Newsletter",
-      "settings": {
-        "kicker": "Where you do you",
-        "headline": "Join the list.",
-        "subheadline": "Batch drops, restock alerts, and the occasional note on what actually works. No spam.",
-        "placeholder": "Enter your email",
-        "note": "Unsubscribe anytime.",
-        "success_message": "Thanks, you are on the list.",
-        "scheme": "flamingo",
-        "padding_top": 96,
-        "padding_bottom": 96
-      }
     }
   },
   "order": [
     "announcement-bar",
     "header",
-    "quiz",
-    "newsletter_hydara"
+    "quiz"
   ]
 }
