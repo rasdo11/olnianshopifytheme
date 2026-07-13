@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "main": {
+      "type": "rich-text-band",
+      "settings": {
+        "kicker": "Stay in Touch",
+        "heading": "Join the OLNIAN list.",
+        "text": "Use this page for email signup, launch notes, and customer updates. Add or rearrange sections in the Theme Editor below.",
+        "show_page_content": true,
+        "scheme": "blush",
+        "padding_top": 88,
+        "padding_bottom": 56
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "kicker": "Stay in Touch",
+        "headline": "Be first to know about batches and restocks.",
+        "subheadline": "Sign up for product updates, launch notes, and gentle reminders from OLNIAN.",
+        "placeholder": "Email address",
+        "note": "No spam. Just useful OLNIAN updates.",
+        "success_message": "Thanks, you are on the list.",
+        "scheme": "white",
+        "padding_top": 64,
+        "padding_bottom": 88
+      }
+    }
+  },
+  "order": [
+    "main",
+    "newsletter"
+  ]
+}
