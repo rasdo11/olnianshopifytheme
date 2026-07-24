@@ -16,7 +16,7 @@
         "header_alignment": "center",
         "show_description": false,
         "show_product_count": false,
-        "enable_sorting": false,
+        "enable_sorting": true,
         "products_per_page": 24,
         "columns_desktop": "4",
         "card_cta_label": "Shop",
