@@ -18,7 +18,7 @@
         "show_product_count": false,
         "enable_sorting": false,
         "products_per_page": 24,
-        "columns_desktop": "3",
+        "columns_desktop": "4",
         "card_cta_label": "Shop",
         "show_price": true,
         "show_swatches": false,
