@@ -130,6 +130,8 @@
         "s6"
       ],
       "settings": {
+        "background_image_size": "cover",
+        "background_image_position": "center center",
         "use_product_media": true,
         "show_rating": true,
         "rating_value": 46,
@@ -144,10 +146,10 @@
         "show_expert_modal": true,
         "expert_button_label": "Talk to an expert",
         "show_gift_banner": true,
-        "gift_banner_text": "Free shipping over $50 or when signing up for our email list!",
+        "gift_banner_text": "Free Gold Edition gift with purchase of subscription!",
         "crosssell_product": "",
-        "show_bundle_upsell": true,
-        "bundle_upsell_headline": "Bundle + Save 25%",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "Bundle + Save 15%",
         "bundle_upsell_body": "Add Magnesium Glycinate to your routine and save on your first order.",
         "bundle_sale_price": "",
         "bundle_compare_price": "",
@@ -227,8 +229,8 @@
         "q4": {
           "type": "item",
           "settings": {
-            "question": "Why does it ship in 2–4 weeks?",
-            "answer": "Because we make your batch after you order. No warehouse. No bottles sitting on shelves for months losing potency. Your creatine is milled, tested, and sealed the week before it ships to you."
+            "question": "How fast does it ship?",
+            "answer": "Within a week of ordering. We make your batch to order rather than pulling from a warehouse shelf, so it's milled, tested, and sealed shortly before it ships to you."
           }
         },
         "q5": {

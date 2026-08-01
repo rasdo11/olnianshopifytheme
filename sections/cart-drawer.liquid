@@ -12,6 +12,24 @@
       <a href="{{ routes.collections_url }}/all" class="btn btn--outline" style="width: 100%;">{{ 'general.cart.continue_shopping' | t }}</a>
     </div>
   {%- else -%}
+    {%- liquid
+      assign subscription_upsell_item = nil
+      assign subscription_upsell_line = nil
+      assign subscription_upsell_plan = nil
+
+      for item in cart.items
+        if item.selling_plan_allocation == nil
+          assign first_subscription_allocation = item.variant.selling_plan_allocations | first
+          if first_subscription_allocation
+            assign subscription_upsell_item = item
+            assign subscription_upsell_line = forloop.index
+            assign subscription_upsell_plan = first_subscription_allocation.selling_plan
+            break
+          endif
+        endif
+      endfor
+    -%}
+
     <div class="cart-drawer__items">
       {%- for item in cart.items -%}
         <div class="cart-drawer__item" data-cart-item data-line="{{ forloop.index }}" data-quantity="{{ item.quantity }}">
@@ -40,6 +58,25 @@
       {%- endfor -%}
     </div>
     <div class="cart-drawer__footer">
+      {%- if subscription_upsell_item and subscription_upsell_plan -%}
+        <div class="cart-drawer__subscription-upsell">
+          <p class="cart-drawer__subscription-title">{{ 'general.cart.subscription_upsell_title' | t }}</p>
+          <p class="cart-drawer__subscription-copy">{{ 'general.cart.subscription_upsell_body' | t }}</p>
+          <button
+            type="button"
+            class="cart-drawer__subscription-button"
+            data-subscription-upgrade
+            data-line="{{ subscription_upsell_line }}"
+            data-quantity="{{ subscription_upsell_item.quantity }}"
+            data-selling-plan="{{ subscription_upsell_plan.id }}"
+            data-loading-label="{{ 'general.cart.subscription_upsell_loading' | t }}"
+            data-error-label="{{ 'general.cart.subscription_upsell_error' | t }}"
+          >
+            {{ 'general.cart.subscription_upsell_button' | t }}
+          </button>
+          <p class="cart-drawer__subscription-status" data-subscription-upgrade-status role="status" hidden></p>
+        </div>
+      {%- endif -%}
       <div class="cart-drawer__subtotal">
         <span>{{ 'general.cart.subtotal' | t }}</span>
         <span>{{ cart.total_price | money }}</span>
@@ -53,6 +90,143 @@
     </div>
   {%- endif -%}
 </div>
+
+{% stylesheet %}
+  .cart-drawer__title {
+    font-family: var(--display-font);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .cart-drawer__subscription-upsell {
+    margin-block-end: 1.25rem;
+    padding: 1rem;
+    border: 1px solid rgb(46 18 6 / 18%);
+    border-radius: 1rem;
+    background: #fff2e8;
+    color: #2e1206;
+  }
+
+  .cart-drawer__subscription-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 750;
+    line-height: 1.25;
+  }
+
+  .cart-drawer__subscription-copy {
+    margin: 0.45rem 0 0.85rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .cart-drawer__subscription-button {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid #2e1206;
+    border-radius: 999px;
+    background: #ff5a2c;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 750;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+  }
+
+  .cart-drawer__subscription-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.75rem rgb(46 18 6 / 18%);
+  }
+
+  .cart-drawer__subscription-button:focus-visible {
+    outline: 3px solid #2e1206;
+    outline-offset: 3px;
+  }
+
+  .cart-drawer__subscription-button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+  }
+
+  .cart-drawer__subscription-status {
+    margin: 0.6rem 0 0;
+    color: #8a250d;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cart-drawer__subscription-button {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!window.olnianCartSubscriptionUpsellBound) {
+    window.olnianCartSubscriptionUpsellBound = true;
+
+    document.addEventListener('click', async (event) => {
+      const button = event.target.closest('[data-subscription-upgrade]');
+      if (!button || button.disabled) return;
+
+      event.preventDefault();
+
+      const line = Number(button.dataset.line);
+      const quantity = Number(button.dataset.quantity);
+      const sellingPlan = Number(button.dataset.sellingPlan);
+      const originalLabel = button.textContent.trim();
+      const status = button.parentElement.querySelector('[data-subscription-upgrade-status]');
+
+      button.disabled = true;
+      button.textContent = button.dataset.loadingLabel;
+      if (status) status.hidden = true;
+
+      try {
+        const root = window.Shopify?.routes?.root || '/';
+        const response = await fetch(`${root}cart/change.js`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify({
+            line,
+            quantity,
+            selling_plan: sellingPlan
+          })
+        });
+
+        if (!response.ok) throw new Error('Subscription update failed');
+
+        const sectionResponse = await fetch(`${window.location.pathname}?section_id=cart-drawer`, {
+          headers: { Accept: 'text/html' }
+        });
+
+        if (!sectionResponse.ok) throw new Error('Cart refresh failed');
+
+        const html = await sectionResponse.text();
+        const parsed = new DOMParser().parseFromString(html, 'text/html');
+        const incoming = parsed.querySelector('[data-cart-drawer-content]');
+        const current = document.querySelector('[data-cart-drawer-content]');
+
+        if (!incoming || !current) throw new Error('Cart drawer unavailable');
+        current.innerHTML = incoming.innerHTML;
+      } catch (error) {
+        button.disabled = false;
+        button.textContent = originalLabel;
+        if (status) {
+          status.textContent = button.dataset.errorLabel;
+          status.hidden = false;
+        }
+      }
+    });
+  }
+{% endjavascript %}
 
 {% schema %}
 {

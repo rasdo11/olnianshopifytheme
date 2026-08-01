@@ -44,7 +44,7 @@
         "type": "select",
         "id": "display_font_weight",
         "label": "Heading weight",
-        "info": "Belleza & Instrument Serif are one weight only (400) — heavier weights fall back to 400 for those.",
+        "info": "Belleza & Instrument Serif are one weight only (400) - heavier weights fall back to 400 for those.",
         "options": [
           { "value": "300", "label": "Light (300)" },
           { "value": "400", "label": "Regular (400)" },
@@ -87,6 +87,37 @@
     ]
   },
   {
+    "name": "Product name style",
+    "settings": [
+      { "type": "paragraph", "content": "Controls how product names look on product pages and on collection page cards." },
+      { "type": "checkbox", "id": "product_name_uppercase", "label": "Use all caps", "default": true },
+      {
+        "type": "select",
+        "id": "product_name_weight",
+        "label": "Weight",
+        "options": [
+          { "value": "300", "label": "Light (300)" },
+          { "value": "400", "label": "Regular (400)" },
+          { "value": "500", "label": "Medium (500)" },
+          { "value": "600", "label": "Semi-bold (600)" },
+          { "value": "700", "label": "Bold (700)" },
+          { "value": "800", "label": "Extra-bold (800)" }
+        ],
+        "default": "600"
+      },
+      {
+        "type": "range",
+        "id": "product_name_letter_spacing",
+        "label": "Letter spacing",
+        "info": "In thousandths of an em - e.g. 30 = 0.030em",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 3
+      }
+    ]
+  },
+  {
     "name": "Brand",
     "settings": [
       { "type": "text",     "id": "brand_name",        "label": "Brand name",    "default": "OLNIAN" },
@@ -95,7 +126,7 @@
       {
         "type": "range",
         "id": "brand_logo_padding_left",
-        "label": "Brand name — left padding (px)",
+        "label": "Brand name - left padding (px)",
         "min": 0,
         "max": 60,
         "step": 1,
@@ -104,10 +135,17 @@
     ]
   },
   {
+    "name": "Social sharing",
+    "settings": [
+      { "type": "paragraph", "content": "Controls the title and image shown when any page on this site is shared as a rich link (iMessage, WhatsApp, Facebook, X)." },
+      { "type": "image_picker", "id": "social_share_image", "label": "Shared link image" }
+    ]
+  },
+  {
     "name": "Shipping badge",
     "settings": [
       { "type": "checkbox", "id": "show_ship_badge",  "label": "Show shipping badge",  "default": true },
-      { "type": "text",     "id": "ship_badge_text",  "label": "Badge text",           "default": "Ships in 2\u20134 weeks" }
+      { "type": "text",     "id": "ship_badge_text",  "label": "Badge text",           "default": "Ships within a week" }
     ]
   },
   {

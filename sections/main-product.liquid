@@ -1,4 +1,9 @@
-<section class="product page-enter">
+<section class="product page-enter"{% if section.settings.background_image != blank %} style="
+  background-image: url({{ section.settings.background_image | image_url: width: 2400 }});
+  background-size: {{ section.settings.background_image_size | default: 'cover' }};
+  background-position: {{ section.settings.background_image_position | default: 'center center' }};
+  background-repeat: no-repeat;
+"{% endif %}>
   <div class="container">
     <div class="product__grid">
 
@@ -7,8 +12,8 @@
 
         {%- comment -%}
           Gallery sources (all Theme Editor controlled):
-          1. hero_image_filename setting — first slide, editable in Theme Editor
-          2. gallery_image blocks — add/remove in Theme Editor via "Add block"
+          1. hero_image_filename setting - first slide, editable in Theme Editor
+          2. gallery_image blocks - add/remove in Theme Editor via "Add block"
         {%- endcomment -%}
         {%- assign use_product_media = section.settings.use_product_media -%}
         {%- assign _hero_file = section.settings.hero_image -%}
@@ -28,7 +33,7 @@
 
         <div class="pdp-gallery">
 
-          {%- comment -%} Hero image — large, full column width, clickable to open lightbox {%- endcomment -%}
+          {%- comment -%} Hero image - large, full column width, clickable to open lightbox {%- endcomment -%}
           <div class="pdp-gallery__main" id="PdpMainImage">
             {%- if has_gallery -%}
               {%- assign _slide_i = 0 -%}
@@ -69,7 +74,7 @@
             {%- endif -%}
           </div>
 
-          {%- comment -%} Thumbnail row — desktop only, below hero {%- endcomment -%}
+          {%- comment -%} Thumbnail row - desktop only, below hero {%- endcomment -%}
           {%- if has_gallery and total_slides > 1 -%}
             <div class="pdp-gallery__thumbs" id="PdpThumbs">
               {%- if use_product_media and product.images.size > 0 -%}
@@ -98,7 +103,7 @@
             </div>
           {%- endif -%}
 
-          {%- comment -%} Dot navigation — mobile only {%- endcomment -%}
+          {%- comment -%} Dot navigation - mobile only {%- endcomment -%}
           {%- if has_gallery and total_slides > 1 -%}
             <div class="pdp-gallery__dots" id="PdpDots" aria-hidden="true">
               {%- for i in (1..total_slides) -%}
@@ -179,14 +184,12 @@
           </div>
         {%- endif -%}
 
-        {%- comment -%} Short tagline — above price, benefit-first {%- endcomment -%}
+        {%- comment -%} Short tagline - above price. The full product description now renders below "What it supports". {%- endcomment -%}
         {%- if section.settings.tagline != blank -%}
           <p class="product__tagline">{{ section.settings.tagline }}</p>
-        {%- elsif product.description != blank -%}
-          <div class="product__tagline">{{ product.description }}</div>
         {%- endif -%}
 
-        {%- comment -%} Visible feature list — coloured dot bullets (Billie PDP format) {%- endcomment -%}
+        {%- comment -%} Visible feature list - coloured dot bullets (Billie PDP format) {%- endcomment -%}
         {%- assign _has_benefits = false -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'benefit' -%}{%- assign _has_benefits = true -%}{%- endif -%}
@@ -215,6 +218,15 @@
             {%- endif -%}
           {%- endfor -%}
         {%- endfor -%}
+
+        {%- comment -%}
+          Buyability: on-demand / continue-selling variants (e.g. Supliful-fulfilled) stay
+          purchasable even at 0 stock. Shopify reports variant.available = false for a
+          fulfillment-service item at 0, so we also honor the continue-selling policy.
+        {%- endcomment -%}
+        {%- assign _sel_variant = product.selected_or_first_available_variant -%}
+        {%- assign _atc_available = _sel_variant.available -%}
+        {%- if _sel_variant.inventory_policy == 'continue' -%}{%- assign _atc_available = true -%}{%- endif -%}
 
         <form data-product-form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" novalidate>
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
@@ -248,20 +260,56 @@
             {%- endfor -%}
           {%- endif -%}
 
-          {%- comment -%} Trust line — before price so it's seen before cost {%- endcomment -%}
+          {%- comment -%} Trust line - before price so it's seen before cost {%- endcomment -%}
           {%- if section.settings.trust_line != blank -%}
             <p class="product__trust-line product__trust-line--top">{{ section.settings.trust_line }}</p>
           {%- endif -%}
 
           {%- assign sub_price = product.selected_or_first_available_variant.price | times: 0.85 | round -%}
-          <div class="product__price" data-product-price>
-            {{ product.selected_or_first_available_variant.price | money }}
-          </div>
-          {%- if _first_selling_plan != nil -%}
-            <div class="product__sub-price">
-              <strong>Subscribe: {{ sub_price | money }}/mo</strong>
-              <del>{{ product.selected_or_first_available_variant.price | money }}</del>
-              <span>&middot; save 15%</span>
+          {%- assign _default_plan_id = '' -%}
+          {%- for _alloc in product.selected_or_first_available_variant.selling_plan_allocations -%}
+            {%- assign _default_plan_id = _alloc.selling_plan.id -%}
+            {%- break -%}
+          {%- endfor -%}
+
+          {%- comment -%}
+            Purchase-option selector - shown when the product has a subscription selling plan.
+            Subscribe is the default; the controller script (below) swaps the hidden selling_plan
+            value, price emphasis, benefits, and the Gold Jar offer block between modes.
+            NOTE: designed for single-variant subscription products (Creatine, Hydration). A
+            multi-variant product with a selling plan would also need variant-change handling.
+          {%- endcomment -%}
+          {%- if _first_selling_plan != nil and _default_plan_id != blank -%}
+            <div class="purchase-options" data-purchase-options data-plan-id="{{ _default_plan_id }}">
+              <button type="button" class="purchase-option is-selected" data-purchase-option data-mode="subscribe" aria-pressed="true">
+                <span class="purchase-option__radio" aria-hidden="true"></span>
+                <span class="purchase-option__body">
+                  <span class="purchase-option__title">Subscribe &amp; Save <span class="purchase-option__tag">Most popular</span></span>
+                  <span class="purchase-option__note">Free Gold Jar · free shipping · cancel anytime</span>
+                </span>
+                <span class="purchase-option__price"><del>{{ product.selected_or_first_available_variant.price | money }}</del> {{ sub_price | money }}<span class="purchase-option__per">/mo</span></span>
+              </button>
+              <button type="button" class="purchase-option" data-purchase-option data-mode="onetime" aria-pressed="false">
+                <span class="purchase-option__radio" aria-hidden="true"></span>
+                <span class="purchase-option__body">
+                  <span class="purchase-option__title">One-time purchase</span>
+                </span>
+                <span class="purchase-option__price">{{ product.selected_or_first_available_variant.price | money }}</span>
+              </button>
+            </div>
+
+            <div class="product__sub-badge" data-sub-badge>
+              <span class="product__sub-badge-title">Gold Subscription</span>
+              <ul class="product__sub-badge-list">
+                <li>Unlock exclusive free gifts</li>
+                <li>Priority inventory access</li>
+                <li>Swap, skip, or cancel anytime</li>
+                <li>Free shipping on all subscription orders</li>
+              </ul>
+            </div>
+          {%- else -%}
+            <div class="product__price" data-product-price>
+              {{ product.selected_or_first_available_variant.price | money }}
             </div>
           {%- endif -%}
 
@@ -270,6 +318,12 @@
               <span class="gift-banner__icon">✦</span>
               <span>{{ section.settings.gift_banner_text }}</span>
             </div>
+          {%- endif -%}
+
+          {%- comment -%} Founding Gold Jar offer - subscribable creatine products {%- endcomment -%}
+          {%- assign _offer_handles = 'creatine-monohydrate,creatine-hydration-powder' | split: ',' -%}
+          {%- if _offer_handles contains product.handle -%}
+            {%- render 'gold-jar-offer' -%}
           {%- endif -%}
 
           <div class="product__qty-row">
@@ -281,42 +335,28 @@
           </div>
 
           <div class="product__atc-row">
-            <button type="submit" class="btn btn--primary product__atc" data-product-submit data-default-label="{{ section.settings.atc_label | default: 'Start Now' }}"
-              {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
-              {% if product.selected_or_first_available_variant.available %}
-                {{ section.settings.atc_label | default: 'Start Now' }}
+            <button type="submit" class="btn btn--primary product__atc" data-product-submit data-default-label="Add to Cart"
+              {% unless _atc_available %}disabled{% endunless %}>
+              {% if _atc_available %}
+                Add to Cart
               {% else %}
                 {{ 'general.product.sold_out' | t }}
               {% endif %}
             </button>
-            {%- if section.settings.show_expert_modal -%}<button type="button" class="btn btn--outline product__expert-btn" data-expert-modal-open>{{ section.settings.expert_button_label }}</button>{%- endif -%}
+            {%- if section.settings.show_expert_modal -%}
+              <div class="product__or-divider">or</div>
+              <button type="button" class="btn btn--outline product__expert-btn" data-expert-modal-open>{{ section.settings.expert_button_label }}</button>
+            {%- endif -%}
           </div>
 
           {%- if section.settings.show_dynamic_checkout -%}
-            <div class="product__or-divider">or</div>
-            {{ form | payment_button }}
+            <div class="product__dynamic-checkout" data-dynamic-checkout>
+              <div class="product__or-divider">or</div>
+              {{ form | payment_button }}
+            </div>
           {%- endif -%}
 
-          {%- comment -%} Subscribe & Save card {%- endcomment -%}
-          {%- if section.settings.show_subscription_card -%}
-          <div class="subscribe-card">
-            <div class="subscribe-card__badge">Save 15%</div>
-            <div class="subscribe-card__content">
-              <div class="subscribe-card__headline">Subscribe &amp; Save</div>
-              <div class="subscribe-card__body">Your next batch ships every month. Cancel anytime.</div>
-              <div class="subscribe-card__prices">
-                <span class="subscribe-card__price">{{ sub_price | money }}</span>
-                <del class="subscribe-card__compare">{{ product.selected_or_first_available_variant.price | money }}</del>
-                <span class="subscribe-card__per">/ month</span>
-              </div>
-            </div>
-            {%- if _first_selling_plan != nil -%}
-              <button type="submit" class="subscribe-card__cta" data-selling-plan-id="{{ _first_selling_plan.id }}">Add</button>
-            {%- else -%}
-              <button type="submit" class="subscribe-card__cta subscribe-card__cta--unavailable" disabled>Unavailable</button>
-            {%- endif -%}
-          </div>
-          {%- endif -%}
+          {%- comment -%} Subscription is now handled by the purchase-option toggle above the price. {%- endcomment -%}
 
         </form>
 
@@ -343,6 +383,29 @@
               </ul>
             </div>
           </div>
+        {%- endif -%}
+
+        {%- comment -%} Full product details (Supliful description), shown below "What it supports" {%- endcomment -%}
+        {%- if product.description != blank -%}
+          <div class="product__details-section">
+            <h2 class="product__details-heading">Details</h2>
+            <div class="product__details rte">{{ product.description }}</div>
+          </div>
+          <style>
+            .product__details-section { margin-top: 8px; }
+            .product__details-heading { font-size: 15px; font-weight: 600; margin: 0 0 12px; }
+            .product__details { font-size: 15px; line-height: 1.7; opacity: 0.9; }
+            .product__details p { margin: 0 0 1em; }
+            .product__details p:last-child { margin-bottom: 0; }
+            .product__details strong { font-weight: 600; }
+            .product__details a { color: inherit; text-decoration: underline; }
+            .product__details img { height: 3.5rem; width: auto; margin: 8px 8px 0 0; display: inline-block; }
+            /* Mobile: product__info becomes a flex column with explicit order; keep Details
+               with the accordions (order 8) so it stays below "What it supports". */
+            @media (max-width: 900px) {
+              .product__info .product__details-section { order: 8; }
+            }
+          </style>
         {%- endif -%}
 
         {%- comment -%} Ingredients accordion {%- endcomment -%}
@@ -373,16 +436,26 @@
   <script>
     window.__productVariants = window.__productVariants || {};
     {%- for v in product.variants -%}
+      {%- assign _v_plan_id = '' -%}
+      {%- for _va in v.selling_plan_allocations -%}{%- assign _v_plan_id = _va.selling_plan.id -%}{%- break -%}{%- endfor -%}
+      {%- assign _v_media_index = -1 -%}
+      {%- if v.featured_image -%}
+        {%- for _img in product.images -%}
+          {%- if _img.id == v.featured_image.id -%}{%- assign _v_media_index = forloop.index0 -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
       window.__productVariants["{{ v.id }}"] = {
         id: {{ v.id }},
         price: {{ v.price }},
-        available: {{ v.available }},
-        title: {{ v.title | json }}
+        available: {% if v.available or v.inventory_policy == 'continue' %}true{% else %}false{% endif %},
+        title: {{ v.title | json }},
+        sellingPlanId: {% if _v_plan_id != blank %}"{{ _v_plan_id }}"{% else %}null{% endif %},
+        mediaIndex: {{ _v_media_index }}
       };
     {%- endfor -%}
   </script>
 
-  {%- comment -%} ── Sticky cross-sell bar — slides up once main ATC scrolls out of view ── {%- endcomment -%}
+  {%- comment -%} ── Sticky cross-sell bar - slides up once main ATC scrolls out of view ── {%- endcomment -%}
   {%- assign _cs = section.settings.crosssell_product -%}
   <div class="pdp-sticky-bar" id="PdpStickyBar">
     <div class="pdp-sticky-bar__inner container">
@@ -407,8 +480,8 @@
             <button type="button" class="pdp-sticky-bar__sub" data-sticky-sub>Save 15%</button>
           {%- endif -%}
           <button type="button" class="btn btn--primary pdp-sticky-bar__atc" data-sticky-atc
-            {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
-            {%- if product.selected_or_first_available_variant.available -%}Start Now{%- else -%}Sold Out{%- endif -%}
+            {% unless _atc_available %}disabled{% endunless %}>
+            {%- if _atc_available -%}Start Now{%- else -%}Sold Out{%- endif -%}
           </button>
         </div>
       {%- endif -%}
@@ -460,11 +533,73 @@
     </div>
   </div>
 
+  {%- if _first_selling_plan != nil and _default_plan_id != blank -%}
+    <style>
+      .purchase-options { display: flex; flex-direction: column; gap: 10px; margin: 14px 0 4px; }
+      .purchase-option {
+        display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+        padding: 14px 16px; border: 1.5px solid #E2D9C8; border-radius: 14px;
+        background: #fff; cursor: pointer; font: inherit; color: inherit;
+        transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      }
+      .purchase-option.is-selected {
+        border-color: #C9A55E;
+        background: linear-gradient(180deg, #FFFDF8 0%, #FFF6F4 100%);
+        box-shadow: 0 0 0 3px rgba(201,165,94,.15);
+      }
+      .purchase-option:focus-visible { outline: 2px solid #C9A55E; outline-offset: 2px; }
+      .purchase-option__radio { flex: 0 0 auto; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #C7BBA3; position: relative; }
+      .purchase-option.is-selected .purchase-option__radio { border-color: #C9A55E; }
+      .purchase-option.is-selected .purchase-option__radio::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: #C9A55E; }
+      .purchase-option__body { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; }
+      .purchase-option__title { font-weight: 600; font-size: 15px; color: #241F1B; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      .purchase-option__tag { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; color: #A87D3B; background: #F3EAD6; padding: 2px 7px; border-radius: 999px; }
+      .purchase-option__note { font-size: 12.5px; color: #6E6459; }
+      .purchase-option__price { flex: 0 0 auto; font-weight: 600; font-size: 15px; color: #241F1B; white-space: nowrap; }
+      .purchase-option__price del { color: #A79C8B; font-weight: 400; margin-right: 4px; }
+      .purchase-option__per { font-size: 12px; color: #6E6459; font-weight: 500; }
+    </style>
+    <script>
+      (function () {
+        var toggle = document.querySelector('[data-purchase-options]');
+        if (!toggle) return;
+        var planId = toggle.getAttribute('data-plan-id');
+        var form = document.querySelector('[data-product-form]');
+        var spInput = form && form.querySelector('[name="selling_plan"]');
+        var subBadge = document.querySelector('[data-sub-badge]');
+        var offer = document.querySelector('.gold-offer');
+        var dynamicCheckout = form && form.querySelector('[data-dynamic-checkout]');
+        var opts = Array.prototype.slice.call(toggle.querySelectorAll('[data-purchase-option]'));
+
+        function select(mode) {
+          var subscribe = mode === 'subscribe';
+          opts.forEach(function (o) {
+            var on = o.getAttribute('data-mode') === mode;
+            o.classList.toggle('is-selected', on);
+            o.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          if (spInput) spInput.value = subscribe ? planId : '';
+          if (subBadge) subBadge.hidden = !subscribe;
+          if (offer) offer.style.display = subscribe ? '' : 'none';
+          // Express checkout (Shop Pay) can't carry a subscription, so only show it for one-time.
+          if (dynamicCheckout) dynamicCheckout.hidden = subscribe;
+        }
+
+        opts.forEach(function (o) {
+          o.addEventListener('click', function () { select(o.getAttribute('data-mode')); });
+        });
+
+        // Default to Subscribe on load.
+        select('subscribe');
+      })();
+    </script>
+  {%- endif -%}
+
 </section>
 
 {% schema %}
 {
-  "name": "Product — main",
+  "name": "Product - main",
   "blocks": [
     {
       "type": "gallery_image",
@@ -490,6 +625,19 @@
     }
   ],
   "settings": [
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "background_image", "label": "Product page background image" },
+    { "type": "select", "id": "background_image_size", "label": "Background image size", "default": "cover", "options": [
+      { "value": "cover", "label": "Cover" },
+      { "value": "contain", "label": "Show full image" }
+    ]},
+    { "type": "select", "id": "background_image_position", "label": "Background image position", "default": "center center", "options": [
+      { "value": "center center", "label": "Center" },
+      { "value": "center top", "label": "Top" },
+      { "value": "center bottom", "label": "Bottom" },
+      { "value": "left center", "label": "Left" },
+      { "value": "right center", "label": "Right" }
+    ]},
     { "type": "header", "content": "Gallery" },
     { "type": "checkbox", "id": "use_product_media", "label": "Use Shopify product media", "default": true, "info": "Recommended. Pulls images from the product admin so each product page has its own gallery. Turn off only for a custom template-specific gallery." },
     { "type": "image_picker", "id": "hero_image", "label": "Fallback / template hero image" },

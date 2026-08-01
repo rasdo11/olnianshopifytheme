@@ -93,76 +93,69 @@
     const form = $('[data-product-form]');
     if (!form) return;
 
-    const purchaseOptions = $$('[data-purchase-option]', form);
+    const subBadge = $('[data-sub-badge]', form);
+    const stickySub = document.querySelector('[data-sticky-sub]');
+    const dynamicCheckout = $('[data-dynamic-checkout]', form);
     const sellingPlanInput = $('[name="selling_plan"]', form);
     const variantInput = $('[name="id"]', form);
     const priceEl = $('[data-product-price]');
+    const submitBtn = $('[data-product-submit]', form);
+    const defaultLabel = (submitBtn && submitBtn.dataset.defaultLabel) || 'Add to Cart';
 
-    function selectPurchaseOption(value) {
-      purchaseOptions.forEach((opt) => {
-        opt.setAttribute('data-selected', opt.dataset.purchaseOption === value ? 'true' : 'false');
-      });
-      if (sellingPlanInput) {
-        const selected = purchaseOptions.find((o) => o.dataset.purchaseOption === value);
-        const plan = selected && selected.dataset.sellingPlan;
-        sellingPlanInput.value = plan || '';
-      }
-      updatePriceDisplay();
+    function planForVariant(id) {
+      const v = window.__productVariants && window.__productVariants[id];
+      return v && v.sellingPlanId ? String(v.sellingPlanId) : '';
     }
 
-    function updatePriceDisplay() {
-      if (!priceEl || !variantInput) return;
-      const variantId = variantInput.value;
-      const variant = window.__productVariants && window.__productVariants[variantId];
-      if (!variant) return;
-      const selected = purchaseOptions.find((o) => o.getAttribute('data-selected') === 'true');
-      const hasSub = selected && selected.dataset.sellingPlan;
-      const basePrice = variant.price;
-      const subPrice = Math.round(basePrice * 0.85);
-      if (hasSub) {
-        priceEl.innerHTML = `<del>${formatMoney(basePrice)}</del> ${formatMoney(subPrice)}`;
-      } else {
-        priceEl.textContent = formatMoney(basePrice);
+    // Each variant has ONE purchase mode: variants with a selling plan are
+    // subscription-only (Premium → Gold Subscription); the rest are one-time.
+    function applyState() {
+      const variant = variantInput && window.__productVariants[variantInput.value];
+      const planId = variantInput ? planForVariant(variantInput.value) : '';
+      const isSub = !!planId;
+
+      if (sellingPlanInput) sellingPlanInput.value = isSub ? planId : '';
+      if (subBadge) subBadge.hidden = !isSub;
+      if (stickySub) stickySub.hidden = !isSub;
+      // Express checkout doesn't apply to subscriptions, so hide it (and its "or").
+      if (dynamicCheckout) dynamicCheckout.hidden = isSub;
+
+      if (priceEl && variant) {
+        const base = variant.price;
+        if (isSub) {
+          priceEl.innerHTML = `<del>${formatMoney(base)}</del> ${formatMoney(Math.round(base * 0.85))}<span class="product__price-per">/mo</span>`;
+        } else {
+          priceEl.textContent = formatMoney(base);
+        }
+      }
+
+      if (submitBtn && !(variant && variant.available === false)) {
+        submitBtn.textContent = defaultLabel;
       }
     }
 
-    purchaseOptions.forEach((opt) => {
-      opt.addEventListener('click', () => selectPurchaseOption(opt.dataset.purchaseOption));
-    });
+    function showVariantImage() {
+      if (!variantInput || !window.__pdpGallery) return;
+      const v = window.__productVariants[variantInput.value];
+      // Fall back to the first image (index 0) when a variant has no image of its
+      // own, so re-selecting Premium reverts the hero to the main jar.
+      const idx = v && typeof v.mediaIndex === 'number' && v.mediaIndex >= 0 ? v.mediaIndex : 0;
+      window.__pdpGallery.goTo(idx);
+    }
 
     const variantOptions = $$('[data-variant-option]', form);
     variantOptions.forEach((btn) => {
       btn.addEventListener('click', () => {
         variantOptions.forEach((b) => b.setAttribute('data-selected', b === btn ? 'true' : 'false'));
         if (variantInput) variantInput.value = btn.dataset.variantId;
-        updatePriceDisplay();
+        applyState();
+        showVariantImage();
       });
-    });
-
-    // Subscribe card: when its "Add" button is clicked, pre-fill the selling plan input
-    form.addEventListener('click', (e) => {
-      const subBtn = e.target.closest('[data-selling-plan-id]');
-      if (subBtn && sellingPlanInput) {
-        sellingPlanInput.value = subBtn.dataset.sellingPlanId;
-      }
     });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const submitBtn = $('[data-product-submit]', form);
-      const clickedSubBtn = e.submitter && e.submitter.dataset.sellingPlanId ? e.submitter : null;
-      // If submitter is the subscribe button, ensure selling plan is set
-      if (clickedSubBtn && sellingPlanInput) {
-        sellingPlanInput.value = clickedSubBtn.dataset.sellingPlanId;
-      }
-      const activeSubBtn = clickedSubBtn || $('[data-selling-plan-id]', form);
-      if (clickedSubBtn) {
-        clickedSubBtn.disabled = true;
-        clickedSubBtn.textContent = 'Adding…';
-      } else if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Adding…';
-      }
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Adding…'; }
       try {
         const payload = {
           id: Number(variantInput.value),
@@ -177,12 +170,14 @@
       } catch (err) {
         alert(err.message || 'Could not add to cart.');
       } finally {
-        // Reset selling plan so next "Start Now" click doesn't carry it over
-        if (sellingPlanInput) sellingPlanInput.value = '';
-        if (clickedSubBtn) { clickedSubBtn.disabled = false; clickedSubBtn.textContent = 'Add'; }
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitBtn.dataset.defaultLabel || 'Start Now'; }
+        if (submitBtn) submitBtn.disabled = false;
+        // Re-sync (restores label + selling plan for the next add)
+        applyState();
       }
     });
+
+    // Sync the initial variant (Premium → Gold Subscription) on load.
+    applyState();
   }
 
   /* ---------- Cart item qty updates ---------- */
@@ -215,6 +210,30 @@
         input.value = Math.max(1, Number(input.value) - 1);
       });
     }
+  }
+
+  /* ---------- Quick add (product cards) ---------- */
+  function initQuickAdd() {
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-quick-add]');
+      if (!btn) return;
+      e.preventDefault();
+      if (btn.disabled) return;
+      const variantId = Number(btn.dataset.variantId);
+      if (!variantId) return;
+      btn.disabled = true;
+      btn.setAttribute('data-loading', 'true');
+      try {
+        await CartAPI.add([{ id: variantId, quantity: 1 }]);
+        await Drawer.refresh();
+        Drawer.open();
+      } catch (err) {
+        alert(err.message || 'Could not add to cart.');
+      } finally {
+        btn.disabled = false;
+        btn.removeAttribute('data-loading');
+      }
+    });
   }
 
   /* ---------- Helpers ---------- */
@@ -262,6 +281,9 @@
       if (mobileQuery.matches) goToMobile(index);
       else goToDesktop(index);
     }
+
+    // Expose so variant selection (initProductForm) can switch the hero image
+    window.__pdpGallery = { goTo };
 
     if (slides.length > 1) {
       thumbs.forEach((t) => t.addEventListener('click', () => goTo(Number(t.dataset.thumb))));
@@ -467,17 +489,11 @@
     );
     observer.observe(mainAtc);
 
-    // Proxy "Start Now" — clears selling plan so it's a one-time purchase
-    bar.querySelector('[data-sticky-atc]')?.addEventListener('click', () => {
-      const sp = $('[name="selling_plan"]');
-      if (sp) sp.value = '';
-      mainAtc.click();
-    });
-
-    // Proxy "Save 15%" — clicks the subscribe card's Add button
-    bar.querySelector('[data-sticky-sub]')?.addEventListener('click', () => {
-      $('[data-selling-plan-id]')?.click();
-    });
+    // Both sticky buttons add the current variant in its single mode
+    // (subscription for Premium, one-time otherwise). The main ATC already
+    // carries the correct selling plan.
+    bar.querySelector('[data-sticky-atc]')?.addEventListener('click', () => mainAtc.click());
+    bar.querySelector('[data-sticky-sub]')?.addEventListener('click', () => mainAtc.click());
   }
 
   /* ---------- Expert modal ---------- */
@@ -695,6 +711,7 @@
     Drawer.init();
     initProductForm();
     initCartDrawerEvents();
+    initQuickAdd();
     initGallery();
     initMobileNav();
     initSwatchCarousels();

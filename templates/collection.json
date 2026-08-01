@@ -12,13 +12,13 @@
     "main": {
       "type": "main-collection",
       "settings": {
-        "kicker": "Collection",
-        "header_alignment": "center",
+        "kicker": "",
+        "header_alignment": "left",
         "show_description": false,
         "show_product_count": false,
         "enable_sorting": true,
         "products_per_page": 24,
-        "columns_desktop": "4",
+        "columns_desktop": "3",
         "card_cta_label": "Shop",
         "show_price": true,
         "show_swatches": false,
@@ -27,6 +27,9 @@
         "empty_cta_label": "Browse collections",
         "scheme": "cream",
         "background": "",
+        "background_image": "shopify://shop_images/background1.png",
+        "background_image_size": "cover",
+        "background_image_position": "center center",
         "padding_top": 56,
         "padding_bottom": 96
       }

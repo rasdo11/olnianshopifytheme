@@ -12,125 +12,92 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "g1": {
-          "type": "gallery_image",
-          "settings": {
-            "image": "shopify://shop_images/Collostrum-pdp-1_a9e136f0-70f0-49a2-8b0a-6542c0df3081.png"
-          }
-        },
-        "gallery_image_c2": {
-          "type": "gallery_image",
-          "settings": {}
-        },
-        "gallery_image_c3": {
-          "type": "gallery_image",
-          "settings": {}
-        },
         "b1": {
           "type": "benefit",
           "settings": {
             "icon": "○",
-            "text": "A gut lining that stops overreacting to every meal, trip, or stressful week"
+            "text": "Skin, hair, and nails that don't just rely on what you eat"
           }
         },
         "b2": {
           "type": "benefit",
           "settings": {
             "icon": "○",
-            "text": "Fewer days derailed by bloating, travel stomach, or a post-antibiotic reset"
+            "text": "Joint and connective tissue support as your body's own collagen production slows"
           }
         },
         "b3": {
           "type": "benefit",
           "settings": {
             "icon": "○",
-            "text": "An immune system that holds its ground when everyone around you is sick"
+            "text": "Hydrolyzed for faster absorption than whole collagen protein"
           }
         },
         "b4": {
           "type": "benefit",
           "settings": {
             "icon": "○",
-            "text": "Recovery that keeps pace with your training, not just your rest days"
+            "text": "Completely unflavored — disappears into coffee, smoothies, or water"
           }
         },
         "b5": {
           "type": "benefit",
           "settings": {
             "icon": "○",
-            "text": "The same growth factors that build a newborn calf in weeks, now supporting your gut and skin"
-          }
-        },
-        "b6": {
-          "type": "benefit",
-          "settings": {
-            "icon": "○",
-            "text": "A routine used for generations, now studied for modern gut and immune health"
+            "text": "Grass-fed sourcing, one simple ingredient"
           }
         },
         "s1": {
           "type": "support_item",
           "settings": {
-            "text": "Gut lining integrity and barrier function"
+            "text": "Skin elasticity and hydration"
           }
         },
         "s2": {
           "type": "support_item",
           "settings": {
-            "text": "Immune response and daily resilience"
+            "text": "Hair and nail strength"
           }
         },
         "s3": {
           "type": "support_item",
           "settings": {
-            "text": "Post-workout recovery and inflammation balance"
+            "text": "Joint and connective tissue support"
           }
         },
         "s4": {
           "type": "support_item",
           "settings": {
-            "text": "Nutrient absorption that supports your other daily formulas"
+            "text": "Collagen synthesis via glycine, proline, and hydroxyproline"
           }
         },
         "s5": {
           "type": "support_item",
           "settings": {
-            "text": "Skin clarity and connective tissue support"
-          }
-        },
-        "s6": {
-          "type": "support_item",
-          "settings": {
-            "text": "A full-body foundation when paired with Creatine and Magnesium"
+            "text": "A daily habit that stacks easily with any routine"
           }
         }
       },
       "block_order": [
-        "g1",
-        "gallery_image_c2",
-        "gallery_image_c3",
         "b1",
         "b2",
         "b3",
         "b4",
         "b5",
-        "b6",
         "s1",
         "s2",
         "s3",
         "s4",
-        "s5",
-        "s6"
+        "s5"
       ],
       "settings": {
         "background_image_size": "cover",
         "background_image_position": "center center",
         "use_product_media": true,
-        "hero_image": "shopify://shop_images/Collostrum-pdp-1_a9e136f0-70f0-49a2-8b0a-6542c0df3081.png",
         "show_rating": false,
-        "rating_value": 10,
+        "rating_value": 46,
         "rating_count": "",
-        "tagline": "The first food nature ever made. Now backing your gut and immune health, one scoop a day.",
+        "tagline": "Grass-fed, hydrolyzed collagen types 1 and 3 — unflavored, dissolves clean, one scoop a day for skin, hair, joints, and connective tissue.",
         "benefits_heading": "Benefits",
         "supports_heading": "What it supports",
         "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
@@ -143,8 +110,8 @@
         "gift_banner_text": "",
         "crosssell_product": "creatine-monohydrate",
         "show_bundle_upsell": false,
-        "bundle_upsell_headline": "Bundle + Save 25%",
-        "bundle_upsell_body": "Add Magnesium Glycinate to your routine and save on your first order.",
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
         "bundle_sale_price": "",
         "bundle_compare_price": "",
         "bundle_image_filename": "",
@@ -157,24 +124,24 @@
         "st1": {
           "type": "stat",
           "settings": {
-            "number": "1st",
-            "label": "The first food every mammal receives, before regular milk begins",
+            "number": "Types 1 & 3",
+            "label": "Collagen types included, the most abundant in skin, bone, and muscle",
             "citation": ""
           }
         },
         "st2": {
           "type": "stat",
           "settings": {
-            "number": "IgG",
-            "label": "Naturally rich in immunoglobulins, the antibody proteins colostrum is known for",
+            "number": "1",
+            "label": "Ingredient: grass-fed bovine hide collagen peptides",
             "citation": ""
           }
         },
         "st3": {
           "type": "stat",
           "settings": {
-            "number": "3-in-1",
-            "label": "Formulated to support gut, immune, and recovery in a single daily scoop",
+            "number": "0",
+            "label": "Flavor added — mixes clean into anything",
             "citation": ""
           }
         }
@@ -185,11 +152,11 @@
         "st3"
       ],
       "settings": {
-        "kicker": "The research",
-        "headline": "The first food, made for a daily routine.",
-        "body": "Colostrum is the nutrient-dense milk every mammal produces in the first 24 to 48 hours after birth, before regular milk begins. It is naturally concentrated with immunoglobulins and growth factors built to support gut and immune health from day one. Our bovine colostrum carries the same compounds, collected during that same early window and formulated into a daily scoop.",
+        "kicker": "The basics",
+        "headline": "One ingredient, built for absorption.",
+        "body": "Collagen is one of the most abundant proteins in the body, giving structure to skin, joints, and connective tissue, and natural production slows with age. Hydrolyzing it breaks the protein into smaller peptides your body absorbs more readily, rich in the amino acids glycine, proline, hydroxyproline, and alanine that support your own collagen synthesis.",
         "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
-        "image": "shopify://shop_images/Model_Lisa_Col_b2.png",
+        "image": "shopify://shop_images/model_d1.png",
         "headline_size": 48,
         "padding_top": 96,
         "padding_bottom": 96,
@@ -202,43 +169,43 @@
         "q1": {
           "type": "item",
           "settings": {
-            "question": "What exactly is bovine colostrum?",
-            "answer": "Colostrum is the nutrient-rich milk produced in the first 24 to 48 hours after birth, before regular milk comes in. It is naturally dense in immunoglobulins and growth factors that support gut and immune health. Ours is sourced from grass-fed cows and collected during that same early window."
+            "question": "How is this different from regular collagen protein?",
+            "answer": "It's hydrolyzed, meaning the collagen is broken down into smaller peptides that are easier for your body to absorb, rich in glycine, proline, and hydroxyproline, the amino acids tied to your own collagen production."
           }
         },
         "q2": {
           "type": "item",
           "settings": {
-            "question": "Is it dairy? Will it bother my stomach?",
-            "answer": "Yes, colostrum comes from dairy cows, though it is compositionally different from regular milk. Most people who are sensitive to lactose tolerate colostrum well since it is naturally lower in lactose, but if you have a diagnosed dairy allergy, check with your doctor before starting."
+            "question": "How should I take it?",
+            "answer": "One level scoop in 8 to 10 oz of chilled water or your preferred beverage, mixed for about 5 seconds. It's unflavored, so it works in coffee, smoothies, or plain water."
           }
         },
         "q3": {
           "type": "item",
           "settings": {
-            "question": "When and how should I take it?",
-            "answer": "One scoop daily, any time of day, mixed into water, coffee, or a smoothie. Consistency matters more than timing here, since gut and immune support builds with regular use."
+            "question": "Will it dissolve in hot liquids too?",
+            "answer": "It mixes into cold or room-temperature liquids most easily. It can also be added to warm coffee or tea, though shaking or blending gives the smoothest result."
           }
         },
         "q4": {
           "type": "item",
           "settings": {
             "question": "How long until I notice something?",
-            "answer": "Many people notice steadier digestion within the first couple of weeks. Immune and recovery benefits tend to build over four to eight weeks of consistent daily use, similar to most gut-support routines."
+            "answer": "Skin and nail changes are often reported within 4 to 8 weeks of daily use. Joint and connective tissue support tends to build over a similar or slightly longer timeframe, since collagen turnover is gradual."
           }
         },
         "q5": {
           "type": "item",
           "settings": {
-            "question": "Can I stack this with Creatine and Magnesium?",
-            "answer": "Yes, that is exactly how we designed the line. Creatine supports brain and body energy, magnesium supports calm and recovery, and colostrum supports the gut and immune foundation underneath both."
+            "question": "Can I take this with your other supplements?",
+            "answer": "Yes. It stacks well with Creatine, Magnesium Glycinate, and Colostrum Powder as part of a daily routine, with no known interactions."
           }
         },
         "q6": {
           "type": "item",
           "settings": {
-            "question": "Is it safe with medications or other supplements?",
-            "answer": "Colostrum is generally well tolerated with no significant known interactions, but if you are immunocompromised or managing a chronic condition, talk to your doctor before adding any new supplement."
+            "question": "Can I cancel my subscription?",
+            "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day."
           }
         }
       },

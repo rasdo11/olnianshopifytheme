@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "accessibility": {
@@ -15,7 +24,12 @@
         "one": "{{ count }} item",
         "other": "{{ count }} items"
       },
-      "remove": "Remove"
+      "remove": "Remove",
+      "subscription_upsell_title": "Subscribe and save 15%",
+      "subscription_upsell_body": "Get free shipping on every delivery for the life of your subscription. Skip or cancel anytime.",
+      "subscription_upsell_button": "Switch to Subscribe & Save",
+      "subscription_upsell_loading": "Switching...",
+      "subscription_upsell_error": "We could not update this item. Please try again."
     },
     "product": {
       "add_to_cart": "Add to cart",

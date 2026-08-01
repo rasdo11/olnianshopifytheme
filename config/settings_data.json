@@ -19,11 +19,15 @@
     "display_font_weight": "800",
     "body_font": "Nunito Sans",
     "body_font_weight": "400",
+    "product_name_uppercase": true,
+    "product_name_weight": "600",
+    "product_name_letter_spacing": 24,
     "brand_name": "OLNIAN",
-    "brand_tagline": "Beautiful Supplements for Beauty.",
+    "brand_tagline": "Beauty Starts Within.",
     "favicon": "shopify://shop_images/Olnian_Favicon_1.png",
+    "social_share_image": "shopify://shop_images/model_cynthia1.png",
     "show_ship_badge": false,
-    "ship_badge_text": "Ships in 2–4 weeks",
+    "ship_badge_text": "Ships within a week",
     "color_lavender": "#DCC7FF",
     "color_sky": "#0066A6",
     "button_radius": 28,
@@ -80,7 +84,7 @@
       "brand_name": "Olnian",
       "brand_tagline": "Pure supplements. Made the week you order.",
       "show_ship_badge": true,
-      "ship_badge_text": "Ships in 2–4 weeks"
+      "ship_badge_text": "Ships within a week"
     }
   }
 }

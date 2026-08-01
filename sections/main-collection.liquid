@@ -1,4 +1,4 @@
-<section class="main-collection section--{{ section.settings.scheme | default: 'cream' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}">
+<section class="main-collection section--{{ section.settings.scheme | default: 'cream' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}{% if section.settings.background_image != blank %} background-image: url({{ section.settings.background_image | image_url: width: 2400 }}); background-size: {{ section.settings.background_image_size | default: 'cover' }}; background-position: {{ section.settings.background_image_position | default: 'center center' }}; background-repeat: no-repeat;{% endif %}">
   <div class="container">
     <div class="main-collection__header main-collection__header--{{ section.settings.header_alignment }}">
       {%- if section.settings.kicker != blank -%}
@@ -69,9 +69,27 @@
   </div>
 </section>
 
+{% stylesheet %}
+  .main-collection .sku-card__image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .main-collection .sku-card__primary-img,
+  .main-collection .sku-card__hover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .main-collection .sku-card:hover .sku-card__primary-img {
+    transform: none;
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
-  "name": "Collection — main",
+  "name": "Collection - main",
   "settings": [
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "Collection" },
     { "type": "select", "id": "header_alignment", "label": "Header alignment", "default": "center", "options": [{"value":"center","label":"Center"},{"value":"left","label":"Left"}] },
@@ -88,6 +106,18 @@
     { "type": "text", "id": "empty_cta_label", "label": "Empty CTA label", "default": "Browse collections" },
     { "type": "select", "id": "scheme", "label": "Color scheme", "default": "cream", "options": [{"value":"blush","label":"Blush"},{"value":"cream","label":"Cream"},{"value":"white","label":"White"},{"value":"lavender","label":"Lavender"},{"value":"sky","label":"Blue"},{"value":"coral","label":"Coral"},{"value":"espresso","label":"Espresso"}] },
     { "type": "color", "id": "background", "label": "Custom background" },
+    { "type": "image_picker", "id": "background_image", "label": "Custom background image" },
+    { "type": "select", "id": "background_image_size", "label": "Background image size", "default": "cover", "options": [
+      { "value": "cover", "label": "Cover" },
+      { "value": "contain", "label": "Show full image" }
+    ]},
+    { "type": "select", "id": "background_image_position", "label": "Background image position", "default": "center center", "options": [
+      { "value": "center center", "label": "Center" },
+      { "value": "center top", "label": "Top" },
+      { "value": "center bottom", "label": "Bottom" },
+      { "value": "left center", "label": "Left" },
+      { "value": "right center", "label": "Right" }
+    ]},
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 8, "default": 72 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 8, "default": 96 }
   ]

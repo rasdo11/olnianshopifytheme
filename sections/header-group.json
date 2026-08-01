@@ -42,8 +42,8 @@
         "headline": "Should I take creatine?",
         "subtext": "Four questions. No email required. No pitch if the answer’s no.",
         "trigger_label": "Is creatine for me, right now?",
-        "creatine_url": "shopify://products/creatine-m-h-refill",
-        "bundle_url": "shopify://collections/brain-bundle"
+        "creatine_url": "shopify://products/creatine-monohydrate",
+        "bundle_url": "shopify://products/magnesium-glycinate"
       }
     }
   },

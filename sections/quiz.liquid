@@ -1,6 +1,6 @@
 {%- comment -%}
   sections/quiz.liquid
-  "Should I take creatine?" — 4-question recommendation quiz
+  "Should I take creatine?" - 4-question recommendation quiz
   Adds the recommended product to cart via /cart/add.js AJAX API.
   Trigger: renders a strip section + listens for [data-quiz-open] clicks anywhere on the page.
 {%- endcomment -%}
@@ -29,7 +29,7 @@
 </section>
 {%- endif -%}
 
-{%- comment -%} Modal — always in DOM, shown/hidden via JS {%- endcomment -%}
+{%- comment -%} Modal - always in DOM, shown/hidden via JS {%- endcomment -%}
 <div
   id="OlnianQuiz"
   class="quiz-overlay"
@@ -177,9 +177,9 @@
   /* ── Quiz typography ─────────────────────────────────────── */
   .quiz-eyebrow { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.6; }
   .quiz-headline {
-    font-family: var(--display-font); font-style: italic;
-    font-size: clamp(34px, 4.6vw, 52px); font-weight: 400;
-    line-height: 1.02; letter-spacing: -0.015em;
+    font-family: var(--display-font);
+    font-size: clamp(34px, 4.6vw, 52px); font-weight: var(--display-weight, 800);
+    line-height: 1.02; letter-spacing: -0.02em;
     margin: 14px 0 0; text-wrap: balance;
   }
   .quiz-headline--lg { font-size: clamp(44px, 6vw, 72px); line-height: 0.97; }
@@ -267,11 +267,12 @@
   }
 
   function yesCopy() {
-    if (state.answers.q4 === 'meh')  return { headline: 'Creatine: this time, done right.', body: "Your answers suggest creatine is a strong fit. If you\u2019ve tried it before without noticeable effect, it was likely the dose or the form. Pure micronized monohydrate at 3\u20135\u202fg daily is the studied amount, and the majority of off-the-shelf powders miss that mark. \u00d8lnian doesn\u2019t." };
-    if (state.answers.q4 === 'good') return { headline: 'You already know.', body: "You\u2019ve felt the effect. \u00d8LNIAN is the cleanest version of it we know how to make: pharmaceutical-grade monohydrate, nothing else, tested for heavy metals every batch." };
+    if (state.answers.q2.includes('sleep')) return { headline: 'Start with magnesium.', body: "Poor or disrupted sleep is usually the bigger lever to pull first. Magnesium glycinate supports deeper sleep and a calmer nervous system, often the missing piece behind low energy and brain fog too. Start there, then add creatine once your sleep is dialed in." };
+    if (state.answers.q4 === 'meh')  return { headline: 'Creatine: this time, done right.', body: "Your answers suggest creatine is a strong fit. If you\u2019ve tried it before without noticeable effect, it was likely the dose or the form. Pure micronized monohydrate at 3\u20135\u202fg daily is the studied amount, and the majority of off-the-shelf powders miss that mark. Olnian doesn\u2019t." };
+    if (state.answers.q4 === 'good') return { headline: 'You already know.', body: "You\u2019ve felt the effect. OLNIAN is the cleanest version of it we know how to make: pharmaceutical-grade monohydrate, nothing else, tested for heavy metals every batch." };
     const hasSymptoms = state.answers.q2.length > 0 && !state.answers.q2.includes('none');
     if (!hasSymptoms) return { headline: 'A quiet yes.', body: "Even without specific symptoms, the research on women 30+ is some of the most compelling in the category: strength, cognition, bone density, mood. Creatine isn\u2019t a fix for a problem. It\u2019s a floor you set, daily." };
-    return { headline: 'Creatine was made for this.', body: "Your answers suggest creatine + magnesium glycinate is a strong fit. The research on women in your demographic is some of the most compelling in the category, and \u00d8lnian is the cleanest version of it we know how to make. Every batch tested. Ships within days of production." };
+    return { headline: 'Creatine was made for this.', body: "Your answers suggest creatine is a strong fit. The research on women in your demographic is some of the most compelling in the category, and Olnian is the cleanest version of it we know how to make. Every batch tested. Ships within a week of production." };
   }
 
   function recommendedUrl() {
@@ -311,7 +312,7 @@
       contentEl.innerHTML = `
         <div class="quiz-eyebrow">Four questions \u00b7 30 seconds</div>
         <h2 class="quiz-headline quiz-headline--lg">Should I take creatine?</h2>
-        <p class="quiz-body">An honest look at whether \u00d8LNIAN is for you. No email required. No sales pitch if the answer is no.</p>
+        <p class="quiz-body">An honest look at whether OLNIAN is for you. No email required. No sales pitch if the answer is no.</p>
         <div class="quiz-actions" style="margin-top:36px">
           <button type="button" class="quiz-btn-primary" data-quiz-start>Begin ${ARROW_SVG}</button>
         </div>
@@ -420,7 +421,7 @@
       render(); return;
     }
 
-    // Single-select — auto-advance
+    // Single-select - auto-advance
     const v = opt.dataset.option;
     if (state.step === 1) { state.answers.q1 = v; render(); setTimeout(() => { state.step = 2; render(); }, 160); }
     else if (state.step === 3) { state.answers.q3 = v; render(); setTimeout(() => { state.step = v === 'yes' ? 5 : 4; render(); }, 160); }
@@ -442,7 +443,7 @@
     { "type": "text", "id": "trigger_label", "label": "Button label", "default": "Is creatine for me, right now?" },
     { "type": "header", "content": "Result destinations" },
     { "type": "url", "id": "creatine_url", "label": "Creatine product URL", "info": "Where 'Start the Journey' goes for most quiz results." },
-    { "type": "url", "id": "bundle_url", "label": "Bundle URL (sleep result)", "info": "Where 'Start the Journey' goes when user selects Poor or disrupted sleep." }
+    { "type": "url", "id": "bundle_url", "label": "Sleep result URL", "info": "Where 'Start the Journey' goes when user selects Poor or disrupted sleep — recommends Magnesium instead of Creatine." }
   ],
   "presets": [
     { "name": "Quiz \u2014 recommendation", "category": "Promotions" }

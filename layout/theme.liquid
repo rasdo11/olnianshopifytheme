@@ -17,8 +17,15 @@
     <meta name="description" content="{{ page_description | escape }}">
   {%- endif -%}
 
+  {% render 'meta-tags' %}
+
   {%- assign _df = settings.display_font | default: 'Belleza' -%}
   {%- assign _bf = settings.body_font | default: 'Nunito Sans' -%}
+  {%- if settings.product_name_uppercase == false -%}
+    {%- assign _product_name_transform = 'none' -%}
+  {%- else -%}
+    {%- assign _product_name_transform = 'uppercase' -%}
+  {%- endif -%}
   {%- assign _df_url = _df | replace: ' ', '+' -%}
   {%- assign _bf_url = _bf | replace: ' ', '+' -%}
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,6 +54,9 @@
       --body-font: '{{ _bf }}', system-ui, -apple-system, sans-serif;
       --display-weight: {{ settings.display_font_weight | default: '400' }};
       --body-weight: {{ settings.body_font_weight | default: '300' }};
+      --product-name-weight: {{ settings.product_name_weight | default: '600' }};
+      --product-name-spacing: {{ settings.product_name_letter_spacing | default: 30 | times: 0.001 }}em;
+      --product-name-transform: {{ _product_name_transform }};
     }
   </style>
 

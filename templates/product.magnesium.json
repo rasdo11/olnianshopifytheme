@@ -14,9 +14,7 @@
       "blocks": {
         "gallery_image_iA8bT9": {
           "type": "gallery_image",
-          "settings": {
-            "image": "shopify://shop_images/mg_sleep.png"
-          }
+          "settings": {}
         },
         "gallery_image_hVhnEe": {
           "type": "gallery_image",
@@ -29,42 +27,42 @@
         "b1": {
           "type": "benefit",
           "settings": {
-            "icon": "\u25cb",
+            "icon": "○",
             "text": "Fall asleep faster and stay in deeper sleep through the night"
           }
         },
         "b2": {
           "type": "benefit",
           "settings": {
-            "icon": "\u25cb",
+            "icon": "○",
             "text": "Wake up without the muscle tension that accumulates through the week"
           }
         },
         "b3": {
           "type": "benefit",
           "settings": {
-            "icon": "\u25cb",
+            "icon": "○",
             "text": "Less reactive to stress that used to spiral into your whole day"
           }
         },
         "b4": {
           "type": "benefit",
           "settings": {
-            "icon": "\u25cb",
+            "icon": "○",
             "text": "Fewer PMS and perimenopausal mood crashes"
           }
         },
         "b5": {
           "type": "benefit",
           "settings": {
-            "icon": "\u25cb",
+            "icon": "○",
             "text": "Calm that builds over weeks, not a sedative that hits in an hour"
           }
         },
         "b6": {
           "type": "benefit",
           "settings": {
-            "icon": "\u25cb",
+            "icon": "○",
             "text": "Backed by research on magnesium's role in female hormonal health"
           }
         },
@@ -123,24 +121,32 @@
         "s6"
       ],
       "settings": {
+        "background_image_size": "cover",
+        "background_image_position": "center center",
+        "use_product_media": true,
         "hero_image": "shopify://shop_images/mg-pdp-1.png",
-        "crosssell_product": "creatine",
         "show_rating": true,
         "rating_value": 47,
         "rating_count": "89 reviews",
         "tagline": "The mineral most women are deficient in. In the form your body actually absorbs.",
         "benefits_heading": "Benefits",
         "supports_heading": "What it supports",
+        "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
+        "atc_label": "Start Now",
+        "show_dynamic_checkout": true,
+        "show_subscription_card": true,
+        "show_expert_modal": true,
+        "expert_button_label": "Talk to an expert",
         "show_gift_banner": false,
         "gift_banner_text": "",
+        "crosssell_product": "creatine-monohydrate",
         "show_bundle_upsell": false,
         "bundle_upsell_headline": "",
         "bundle_upsell_body": "",
         "bundle_sale_price": "",
         "bundle_compare_price": "",
         "bundle_image_filename": "",
-        "bundle_upsell_link": "",
-        "use_product_media": true
+        "bundle_upsell_link": ""
       }
     },
     "science": {
@@ -181,6 +187,7 @@
         "headline": "The form matters as much as the mineral.",
         "body": "Most magnesium supplements use the oxide form, which is cheap to produce but nearly impossible to absorb. Glycinate binds magnesium to glycine, an amino acid the gut readily recognizes. The result is absorption that actually reaches the tissues that need it: the brain, the muscles, the adrenals.",
         "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "image": "shopify://shop_images/nurse-white.png",
         "headline_size": 48,
         "padding_top": 96,
         "padding_bottom": 96,
@@ -208,14 +215,14 @@
           "type": "item",
           "settings": {
             "question": "When should I take it?",
-            "answer": "Evening, 30\u201360 minutes before sleep. Magnesium's muscle-relaxing and nervous-system-calming effects work best when timed with your wind-down. You'll still absorb the mineral if you take it in the morning, but you'll miss the sleep optimization window that makes most women notice the difference fastest."
+            "answer": "Evening, 30–60 minutes before sleep. Magnesium's muscle-relaxing and nervous-system-calming effects work best when timed with your wind-down. You'll still absorb the mineral if you take it in the morning, but you'll miss the sleep optimization window that makes most women notice the difference fastest."
           }
         },
         "q4": {
           "type": "item",
           "settings": {
             "question": "How long until I notice something?",
-            "answer": "Most women notice improved sleep depth and less muscle tension within 7\u201314 days. Mood and stress resilience improvements typically appear at 3\u20134 weeks of consistent daily use. Bone density effects are a long game, measurable at 6\u201312 months. The sleep effect tends to be the first thing people feel, which then creates a positive loop for everything else."
+            "answer": "Most women notice improved sleep depth and less muscle tension within 7–14 days. Mood and stress resilience improvements typically appear at 3–4 weeks of consistent daily use. Bone density effects are a long game, measurable at 6–12 months. The sleep effect tends to be the first thing people feel, which then creates a positive loop for everything else."
           }
         },
         "q5": {
