@@ -26,20 +26,76 @@
     "header": {
       "type": "header",
       "blocks": {
-        "m1": { "type": "menu_link", "settings": { "label": "Home", "link": "/" } },
-        "m2": { "type": "menu_link", "settings": { "label": "Products", "link": "/collections/all-products" } },
-        "m3": { "type": "menu_link", "settings": { "label": "Contact", "link": "/pages/contact" } }
+        "m1": {
+          "type": "menu_link",
+          "settings": {
+            "label": "Home",
+            "link": "/"
+          }
+        },
+        "m2": {
+          "type": "menu_link",
+          "settings": {
+            "label": "Products",
+            "link": "/collections/all-products"
+          }
+        },
+        "m3": {
+          "type": "menu_link",
+          "settings": {
+            "label": "Contact",
+            "link": "/pages/contact"
+          }
+        }
       },
-      "block_order": ["m1", "m2", "m3"],
+      "block_order": [
+        "m1",
+        "m2",
+        "m3"
+      ],
       "settings": {
+        "header_background": "#ffffff",
+        "header_border_color": "#f2ece9",
+        "header_text_color": "#2e1206",
+        "logo_color": "#2e1206",
+        "utility_color": "#c43a16",
+        "cart_badge_background": "#ff5a2c",
+        "cart_badge_text_color": "#2e1206",
+        "menu_font_family": "body",
         "menu": "main-menu",
         "menu_font_size": 14,
-        "menu_font_weight": "400",
+        "menu_font_weight": "600",
+        "logo_font_family": "brand",
+        "logo_font_weight": "400",
+        "logo_font_size": 26,
+        "logo_mobile_font_size": 20,
+        "action_font_family": "body",
+        "cart_font_weight": "400",
+        "cart_font_size": 14,
+        "utility_font_weight": "600",
+        "utility_font_size": 12,
+        "quiz_font_weight": "600",
+        "quiz_font_size": 13,
         "utility_text": "Free Shipping",
         "utility_link": "",
         "utility_tooltip": "Free shipping on all subscriptions!",
         "show_quiz_link": true,
-        "quiz_link_label": "Take the quiz"
+        "quiz_link_label": "Take the quiz",
+        "quiz_background": "#ffffff",
+        "quiz_text_color": "#2e1206",
+        "quiz_border_color": "#2e1206",
+        "quiz_hover_background": "#2e1206",
+        "quiz_hover_text_color": "#fff8f0",
+        "mobile_menu_background": "#feb3a0",
+        "mobile_menu_text_color": "#2e1206",
+        "mobile_menu_font_family": "brand",
+        "mobile_menu_font_weight": "400",
+        "mobile_menu_font_size": 24,
+        "mobile_menu_logo_size": 22,
+        "mobile_quiz_background": "#2e1206",
+        "mobile_quiz_text_color": "#fff8f0",
+        "mobile_quiz_border_color": "#2e1206",
+        "mobile_quiz_font_size": 15
       }
     },
     "quiz": {
