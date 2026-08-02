@@ -1,10 +1,181 @@
+{%- liquid
+  case section.settings.menu_font_family
+    when 'heading'
+      assign header_menu_font = 'var(--display-font)'
+    when 'brand'
+      assign header_menu_font = 'var(--brand-font)'
+    else
+      assign header_menu_font = 'var(--body-font)'
+  endcase
+
+  case section.settings.action_font_family
+    when 'heading'
+      assign header_action_font = 'var(--display-font)'
+    when 'brand'
+      assign header_action_font = 'var(--brand-font)'
+    else
+      assign header_action_font = 'var(--body-font)'
+  endcase
+
+  case section.settings.logo_font_family
+    when 'heading'
+      assign header_logo_font = 'var(--display-font)'
+    when 'body'
+      assign header_logo_font = 'var(--body-font)'
+    else
+      assign header_logo_font = 'var(--brand-font)'
+  endcase
+
+  case section.settings.mobile_menu_font_family
+    when 'heading'
+      assign header_mobile_menu_font = 'var(--display-font)'
+    when 'body'
+      assign header_mobile_menu_font = 'var(--body-font)'
+    else
+      assign header_mobile_menu_font = 'var(--brand-font)'
+  endcase
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --header-background: {{ section.settings.header_background }};
+    --header-border-color: {{ section.settings.header_border_color }};
+    --header-text-color: {{ section.settings.header_text_color }};
+    --header-logo-color: {{ section.settings.logo_color }};
+    --header-utility-color: {{ section.settings.utility_color }};
+    --header-menu-font: {{ header_menu_font }};
+    --header-menu-size: {{ section.settings.menu_font_size }}px;
+    --header-menu-weight: {{ section.settings.menu_font_weight }};
+    --header-action-font: {{ header_action_font }};
+    --header-cart-size: {{ section.settings.cart_font_size }}px;
+    --header-cart-weight: {{ section.settings.cart_font_weight }};
+    --header-utility-size: {{ section.settings.utility_font_size }}px;
+    --header-utility-weight: {{ section.settings.utility_font_weight }};
+    --header-quiz-size: {{ section.settings.quiz_font_size }}px;
+    --header-quiz-weight: {{ section.settings.quiz_font_weight }};
+    --header-logo-font: {{ header_logo_font }};
+    --header-logo-size: {{ section.settings.logo_font_size }}px;
+    --header-logo-mobile-size: {{ section.settings.logo_mobile_font_size }}px;
+    --header-logo-weight: {{ section.settings.logo_font_weight }};
+    --header-quiz-background: {{ section.settings.quiz_background }};
+    --header-quiz-text: {{ section.settings.quiz_text_color }};
+    --header-quiz-border: {{ section.settings.quiz_border_color }};
+    --header-quiz-hover-background: {{ section.settings.quiz_hover_background }};
+    --header-quiz-hover-text: {{ section.settings.quiz_hover_text_color }};
+    --header-cart-badge-background: {{ section.settings.cart_badge_background }};
+    --header-cart-badge-text: {{ section.settings.cart_badge_text_color }};
+    --header-mobile-menu-background: {{ section.settings.mobile_menu_background }};
+    --header-mobile-menu-text: {{ section.settings.mobile_menu_text_color }};
+    --header-mobile-menu-font: {{ header_mobile_menu_font }};
+    --header-mobile-menu-size: {{ section.settings.mobile_menu_font_size }}px;
+    --header-mobile-menu-weight: {{ section.settings.mobile_menu_font_weight }};
+    --header-mobile-menu-logo-size: {{ section.settings.mobile_menu_logo_size }}px;
+    --header-mobile-quiz-background: {{ section.settings.mobile_quiz_background }};
+    --header-mobile-quiz-text: {{ section.settings.mobile_quiz_text_color }};
+    --header-mobile-quiz-border: {{ section.settings.mobile_quiz_border_color }};
+    --header-mobile-quiz-size: {{ section.settings.mobile_quiz_font_size }}px;
+  }
+
+  #shopify-section-{{ section.id }} .site-header {
+    background: var(--header-background);
+    color: var(--header-text-color);
+    border-bottom-color: var(--header-border-color);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__nav {
+    font-family: var(--header-menu-font);
+    font-size: var(--header-menu-size);
+    font-weight: var(--header-menu-weight);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__logo,
+  #shopify-section-{{ section.id }} .site-nav-overlay__logo {
+    color: var(--header-logo-color);
+    font-family: var(--header-logo-font);
+    font-size: var(--header-logo-size);
+    font-weight: var(--header-logo-weight);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__actions,
+  #shopify-section-{{ section.id }} .site-header__cart,
+  #shopify-section-{{ section.id }} .site-header__utility,
+  #shopify-section-{{ section.id }} .site-header__quiz {
+    font-family: var(--header-action-font);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__cart {
+    font-size: var(--header-cart-size);
+    font-weight: var(--header-cart-weight);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__utility {
+    color: var(--header-utility-color);
+    font-size: var(--header-utility-size);
+    font-weight: var(--header-utility-weight);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__quiz {
+    background: var(--header-quiz-background);
+    color: var(--header-quiz-text);
+    border-color: var(--header-quiz-border);
+    font-size: var(--header-quiz-size);
+    font-weight: var(--header-quiz-weight);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__quiz:hover,
+  #shopify-section-{{ section.id }} .site-header__quiz:focus-visible {
+    background: var(--header-quiz-hover-background);
+    color: var(--header-quiz-hover-text);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__cart-count {
+    background: var(--header-cart-badge-background);
+    color: var(--header-cart-badge-text);
+  }
+
+  #shopify-section-{{ section.id }} .site-header__hamburger span {
+    background: var(--header-text-color);
+  }
+
+  #shopify-section-{{ section.id }} .site-nav-overlay {
+    background: var(--header-mobile-menu-background);
+    color: var(--header-mobile-menu-text);
+  }
+
+  #shopify-section-{{ section.id }} .site-nav-overlay__logo {
+    color: var(--header-mobile-menu-text);
+    font-size: var(--header-mobile-menu-logo-size);
+  }
+
+  #shopify-section-{{ section.id }} .site-nav-overlay__links a {
+    font-family: var(--header-mobile-menu-font);
+    font-size: var(--header-mobile-menu-size);
+    font-weight: var(--header-mobile-menu-weight);
+  }
+
+  #shopify-section-{{ section.id }} .site-nav-overlay__quiz {
+    background: var(--header-mobile-quiz-background);
+    color: var(--header-mobile-quiz-text);
+    border: 1.5px solid var(--header-mobile-quiz-border);
+    font-family: var(--header-action-font);
+    font-size: var(--header-mobile-quiz-size);
+    font-weight: var(--header-quiz-weight);
+  }
+
+  @media (max-width: 600px) {
+    #shopify-section-{{ section.id }} .site-header__logo {
+      font-size: var(--header-logo-mobile-size);
+    }
+  }
+{% endstyle %}
+
 <header class="site-header" role="banner">
   <div class="container site-header__inner">
     <div class="site-header__left">
       <button class="site-header__hamburger" id="SiteNavToggle" aria-expanded="false" aria-controls="SiteNavOverlay" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
-      <nav class="site-header__nav" id="SiteNav" aria-label="Primary" style="font-size: {{ section.settings.menu_font_size | default: 14 }}px; font-weight: {{ section.settings.menu_font_weight | default: '400' }};">
+      <nav class="site-header__nav" id="SiteNav" aria-label="Primary">
         {%- render 'header-menu-links', section: section -%}
       </nav>
     </div>
@@ -57,6 +228,26 @@
 {
   "name": "Header",
   "settings": [
+    { "type": "header", "content": "Header colors" },
+    { "type": "color", "id": "header_background", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "header_border_color", "label": "Bottom border", "default": "#F2ECE9" },
+    { "type": "color", "id": "header_text_color", "label": "Menu and action text", "default": "#2E1206" },
+    { "type": "color", "id": "logo_color", "label": "Logo text", "default": "#2E1206" },
+    { "type": "color", "id": "utility_color", "label": "Utility callout", "default": "#C43A16" },
+    { "type": "color", "id": "cart_badge_background", "label": "Cart badge background", "default": "#FF5A2C" },
+    { "type": "color", "id": "cart_badge_text_color", "label": "Cart badge text", "default": "#2E1206" },
+    { "type": "header", "content": "Menu typography" },
+    {
+      "type": "select",
+      "id": "menu_font_family",
+      "label": "Menu font family",
+      "options": [
+        { "value": "body", "label": "Theme body font" },
+        { "value": "heading", "label": "Theme heading font" },
+        { "value": "brand", "label": "Brand font" }
+      ],
+      "default": "body"
+    },
     {
       "type": "link_list",
       "id": "menu",
@@ -86,6 +277,93 @@
       ],
       "default": "400"
     },
+    { "type": "header", "content": "Logo typography" },
+    {
+      "type": "select",
+      "id": "logo_font_family",
+      "label": "Logo font family",
+      "options": [
+        { "value": "brand", "label": "Brand font" },
+        { "value": "heading", "label": "Theme heading font" },
+        { "value": "body", "label": "Theme body font" }
+      ],
+      "default": "brand"
+    },
+    {
+      "type": "select",
+      "id": "logo_font_weight",
+      "label": "Logo font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra-bold (800)" },
+        { "value": "900", "label": "Black (900)" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "logo_font_size", "label": "Logo size", "min": 18, "max": 42, "step": 1, "unit": "px", "default": 26 },
+    { "type": "range", "id": "logo_mobile_font_size", "label": "Logo size on mobile", "min": 16, "max": 32, "step": 1, "unit": "px", "default": 20 },
+    { "type": "header", "content": "Header actions typography" },
+    {
+      "type": "select",
+      "id": "action_font_family",
+      "label": "Actions font family",
+      "info": "Controls the quiz button, utility callout, and cart.",
+      "options": [
+        { "value": "body", "label": "Theme body font" },
+        { "value": "heading", "label": "Theme heading font" },
+        { "value": "brand", "label": "Brand font" }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "select",
+      "id": "cart_font_weight",
+      "label": "Cart font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra-bold (800)" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "cart_font_size", "label": "Cart font size", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+    {
+      "type": "select",
+      "id": "utility_font_weight",
+      "label": "Utility font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra-bold (800)" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "utility_font_size", "label": "Utility font size", "min": 10, "max": 18, "step": 1, "unit": "px", "default": 12 },
+    {
+      "type": "select",
+      "id": "quiz_font_weight",
+      "label": "Quiz button font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra-bold (800)" }
+      ],
+      "default": "600"
+    },
+    { "type": "range", "id": "quiz_font_size", "label": "Quiz button font size", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 13 },
     {
       "type": "text",
       "id": "utility_text",
@@ -103,7 +381,7 @@
       "label": "Utility hover bubble text",
       "default": "Free shipping on all subscriptions!"
     },
-    { "type": "header", "content": "Quiz" },
+    { "type": "header", "content": "Quiz button" },
     {
       "type": "checkbox",
       "id": "show_quiz_link",
@@ -116,7 +394,46 @@
       "id": "quiz_link_label",
       "label": "Quiz link label",
       "default": "Take the quiz"
-    }
+    },
+    { "type": "color", "id": "quiz_background", "label": "Button background", "default": "#FFFFFF" },
+    { "type": "color", "id": "quiz_text_color", "label": "Button text", "default": "#2E1206" },
+    { "type": "color", "id": "quiz_border_color", "label": "Button border", "default": "#2E1206" },
+    { "type": "color", "id": "quiz_hover_background", "label": "Hover background", "default": "#2E1206" },
+    { "type": "color", "id": "quiz_hover_text_color", "label": "Hover text", "default": "#FFF8F0" },
+    { "type": "header", "content": "Mobile menu" },
+    { "type": "color", "id": "mobile_menu_background", "label": "Menu background", "default": "#FEB3A0" },
+    { "type": "color", "id": "mobile_menu_text_color", "label": "Menu text", "default": "#2E1206" },
+    {
+      "type": "select",
+      "id": "mobile_menu_font_family",
+      "label": "Menu font family",
+      "options": [
+        { "value": "brand", "label": "Brand font" },
+        { "value": "heading", "label": "Theme heading font" },
+        { "value": "body", "label": "Theme body font" }
+      ],
+      "default": "brand"
+    },
+    {
+      "type": "select",
+      "id": "mobile_menu_font_weight",
+      "label": "Menu font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra-bold (800)" }
+      ],
+      "default": "400"
+    },
+    { "type": "range", "id": "mobile_menu_font_size", "label": "Menu font size", "min": 18, "max": 40, "step": 1, "unit": "px", "default": 24 },
+    { "type": "range", "id": "mobile_menu_logo_size", "label": "Menu logo size", "min": 16, "max": 32, "step": 1, "unit": "px", "default": 22 },
+    { "type": "color", "id": "mobile_quiz_background", "label": "Quiz button background", "default": "#2E1206" },
+    { "type": "color", "id": "mobile_quiz_text_color", "label": "Quiz button text", "default": "#FFF8F0" },
+    { "type": "color", "id": "mobile_quiz_border_color", "label": "Quiz button border", "default": "#2E1206" },
+    { "type": "range", "id": "mobile_quiz_font_size", "label": "Quiz button font size", "min": 11, "max": 22, "step": 1, "unit": "px", "default": 15 }
   ],
   "blocks": [
     {
