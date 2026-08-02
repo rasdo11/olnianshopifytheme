@@ -559,32 +559,44 @@
 
     const form = $('#ExpertModalForm');
     const success = modal.querySelector('.expert-modal__success');
+    const errorEl = modal.querySelector('.expert-modal__error');
     if (form) {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('.expert-modal__submit');
+        const label = btn.textContent;
         btn.disabled = true;
         btn.textContent = 'Sending...';
+        if (errorEl) errorEl.hidden = true;
+
+        function fail() {
+          btn.disabled = false;
+          btn.textContent = label;
+          if (errorEl) errorEl.hidden = false;
+        }
+
         try {
           const body = new URLSearchParams(new FormData(form));
-          // Build a readable contact body from name + phone
+          // Readable summary for the notification email, so the inbox gets one glanceable block.
           const name = form.querySelector('[name="contact[name]"]').value.trim();
-          const phone = form.querySelector('[name="contact[phone]"]').value.trim();
-          const zip = form.querySelector('[name="contact[zip]"]')?.value.trim() || '';
-          const channel = form.querySelector('[name="contact[channel]"]:checked')?.value || 'SMS';
+          const email = form.querySelector('[name="contact[email]"]').value.trim();
           const product = form.querySelector('[name="contact[product]"]')?.value || '';
-          body.set('contact[body]', `Expert text request\nName: ${name}\nPhone: ${phone}\nZIP: ${zip}\nContact via: ${channel}\nProduct: ${product}`);
+          body.set('contact[body]', `Expert request\nName: ${name}\nEmail: ${email}\nViewing: ${product}`);
+
           const res = await fetch('/contact', { method: 'POST', body, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
-          if (res.ok || res.redirected) {
+
+          // Shopify redirects to ?contact_posted=true on success, but RE-RENDERS the page with
+          // a 200 and no redirect when validation fails. The old check (res.ok || res.redirected)
+          // therefore reported success on every rejected submission.
+          const posted = res.redirected || /contact_posted=true/.test(res.url || '');
+          if (res.ok && posted) {
             form.hidden = true;
             if (success) success.hidden = false;
           } else {
-            btn.disabled = false;
-            btn.textContent = 'Text me';
+            fail();
           }
         } catch (_) {
-          btn.disabled = false;
-          btn.textContent = 'Text me';
+          fail();
         }
       });
     }

@@ -1372,35 +1372,16 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .expert-modal__field input:focus { border-color: var(--espresso, #2c1a10); }
 .expert-modal__submit { width: 100%; margin-top: 8px; }
+.expert-modal__error {
+  margin-top: 12px; font-size: 13px; line-height: 1.5;
+  color: var(--tangerine, #e85c2a); text-align: center;
+}
+.expert-modal__error[hidden] { display: none; }
 .expert-modal__success {
   text-align: center; padding: 16px 0 4px;
   font-size: 16px; font-weight: 600;
   color: var(--tangerine, #e85c2a);
 }
-.expert-modal__channel-row {
-  display: flex; gap: 10px; margin-top: 4px;
-}
-.expert-modal__channel-opt {
-  display: flex; align-items: center; gap: 0;
-  flex: 1; cursor: pointer;
-}
-.expert-modal__channel-opt input[type="radio"] { display: none; }
-.expert-modal__channel-opt span {
-  display: block; width: 100%;
-  padding: 12px 16px;
-  text-align: center;
-  border: 1.5px solid var(--espresso-12, rgba(44,26,16,0.12));
-  border-radius: 10px;
-  font-size: 14px; font-weight: 500;
-  transition: border-color 0.15s, background 0.15s;
-  user-select: none;
-}
-.expert-modal__channel-opt input[type="radio"]:checked + span {
-  border-color: var(--espresso, #2c1a10);
-  background: var(--espresso, #2c1a10);
-  color: #fff;
-}
-
 /* ============================================================
    BILLIE-STYLE REBUILD — full-bleed color bands, nav overlay,
    grid headers, swatches, newsletter, extended footer.

@@ -512,42 +512,31 @@
     <div class="expert-modal__overlay" data-expert-modal-close></div>
     <div class="expert-modal__dialog">
       <button type="button" class="expert-modal__close" data-expert-modal-close aria-label="Close">&#x2715;</button>
-      <p class="expert-modal__eyebrow">One of our experts will text you</p>
+      <p class="expert-modal__eyebrow">One of our experts will email you</p>
       <h2 class="expert-modal__headline" id="ExpertModalTitle">Talk to an expert</h2>
-      <p class="expert-modal__subtext">Have a question about which supplement is right for you? Leave your name and number and we'll reach out within 24 hours.</p>
+      <p class="expert-modal__subtext">Not sure which supplement is right for you? Leave your email and we'll follow up with a few questions so we can point you in the right direction.</p>
       <form class="expert-modal__form" id="ExpertModalForm" action="/contact" method="post" accept-charset="UTF-8">
         <input type="hidden" name="form_type" value="contact">
         <input type="hidden" name="utf8" value="&#x2713;">
         <input type="hidden" name="contact[product]" value="{{ product.title }}">
+        {%- comment -%}
+          contact[email] is REQUIRED by Shopify's contact form - without it the submission is
+          rejected. Keep the form to name + email; the qualifying questions (what they're
+          taking, what has and hasn't worked) go out in the automated reply from the inbox.
+        {%- endcomment -%}
         <div class="expert-modal__field">
           <label for="ExpertName">First name</label>
           <input type="text" id="ExpertName" name="contact[name]" placeholder="Jane" required autocomplete="given-name">
         </div>
         <div class="expert-modal__field">
-          <label for="ExpertPhone">Phone number</label>
-          <input type="tel" id="ExpertPhone" name="contact[phone]" placeholder="(555) 000-0000" required autocomplete="tel">
+          <label for="ExpertEmail">Email</label>
+          <input type="email" id="ExpertEmail" name="contact[email]" placeholder="jane@email.com" required autocomplete="email" inputmode="email">
         </div>
-        <div class="expert-modal__field">
-          <label for="ExpertZip">ZIP code</label>
-          <input type="text" id="ExpertZip" name="contact[zip]" placeholder="90210" inputmode="numeric" maxlength="10" autocomplete="postal-code">
-        </div>
-        <div class="expert-modal__field">
-          <label>Preferred contact method</label>
-          <div class="expert-modal__channel-row">
-            <label class="expert-modal__channel-opt">
-              <input type="radio" name="contact[channel]" value="SMS" checked>
-              <span>SMS</span>
-            </label>
-            <label class="expert-modal__channel-opt">
-              <input type="radio" name="contact[channel]" value="WhatsApp">
-              <span>WhatsApp</span>
-            </label>
-          </div>
-        </div>
-        <button type="submit" class="btn btn--primary expert-modal__submit">Text me</button>
+        <button type="submit" class="btn btn--primary expert-modal__submit">Send</button>
+        <p class="expert-modal__error" hidden role="alert">That didn't go through. Please check your email address and try again, or write to us at {{ shop.email }}.</p>
       </form>
       <div class="expert-modal__success" hidden>
-        <p>Got it! An expert will text you shortly.</p>
+        <p>Got it! Check your inbox — we'll be in touch shortly.</p>
       </div>
     </div>
   </div>
