@@ -1,3 +1,36 @@
+{%- liquid
+  case section.settings.headline_font_family
+    when 'body'
+      assign category_headline_font = 'var(--body-font)'
+    when 'brand'
+      assign category_headline_font = 'var(--brand-font)'
+    else
+      assign category_headline_font = 'var(--display-font)'
+  endcase
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .category-feature__headline {
+    {% if section.settings.use_custom_headline_color %}color: {{ section.settings.headline_color }};{% endif %}
+    font-family: {{ category_headline_font }};
+    font-size: clamp({{ section.settings.headline_mobile_font_size }}px, 6.8vw, {{ section.settings.headline_font_size }}px);
+    font-weight: {{ section.settings.headline_font_weight }};
+    line-height: {{ section.settings.headline_line_height | times: 0.01 }};
+    letter-spacing: {{ section.settings.headline_letter_spacing | times: 0.001 }}em;
+    max-width: {{ section.settings.headline_max_width }}px;
+    margin-inline: {% case section.settings.headline_alignment %}{% when 'center' %}auto{% when 'right' %}auto 0{% else %}0 auto{% endcase %};
+    text-align: {{ section.settings.headline_alignment }};
+  }
+
+  @media (max-width: 600px) {
+    #shopify-section-{{ section.id }} .category-feature__headline {
+      font-size: {{ section.settings.headline_mobile_font_size }}px;
+      line-height: {{ section.settings.headline_mobile_line_height | times: 0.01 }};
+      letter-spacing: {{ section.settings.headline_mobile_letter_spacing | times: 0.001 }}em;
+    }
+  }
+{% endstyle %}
+
 <section class="category-feature section--{{ section.settings.scheme | default: 'cream' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}">
   <div class="container category-feature__grid category-feature__grid--image-{{ section.settings.image_position }}">
     <div class="category-feature__media category-feature__media--{{ section.settings.media_shape }} category-feature__media--fit-{{ section.settings.media_fit }}" style="--category-media-ratio: {{ section.settings.media_ratio | default: '4 / 5' }}; --category-media-fit: {{ section.settings.media_fit | default: 'cover' }}; --category-media-position: {{ section.settings.media_position | default: 'center center' }}; --category-media-max-width: {{ section.settings.media_max_width | default: 100 }}%; --category-media-mobile-max-width: {{ section.settings.media_mobile_max_width | default: 100 }}%;">
@@ -29,6 +62,44 @@
   "settings": [
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "The daily ritual" },
     { "type": "textarea", "id": "headline", "label": "Headline", "default": "Brain, body, balance in one polished scoop." },
+    { "type": "header", "content": "Headline typography" },
+    {
+      "type": "select",
+      "id": "headline_font_family",
+      "label": "Font family",
+      "options": [
+        { "value": "heading", "label": "Theme heading font" },
+        { "value": "body", "label": "Theme body font" },
+        { "value": "brand", "label": "Brand font" }
+      ],
+      "default": "heading"
+    },
+    {
+      "type": "select",
+      "id": "headline_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra-bold (800)" },
+        { "value": "900", "label": "Black (900)" }
+      ],
+      "default": "800"
+    },
+    { "type": "range", "id": "headline_font_size", "label": "Desktop maximum size", "min": 32, "max": 120, "step": 2, "unit": "px", "default": 88 },
+    { "type": "range", "id": "headline_mobile_font_size", "label": "Mobile size", "min": 24, "max": 72, "step": 1, "unit": "px", "default": 44 },
+    { "type": "range", "id": "headline_line_height", "label": "Line height", "info": "100 is normal line height.", "min": 80, "max": 140, "step": 2, "unit": "%", "default": 94 },
+    { "type": "range", "id": "headline_mobile_line_height", "label": "Mobile line height", "info": "100 is normal line height.", "min": 80, "max": 140, "step": 2, "unit": "%", "default": 102 },
+    { "type": "range", "id": "headline_letter_spacing", "label": "Letter spacing", "info": "Measured in thousandths of an em; negative values tighten the headline.", "min": -60, "max": 20, "step": 1, "default": -45 },
+    { "type": "range", "id": "headline_mobile_letter_spacing", "label": "Mobile letter spacing", "info": "Measured in thousandths of an em.", "min": -60, "max": 20, "step": 1, "default": -32 },
+    { "type": "range", "id": "headline_max_width", "label": "Maximum width", "min": 320, "max": 1000, "step": 20, "unit": "px", "default": 760 },
+    { "type": "select", "id": "headline_alignment", "label": "Alignment", "default": "left", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}] },
+    { "type": "checkbox", "id": "use_custom_headline_color", "label": "Use custom color", "default": false },
+    { "type": "color", "id": "headline_color", "label": "Custom color", "default": "#2E1206" },
+    { "type": "header", "content": "Supporting content" },
     { "type": "textarea", "id": "body", "label": "Body", "default": "Premium Creatine M.H. is designed for women who want focus, cellular energy, and recovery support without fillers or fuss." },
     { "type": "image_picker", "id": "image", "label": "Image" },
     { "type": "video", "id": "video", "label": "Shopify-hosted video" },
