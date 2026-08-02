@@ -4,6 +4,49 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+  /* ---------- Dialog focus management (shared by every modal) ----------
+     Modal dialogs have to keep Tab inside themselves while open and hand focus back to
+     whatever opened them. None of them did, so keyboard users tabbed straight out of an
+     open dialog into the page behind it, and on close were dumped at the top of the
+     document. One implementation, reused by the cart drawer, expert modal, nav overlay
+     and lightbox. (Closed dialogs are taken out of the tab order by `visibility: hidden`
+     in theme.css — this handles the open state.) */
+  const FOCUSABLE = [
+    'a[href]', 'button:not([disabled])', 'input:not([disabled])',
+    'select:not([disabled])', 'textarea:not([disabled])', '[tabindex]:not([tabindex="-1"])',
+  ].join(',');
+
+  const DialogFocus = {
+    _open: [],
+    capture(el, initial) {
+      if (!el || this._open.some((r) => r.el === el)) return;
+      const trigger = document.activeElement;
+      const onKeydown = (e) => {
+        if (e.key !== 'Tab') return;
+        const items = $$(FOCUSABLE, el).filter((n) => n.offsetWidth || n.offsetHeight || n.getClientRects().length);
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      };
+      el.addEventListener('keydown', onKeydown);
+      this._open.push({ el, trigger, onKeydown });
+      // Move focus in, otherwise Tab would resume from wherever it was in the page behind.
+      const target = (typeof initial === 'string' ? $(initial, el) : initial) || $(FOCUSABLE, el);
+      if (target) setTimeout(() => { try { target.focus({ preventScroll: true }); } catch (_) {} }, 60);
+    },
+    release(el) {
+      const i = this._open.findIndex((r) => r.el === el);
+      if (i === -1) return;
+      const rec = this._open.splice(i, 1)[0];
+      rec.el.removeEventListener('keydown', rec.onKeydown);
+      if (rec.trigger && document.contains(rec.trigger)) {
+        try { rec.trigger.focus({ preventScroll: true }); } catch (_) {}
+      }
+    },
+  };
+
   /* ---------- Cart API ---------- */
   const CartAPI = {
     async get() {
@@ -60,6 +103,7 @@
       // Lets CSS pull the 10% off tab out of the way of the Checkout button.
       document.body.classList.add('cart-open');
       if (!window.Shopify || !window.Shopify.designMode) document.body.style.overflow = 'hidden';
+      DialogFocus.capture(this.el, '.cart-drawer__close');
     },
     close() {
       if (!this.el) return;
@@ -67,6 +111,7 @@
       this.el.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('cart-open');
       document.body.style.overflow = '';
+      DialogFocus.release(this.el);
     },
     async refresh() {
       const res = await fetch(`${window.location.pathname}?section_id=cart-drawer`, {
@@ -267,10 +312,20 @@
     const mobileQuery = window.matchMedia('(max-width: 900px)');
 
     // Desktop: opacity/active fade
+    // Keeps aria-current on the active dot so the gallery position is announced, not just shown.
+    function markActiveDot(index) {
+      dots.forEach((d, i) => {
+        const on = i === index;
+        d.classList.toggle('is-active', on);
+        if (on) d.setAttribute('aria-current', 'true');
+        else d.removeAttribute('aria-current');
+      });
+    }
+
     function goToDesktop(index) {
       slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
       thumbs.forEach((t, i) => t.classList.toggle('is-active', i === index));
-      dots.forEach((d, i)   => d.classList.toggle('is-active', i === index));
+      markActiveDot(index);
     }
 
     // Per-slide scroll step = slide width + flex gap (slides peek at ~88% width)
@@ -307,8 +362,7 @@
           clearTimeout(scrollTimer);
           scrollTimer = setTimeout(() => {
             if (!mobileQuery.matches) return;
-            const idx = Math.round(main.scrollLeft / mobileStep());
-            dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+            markActiveDot(Math.round(main.scrollLeft / mobileStep()));
           }, 60);
         }, { passive: true });
 
@@ -345,12 +399,14 @@
       lightbox.classList.add('is-open');
       lightbox.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      DialogFocus.capture(lightbox, '[data-lightbox-close]');
     }
 
     function lbClose() {
       lightbox.classList.remove('is-open');
       lightbox.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      DialogFocus.release(lightbox);
     }
 
     function lbCurrentIndex() {
@@ -415,6 +471,7 @@
       toggle.classList.add('is-open');
       toggle.setAttribute('aria-expanded', 'true');
       document.body.classList.add('nav-open');
+      DialogFocus.capture(overlay, '.site-nav-overlay__close');
     }
     function close() {
       overlay.classList.remove('is-open');
@@ -422,6 +479,7 @@
       toggle.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
       document.body.classList.remove('nav-open');
+      DialogFocus.release(overlay);
     }
 
     toggle.addEventListener('click', () => {
@@ -540,16 +598,14 @@
       document.body.style.overflow = 'hidden';
       // Only auto-focus the first field on devices with a real pointer. On touch, focusing an
       // input pops the keyboard and shoves the viewport around the moment the modal appears.
-      if (window.matchMedia('(pointer: fine)').matches) {
-        modal.querySelector('#ExpertName')?.focus();
-      } else {
-        modal.querySelector('.expert-modal__close')?.focus();
-      }
+      const landing = window.matchMedia('(pointer: fine)').matches ? '#ExpertName' : '.expert-modal__close';
+      DialogFocus.capture(modal, landing);
     }
     function closeModal() {
       modal.classList.remove('is-open');
       modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      DialogFocus.release(modal);
     }
 
     document.addEventListener('click', (e) => {
@@ -688,6 +744,12 @@
         if (!mediaFrame) return;
         mediaFrame.classList.toggle('is-video-paused', video.paused);
         mediaFrame.classList.toggle('is-video-playing', !video.paused);
+        // The control is a play/pause toggle, so its name and glyph have to follow state.
+        if (playButton) {
+          playButton.setAttribute('aria-label', video.paused ? 'Play hero video' : 'Pause hero video');
+          const glyph = playButton.querySelector('span');
+          if (glyph) glyph.textContent = video.paused ? '▶' : '❚❚';
+        }
       };
 
       const playVideo = () => {
@@ -699,7 +761,9 @@
         syncState();
       };
 
-      if (mobileQuery.matches) {
+      // Don't autoplay for anyone who has asked the OS to reduce motion.
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (mobileQuery.matches || reduceMotion.matches) {
         pauseVideo();
       } else {
         syncState();
@@ -711,7 +775,8 @@
       if (playButton) {
         playButton.addEventListener('click', (event) => {
           event.stopPropagation();
-          playVideo();
+          if (video.paused) playVideo();
+          else pauseVideo();
         });
       }
 

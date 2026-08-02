@@ -103,11 +103,18 @@
             </div>
           {%- endif -%}
 
-          {%- comment -%} Dot navigation - mobile only {%- endcomment -%}
+          {%- comment -%}
+            Dot navigation - mobile only. NOT aria-hidden: below 900px the thumbnail rail is
+            hidden, so these dots are the only gallery navigation there. Hiding them from
+            assistive tech while leaving them focusable removed gallery access entirely.
+          {%- endcomment -%}
           {%- if has_gallery and total_slides > 1 -%}
-            <div class="pdp-gallery__dots" id="PdpDots" aria-hidden="true">
+            <div class="pdp-gallery__dots" id="PdpDots" role="group" aria-label="Gallery navigation">
               {%- for i in (1..total_slides) -%}
-                <button type="button" class="pdp-gallery__dot{% if forloop.first %} is-active{% endif %}" data-dot="{{ forloop.index0 }}"></button>
+                <button type="button" class="pdp-gallery__dot{% if forloop.first %} is-active{% endif %}"
+                  data-dot="{{ forloop.index0 }}"
+                  aria-label="Show image {{ forloop.index }} of {{ total_slides }}"
+                  {% if forloop.first %}aria-current="true"{% endif %}></button>
               {%- endfor -%}
             </div>
           {%- endif -%}

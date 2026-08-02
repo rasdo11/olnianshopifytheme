@@ -1,5 +1,9 @@
 :root {
+  /* --tangerine is a FILL colour only. As a foreground it measures 2.95:1 on blush, which
+     fails WCAG AA (4.5 for text, 3.0 for UI). --tangerine-text is the same hue darkened to
+     5.03:1 and is what every `color:` declaration uses. Don't set `color: var(--tangerine)`. */
   --tangerine: #FF5A2C;
+  --tangerine-text: #C43A16;
   --flamingo: #FEB3A0;
   --gold: #E8A13C;
   --mint: #3ECFB2;
@@ -65,7 +69,9 @@ img { display: block; max-width: 100%; }
 ::-webkit-scrollbar-thumb { background: var(--espresso-12); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--espresso-30); }
 
-:focus-visible { outline: 2px solid var(--tangerine); outline-offset: 3px; }
+/* Espresso ring: 16.5:1 on blush and clearly visible on the flamingo nav overlay. The old
+   tangerine ring was 2.95:1, under the 3.0 that WCAG 1.4.11 requires of focus indicators. */
+:focus-visible { outline: 2px solid var(--espresso); outline-offset: 3px; }
 
 /* Layout container */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
@@ -85,8 +91,12 @@ img { display: block; max-width: 100%; }
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 .btn:active { transform: translateY(1px); }
-.btn--primary { background: var(--tangerine); color: var(--blush); }
-.btn--primary:hover { background: var(--espresso); }
+/* Espresso on tangerine is 5.6:1. The old blush label was 2.95:1 — a WCAG AA failure on
+   every primary CTA including Add to Cart and Checkout. Brand orange is unchanged. */
+.btn--primary { background: var(--tangerine); color: var(--espresso); }
+/* Hover flips to the espresso fill, so the label must flip to blush or it would be
+   espresso-on-espresso now that the resting label is dark. */
+.btn--primary:hover { background: var(--espresso); color: var(--blush); }
 .btn--outline { background: transparent; color: var(--espresso); border: 1px solid var(--espresso); }
 .btn--outline:hover { background: var(--espresso); color: var(--blush); }
 .btn--ghost { background: transparent; color: var(--espresso); }
@@ -117,7 +127,7 @@ img { display: block; max-width: 100%; }
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--tangerine);
+  color: var(--tangerine-text);
 }
 @media (max-width: 900px) { .site-header__utility { display: none; } }
 
@@ -173,7 +183,7 @@ img { display: block; max-width: 100%; }
   top: -8px;
   right: -12px;
   background: var(--tangerine);
-  color: var(--blush);
+  color: var(--espresso);
   border-radius: 999px;
   font-size: 11px;
   padding: 2px 6px;
@@ -369,13 +379,13 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   align-self: stretch;
   border-radius: 999px;
   background: transparent;
-  color: var(--tangerine);
+  color: var(--tangerine-text);
   border: 1px solid var(--tangerine);
   font-size: 22px;
   line-height: 1;
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
-.sku-card__quick-add:hover { background: var(--tangerine); color: var(--blush); }
+.sku-card__quick-add:hover { background: var(--tangerine); color: var(--espresso); }
 .sku-card__quick-add:active { transform: translateY(1px); }
 .sku-card__quick-add[data-loading="true"] { opacity: 0.6; pointer-events: none; }
 .sku-card__quick-add[disabled] { cursor: default; }
@@ -532,14 +542,21 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 
 /* ── Lightbox ──────────────────────────────────────────────── */
+/* visibility: hidden is load-bearing for accessibility, not just cosmetics — an element
+   hidden only with opacity stays in the tab order and the accessibility tree, so keyboard
+   users used to fall into these closed dialogs and lose focus off-screen. Transitioning
+   visibility alongside opacity keeps the fade intact. Same pattern on all four dialogs. */
 .pdp-lightbox {
   position: fixed; inset: 0; z-index: 9999;
   background: rgba(10, 4, 2, 0.92);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.2s ease;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
-.pdp-lightbox.is-open { opacity: 1; pointer-events: all; }
+.pdp-lightbox.is-open {
+  opacity: 1; pointer-events: all; visibility: visible;
+  transition: opacity 0.2s ease, visibility 0s;
+}
 
 .pdp-lightbox__images {
   position: relative;
@@ -624,10 +641,10 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .product__stars { display: flex; gap: 2px; }
 .star { font-size: 16px; line-height: 1; }
-.star--full { color: var(--tangerine); }
+.star--full { color: var(--tangerine-text); }
 .star--empty { color: var(--espresso-12); }
 .star--half { display: inline-block; position: relative; color: var(--espresso-12); }
-.star--half::after { content: '★'; position: absolute; left: 0; top: 0; color: var(--tangerine); clip-path: inset(0 50% 0 0); }
+.star--half::after { content: '★'; position: absolute; left: 0; top: 0; color: var(--tangerine-text); clip-path: inset(0 50% 0 0); }
 .product__rating-value { font-size: 14px; font-weight: 600; }
 .product__rating-count { font-size: 13px; opacity: 0.6; }
 
@@ -665,7 +682,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .product__supports-list li::before {
   content: '→';
   flex-shrink: 0;
-  color: var(--tangerine);
+  color: var(--tangerine-text);
   font-size: 13px;
   margin-top: 2px;
 }
@@ -673,7 +690,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 /* ── Trust line (above price + below ATC) ─────────────────────── */
 .product__trust-line {
   text-align: center; margin-top: 12px;
-  font-size: 12px; letter-spacing: 0.04em; opacity: 0.55;
+  font-size: 12px; letter-spacing: 0.04em; opacity: 0.62;
 }
 .product__trust-line--top {
   margin-top: 16px; margin-bottom: 0;
@@ -684,12 +701,12 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   font-size: 13px; margin-top: 4px; opacity: 0.72;
   display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
 }
-.product__sub-price strong { color: var(--tangerine); font-weight: 600; }
-.product__sub-price del { opacity: 0.45; }
+.product__sub-price strong { color: var(--tangerine-text); font-weight: 600; }
+.product__sub-price del { opacity: 0.62; }
 
 /* ── Dynamic checkout ("Buy it now") ─────────────────────────── */
 .product__or-divider {
-  text-align: center; font-size: 11px; opacity: 0.4;
+  text-align: center; font-size: 11px; opacity: 0.62;
   letter-spacing: 0.12em; text-transform: uppercase;
   margin: 10px 0;
 }
@@ -714,7 +731,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .product-science__kicker {
   font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-  opacity: 0.55; margin-bottom: 16px; color: var(--flamingo);
+  opacity: 0.75; margin-bottom: 16px; color: var(--flamingo);
 }
 .product-science__headline {
   font-family: var(--display-font); font-size: 48px;
@@ -741,7 +758,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .product-science__stat-citation {
   font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-  opacity: 0.45; margin-top: 6px;
+  opacity: 0.7; margin-top: 6px;
 }
 .product-science__image {
   border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 5;
@@ -755,7 +772,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .product-science__image img { width: 100%; height: 100%; object-fit: cover; }
 .product-science__disclaimer {
-  margin-top: 32px; font-size: 11px; opacity: 0.45; line-height: 1.5; max-width: 420px;
+  margin-top: 32px; font-size: 11px; opacity: 0.7; line-height: 1.5; max-width: 420px;
 }
 @media (max-width: 900px) {
   .product-science__grid { grid-template-columns: 1fr; gap: 40px; }
@@ -806,7 +823,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .bundle-card__desc { font-size: 13px; opacity: 0.72; margin-top: 3px; line-height: 1.45; }
 .bundle-card__prices { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
 .bundle-card__price { font-weight: 600; font-size: 15px; }
-.bundle-card__compare { opacity: 0.45; font-size: 13px; text-decoration: line-through; }
+.bundle-card__compare { opacity: 0.62; font-size: 13px; text-decoration: line-through; }
 .bundle-card__add {
   flex-shrink: 0;
   padding: 8px 20px;
@@ -822,7 +839,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .product__title { font-family: var(--display-font); font-weight: var(--product-name-weight); font-size: clamp(32px, 4vw, 46px); letter-spacing: var(--product-name-spacing); line-height: var(--product-name-line-height, 1.15); margin-top: 4px; text-transform: var(--product-name-transform); }
 .product__tagline { margin-top: 16px; font-size: 16px; line-height: 1.65; opacity: 0.82; }
 .product__price { font-family: var(--display-font); font-size: 28px; margin-top: 20px; }
-.product__price del { opacity: 0.4; font-size: 20px; margin-right: 12px; }
+.product__price del { opacity: 0.62; font-size: 20px; margin-right: 12px; }
 .product__price-per { font-family: var(--body-font); font-size: 15px; opacity: 0.6; margin-left: 4px; }
 
 /* Gold Subscription badge (subscription-only variant) */
@@ -839,7 +856,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .product__sub-badge-list li { position: relative; padding-left: 20px; font-size: 13px; line-height: 1.3; }
 .product__sub-badge-list li::before {
   content: '✓'; position: absolute; left: 0; top: 0;
-  color: var(--tangerine); font-weight: 700;
+  color: var(--tangerine-text); font-weight: 700;
 }
 .product__ship-badge {
   display: inline-flex; align-items: center; gap: 8px;
@@ -880,7 +897,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .pdp-pair { margin-top: 20px; }
 .pdp-pair__eyebrow {
   font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-  opacity: 0.55; margin-bottom: 8px;
+  opacity: 0.62; margin-bottom: 8px;
 }
 .pdp-pair__card {
   display: flex; align-items: center; gap: 12px;
@@ -910,7 +927,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   color: #A87D3B; background: #F3EAD6; padding: 2px 6px; border-radius: 999px;
 }
 .pdp-pair__per { font-size: 11px; opacity: 0.6; margin-left: -3px; }
-.pdp-pair__price del { opacity: 0.4; font-size: 12px; }
+.pdp-pair__price del { opacity: 0.62; font-size: 12px; }
 .pdp-pair__add {
   flex-shrink: 0;
   padding: 9px 18px;
@@ -931,7 +948,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .pdp-rail__kicker {
   font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-  opacity: 0.55; margin-bottom: 8px;
+  opacity: 0.62; margin-bottom: 8px;
 }
 .pdp-rail__heading { font-family: var(--display-font); font-size: clamp(24px, 3vw, 32px); line-height: 1.1; }
 .pdp-rail__viewall {
@@ -1022,7 +1039,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .subscribe-card__badge {
   flex-shrink: 0;
   padding: 4px 10px;
-  background: var(--tangerine); color: white;
+  background: var(--tangerine); color: var(--espresso);
   border-radius: 999px; font-size: 11px; font-weight: 600;
   letter-spacing: 0.04em; white-space: nowrap;
 }
@@ -1031,8 +1048,8 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .subscribe-card__body { font-size: 12px; opacity: 0.65; margin-top: 2px; }
 .subscribe-card__prices { display: flex; align-items: baseline; gap: 4px; margin-top: 5px; flex-wrap: nowrap; white-space: nowrap; }
 .subscribe-card__price { font-weight: 600; font-size: 14px; }
-.subscribe-card__compare { opacity: 0.4; font-size: 12px; text-decoration: line-through; }
-.subscribe-card__per { opacity: 0.55; font-size: 12px; }
+.subscribe-card__compare { opacity: 0.62; font-size: 12px; text-decoration: line-through; }
+.subscribe-card__per { opacity: 0.62; font-size: 12px; }
 .subscribe-card__cta {
   flex-shrink: 0;
   padding: 8px 18px;
@@ -1051,7 +1068,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   font-family: var(--body-font); font-size: 15px; font-weight: 500;
   cursor: pointer;
 }
-.product__accordion__icon { font-size: 18px; font-weight: 300; opacity: 0.45; flex-shrink: 0; transition: opacity 0.15s; }
+.product__accordion__icon { font-size: 18px; font-weight: 300; opacity: 0.6; flex-shrink: 0; transition: opacity 0.15s; }
 .product__accordion__btn[aria-expanded="true"] .product__accordion__icon { opacity: 0.9; }
 .product__accordion__body { padding-bottom: 18px; }
 .product__acc-list {
@@ -1090,10 +1107,19 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   /* Dots replace the thumbnail grid — same navigation, a fraction of the height */
   .pdp-gallery__thumbs { display: none; }
   .pdp-gallery__dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+  /* The visible dot stays 7px, but ::after gives it a 24px touch target (WCAG 2.5.8).
+     Gap accounts for the overlap so the targets don't collide. */
+  .pdp-gallery__dots { gap: 12px; }
   .pdp-gallery__dot {
+    position: relative;
     width: 7px; height: 7px; border-radius: 50%; padding: 0;
     background: var(--espresso-12); border: none;
     transition: background 0.15s;
+  }
+  .pdp-gallery__dot::after {
+    content: ''; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 24px; height: 24px;
   }
   .pdp-gallery__dot.is-active { background: var(--espresso); }
 
@@ -1134,8 +1160,15 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   inset: 0;
   z-index: 50;
   pointer-events: none;
+  /* Keeps the closed drawer — including its Checkout button — out of the tab order. */
+  visibility: hidden;
+  transition: visibility 0s linear 0.3s;
 }
-.cart-drawer[data-open="true"] { pointer-events: auto; }
+.cart-drawer[data-open="true"] {
+  pointer-events: auto;
+  visibility: visible;
+  transition: visibility 0s;
+}
 .cart-drawer__overlay {
   position: absolute; inset: 0;
   background: rgba(92, 26, 0, 0.35);
@@ -1312,11 +1345,14 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   padding: 16px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0s linear 0.2s;
 }
 .expert-modal.is-open {
   pointer-events: auto;
   opacity: 1;
+  visibility: visible;
+  transition: opacity 0.2s, visibility 0s;
 }
 .expert-modal__overlay {
   position: absolute;
@@ -1361,7 +1397,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .expert-modal__close:hover { opacity: 1; background: var(--espresso-12, rgba(44,26,16,0.12)); }
 .expert-modal__eyebrow {
   font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-  opacity: 0.5; margin-bottom: 10px;
+  opacity: 0.62; margin-bottom: 10px;
 }
 .expert-modal__headline {
   font-family: var(--display-font);
@@ -1455,21 +1491,21 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .section--espresso .how-it-works__step { border-color: rgba(255, 248, 240, 0.18); }
 
 /* Bold coral band — the "pop". White text; buttons invert to white. */
-.section--coral { background: var(--tangerine); color: #ffffff; }
+.section--coral { background: var(--tangerine); color: var(--espresso); }
 .section--coral h1, .section--coral h2, .section--coral h3, .section--coral h4,
 .section--coral .sku-row__headline, .section--coral .batch-story__headline,
 .section--coral .newsletter__headline, .section--coral .stat-strip__num { color: #ffffff; }
-.section--coral .btn--primary { background: #ffffff; color: var(--tangerine); }
+.section--coral .btn--primary { background: #ffffff; color: var(--tangerine-text); }
 .section--coral .btn--primary:hover { background: var(--espresso); color: #ffffff; }
 .section--coral .btn--outline { color: #ffffff; border-color: #ffffff; }
-.section--coral .btn--outline:hover { background: #ffffff; color: var(--tangerine); }
+.section--coral .btn--outline:hover { background: #ffffff; color: var(--tangerine-text); }
 .section--coral .newsletter__input {
   background: rgba(255, 255, 255, 0.16);
   border-color: rgba(255, 255, 255, 0.55);
   color: #ffffff;
 }
 .section--coral .newsletter__input::placeholder { color: rgba(255, 255, 255, 0.75); }
-.section--coral .newsletter__submit { background: #ffffff; color: var(--tangerine); }
+.section--coral .newsletter__submit { background: #ffffff; color: var(--tangerine-text); }
 .section--coral .newsletter__submit:hover { background: var(--espresso); color: #ffffff; }
 .section--coral .stat-strip,
 .section--coral .how-it-works__step { border-color: rgba(255, 255, 255, 0.3); }
@@ -1494,9 +1530,13 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   padding: 0;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
-.site-nav-overlay.is-open { opacity: 1; pointer-events: auto; }
+.site-nav-overlay.is-open {
+  opacity: 1; pointer-events: auto; visibility: visible;
+  transition: opacity 0.25s ease, visibility 0s;
+}
 .site-nav-overlay__bar {
   display: flex;
   align-items: center;
@@ -1607,7 +1647,7 @@ body.nav-open { overflow: hidden; }
   padding: 5px 12px;
   border-radius: 999px;
   background: var(--tangerine);
-  color: var(--blush);
+  color: var(--espresso);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -1697,15 +1737,15 @@ body.nav-open { overflow: hidden; }
   width: 52px; height: 52px;
   border-radius: 999px;
   background: var(--tangerine);
-  color: var(--blush);
+  color: var(--espresso);
   font-size: 20px;
   display: flex; align-items: center; justify-content: center;
   transition: background 0.15s, transform 0.15s;
 }
 .newsletter__submit:hover { background: var(--espresso); }
 .newsletter__submit:active { transform: translateY(1px); }
-.newsletter__note { margin-top: 14px; font-size: 12px; opacity: 0.55; }
-.newsletter__success { margin-top: 20px; font-weight: 600; color: var(--tangerine); }
+.newsletter__note { margin-top: 14px; font-size: 12px; opacity: 0.62; }
+.newsletter__success { margin-top: 20px; font-weight: 600; color: var(--tangerine-text); }
 /* Newsletter on dark band */
 .section--espresso .newsletter__input {
   background: rgba(255,248,240,0.08);
@@ -1828,7 +1868,7 @@ body.nav-open { overflow: hidden; }
 .brand-intro__inner { max-width: 900px; padding: 0 24px; }
 .brand-intro__inner--center { text-align: center; margin: 0 auto; }
 .brand-intro__inner--left { text-align: left; }
-.brand-intro__kicker, .category-feature__kicker, .rich-text-band__kicker { font-size: 11px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--tangerine); margin-bottom: 14px; }
+.brand-intro__kicker, .category-feature__kicker, .rich-text-band__kicker { font-size: 11px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--tangerine-text); margin-bottom: 14px; }
 .brand-intro__headline, .rich-text-band__heading { font-size: clamp(42px, 7vw, 92px); line-height: .96; letter-spacing: -.04em; max-width: 980px; margin: 0 auto; }
 .brand-intro__body, .rich-text-band__text, .rich-text-band__page { font-size: clamp(17px, 2vw, 22px); line-height: 1.55; max-width: 760px; margin: 24px auto 0; opacity: .78; }
 .brand-intro__cta { margin-top: 30px; }
@@ -2429,7 +2469,7 @@ body.nav-open { overflow: hidden; }
   font-weight: 900;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--tangerine);
+  color: var(--tangerine-text);
 }
 .email-popup__title {
   font-family: var(--brand-font);
@@ -2474,7 +2514,7 @@ body.nav-open { overflow: hidden; }
   line-height: 1.45;
   opacity: .7;
 }
-.email-popup__success { grid-column: 1 / -1; color: var(--tangerine); font-weight: 800; opacity: 1; }
+.email-popup__success { grid-column: 1 / -1; color: var(--tangerine-text); font-weight: 800; opacity: 1; }
 .motion-fade {
   opacity: 0;
   transform: translateY(18px);
@@ -2768,8 +2808,17 @@ body.nav-open .email-popup__tab {
   line-height: 1;
 }
 .hero__video-play:hover { transform: translate(-50%, -50%) scale(1.04); background: rgba(255, 248, 240, .96); }
-.hero__image.is-video-paused .hero__video-play { display: grid; place-items: center; }
-.hero__image.is-video-playing .hero__video-play { opacity: 0; pointer-events: none; }
+/* WCAG 2.2.2: anything auto-playing for more than 5s needs a pause/stop control. This one
+   used to vanish (opacity 0 + pointer-events: none) the instant playback began, so there was
+   no way to stop the looping hero video at any width. It now stays present while playing,
+   dimmed until hovered or focused. */
+.hero__image.is-video-paused .hero__video-play,
+.hero__image.is-video-playing .hero__video-play { display: grid; place-items: center; }
+.hero__image.is-video-playing .hero__video-play { opacity: .5; }
+.hero__image.is-video-playing .hero__video-play:hover,
+.hero__image.is-video-playing .hero__video-play:focus-visible { opacity: 1; }
+/* The ▶ glyph is optically offset; the ❚❚ pause glyph is not. */
+.hero__image.is-video-playing .hero__video-play span { margin-left: 0; font-size: 20px; }
 
 @media (max-width: 600px) {
   .hero__headline {
@@ -2832,7 +2881,7 @@ body.nav-open .email-popup__tab {
   font-size: 13px;
   line-height: 1.45;
 }
-.unsubscribe__success { color: var(--tangerine); font-weight: 800; }
+.unsubscribe__success { color: var(--tangerine-text); font-weight: 800; }
 .unsubscribe__error { color: #9f2f17; }
 .unsubscribe__note {
   max-width: 58ch;
@@ -2878,7 +2927,7 @@ body.nav-open .email-popup__tab {
   position: relative;
   display: inline-flex;
   align-items: center;
-  color: var(--tangerine);
+  color: var(--tangerine-text);
   outline-offset: 6px;
 }
 .site-header__utility[data-shipping-tooltip]::before,
@@ -2900,7 +2949,7 @@ body.nav-open .email-popup__tab {
   place-items: center;
   padding: 22px 20px;
   background: #f3f4ff;
-  color: var(--tangerine);
+  color: var(--tangerine-text);
   font-size: 12px;
   font-weight: 800;
   line-height: 1.2;
@@ -2928,4 +2977,25 @@ body.nav-open .email-popup__tab {
   .site-header__utility[data-shipping-tooltip]::after {
     display: none;
   }
+}
+
+/* ── Reduced motion (global backstop) ─────────────────────────
+   Individual components (nav stagger, page-enter, the 10% tab peek, hero video) already
+   honour this. This catches everything else — scroll animations, hover transforms, smooth
+   scrolling — for users who have asked their OS to reduce motion. Deliberately keeps
+   `visibility` transitions intact, since the dialogs rely on them to leave the tab order. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .pdp-lightbox,
+  .cart-drawer,
+  .site-nav-overlay,
+  .expert-modal { transition-property: opacity, visibility !important; }
 }
