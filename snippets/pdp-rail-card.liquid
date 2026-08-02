@@ -1,0 +1,35 @@
+{%- comment -%}
+  Small card used inside the PDP "more products" rail.
+  Expects: rail_product (Product). Optional: rail_label (small badge text), block (for shopify_attributes).
+{%- endcomment -%}
+
+{%- assign _v = rail_product.selected_or_first_available_variant -%}
+{%- assign _buyable = _v.available -%}
+{%- if _v.inventory_policy == 'continue' -%}{%- assign _buyable = true -%}{%- endif -%}
+
+{%- comment -%}
+  The rail is a discovery row, so cards quote and add the one-time price. Subscription is
+  offered on the product's own page, where the customer can see what they're committing to.
+{%- endcomment -%}
+
+<div class="pdp-rail__card"{% if block %} {{ block.shopify_attributes }}{% endif %}>
+  <a href="{{ rail_product.url }}" class="pdp-rail__media" aria-label="{{ rail_product.title | escape }}">
+    {%- if rail_label != blank -%}
+      <span class="pdp-rail__badge">{{ rail_label }}</span>
+    {%- endif -%}
+    {%- if rail_product.featured_image -%}
+      <img src="{{ rail_product.featured_image | image_url: width: 400 }}" alt="{{ rail_product.featured_image.alt | default: rail_product.title }}" loading="lazy">
+    {%- endif -%}
+  </a>
+  <a href="{{ rail_product.url }}" class="pdp-rail__name">{{ rail_product.title }}</a>
+  <div class="pdp-rail__price">
+    <strong>{{ _v.price | money }}</strong>
+  </div>
+  {%- if _buyable and rail_product.variants.size == 1 -%}
+    <button type="button" class="pdp-rail__add" data-quick-add
+      data-variant-id="{{ _v.id }}"
+      aria-label="Add {{ rail_product.title | escape }} to cart">Add</button>
+  {%- else -%}
+    <a href="{{ rail_product.url }}" class="pdp-rail__add pdp-rail__add--link">View</a>
+  {%- endif -%}
+</div>

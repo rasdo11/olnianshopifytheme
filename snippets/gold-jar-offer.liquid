@@ -1,11 +1,15 @@
 {%- comment -%}
-  Gold Jar founding offer - rendered on subscribable creatine PDPs (Monohydrate + Hydration).
-  When a customer subscribes, this adds the free OLNIAN Gold Jar to the cart alongside the
-  subscription, then opens the cart drawer. An AUTOMATIC Buy-X-Get-Y discount makes the jar
-  free at checkout; the 200-unit cap rides on the Gold Jar product's own inventory (tracked/deny).
+  Gold Subscription founding offer - rendered on subscribable gold PDPs (Creatine Monohydrate,
+  Creatine Hydration, Colostrum). When a customer subscribes, this adds the free OLNIAN Gold
+  Subscription Gift (keepsake gold lid + signature pink scoop) to the cart alongside the
+  subscription, then opens the cart drawer. An AUTOMATIC Buy-X-Get-Y discount makes the gift
+  free at checkout; the 200-unit cap rides on the gift product's own inventory (tracked/deny).
 
-  The jar variant id is looked up by product handle so it survives id changes.
-  Renewal (Loop) orders never touch the storefront cart, so the jar is first-order-only automatically.
+  This block is the ONLY place the founding offer is described - the purchase-option note and
+  the trust line stay short so the offer isn't repeated three times on one screen.
+
+  The gift variant id is looked up by product handle so it survives id changes.
+  Renewal (Loop) orders never touch the storefront cart, so the gift is first-order-only automatically.
 {%- endcomment -%}
 
 {%- assign gold_jar = all_products['gold-jar-founding-gift'] -%}
@@ -13,12 +17,11 @@
 
 <div class="gold-offer">
   <span class="gold-offer__eyebrow">Founding offer · first 200 members</span>
-  <h3 class="gold-offer__title">Subscribe &amp; get a <em>free month</em> of Creatine</h3>
-  <p class="gold-offer__body">Start your monthly subscription and we’ll send you a <strong>free Gold Jar</strong>: a full bonus month of Creatine Monohydrate, on us, in a keepsake gold-lid jar you keep. <span class="gold-offer__value">A $36.99 gift.</span></p>
+  <h3 class="gold-offer__title">Join the <em>Gold Subscription</em></h3>
+  <p class="gold-offer__body">Your first subscription order ships with the keepsake <strong>gold jar lid</strong> and our <strong>signature pink scoop</strong> — free. <span class="gold-offer__value">A $16.99 gift, yours to keep.</span></p>
   <ul class="gold-offer__points">
-    <li>A free bonus month in a keepsake Gold Jar</li>
-    <li>Only 200 available, then the offer closes</li>
-    <li>Free shipping · skip or cancel anytime after your second delivery</li>
+    <li>Only 200 gift sets, then the offer closes</li>
+    <li>Skip or cancel anytime after your second delivery</li>
   </ul>
 </div>
 
@@ -47,6 +50,14 @@
   .gold-offer__points li { position: relative; padding-left: 20px; font-size: 13px; color: #4A423B; }
   .gold-offer__points li::before {
     content: "✦"; position: absolute; left: 0; top: 0; color: #C9A55E; font-size: 12px;
+  }
+  /* Mobile: keep the offer tight so the Add to Cart button stays close to the price. */
+  @media (max-width: 900px) {
+    .gold-offer { margin: 12px 0 14px; padding: 14px 16px; border-radius: 14px; }
+    .gold-offer__title { font-size: 18px; margin: 6px 0 5px; }
+    .gold-offer__body { font-size: 13.5px; line-height: 1.45; margin-bottom: 8px; }
+    .gold-offer__points { gap: 5px; }
+    .gold-offer__points li { font-size: 12.5px; }
   }
 </style>
 

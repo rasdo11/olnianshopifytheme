@@ -1,0 +1,64 @@
+{%- comment -%}
+  Compact PDP cross-sell card, rendered directly under the Add to Cart button.
+  Built for mobile: one tap adds the paired product to the cart (no page change, cart
+  drawer opens), so Creatine ↔ Hydration promote each other without any scrolling.
+
+  Expects:
+    cs_product - Product object (required)
+    cs_eyebrow - small label above the card (optional, default "Pairs with")
+    cs_note    - one-line reason to add it (optional, falls back to the product subtitle)
+{%- endcomment -%}
+
+{%- if cs_product != blank -%}
+  {%- assign _cs_variant = cs_product.selected_or_first_available_variant -%}
+  {%- assign _cs_buyable = _cs_variant.available -%}
+  {%- if _cs_variant.inventory_policy == 'continue' -%}{%- assign _cs_buyable = true -%}{%- endif -%}
+  {%- assign _cs_single = false -%}
+  {%- if cs_product.variants.size == 1 -%}{%- assign _cs_single = true -%}{%- endif -%}
+
+  {%- comment -%} Subscription price for the paired product, matching the 15% PDP discount. {%- endcomment -%}
+  {%- assign _cs_plan_id = '' -%}
+  {%- for _alloc in _cs_variant.selling_plan_allocations -%}
+    {%- assign _cs_plan_id = _alloc.selling_plan.id -%}
+    {%- break -%}
+  {%- endfor -%}
+  {%- assign _cs_sub_price = _cs_variant.price | times: 0.85 | round -%}
+
+  {%- assign _cs_note = cs_note -%}
+  {%- if _cs_note == blank -%}{%- assign _cs_note = cs_product.metafields.custom.subtitle -%}{%- endif -%}
+
+  <div class="pdp-pair">
+    <div class="pdp-pair__eyebrow">{{ cs_eyebrow | default: 'Pairs with' }}</div>
+    <div class="pdp-pair__card">
+      <a href="{{ cs_product.url }}" class="pdp-pair__media" tabindex="-1" aria-hidden="true">
+        {%- if cs_product.featured_image -%}
+          <img src="{{ cs_product.featured_image | image_url: width: 200 }}" alt="" loading="lazy" width="72" height="72">
+        {%- endif -%}
+      </a>
+      <div class="pdp-pair__body">
+        <a href="{{ cs_product.url }}" class="pdp-pair__name">{{ cs_product.title }}</a>
+        {%- if _cs_note != blank -%}
+          <div class="pdp-pair__note">{{ _cs_note }}</div>
+        {%- endif -%}
+        <div class="pdp-pair__price">
+          {%- comment -%} "Subscribe" is spelled out so the one-tap Add is never a surprise. {%- endcomment -%}
+          {%- if _cs_plan_id != blank -%}
+            <span class="pdp-pair__tag">Subscribe</span>
+            <strong>{{ _cs_sub_price | money }}</strong><span class="pdp-pair__per">/mo</span>
+            <del>{{ _cs_variant.price | money }}</del>
+          {%- else -%}
+            <strong>{{ _cs_variant.price | money }}</strong>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- if _cs_buyable and _cs_single -%}
+        <button type="button" class="pdp-pair__add" data-quick-add
+          data-variant-id="{{ _cs_variant.id }}"
+          {% if _cs_plan_id != blank %}data-selling-plan="{{ _cs_plan_id }}"{% endif %}
+          aria-label="Add {{ cs_product.title | escape }} to cart">Add</button>
+      {%- else -%}
+        <a href="{{ cs_product.url }}" class="pdp-pair__add pdp-pair__add--link">View</a>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

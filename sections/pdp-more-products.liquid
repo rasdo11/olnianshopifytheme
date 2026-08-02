@@ -1,0 +1,80 @@
+{%- comment -%}
+  "More from OLNIAN" rail for product pages.
+
+  Gives the PDP a route to every other product without leaving the page - on mobile it is a
+  single horizontally-scrollable row of small cards with a one-tap Add button, so a visitor
+  who landed straight on a creatine PDP from an ad can still see (and buy) the rest of the line.
+
+  Products come from "Product" blocks in the theme editor; if there are none, it falls back to
+  the chosen collection. The product being viewed is always skipped.
+{%- endcomment -%}
+
+{%- assign _rail_blocks = section.blocks | where: 'type', 'product' -%}
+
+<section class="pdp-rail" style="
+  padding-top: {{ section.settings.padding_top | default: 40 }}px;
+  padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px;
+">
+  <div class="container">
+    <div class="pdp-rail__head">
+      <div>
+        {%- if section.settings.kicker != blank -%}
+          <div class="pdp-rail__kicker">{{ section.settings.kicker }}</div>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="pdp-rail__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.view_all_label != blank -%}
+        <a href="{{ section.settings.view_all_link | default: routes.all_products_collection_url }}" class="pdp-rail__viewall">{{ section.settings.view_all_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="pdp-rail__track">
+      {%- if _rail_blocks.size > 0 -%}
+        {%- for block in _rail_blocks -%}
+          {%- assign _p = all_products[block.settings.product] -%}
+          {%- if _p != blank and _p.handle != product.handle -%}
+            {%- render 'pdp-rail-card', rail_product: _p, rail_label: block.settings.label, block: block -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign _coll = collections[section.settings.collection] -%}
+        {%- for _p in _coll.products limit: 8 -%}
+          {%- if _p.handle != product.handle -%}
+            {%- render 'pdp-rail-card', rail_product: _p -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP - more products",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The rest of the line" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "More from OLNIAN" },
+    { "type": "text", "id": "view_all_label", "label": "View-all link label", "default": "Shop all" },
+    { "type": "url", "id": "view_all_link", "label": "View-all link" },
+    { "type": "collection", "id": "collection", "label": "Fallback collection", "info": "Only used when no Product blocks are added below." },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "label", "label": "Small label (optional)", "info": "e.g. Best seller, Pairs with creatine" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "PDP - more products" }
+  ]
+}
+{% endschema %}

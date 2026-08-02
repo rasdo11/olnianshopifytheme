@@ -292,10 +292,14 @@
                 <span class="purchase-option__radio" aria-hidden="true"></span>
                 <span class="purchase-option__body">
                   <span class="purchase-option__title">Subscribe &amp; Save <span class="purchase-option__tag">Most popular</span></span>
+                  {%- comment -%}
+                    Keep this note to one short line. The Gold Subscription offer itself is
+                    described once, in the gold-jar-offer block below - not repeated here.
+                  {%- endcomment -%}
                   {%- if _is_gold_product -%}
-                    <span class="purchase-option__note">Gold Gift Pack ⊙ Free Shipping ⊙ Cancel Anytime</span>
+                    <span class="purchase-option__note">Save 15% + free Gold gift</span>
                   {%- else -%}
-                    <span class="purchase-option__note">Free shipping · cancel anytime</span>
+                    <span class="purchase-option__note">Save 15% · cancel anytime</span>
                   {%- endif -%}
                 </span>
                 <span class="purchase-option__price"><del>{{ product.selected_or_first_available_variant.price | money }}</del> {{ sub_price | money }}<span class="purchase-option__per">/mo</span></span>
@@ -309,17 +313,6 @@
               </button>
             </div>
 
-            {%- if _is_gold_product -%}
-              <div class="product__sub-badge" data-sub-badge>
-                <span class="product__sub-badge-title">Gold Subscription</span>
-                <ul class="product__sub-badge-list">
-                  <li>Unlock exclusive free gifts</li>
-                  <li>Priority inventory access</li>
-                  <li>Swap, skip, or cancel anytime</li>
-                  <li>Free shipping on all subscription orders</li>
-                </ul>
-              </div>
-            {%- endif -%}
           {%- else -%}
             <div class="product__price" data-product-price>
               {{ product.selected_or_first_available_variant.price | money }}
@@ -338,27 +331,29 @@
             {%- render 'gold-jar-offer' -%}
           {%- endif -%}
 
-          <div class="product__qty-row">
-            <div class="stepper" data-quantity-stepper>
-              <button type="button" data-qty-down aria-label="Decrease">−</button>
-              <input class="stepper__value" type="number" name="quantity" value="1" min="1" max="99" readonly>
-              <button type="button" data-qty-up aria-label="Increase">+</button>
+          {%- comment -%}
+            Buy row: quantity and Add to Cart sit side by side on mobile so the primary CTA
+            stays within a thumb's reach of the price instead of a stepper-height below it.
+          {%- endcomment -%}
+          <div class="product__buy">
+            <div class="product__qty-row">
+              <div class="stepper" data-quantity-stepper>
+                <button type="button" data-qty-down aria-label="Decrease">−</button>
+                <input class="stepper__value" type="number" name="quantity" value="1" min="1" max="99" readonly>
+                <button type="button" data-qty-up aria-label="Increase">+</button>
+              </div>
             </div>
-          </div>
 
-          <div class="product__atc-row">
-            <button type="submit" class="btn btn--primary product__atc" data-product-submit data-default-label="Add to Cart"
-              {% unless _atc_available %}disabled{% endunless %}>
-              {% if _atc_available %}
-                Add to Cart
-              {% else %}
-                {{ 'general.product.sold_out' | t }}
-              {% endif %}
-            </button>
-            {%- if section.settings.show_expert_modal -%}
-              <div class="product__or-divider">or</div>
-              <button type="button" class="btn btn--outline product__expert-btn" data-expert-modal-open>{{ section.settings.expert_button_label }}</button>
-            {%- endif -%}
+            <div class="product__atc-row">
+              <button type="submit" class="btn btn--primary product__atc" data-product-submit data-default-label="Add to Cart"
+                {% unless _atc_available %}disabled{% endunless %}>
+                {% if _atc_available %}
+                  Add to Cart
+                {% else %}
+                  {{ 'general.product.sold_out' | t }}
+                {% endif %}
+              </button>
+            </div>
           </div>
 
           {%- if section.settings.show_dynamic_checkout -%}
@@ -368,9 +363,28 @@
             </div>
           {%- endif -%}
 
+          {%- comment -%} Secondary action - de-emphasised so it never competes with Add to Cart. {%- endcomment -%}
+          {%- if section.settings.show_expert_modal -%}
+            <div class="product__secondary-actions">
+              <button type="button" class="product__expert-btn" data-expert-modal-open>{{ section.settings.expert_button_label }}</button>
+            </div>
+          {%- endif -%}
+
           {%- comment -%} Subscription is now handled by the purchase-option toggle above the price. {%- endcomment -%}
 
         </form>
+
+        {%- comment -%}
+          ── Cross-sell: one-tap add for the paired product (Creatine ↔ Hydration) ──
+          Sits immediately under the buy block so it's visible without scrolling past the fold.
+        {%- endcomment -%}
+        {%- assign _cs = section.settings.crosssell_product -%}
+        {%- if _cs != blank and _cs.handle != product.handle -%}
+          {%- render 'pdp-cross-sell',
+              cs_product: _cs,
+              cs_eyebrow: section.settings.crosssell_eyebrow,
+              cs_note: section.settings.crosssell_note -%}
+        {%- endif -%}
 
         <hr class="product__divider">
 
@@ -397,26 +411,27 @@
           </div>
         {%- endif -%}
 
-        {%- comment -%} Full product details (Supliful description), shown below "What it supports" {%- endcomment -%}
+        {%- comment -%}
+          Full product details (Supliful description). Collapsed into an accordion so the long
+          copy doesn't sit between the buy block and the rest of the page on mobile.
+        {%- endcomment -%}
         {%- if product.description != blank -%}
-          <div class="product__details-section">
-            <h2 class="product__details-heading">Details</h2>
-            <div class="product__details rte">{{ product.description }}</div>
+          <div class="product__accordion product__details-section" data-accordion>
+            <button type="button" class="product__accordion__btn" aria-expanded="false" aria-controls="acc-details">
+              <span>Details</span>
+              <span class="product__accordion__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="product__accordion__body" id="acc-details" hidden>
+              <div class="product__details rte">{{ product.description }}</div>
+            </div>
           </div>
           <style>
-            .product__details-section { margin-top: 8px; }
-            .product__details-heading { font-size: 15px; font-weight: 600; margin: 0 0 12px; }
             .product__details { font-size: 15px; line-height: 1.7; opacity: 0.9; }
             .product__details p { margin: 0 0 1em; }
             .product__details p:last-child { margin-bottom: 0; }
             .product__details strong { font-weight: 600; }
             .product__details a { color: inherit; text-decoration: underline; }
             .product__details img { height: 3.5rem; width: auto; margin: 8px 8px 0 0; display: inline-block; }
-            /* Mobile: product__info becomes a flex column with explicit order; keep Details
-               with the accordions (order 8) so it stays below "What it supports". */
-            @media (max-width: 900px) {
-              .product__info .product__details-section { order: 8; }
-            }
           </style>
         {%- endif -%}
 
@@ -467,36 +482,28 @@
     {%- endfor -%}
   </script>
 
-  {%- comment -%} ── Sticky cross-sell bar - slides up once main ATC scrolls out of view ── {%- endcomment -%}
-  {%- assign _cs = section.settings.crosssell_product -%}
+  {%- comment -%}
+    ── Sticky buy bar - slides up once the main ATC scrolls out of view ──
+    Always buys THIS product: it mirrors the selected purchase option (subscribe vs one-time)
+    and clicks the real form button, so the CTA is never more than a thumb away no matter how
+    far down the page a visitor is. Cross-sell lives in its own card under the buy block.
+  {%- endcomment -%}
   <div class="pdp-sticky-bar" id="PdpStickyBar">
     <div class="pdp-sticky-bar__inner container">
-      {%- if _cs != blank -%}
-        {%- assign _cs_variant = _cs.selected_or_first_available_variant -%}
-        <div class="pdp-sticky-bar__left">
-          <div class="pdp-sticky-bar__name">{{ _cs.title }}</div>
-          <div class="pdp-sticky-bar__price">{{ _cs_variant.price | money }}</div>
+      <div class="pdp-sticky-bar__left">
+        <div class="pdp-sticky-bar__name">{{ product.title }}</div>
+        <div class="pdp-sticky-bar__price" data-sticky-price
+          data-price-onetime="{{ product.selected_or_first_available_variant.price | money }}"
+          data-price-subscribe="{{ sub_price | money }}">
+          {{ product.selected_or_first_available_variant.price | money }}
         </div>
-        <div class="pdp-sticky-bar__actions">
-          <a href="{{ _cs.url }}" class="btn btn--primary pdp-sticky-bar__atc">
-            {%- if _cs_variant.available -%}Add to Routine{%- else -%}View{%- endif -%}
-          </a>
-        </div>
-      {%- else -%}
-        <div class="pdp-sticky-bar__left">
-          <div class="pdp-sticky-bar__name">{{ product.title }}</div>
-          <div class="pdp-sticky-bar__price">{{ product.selected_or_first_available_variant.price | money }}</div>
-        </div>
-        <div class="pdp-sticky-bar__actions">
-          {%- if _first_selling_plan != nil -%}
-            <button type="button" class="pdp-sticky-bar__sub" data-sticky-sub>Save 15%</button>
-          {%- endif -%}
-          <button type="button" class="btn btn--primary pdp-sticky-bar__atc" data-sticky-atc
-            {% unless _atc_available %}disabled{% endunless %}>
-            {%- if _atc_available -%}Start Now{%- else -%}Sold Out{%- endif -%}
-          </button>
-        </div>
-      {%- endif -%}
+      </div>
+      <div class="pdp-sticky-bar__actions">
+        <button type="button" class="btn btn--primary pdp-sticky-bar__atc" data-sticky-atc
+          {% unless _atc_available %}disabled{% endunless %}>
+          {%- if _atc_available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -581,6 +588,7 @@
         var subBadge = document.querySelector('[data-sub-badge]');
         var offer = document.querySelector('.gold-offer');
         var dynamicCheckout = form && form.querySelector('[data-dynamic-checkout]');
+        var stickyPrice = document.querySelector('[data-sticky-price]');
         var opts = Array.prototype.slice.call(toggle.querySelectorAll('[data-purchase-option]'));
 
         function select(mode) {
@@ -595,6 +603,12 @@
           if (offer) offer.style.display = subscribe ? '' : 'none';
           // Express checkout (Shop Pay) can't carry a subscription, so only show it for one-time.
           if (dynamicCheckout) dynamicCheckout.hidden = subscribe;
+          // Keep the sticky bar honest about what the button will actually charge.
+          if (stickyPrice) {
+            stickyPrice.innerHTML = subscribe
+              ? stickyPrice.getAttribute('data-price-subscribe') + '<span class="pdp-sticky-bar__per">/mo</span>'
+              : stickyPrice.getAttribute('data-price-onetime');
+          }
         }
 
         opts.forEach(function (o) {
@@ -672,9 +686,11 @@
     { "type": "text", "id": "expert_button_label", "label": "Expert button label", "default": "Talk to an expert" },
     { "type": "header", "content": "Gift banner" },
     { "type": "checkbox", "id": "show_gift_banner", "label": "Show gift banner", "default": true },
-    { "type": "text", "id": "gift_banner_text", "label": "Gift banner text", "default": "First subscription includes a free gold measuring spoon." },
-    { "type": "header", "content": "Sticky cross-sell bar" },
-    { "type": "product", "id": "crosssell_product", "label": "Cross-sell product", "info": "Shown in the sticky bar at the bottom. Leave empty to show current product's ATC." },
+    { "type": "text", "id": "gift_banner_text", "label": "Gift banner text", "default": "First subscription includes the keepsake gold lid and signature pink scoop." },
+    { "type": "header", "content": "Cross-sell card (under Add to Cart)" },
+    { "type": "product", "id": "crosssell_product", "label": "Cross-sell product", "info": "Shown as a one-tap \"Add\" card directly under the buy block, e.g. Creatine ↔ Hydration. Leave empty to hide. The sticky bar always buys the current product." },
+    { "type": "text", "id": "crosssell_eyebrow", "label": "Cross-sell label", "default": "Pairs with" },
+    { "type": "text", "id": "crosssell_note", "label": "Cross-sell one-liner", "info": "One short reason to add it. Falls back to the product's subtitle metafield." },
     { "type": "header", "content": "Bundle + Save card" },
     { "type": "checkbox", "id": "show_bundle_upsell", "label": "Show bundle card", "default": true },
     { "type": "text", "id": "bundle_upsell_headline", "label": "Headline (e.g. Bundle + Save 25%)", "default": "Bundle + Save 25%" },

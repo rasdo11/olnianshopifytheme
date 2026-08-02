@@ -223,8 +223,13 @@
       if (!variantId) return;
       btn.disabled = true;
       btn.setAttribute('data-loading', 'true');
+      const label = btn.textContent;
+      btn.textContent = 'Adding…';
       try {
-        await CartAPI.add([{ id: variantId, quantity: 1 }]);
+        const payload = { id: variantId, quantity: 1 };
+        // Cross-sell / rail cards can opt into the product's subscription plan.
+        if (btn.dataset.sellingPlan) payload.selling_plan = Number(btn.dataset.sellingPlan);
+        await CartAPI.add([payload]);
         await Drawer.refresh();
         Drawer.open();
       } catch (err) {
@@ -232,6 +237,7 @@
       } finally {
         btn.disabled = false;
         btn.removeAttribute('data-loading');
+        btn.textContent = label;
       }
     });
   }
@@ -253,7 +259,9 @@
     const dots    = $$('.pdp-gallery__dot', gallery);
     const main    = gallery.querySelector('.pdp-gallery__main');
 
-    const mobileQuery = window.matchMedia('(max-width: 600px)');
+    // Must match the PDP breakpoint in theme.css, where the gallery becomes a horizontal
+    // scroll-snap carousel. (Was 600px, which left 600–900px scrolling a static container.)
+    const mobileQuery = window.matchMedia('(max-width: 900px)');
 
     // Desktop: opacity/active fade
     function goToDesktop(index) {
@@ -482,6 +490,10 @@
     const mainAtc = $('[data-product-submit]');
     if (!bar || !mainAtc) return;
 
+    // Reserve space at the end of the page so the bar never covers the footer (mobile only,
+    // via the CSS rule scoped to this class).
+    document.body.classList.add('has-sticky-buy');
+
     // Show bar once the main ATC button leaves the viewport
     const observer = new IntersectionObserver(
       ([entry]) => { bar.classList.toggle('is-visible', !entry.isIntersecting); },
@@ -489,9 +501,8 @@
     );
     observer.observe(mainAtc);
 
-    // Both sticky buttons add the current variant in its single mode
-    // (subscription for Premium, one-time otherwise). The main ATC already
-    // carries the correct selling plan.
+    // The sticky button submits the real product form, so it always carries whatever
+    // purchase option (subscribe / one-time) the customer selected above.
     bar.querySelector('[data-sticky-atc]')?.addEventListener('click', () => mainAtc.click());
     bar.querySelector('[data-sticky-sub]')?.addEventListener('click', () => mainAtc.click());
   }

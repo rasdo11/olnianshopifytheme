@@ -142,6 +142,8 @@
         "show_gift_banner": false,
         "gift_banner_text": "",
         "crosssell_product": "creatine-monohydrate",
+        "crosssell_eyebrow": "Pairs with",
+        "crosssell_note": "The daily 5g dose. One ingredient, clinically studied in women.",
         "show_bundle_upsell": false,
         "bundle_upsell_headline": "Bundle + Save 25%",
         "bundle_upsell_body": "Add Magnesium Glycinate to your routine and save on your first order.",
@@ -149,6 +151,26 @@
         "bundle_compare_price": "",
         "bundle_image_filename": "",
         "bundle_upsell_link": ""
+      }
+    },
+    "more-products": {
+      "type": "pdp-more-products",
+      "blocks": {
+        "p1": { "type": "product", "settings": { "product": "creatine-monohydrate", "label": "Best seller" } },
+        "p2": { "type": "product", "settings": { "product": "creatine-hydration-powder", "label": "Training days" } },
+        "p3": { "type": "product", "settings": { "product": "colostrum-powder", "label": "" } },
+        "p4": { "type": "product", "settings": { "product": "magnesium-glycinate", "label": "" } },
+        "p5": { "type": "product", "settings": { "product": "grass-fed-hydrolyzed-collagen-peptides", "label": "" } },
+        "p6": { "type": "product", "settings": { "product": "probiotic-40-billion-with-prebiotics", "label": "" } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"],
+      "settings": {
+        "kicker": "The rest of the line",
+        "heading": "More from OLNIAN",
+        "view_all_label": "Shop all",
+        "view_all_link": "",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "science": {
@@ -307,6 +329,7 @@
   },
   "order": [
     "main",
+    "more-products",
     "science",
     "faq",
     "testing-strip"
