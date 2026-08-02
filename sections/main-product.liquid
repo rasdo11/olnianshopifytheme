@@ -532,6 +532,17 @@
           <label for="ExpertEmail">Email</label>
           <input type="email" id="ExpertEmail" name="contact[email]" placeholder="jane@email.com" required autocomplete="email" inputmode="email">
         </div>
+        {%- comment -%}
+          Unchecked by default. Ticking it is what lets the automated follow-up reach them:
+          the JS also submits a form_type=customer signup tagged "expert-request", and Shopify
+          Flow triggers on that tag (wait 10 minutes, then send). Shopify Email will not send
+          to an unsubscribed contact, so leads who leave this unticked get a manual reply from
+          the contact-form notification instead - they are still captured either way.
+        {%- endcomment -%}
+        <label class="expert-modal__optin">
+          <input type="checkbox" id="ExpertOptIn" name="contact[opt_in]" value="yes">
+          <span>Email me the follow-up questions, plus OLNIAN tips and offers. Unsubscribe anytime.</span>
+        </label>
         <button type="submit" class="btn btn--primary expert-modal__submit">Send</button>
         <p class="expert-modal__error" hidden role="alert">That didn't go through. Please check your email address and try again, or write to us at {{ shop.email }}.</p>
       </form>

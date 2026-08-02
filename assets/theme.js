@@ -590,6 +590,24 @@
           // therefore reported success on every rejected submission.
           const posted = res.redirected || /contact_posted=true/.test(res.url || '');
           if (res.ok && posted) {
+            // Opted in: also create a tagged subscriber. Shopify Flow triggers on the
+            // "expert-request" tag, waits 10 minutes, then sends the follow-up questions.
+            // Best-effort — the lead is already captured above, so a failure here must not
+            // turn a successful submission into an error for the customer.
+            const optIn = form.querySelector('[name="contact[opt_in]"]');
+            if (optIn && optIn.checked) {
+              const sub = new URLSearchParams();
+              sub.set('form_type', 'customer');
+              sub.set('utf8', '✓');
+              sub.set('contact[email]', email);
+              sub.set('contact[first_name]', name);
+              sub.set('contact[tags]', 'expert-request,newsletter');
+              await fetch('/contact', {
+                method: 'POST',
+                body: sub,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              }).catch(() => null);
+            }
             form.hidden = true;
             if (success) success.hidden = false;
           } else {

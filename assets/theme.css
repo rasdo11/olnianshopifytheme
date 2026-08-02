@@ -1371,6 +1371,16 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   background: #fff;
 }
 .expert-modal__field input:focus { border-color: var(--espresso, #2c1a10); }
+/* Marketing opt-in — unchecked by default, generous tap target */
+.expert-modal__optin {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 14px 0 4px; padding: 4px 0;
+  font-size: 12.5px; line-height: 1.45; opacity: 0.75; cursor: pointer;
+}
+.expert-modal__optin input[type="checkbox"] {
+  flex: 0 0 auto; width: 18px; height: 18px; margin: 0;
+  accent-color: var(--espresso, #2c1a10); cursor: pointer;
+}
 .expert-modal__submit { width: 100%; margin-top: 8px; }
 .expert-modal__error {
   margin-top: 12px; font-size: 13px; line-height: 1.5;
