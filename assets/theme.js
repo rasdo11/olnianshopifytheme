@@ -57,12 +57,15 @@
       if (!this.el) return;
       this.el.setAttribute('data-open', 'true');
       this.el.setAttribute('aria-hidden', 'false');
+      // Lets CSS pull the 10% off tab out of the way of the Checkout button.
+      document.body.classList.add('cart-open');
       if (!window.Shopify || !window.Shopify.designMode) document.body.style.overflow = 'hidden';
     },
     close() {
       if (!this.el) return;
       this.el.setAttribute('data-open', 'false');
       this.el.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('cart-open');
       document.body.style.overflow = '';
     },
     async refresh() {

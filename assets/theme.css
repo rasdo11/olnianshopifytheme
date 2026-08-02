@@ -2494,11 +2494,16 @@ body.nav-open { overflow: hidden; }
   display: block;
   pointer-events: none;
 }
+/* z-index 45, NOT 1002. At 1002 this promo tab floated above the cart drawer (50), the
+   mobile nav overlay (60) and the expert modal (900) — and because the drawer's footer is
+   pinned in a flex column, it sat permanently over the right end of the Checkout button
+   with no way to scroll clear of it. 45 keeps it above page content and the PDP sticky
+   bar (40) while staying under every dialog. */
 .email-popup__tab {
   position: fixed;
   left: 20px;
   bottom: max(18px, env(safe-area-inset-bottom));
-  z-index: 1002;
+  z-index: 45;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2589,6 +2594,14 @@ body.nav-open { overflow: hidden; }
 }
 /* Never peek while the dialog is open */
 .email-popup.is-open .email-popup__tab-peek { max-width: 0; margin-left: 0; opacity: 0; }
+
+/* Get the tab out of the way entirely while the cart drawer or nav menu is open, so it
+   isn't sitting dimmed on top of a checkout flow. */
+body.cart-open .email-popup__tab,
+body.nav-open .email-popup__tab {
+  opacity: 0;
+  pointer-events: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .email-popup__tab-peek { transition: none; }

@@ -1,4 +1,4 @@
-<div class="container" style="padding: 64px 0;">
+<div class="container cart-page">
   <h1 class="display-md" style="font-size: clamp(40px, 5vw, 64px);">{{ 'general.cart.title' | t }}</h1>
 
   {%- if cart.item_count == 0 -%}
@@ -7,7 +7,7 @@
   {%- else -%}
     <form action="{{ routes.cart_url }}" method="post" novalidate style="margin-top: 40px;">
       {%- for item in cart.items -%}
-        <div style="display: grid; grid-template-columns: 120px 1fr auto; gap: 24px; padding: 24px 0; border-top: 1px solid var(--espresso-06);">
+        <div class="cart-page__line" style="display: grid; grid-template-columns: 120px 1fr auto; gap: 24px; padding: 24px 0; border-top: 1px solid var(--espresso-06);">
           <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.image.alt | escape }}" loading="lazy" style="width: 120px; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
           <div>
             <h3 class="serif" style="font-size: 22px;">{{ item.product.title }}</h3>
@@ -24,17 +24,17 @@
               </label>
             </div>
           </div>
-          <div style="text-align: right; font-family: var(--display-font); font-size: 20px;">
+          <div class="cart-page__line-price" style="text-align: right; font-family: var(--display-font); font-size: 20px;">
             {{ item.final_line_price | money }}
           </div>
         </div>
       {%- endfor -%}
 
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 32px 0; border-top: 1px solid var(--espresso-12); margin-top: 24px;">
+      <div class="cart-page__totals">
         <div style="font-family: var(--display-font); font-size: 28px;">
           {{ 'general.cart.subtotal' | t }}: {{ cart.total_price | money }}
         </div>
-        <div style="display: flex; gap: 12px;">
+        <div class="cart-page__actions">
           <button type="submit" name="update" class="btn btn--outline">Update</button>
           <button type="submit" name="checkout" class="btn btn--primary">{{ 'general.cart.checkout' | t }}</button>
         </div>
@@ -42,3 +42,21 @@
     </form>
   {%- endif -%}
 </div>
+
+<style>
+  /* The old inline `padding: 64px 0` overrode .container's `0 24px`, so the cart ran edge
+     to edge on mobile. Bottom padding keeps the checkout row scrollable clear of the
+     floating 10% off tab. */
+  .cart-page { padding: 64px 24px 140px; }
+  .cart-page__totals { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 32px 0; border-top: 1px solid var(--espresso-12); margin-top: 24px; }
+  .cart-page__actions { display: flex; gap: 12px; }
+  @media (max-width: 600px) {
+    .cart-page { padding: 40px 20px 140px; }
+    .cart-page__line { grid-template-columns: 84px 1fr !important; gap: 16px !important; }
+    .cart-page__line img { width: 84px !important; }
+    .cart-page__line-price { grid-column: 2; text-align: left !important; }
+    .cart-page__totals { flex-direction: column; align-items: stretch; }
+    .cart-page__actions { flex-direction: column-reverse; }
+    .cart-page__actions .btn { width: 100%; }
+  }
+</style>
