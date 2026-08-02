@@ -1182,6 +1182,11 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .stepper { display: inline-flex; align-items: center; gap: 12px; border: 1px solid var(--espresso-12); border-radius: 999px; padding: 4px 8px; }
 .stepper button { width: 28px; height: 28px; font-size: 16px; }
 .stepper__value { min-width: 20px; text-align: center; font-variant-numeric: tabular-nums; }
+/* Firefox draws spin buttons on number inputs even when readonly, which would sit right
+   next to this stepper's own − / + controls and squeeze the digit out of centre. */
+.stepper__value { -moz-appearance: textfield; appearance: textfield; }
+.stepper__value::-webkit-outer-spin-button,
+.stepper__value::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
 /* Gift banner */
 .gift-banner {
@@ -1323,6 +1328,11 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   background: #fff;
   width: 100%;
   max-width: 440px;
+  /* vh first as a fallback: an engine without dvh drops the whole declaration, leaving the
+     dialog with NO max-height — it then overflows the screen with no internal scroll and
+     puts the submit button out of reach. dvh (Safari 15.4+, FF 101+, Chrome/Edge 108+)
+     overrides it where supported. */
+  max-height: calc(100vh - 32px);
   max-height: calc(100dvh - 32px);
   border-radius: 20px;
   padding: 28px 24px 26px;
@@ -1335,7 +1345,7 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 .expert-modal.is-open .expert-modal__dialog { transform: none; }
 @media (min-width: 768px) {
-  .expert-modal__dialog { padding: 36px 36px 32px; max-height: calc(100dvh - 64px); }
+  .expert-modal__dialog { padding: 36px 36px 32px; max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); }
 }
 /* 44px tap target, visible against the white dialog */
 .expert-modal__close {
