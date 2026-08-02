@@ -108,12 +108,22 @@
       {
         "type": "range",
         "id": "product_name_letter_spacing",
-        "label": "Letter spacing",
+        "label": "Letter spacing (kerning)",
         "info": "In thousandths of an em - e.g. 30 = 0.030em",
         "min": 0,
         "max": 100,
         "step": 1,
         "default": 3
+      },
+      {
+        "type": "range",
+        "id": "product_name_line_height",
+        "label": "Line height (line-break distance)",
+        "info": "Controls the spacing between lines when a product name wraps.",
+        "min": 0.9,
+        "max": 1.6,
+        "step": 0.1,
+        "default": 1.2
       }
     ]
   },

@@ -25,8 +25,16 @@
     },
     "header": {
       "type": "header",
+      "blocks": {
+        "m1": { "type": "menu_link", "settings": { "label": "Home", "link": "/" } },
+        "m2": { "type": "menu_link", "settings": { "label": "Products", "link": "/collections/all-products" } },
+        "m3": { "type": "menu_link", "settings": { "label": "Contact", "link": "/pages/contact" } }
+      },
+      "block_order": ["m1", "m2", "m3"],
       "settings": {
         "menu": "main-menu",
+        "menu_font_size": 14,
+        "menu_font_weight": "400",
         "utility_text": "Free Shipping",
         "utility_link": "",
         "utility_tooltip": "Free shipping on all subscriptions!",

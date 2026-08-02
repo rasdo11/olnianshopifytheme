@@ -22,6 +22,7 @@
     "product_name_uppercase": true,
     "product_name_weight": "600",
     "product_name_letter_spacing": 9,
+    "product_name_line_height": 1.2,
     "brand_name": "OLNIAN",
     "brand_tagline": "Beautiful Supplements for Beauty.",
     "favicon": "shopify://shop_images/Olnian_Favicon_1.png",
@@ -32,7 +33,7 @@
     "color_sky": "#0066A6",
     "button_radius": 28,
     "card_radius": 24,
-    "product_card_ratio": "portrait",
+    "product_card_ratio": "square",
     "parallax_strength": 40,
     "email_popup_delay": 5,
     "sections": {

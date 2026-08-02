@@ -4,14 +4,8 @@
       <button class="site-header__hamburger" id="SiteNavToggle" aria-expanded="false" aria-controls="SiteNavOverlay" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
-      <nav class="site-header__nav" id="SiteNav" aria-label="Primary">
-        {%- if section.settings.menu != blank -%}
-          {%- for link in section.settings.menu.links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="{{ routes.collections_url }}/all">Products</a>
-        {%- endif -%}
+      <nav class="site-header__nav" id="SiteNav" aria-label="Primary" style="font-size: {{ section.settings.menu_font_size | default: 14 }}px; font-weight: {{ section.settings.menu_font_weight | default: '400' }};">
+        {%- render 'header-menu-links', section: section -%}
       </nav>
     </div>
 
@@ -47,13 +41,7 @@
     <button class="site-nav-overlay__close" data-nav-close aria-label="Close menu">&times;</button>
   </div>
   <nav class="site-nav-overlay__links" aria-label="Mobile primary">
-    {%- if section.settings.menu != blank -%}
-      {%- for link in section.settings.menu.links -%}
-        <a href="{{ link.url }}">{{ link.title }}</a>
-      {%- endfor -%}
-    {%- else -%}
-      <a href="{{ routes.collections_url }}/all">Products</a>
-    {%- endif -%}
+    {%- render 'header-menu-links', section: section -%}
     {%- if section.settings.show_quiz_link -%}
       <button type="button" class="site-nav-overlay__quiz" data-quiz-open data-nav-close aria-haspopup="dialog">{{ section.settings.quiz_link_label | default: 'Take the quiz' }}</button>
     {%- endif -%}
@@ -72,8 +60,31 @@
     {
       "type": "link_list",
       "id": "menu",
-      "label": "Menu",
-      "default": "main-menu"
+      "label": "Menu (fallback)",
+      "default": "main-menu",
+      "info": "Only used if there are no \"Menu item\" blocks below. Add blocks to edit menu labels directly in this editor."
+    },
+    {
+      "type": "range",
+      "id": "menu_font_size",
+      "label": "Menu font size (px)",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "menu_font_weight",
+      "label": "Menu font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "400"
     },
     {
       "type": "text",
@@ -105,6 +116,16 @@
       "id": "quiz_link_label",
       "label": "Quiz link label",
       "default": "Take the quiz"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_link",
+      "name": "Menu item",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Menu item" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
     }
   ]
 }

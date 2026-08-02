@@ -1,0 +1,17 @@
+{%- comment -%}
+  Header menu links. Expects: section.
+  "Menu item" blocks (editable label + link in the theme editor) take priority.
+  Falls back to the linked navigation menu (section.settings.menu) if no blocks exist.
+{%- endcomment -%}
+{%- assign _menu_blocks = section.blocks | where: 'type', 'menu_link' -%}
+{%- if _menu_blocks.size > 0 -%}
+  {%- for block in _menu_blocks -%}
+    <a href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+  {%- endfor -%}
+{%- elsif section.settings.menu != blank -%}
+  {%- for link in section.settings.menu.links -%}
+    <a href="{{ link.url }}">{{ link.title }}</a>
+  {%- endfor -%}
+{%- else -%}
+  <a href="{{ routes.collections_url }}/all">Products</a>
+{%- endif -%}
