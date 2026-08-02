@@ -1184,7 +1184,12 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 
 /* Utility */
 .page-enter { animation: fadeIn 0.4s ease both; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+/* The final keyframe MUST be `transform: none`, not `translateY(0)`. With fill-mode `both`,
+   translateY(0) computes to a real matrix and sticks around forever, which makes the element
+   a containing block for every position:fixed descendant. On the PDP that trapped the expert
+   modal, the image lightbox and the sticky buy bar inside .product — they anchored to the
+   section box (thousands of px tall on mobile) instead of the viewport. */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .text-center { text-align: center; }
 .mt-8 { margin-top: 8px; } .mt-16 { margin-top: 16px; } .mt-24 { margin-top: 24px; } .mt-40 { margin-top: 40px; }
@@ -1276,13 +1281,16 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 }
 
 /* ── Talk to an expert modal ──────────────────────────────────── */
+/* Centered dialog at every size — it used to slide up as a full-height bottom sheet on
+   mobile, which meant scrolling inside a modal to reach the submit button. */
 .expert-modal {
   position: fixed;
   inset: 0;
   z-index: 900;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  padding: 16px;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s;
@@ -1294,43 +1302,39 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .expert-modal__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(44, 26, 16, 0.45);
+  background: rgba(44, 26, 16, 0.5);
 }
 .expert-modal__dialog {
   position: relative;
   background: #fff;
   width: 100%;
-  max-width: 480px;
-  max-height: 92dvh;
-  border-radius: 20px 20px 0 0;
-  padding: 40px 28px calc(env(safe-area-inset-bottom, 0px) + 40px);
+  max-width: 440px;
+  max-height: calc(100dvh - 32px);
+  border-radius: 20px;
+  padding: 28px 24px 26px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  transform: translateY(100%);
-  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: 0 18px 50px rgba(44, 26, 16, 0.28);
+  transform: translateY(10px) scale(0.97);
+  transition: transform 0.24s cubic-bezier(0.32, 0.72, 0, 1);
 }
-.expert-modal.is-open .expert-modal__dialog { transform: translateY(0); }
+.expert-modal.is-open .expert-modal__dialog { transform: none; }
 @media (min-width: 768px) {
-  .expert-modal { align-items: center; }
-  .expert-modal__dialog {
-    border-radius: 20px;
-    padding: 40px 40px 44px;
-    margin: 16px;
-    max-height: 90dvh;
-    transform: translateY(12px) scale(0.97);
-  }
-  .expert-modal.is-open .expert-modal__dialog { transform: none; }
+  .expert-modal__dialog { padding: 36px 36px 32px; max-height: calc(100dvh - 64px); }
 }
+/* 44px tap target, visible against the white dialog */
 .expert-modal__close {
   position: absolute;
-  top: 16px; right: 20px;
-  background: none; border: none;
-  font-size: 16px; cursor: pointer;
-  opacity: 0.4; padding: 6px 10px;
-  line-height: 1;
+  top: 10px; right: 10px;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--espresso-06, rgba(44,26,16,0.06));
+  border: none; border-radius: 50%;
+  font-size: 16px; line-height: 1; cursor: pointer;
+  opacity: 0.75; transition: opacity 0.15s, background 0.15s;
 }
-.expert-modal__close:hover { opacity: 1; }
+.expert-modal__close:hover { opacity: 1; background: var(--espresso-12, rgba(44,26,16,0.12)); }
 .expert-modal__eyebrow {
   font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
   opacity: 0.5; margin-bottom: 10px;
@@ -1340,9 +1344,18 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   font-size: 30px; line-height: 1.15; margin-bottom: 12px;
 }
 .expert-modal__subtext {
-  font-size: 14px; opacity: 0.65; line-height: 1.6; margin-bottom: 28px;
+  font-size: 14px; opacity: 0.65; line-height: 1.6; margin-bottom: 22px;
 }
-.expert-modal__field { margin-bottom: 16px; }
+.expert-modal__field { margin-bottom: 14px; }
+/* Small phones: fit the whole form on screen so there's nothing to scroll to */
+@media (max-width: 480px) {
+  .expert-modal__eyebrow { margin-bottom: 8px; }
+  .expert-modal__headline { font-size: 24px; margin-bottom: 8px; }
+  .expert-modal__subtext { font-size: 13.5px; margin-bottom: 16px; }
+  .expert-modal__field { margin-bottom: 11px; }
+  /* NB: input font-size stays 16px — anything smaller makes iOS Safari zoom on focus */
+  .expert-modal__field input { padding: 12px 14px; }
+}
 .expert-modal__field label {
   display: block; font-size: 11px; font-weight: 600;
   letter-spacing: 0.1em; text-transform: uppercase;

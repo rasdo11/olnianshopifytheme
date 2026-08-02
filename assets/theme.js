@@ -518,9 +518,14 @@
         window.ShopifyChat.open();
         return;
       }
-      // Fallback: click the Shopify Inbox chat button if injected into DOM
-      const inboxBtn = document.querySelector('#shopify-chat, [data-shopify-chat], iframe[title*="chat" i]');
-      if (inboxBtn) { inboxBtn.click(); return; }
+      // Fallback: click the Shopify Inbox chat button if injected into DOM.
+      // Deliberately no iframe selector here — calling .click() on an iframe does nothing,
+      // so matching one used to swallow the tap and open neither chat nor the modal.
+      const inboxBtn = document.querySelector('#shopify-chat button, [data-shopify-chat] button, #shopify-chat, [data-shopify-chat]');
+      if (inboxBtn && typeof inboxBtn.click === 'function' && inboxBtn.tagName !== 'IFRAME') {
+        inboxBtn.click();
+        return;
+      }
       // Last resort: fall back to custom modal
       openModal();
     }
@@ -528,11 +533,20 @@
     function openModal() {
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
-      modal.querySelector('#ExpertName')?.focus();
+      // Stop the page behind the modal from scrolling (it used to scroll under the overlay).
+      document.body.style.overflow = 'hidden';
+      // Only auto-focus the first field on devices with a real pointer. On touch, focusing an
+      // input pops the keyboard and shoves the viewport around the moment the modal appears.
+      if (window.matchMedia('(pointer: fine)').matches) {
+        modal.querySelector('#ExpertName')?.focus();
+      } else {
+        modal.querySelector('.expert-modal__close')?.focus();
+      }
     }
     function closeModal() {
       modal.classList.remove('is-open');
       modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
     }
 
     document.addEventListener('click', (e) => {
