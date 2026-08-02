@@ -2402,20 +2402,6 @@ body.nav-open { overflow: hidden; }
 /* ── Dynamic mobile experience controls ──────────────────────── */
 .hero__image { position: relative; }
 .hero__video { width: 100%; height: 100%; object-fit: var(--hero-media-fit, cover); cursor: pointer; }
-.hero__video-hint {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  padding: 7px 11px;
-  border-radius: 999px;
-  background: rgba(255, 248, 240, .82);
-  color: var(--espresso);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  pointer-events: none;
-}
 .divider-bar {
   min-height: var(--divider-height, 64px);
   background: var(--divider-bg, var(--lavender));
@@ -2784,41 +2770,38 @@ body.nav-open .email-popup__tab {
 }
 
 /* ── Hero mobile video play state ────────────────────────────── */
+/* WCAG 2.2.2: auto-playing video needs a pause control that stays reachable while it plays.
+   Parked in the bottom-right corner rather than centred over the artwork, and sized to
+   exactly 24x24 — the minimum permitted pointer target under WCAG 2.2 SC 2.5.8 (Target Size
+   Minimum). Do not shrink it further; 24px is the compliance line, not a style choice. */
 .hero__video-play {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  right: 12px;
+  bottom: 12px;
   z-index: 2;
   display: none;
-  width: 74px;
-  height: 74px;
-  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
   border: 1px solid rgba(46, 18, 6, .12);
   border-radius: 999px;
-  background: rgba(255, 248, 240, .88);
+  background: rgba(255, 248, 240, .92);
   color: var(--espresso);
-  box-shadow: 0 18px 44px rgba(46, 18, 6, .16);
+  box-shadow: 0 4px 12px rgba(46, 18, 6, .18);
   cursor: pointer;
-  transition: transform .18s ease, background .18s ease, opacity .18s ease;
+  transition: transform .18s ease, background .18s ease;
 }
 .hero__video-play span {
   display: block;
-  margin-left: 5px;
-  font-size: 25px;
+  margin-left: 1px; /* optical centring for the ▶ glyph only */
+  font-size: 9px;
   line-height: 1;
 }
-.hero__video-play:hover { transform: translate(-50%, -50%) scale(1.04); background: rgba(255, 248, 240, .96); }
-/* WCAG 2.2.2: anything auto-playing for more than 5s needs a pause/stop control. This one
-   used to vanish (opacity 0 + pointer-events: none) the instant playback began, so there was
-   no way to stop the looping hero video at any width. It now stays present while playing,
-   dimmed until hovered or focused. */
+.hero__video-play:hover { transform: scale(1.08); background: rgba(255, 248, 240, 1); }
 .hero__image.is-video-paused .hero__video-play,
 .hero__image.is-video-playing .hero__video-play { display: grid; place-items: center; }
-.hero__image.is-video-playing .hero__video-play { opacity: .5; }
-.hero__image.is-video-playing .hero__video-play:hover,
-.hero__image.is-video-playing .hero__video-play:focus-visible { opacity: 1; }
-/* The ▶ glyph is optically offset; the ❚❚ pause glyph is not. */
-.hero__image.is-video-playing .hero__video-play span { margin-left: 0; font-size: 20px; }
+/* Kept fully opaque: a half-transparent pill over unpredictable video frames can't hold the
+   3:1 boundary contrast 1.4.11 requires. At 24px in a corner it isn't intrusive anyway. */
+.hero__image.is-video-playing .hero__video-play span { margin-left: 0; font-size: 8px; letter-spacing: -1px; }
 
 @media (max-width: 600px) {
   .hero__headline {
@@ -2831,7 +2814,6 @@ body.nav-open .email-popup__tab {
     padding-left: var(--hero-mobile-side-padding, 20px);
     padding-right: var(--hero-mobile-side-padding, 20px);
   }
-  .hero__video-hint { display: none; }
 }
 
 /* ── Unsubscribe form section ────────────────────────────────── */
