@@ -1,0 +1,61 @@
+<div class="container" style="padding: 80px 0; max-width: 720px;">
+  <h1 class="display-md" style="font-size: clamp(40px, 5vw, 64px); letter-spacing: -0.025em;">
+    {{ page.title }}
+  </h1>
+  <div class="page-default__body rte" style="margin-top: 32px;">
+    {{ page.content }}
+  </div>
+
+  {%- comment -%} Contact form - rendered on the Contact page. Submissions go to the store's contact email. {%- endcomment -%}
+  {%- if page.handle == 'contact' -%}
+    {%- form 'contact', class: 'contact-form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="contact-form__success">Thanks! We got your message and will reply to {{ form.email }} shortly.</p>
+      {%- elsif form.errors -%}
+        <p class="contact-form__error">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+      <div class="contact-form__field">
+        <label for="ContactName">Name</label>
+        <input type="text" id="ContactName" name="contact[name]" value="{{ form.name }}" autocomplete="name" required>
+      </div>
+      <div class="contact-form__field">
+        <label for="ContactEmail">Email</label>
+        <input type="email" id="ContactEmail" name="contact[email]" value="{{ form.email }}" autocomplete="email" required>
+      </div>
+      <div class="contact-form__field">
+        <label for="ContactMessage">Message</label>
+        <textarea id="ContactMessage" name="contact[body]" rows="5" required>{{ form.body }}</textarea>
+      </div>
+      <button type="submit" class="btn btn--primary">Send message</button>
+    {%- endform -%}
+  {%- endif -%}
+</div>
+
+<style>
+  .page-default__body { font-size: 17px; line-height: 1.7; opacity: 0.9; }
+  .page-default__body > *:first-child { margin-top: 0; }
+  .page-default__body p { margin: 0 0 1.1em; }
+  .page-default__body strong { font-weight: 600; opacity: 1; }
+  .page-default__body h2,
+  .page-default__body h3 { margin: 1.9em 0 .5em; line-height: 1.25; letter-spacing: -0.01em; opacity: 1; text-wrap: balance; }
+  .page-default__body h2 { font-size: 25px; }
+  .page-default__body h3 { font-size: 19px; }
+  .page-default__body ul,
+  .page-default__body ol { margin: 0 0 1.2em; padding-left: 1.4em; }
+  .page-default__body li { margin: .35em 0; }
+  .page-default__body a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .page-default__body hr { border: 0; border-top: 1px solid rgba(128,128,128,.25); margin: 2.2em 0; }
+  .page-default__body img { max-width: 100%; height: auto; border-radius: 12px; }
+
+  .contact-form { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; max-width: 520px; }
+  .contact-form__field { display: flex; flex-direction: column; gap: 6px; }
+  .contact-form label { font-size: 14px; font-weight: 600; }
+  .contact-form input,
+  .contact-form textarea { font: inherit; font-size: 16px; padding: 12px 14px; border: 1px solid rgba(128,128,128,.35); border-radius: 10px; background: #fff; color: #241F1B; width: 100%; box-sizing: border-box; }
+  .contact-form input:focus,
+  .contact-form textarea:focus { outline: 2px solid #C9A55E; outline-offset: 1px; border-color: #C9A55E; }
+  .contact-form textarea { resize: vertical; }
+  .contact-form .btn { align-self: flex-start; margin-top: 4px; }
+  .contact-form__success { padding: 14px 16px; border-radius: 10px; background: #E4ECE0; color: #2F5130; font-weight: 500; }
+  .contact-form__error { padding: 14px 16px; border-radius: 10px; background: #F4E2DD; color: #A6483C; }
+</style>

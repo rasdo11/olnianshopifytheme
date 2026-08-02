@@ -1,0 +1,68 @@
+{%- if settings.enable_email_popup -%}
+  <div
+    class="email-popup email-popup--{{ section.settings.tab_position | default: 'right' }}"
+    style="--email-tab-font-size: {{ section.settings.tab_font_size | default: 26 }}px; --email-tab-bg: {{ section.settings.tab_background | default: '#C6D0FF' }};"
+    data-email-popup
+    data-popup-delay="{{ settings.email_popup_delay | default: 5 }}"
+    aria-hidden="true"
+  >
+    <button type="button" class="email-popup__tab" data-email-popup-open aria-label="Open 10 percent off email signup">
+      {{ section.settings.tab_label | default: '10% off' }}
+    </button>
+    <div class="email-popup__overlay" data-email-popup-close></div>
+    <div
+      class="email-popup__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="EmailPopupTitle"
+    >
+      <button type="button" class="email-popup__close" data-email-popup-close aria-label="Close email signup">×</button>
+      <p class="email-popup__kicker">{{ section.settings.kicker | default: 'First order treat' }}</p>
+      <h2 class="email-popup__title" id="EmailPopupTitle">{{ section.settings.headline | default: 'Enjoy 10% off' }}</h2>
+      {%- if section.settings.body != blank -%}
+        <p class="email-popup__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+      {%- form 'customer', id: 'EmailPopupCustomerForm', class: 'email-popup__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter,popup">
+        <label class="visually-hidden" for="EmailPopupEmail">Email address</label>
+        <input
+          id="EmailPopupEmail"
+          class="email-popup__input"
+          type="email"
+          name="contact[email]"
+          value="{{ form.email }}"
+          placeholder="{{ section.settings.placeholder | default: 'Email address' }}"
+          autocomplete="email"
+          required>
+        <button type="submit" class="email-popup__submit" aria-label="Submit email signup">→</button>
+        {%- if form.posted_successfully? -%}
+          <p class="email-popup__success" role="status">{{ section.settings.success_message | default: 'Thanks, check your inbox for 10% off.' }}</p>
+        {%- elsif form.errors -%}
+          <p class="email-popup__fineprint" role="alert">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+      {%- endform -%}
+      <p class="email-popup__fineprint">{{ section.settings.fineprint | default: 'Offer valid for new email subscribers. By signing up, you agree to receive email from OLNIAN.' }}</p>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Email popup",
+  "settings": [
+    { "type": "text", "id": "tab_label", "label": "Collapsed button label", "default": "10% off" },
+    { "type": "select", "id": "tab_position", "label": "Collapsed button position", "default": "right", "options": [
+      { "value": "right", "label": "Bottom right" },
+      { "value": "left", "label": "Bottom left" }
+    ]},
+    { "type": "range", "id": "tab_font_size", "label": "Collapsed button font size", "min": 16, "max": 40, "step": 1, "unit": "px", "default": 26 },
+    { "type": "color", "id": "tab_background", "label": "Collapsed button color", "default": "#C6D0FF" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "First order treat" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Enjoy 10% off" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Sign up for emails and receive 10% off your first order." },
+    { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Email address" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks, check your inbox for 10% off." },
+    { "type": "textarea", "id": "fineprint", "label": "Fine print", "default": "Offer valid for new email subscribers. By signing up, you agree to receive email from OLNIAN." }
+  ]
+}
+{% endschema %}

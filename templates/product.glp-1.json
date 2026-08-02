@@ -1,0 +1,150 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "icon": "○", "text": "Key nutrients that are easy to under-eat when appetite changes" } },
+        "b2": { "type": "benefit", "settings": { "icon": "○", "text": "Digestive comfort support from ginger, peppermint, and enzymes" } },
+        "b3": { "type": "benefit", "settings": { "icon": "○", "text": "Methylated B12, folate, and B6 in bioavailable forms" } },
+        "b4": { "type": "benefit", "settings": { "icon": "○", "text": "Iron, zinc, and vitamin D3 in one daily formula" } },
+        "b5": { "type": "benefit", "settings": { "icon": "○", "text": "Ashwagandha to help take the edge off day-to-day stress" } },
+        "s1": { "type": "support_item", "settings": { "text": "Digestive comfort and gastrointestinal balance" } },
+        "s2": { "type": "support_item", "settings": { "text": "Nutrient replenishment: B12, folate, B6, iron, zinc, biotin, vitamin D3" } },
+        "s3": { "type": "support_item", "settings": { "text": "Nutrient absorption via BioPerine® black pepper extract" } },
+        "s4": { "type": "support_item", "settings": { "text": "Normal energy production and metabolism" } },
+        "s5": { "type": "support_item", "settings": { "text": "Stress resilience via ashwagandha" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4", "b5", "s1", "s2", "s3", "s4", "s5"],
+      "settings": {
+        "use_product_media": true,
+        "crosssell_product": "creatine-monohydrate",
+        "show_rating": false,
+        "rating_value": 46,
+        "rating_count": "",
+        "tagline": "A nutrient and digestion formula built for changing appetites — replenishing what's easy to miss and easing the digestive side effects that can come with it.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What it supports",
+        "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
+        "atc_label": "Start Now",
+        "show_dynamic_checkout": true,
+        "show_subscription_card": true,
+        "show_expert_modal": true,
+        "expert_button_label": "Talk to an expert",
+        "show_gift_banner": false,
+        "gift_banner_text": "",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": ""
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": { "type": "stat", "settings": { "number": "8+", "label": "Vitamins and minerals in one daily formula", "citation": "" } },
+        "st2": { "type": "stat", "settings": { "number": "2", "label": "Capsules a day, taken with water", "citation": "" } },
+        "st3": { "type": "stat", "settings": { "number": "3", "label": "Digestive-comfort ingredients: ginger, peppermint, DigeZyme®", "citation": "" } }
+      },
+      "block_order": ["st1", "st2", "st3"],
+      "settings": {
+        "kicker": "The formula",
+        "headline": "Built to fill the gaps that come with a changing appetite.",
+        "body": "When appetite or eating patterns change, it's easy to fall short on key nutrients while also dealing with more digestive discomfort. This formula pairs a digestive comfort blend (ginger, peppermint, DigeZyme®, LactoSpore® probiotic) with methylated B vitamins, iron, zinc, and vitamin D3, plus ashwagandha for stress resilience.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "Who is this formulated for?",
+            "answer": "Adults managing changes in appetite or eating patterns who want extra support keeping up with key nutrients and digestive comfort. It's a nutritional supplement, not a substitute for any medication or medical treatment."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "What's in the digestive comfort blend?",
+            "answer": "Ginger root extract, peppermint leaf extract, bromelain, and DigeZyme®, a multi-enzyme blend, alongside LactoSpore® probiotic to support overall gastrointestinal balance."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "How should I take it?",
+            "answer": "Two capsules daily with 6 to 8 oz of water, or as directed by your healthcare provider."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "Is it safe with medications?",
+            "answer": "This product contains iron, which should be kept well out of reach of children. If you're on any prescription medication, including GLP-1 medications, or managing a medical condition, check with your doctor before starting."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "How long until I notice something?",
+            "answer": "Digestive comfort is often noticed within the first couple of weeks. Nutrient repletion and energy support build gradually over four to eight weeks of consistent use."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Can I cancel my subscription?",
+            "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day."
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    },
+    "testing-strip": {
+      "type": "testing-strip",
+      "blocks": {
+        "a": { "type": "item", "settings": { "label": "Heavy metals" } },
+        "b": { "type": "item", "settings": { "label": "Microbials" } },
+        "c": { "type": "item", "settings": { "label": "Identity" } },
+        "d": { "type": "item", "settings": { "label": "Potency" } }
+      },
+      "block_order": ["a", "b", "c", "d"],
+      "settings": {
+        "heading": "Third-party tested every batch",
+        "heading_size": 22,
+        "heading_kerning": 0,
+        "item_size": 13,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading_margin_bottom": 16,
+        "background": ""
+      }
+    }
+  },
+  "order": ["main", "science", "faq", "testing-strip"]
+}

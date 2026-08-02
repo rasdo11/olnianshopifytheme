@@ -1,0 +1,150 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "icon": "○", "text": "Skin, hair, and nails that don't just rely on what you eat" } },
+        "b2": { "type": "benefit", "settings": { "icon": "○", "text": "Joint and connective tissue support as your body's own collagen production slows" } },
+        "b3": { "type": "benefit", "settings": { "icon": "○", "text": "Hydrolyzed for faster absorption than whole collagen protein" } },
+        "b4": { "type": "benefit", "settings": { "icon": "○", "text": "Completely unflavored — disappears into coffee, smoothies, or water" } },
+        "b5": { "type": "benefit", "settings": { "icon": "○", "text": "Grass-fed sourcing, one simple ingredient" } },
+        "s1": { "type": "support_item", "settings": { "text": "Skin elasticity and hydration" } },
+        "s2": { "type": "support_item", "settings": { "text": "Hair and nail strength" } },
+        "s3": { "type": "support_item", "settings": { "text": "Joint and connective tissue support" } },
+        "s4": { "type": "support_item", "settings": { "text": "Collagen synthesis via glycine, proline, and hydroxyproline" } },
+        "s5": { "type": "support_item", "settings": { "text": "A daily habit that stacks easily with any routine" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4", "b5", "s1", "s2", "s3", "s4", "s5"],
+      "settings": {
+        "use_product_media": true,
+        "crosssell_product": "creatine-monohydrate",
+        "show_rating": false,
+        "rating_value": 46,
+        "rating_count": "",
+        "tagline": "Grass-fed, hydrolyzed collagen types 1 and 3 — unflavored, dissolves clean, one scoop a day for skin, hair, joints, and connective tissue.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What it supports",
+        "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
+        "atc_label": "Start Now",
+        "show_dynamic_checkout": true,
+        "show_subscription_card": true,
+        "show_expert_modal": true,
+        "expert_button_label": "Talk to an expert",
+        "show_gift_banner": false,
+        "gift_banner_text": "",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": ""
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": { "type": "stat", "settings": { "number": "Types 1 & 3", "label": "Collagen types included, the most abundant in skin, bone, and muscle", "citation": "" } },
+        "st2": { "type": "stat", "settings": { "number": "1", "label": "Ingredient: grass-fed bovine hide collagen peptides", "citation": "" } },
+        "st3": { "type": "stat", "settings": { "number": "0", "label": "Flavor added — mixes clean into anything", "citation": "" } }
+      },
+      "block_order": ["st1", "st2", "st3"],
+      "settings": {
+        "kicker": "The basics",
+        "headline": "One ingredient, built for absorption.",
+        "body": "Collagen is one of the most abundant proteins in the body, giving structure to skin, joints, and connective tissue, and natural production slows with age. Hydrolyzing it breaks the protein into smaller peptides your body absorbs more readily, rich in the amino acids glycine, proline, hydroxyproline, and alanine that support your own collagen synthesis.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "How is this different from regular collagen protein?",
+            "answer": "It's hydrolyzed, meaning the collagen is broken down into smaller peptides that are easier for your body to absorb, rich in glycine, proline, and hydroxyproline, the amino acids tied to your own collagen production."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "How should I take it?",
+            "answer": "One level scoop in 8 to 10 oz of chilled water or your preferred beverage, mixed for about 5 seconds. It's unflavored, so it works in coffee, smoothies, or plain water."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "Will it dissolve in hot liquids too?",
+            "answer": "It mixes into cold or room-temperature liquids most easily. It can also be added to warm coffee or tea, though shaking or blending gives the smoothest result."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "How long until I notice something?",
+            "answer": "Skin and nail changes are often reported within 4 to 8 weeks of daily use. Joint and connective tissue support tends to build over a similar or slightly longer timeframe, since collagen turnover is gradual."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "Can I take this with your other supplements?",
+            "answer": "Yes. It stacks well with Creatine, Magnesium Glycinate, and Colostrum Powder as part of a daily routine, with no known interactions."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Can I cancel my subscription?",
+            "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day."
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    },
+    "testing-strip": {
+      "type": "testing-strip",
+      "blocks": {
+        "a": { "type": "item", "settings": { "label": "Heavy metals" } },
+        "b": { "type": "item", "settings": { "label": "Microbials" } },
+        "c": { "type": "item", "settings": { "label": "Identity" } },
+        "d": { "type": "item", "settings": { "label": "Potency" } }
+      },
+      "block_order": ["a", "b", "c", "d"],
+      "settings": {
+        "heading": "Third-party tested every batch",
+        "heading_size": 22,
+        "heading_kerning": 0,
+        "item_size": 13,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading_margin_bottom": 16,
+        "background": ""
+      }
+    }
+  },
+  "order": ["main", "science", "faq", "testing-strip"]
+}

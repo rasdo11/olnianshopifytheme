@@ -1,0 +1,24 @@
+<section class="rich-text-band section--{{ section.settings.scheme | default: 'blush' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}">
+  <div class="container rich-text-band__inner">
+    {%- if section.settings.kicker != blank -%}<p class="rich-text-band__kicker">{{ section.settings.kicker }}</p>{%- endif -%}
+    {%- if section.settings.heading != blank -%}<h1 class="rich-text-band__heading">{{ section.settings.heading }}</h1>{%- endif -%}
+    {%- if section.settings.text != blank -%}<div class="rich-text-band__text">{{ section.settings.text | newline_to_br }}</div>{%- endif -%}
+    {%- if page.content != blank and section.settings.show_page_content -%}<div class="rich-text-band__page rte">{{ page.content }}</div>{%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Rich text band",
+  "settings": [
+    {"type":"text","id":"kicker","label":"Kicker","default":"OLNIAN"},
+    {"type":"textarea","id":"heading","label":"Heading","default":"A cleaner daily ritual."},
+    {"type":"textarea","id":"text","label":"Text","default":"Use this flexible page section for about, science, shipping, returns, and ingredient storytelling."},
+    {"type":"checkbox","id":"show_page_content","label":"Show Shopify page content below","default":true},
+    {"type":"select","id":"scheme","label":"Color scheme","default":"blush","options":[{"value":"blush","label":"Blush"},{"value":"cream","label":"Cream"},{"value":"white","label":"White"},{"value":"lavender","label":"Lavender"},{"value":"sky","label":"Blue"},{"value":"espresso","label":"Espresso"}]},
+    {"type":"color","id":"background","label":"Custom background"},
+    {"type":"range","id":"padding_top","label":"Padding top","min":0,"max":160,"step":8,"default":88},
+    {"type":"range","id":"padding_bottom","label":"Padding bottom","min":0,"max":160,"step":8,"default":88}
+  ],
+  "presets":[{"name":"Rich text band","category":"Text"}]
+}
+{% endschema %}

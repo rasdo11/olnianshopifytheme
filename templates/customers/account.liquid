@@ -1,0 +1,30 @@
+<div class="container" style="padding: 80px 0;">
+  <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 16px;">
+    <h1 class="display-md" style="font-size: clamp(36px, 4vw, 56px);">Hi, {{ customer.first_name | default: 'there' }}</h1>
+    <a href="{{ routes.account_logout_url }}" style="font-size: 14px; text-decoration: underline;">Sign out</a>
+  </div>
+
+  <section style="margin-top: 56px;">
+    <h2 class="serif" style="font-size: 24px;">Orders</h2>
+    {%- if customer.orders.size == 0 -%}
+      <p style="opacity: 0.72; margin-top: 12px;">You have no orders yet.</p>
+    {%- else -%}
+      <div style="margin-top: 24px; display: grid; gap: 16px;">
+        {%- for order in customer.orders -%}
+          <a href="{{ order.customer_url }}" style="display: flex; justify-content: space-between; padding: 20px; border-radius: 12px; border: 1px solid var(--espresso-06); background: white;">
+            <div>
+              <div style="font-weight: 500;">Order {{ order.name }}</div>
+              <div style="opacity: 0.6; font-size: 13px;">{{ order.created_at | date: '%b %d, %Y' }} · {{ order.fulfillment_status_label }}</div>
+            </div>
+            <div style="font-family: var(--display-font); font-size: 18px;">{{ order.total_price | money }}</div>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </section>
+
+  <section style="margin-top: 56px;">
+    <h2 class="serif" style="font-size: 24px;">Addresses</h2>
+    <a href="{{ routes.account_addresses_url }}" class="btn btn--outline" style="margin-top: 16px;">Manage addresses</a>
+  </section>
+</div>

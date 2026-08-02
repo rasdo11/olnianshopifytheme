@@ -1,0 +1,30 @@
+<div class="container" style="padding: 80px 0; max-width: 480px;">
+  <h1 class="display-md" style="font-size: clamp(32px, 4vw, 48px);">Create account</h1>
+
+  {% form 'create_customer' %}
+    {{ form.errors | default_errors }}
+    <div style="margin-top: 32px; display: grid; gap: 16px;">
+      <label>
+        <div style="font-size: 13px; margin-bottom: 6px;">First name</div>
+        <input type="text" name="customer[first_name]" autocomplete="given-name" required
+          style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      </label>
+      <label>
+        <div style="font-size: 13px; margin-bottom: 6px;">Last name</div>
+        <input type="text" name="customer[last_name]" autocomplete="family-name" required
+          style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      </label>
+      <label>
+        <div style="font-size: 13px; margin-bottom: 6px;">Email</div>
+        <input type="email" name="customer[email]" autocomplete="email" required
+          style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      </label>
+      <label>
+        <div style="font-size: 13px; margin-bottom: 6px;">Password</div>
+        <input type="password" name="customer[password]" autocomplete="new-password" required
+          style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      </label>
+      <button type="submit" class="btn btn--primary">Create account</button>
+    </div>
+  {% endform %}
+</div>

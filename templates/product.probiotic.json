@@ -1,0 +1,150 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "icon": "○", "text": "A gut that handles rich meals, travel, and stress without complaint" } },
+        "b2": { "type": "benefit", "settings": { "icon": "○", "text": "40 billion CFU, not a fraction that survives digestion" } },
+        "b3": { "type": "benefit", "settings": { "icon": "○", "text": "Bi-Pass technology built to protect strains through stomach acid" } },
+        "b4": { "type": "benefit", "settings": { "icon": "○", "text": "Prebiotic fiber included so the good bacteria have something to feed on" } },
+        "b5": { "type": "benefit", "settings": { "icon": "○", "text": "One capsule morning, one at night, easy to build into your routine" } },
+        "s1": { "type": "support_item", "settings": { "text": "Gut flora balance and digestive comfort" } },
+        "s2": { "type": "support_item", "settings": { "text": "Bacterial survival through stomach acid via MAKTREK® Bi-Pass" } },
+        "s3": { "type": "support_item", "settings": { "text": "Prebiotic fiber to feed beneficial bacteria" } },
+        "s4": { "type": "support_item", "settings": { "text": "Healthy metabolic and immune function tied to gut health" } },
+        "s5": { "type": "support_item", "settings": { "text": "A foundation that supports absorption from your other daily supplements" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4", "b5", "s1", "s2", "s3", "s4", "s5"],
+      "settings": {
+        "use_product_media": true,
+        "crosssell_product": "creatine-monohydrate",
+        "show_rating": false,
+        "rating_value": 46,
+        "rating_count": "",
+        "tagline": "40 billion CFU across four clinically studied strains, delivered past stomach acid so they actually reach your gut.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What it supports",
+        "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
+        "atc_label": "Start Now",
+        "show_dynamic_checkout": true,
+        "show_subscription_card": true,
+        "show_expert_modal": true,
+        "expert_button_label": "Talk to an expert",
+        "show_gift_banner": false,
+        "gift_banner_text": "",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": ""
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": { "type": "stat", "settings": { "number": "40B", "label": "CFU per serving across four probiotic strains", "citation": "" } },
+        "st2": { "type": "stat", "settings": { "number": "4", "label": "Clinically studied strains, including Lactobacillus and Bifidobacterium", "citation": "" } },
+        "st3": { "type": "stat", "settings": { "number": "2x", "label": "Daily doses — one in the day, one in the evening", "citation": "" } }
+      },
+      "block_order": ["st1", "st2", "st3"],
+      "settings": {
+        "kicker": "The formula",
+        "headline": "Built to survive the trip to your gut.",
+        "body": "Most probiotics lose the majority of their live cultures to stomach acid before they ever reach the gut. MAKTREK® Bi-Pass technology is designed to protect these four strains through that journey, while added prebiotic fiber gives them something to feed on once they arrive.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "What strains are actually in this?",
+            "answer": "Four: Lactobacillus Acidophilus, Bifidobacterium Lactis, Lactobacillus Plantarum, and Lactobacillus Paracasei, delivered at 40 billion CFU per serving with MAKTREK® Bi-Pass technology to help them survive stomach acid."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "How should I take it?",
+            "answer": "Two capsules a day, one during the day and one in the evening. Don't exceed two capsules per day."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "Will it cause bloating at first?",
+            "answer": "Some people notice mild, temporary bloating or gas in the first several days as gut flora adjusts. This typically settles within one to two weeks."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "How long until I notice a difference?",
+            "answer": "Many people notice steadier digestion within one to two weeks of consistent use. Broader gut and immune benefits tend to build over four to eight weeks."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "Can I take this with your other supplements?",
+            "answer": "Yes. It pairs naturally with Colostrum Powder for full gut and immune support, and doesn't interact with Creatine or Magnesium Glycinate."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Can I cancel my subscription?",
+            "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day."
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    },
+    "testing-strip": {
+      "type": "testing-strip",
+      "blocks": {
+        "a": { "type": "item", "settings": { "label": "Heavy metals" } },
+        "b": { "type": "item", "settings": { "label": "Microbials" } },
+        "c": { "type": "item", "settings": { "label": "Identity" } },
+        "d": { "type": "item", "settings": { "label": "Potency" } }
+      },
+      "block_order": ["a", "b", "c", "d"],
+      "settings": {
+        "heading": "Third-party tested every batch",
+        "heading_size": 22,
+        "heading_kerning": 0,
+        "item_size": 13,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading_margin_bottom": 16,
+        "background": ""
+      }
+    }
+  },
+  "order": ["main", "science", "faq", "testing-strip"]
+}

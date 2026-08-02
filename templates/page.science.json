@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": { "type": "rich-text-band", "settings": { "kicker": "Science", "heading": "The research behind the ritual.", "text": "Use this page to explain ingredients, testing standards, citations, and the customer-friendly science behind each OLNIAN formula.", "show_page_content": true, "scheme": "sky" } },
+    "science": { "type": "product-science", "settings": { "kicker": "Research", "headline": "Built around studied essentials." } },
+    "testing": { "type": "testing-strip", "settings": { "heading": "Third-party tested every batch" } }
+  },
+  "order": ["main", "science", "testing"]
+}

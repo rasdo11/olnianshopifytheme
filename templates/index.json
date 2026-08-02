@@ -1,0 +1,306 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero-editorial",
+      "settings": {
+        "kicker": "Brain • Body • Balance",
+        "badge": "",
+        "headline": "Looks like BEAUTY   \nWorks like SCIENCE",
+        "subheadline": "Science-backed essentials for focus, energy, recovery, sleep, immunity, and gut health designed for women and made beautiful enough to keep on the counter.",
+        "highlight_1": "BEAUTY",
+        "highlight_2": "SCIENCE",
+        "highlight_color": "#d7ef24",
+        "image": "shopify://shop_images/Creatine-pdp-6.png",
+        "hero_video": "shopify://files/videos/HomepageVid_v2.mp4",
+        "hero_video_url": "https://cdn.shopify.com/videos/c/o/v/db1af56a022b45339ec21f7c8facc30b.mp4",
+        "media_ratio": "1 / 1.1",
+        "media_fit": "cover",
+        "image_position": "right",
+        "show_trust_row": true,
+        "trust_1": "",
+        "trust_2": "",
+        "trust_3": "",
+        "primary_cta_label": "What's Creatine?",
+        "primary_cta_link": "shopify://products/creatine-monohydrate",
+        "secondary_cta_label": "Take the Quiz",
+        "secondary_opens_quiz": true,
+        "secondary_cta_link": "",
+        "headline_size": 54,
+        "headline_line_height": 94,
+        "mobile_headline_line_height": 90,
+        "mobile_side_padding": 20,
+        "headline_kerning": -4,
+        "subheadline_size": 18,
+        "kicker_size": 11,
+        "kicker_kerning": 22,
+        "padding_top": 48,
+        "padding_bottom": 64,
+        "cta_margin_top": 24,
+        "background_image": "shopify://shop_images/background2.png",
+        "background_image_size": "cover",
+        "background_image_position": "center center",
+        "scheme": "gold-tint",
+        "background": ""
+      }
+    },
+    "intro": {
+      "type": "brand-intro",
+      "settings": {
+        "kicker": "A little bit about us",
+        "headline": "",
+        "body": "Hello! We believe in well designed, well-studied supplements that focus on one simple concept: Beauty Starts Within. We pair clinically-backed, daily formulas with a ritual that looks as good as it works. OLNIAN began long before we did, with family roots that pull from Norwegian strength and Armenian resilience.",
+        "cta_label": "",
+        "cta_link": "shopify://pages/about-us",
+        "alignment": "center",
+        "scheme": "white",
+        "background": "",
+        "padding_top": 56,
+        "padding_bottom": 48
+      }
+    },
+    "section_divider_bar_nKEiTg": {
+      "type": "section-divider-bar",
+      "name": "Colored divider promo bar",
+      "settings": {
+        "text": "THE DAILY RITUAL",
+        "link": "",
+        "background": "#ff5a2d",
+        "text_color": "#ffffff",
+        "height": 44
+      }
+    },
+    "daily-feature": {
+      "type": "category-feature",
+      "blocks": {
+        "b1": {
+          "type": "bullet",
+          "settings": {
+            "text": "Premium Creatine M.H. for brain, body, and balance"
+          }
+        },
+        "b2": {
+          "type": "bullet",
+          "settings": {
+            "text": "Clean scoop ritual with no unnecessary extras"
+          }
+        },
+        "b3": {
+          "type": "bullet",
+          "settings": {
+            "text": "Built for a small, easy-to-shop product line"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ],
+      "settings": {
+        "kicker": "",
+        "headline": "A scoop that feels more like self-care.",
+        "body": "Our Premium Creatine Monohydrate mixes clean into anything you're already drinking. No grit, no chalky aftertaste, just one scoop, once a day.",
+        "image": "shopify://shop_images/model_b1.png",
+        "autoplay_video": true,
+        "show_video_controls": false,
+        "image_position": "left",
+        "media_shape": "rounded",
+        "media_ratio": "9 / 16",
+        "media_fit": "contain",
+        "media_position": "center center",
+        "media_max_width": 65,
+        "media_mobile_max_width": 70,
+        "cta_label": "Shop Creatine",
+        "cta_link": "shopify://products/creatine-hydration-powder",
+        "scheme": "sky",
+        "background": "",
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
+    },
+    "daily-products": {
+      "type": "sku-row",
+      "blocks": {
+        "p1": {
+          "type": "product",
+          "settings": {
+            "product": "creatine-m-h-refill",
+            "title_override": "Premium Creatine M.H.",
+            "subtitle_override": "Brain • Body • Balance",
+            "badge": "Daily",
+            "cta_label": "Shop"
+          }
+        },
+        "p2": {
+          "type": "product",
+          "settings": {
+            "product": "premium-colostrum",
+            "title_override": "Premium Colostrum",
+            "subtitle_override": "Immunity • Gut • Recovery",
+            "badge": "Daily",
+            "cta_label": "Shop"
+          }
+        },
+        "p3": {
+          "type": "product",
+          "settings": {
+            "product": "magnesium-glycinate-complex",
+            "title_override": "Magnesium Complex",
+            "subtitle_override": "Calm • Sleep • Restore",
+            "badge": "Nightly",
+            "cta_label": "Shop"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "kicker": "Shop the line",
+        "headline": "Three essentials. One clean routine.",
+        "subheadline": "Three core formulas, zero guesswork. Pick your focus and build a routine that actually sticks.",
+        "collection": "the-big-three",
+        "product_limit": 3,
+        "header_layout": "split",
+        "view_all_label": "View all",
+        "view_all_link": "shopify://collections/all",
+        "card_cta_label": "Shop",
+        "show_price": true,
+        "show_swatches": false,
+        "headline_size": 44,
+        "headline_kerning": -3,
+        "subheadline_size": 17,
+        "kicker_size": 11,
+        "kicker_kerning": 22,
+        "padding_top": 88,
+        "padding_bottom": 88,
+        "scheme": "white",
+        "background": ""
+      }
+    },
+    "night-feature": {
+      "type": "category-feature",
+      "blocks": {
+        "b1": {
+          "type": "bullet",
+          "settings": {
+            "text": "Nightly magnesium support for calm routines"
+          }
+        },
+        "b2": {
+          "type": "bullet",
+          "settings": {
+            "text": "Colostrum support for gut and recovery"
+          }
+        },
+        "b3": {
+          "type": "bullet",
+          "settings": {
+            "text": "Third-party tested, COA verified"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ],
+      "settings": {
+        "kicker": "Calm, gut, recovery",
+        "headline": "Build the routine around the way you want to feel.",
+        "body": "Mix and match to fit the way you actually feel, like calming magnesium for wind-down nights, colostrum for gut and recovery support, all in the same clean daily ritual.",
+        "image": "shopify://shop_images/creatine_graphic7.png",
+        "autoplay_video": true,
+        "show_video_controls": false,
+        "image_position": "right",
+        "media_shape": "rounded",
+        "media_ratio": "auto",
+        "media_fit": "contain",
+        "media_position": "center center",
+        "media_max_width": 100,
+        "media_mobile_max_width": 100,
+        "cta_label": "Explore routines",
+        "cta_link": "shopify://collections/all",
+        "scheme": "cream",
+        "background": "",
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
+    },
+    "proof": {
+      "type": "proof",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I actually love having this on my counter!",
+            "quote_font_size": 24,
+            "attribution": "-Geena LUDWIG"
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "After three weeks, my brain fog literally went away. Glad I started taking creatine, even if it doesn't sound like the most feminine supplement haha.",
+            "quote_font_size": 24,
+            "attribution": "- Patricia Kearney"
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "For me, I was happy to just have simple supplements that don't add calories to my day. I tried gummies, but not I put creatine in my coffee every morning.",
+            "quote_font_size": 24,
+            "attribution": "- Gabriella Suarez"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "disabled": true,
+      "settings": {
+        "kicker": "",
+        "headline": "Beauty-counter polish. Daily supplement discipline.",
+        "scheme": "flamingo"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "kicker": "Join the ritual",
+        "headline": "Get batch notes, restock alerts, and routine tips.",
+        "subheadline": "No spam, just the occasional note on what works and what’s next.",
+        "placeholder": "Enter your email",
+        "note": "Unsubscribe anytime.",
+        "success_message": "Thanks, you’re on the list!",
+        "scheme": "mint",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "section_divider_bar_nKEiTg",
+    "daily-feature",
+    "daily-products",
+    "night-feature",
+    "proof",
+    "newsletter"
+  ]
+}

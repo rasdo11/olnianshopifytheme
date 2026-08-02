@@ -1,0 +1,25 @@
+<div class="container" style="padding: 80px 0; max-width: 480px;">
+  <h1 class="display-md" style="font-size: clamp(32px, 4vw, 48px);">Sign in</h1>
+
+  {% form 'customer_login' %}
+    {{ form.errors | default_errors }}
+    <div style="margin-top: 32px; display: grid; gap: 16px;">
+      <label>
+        <div style="font-size: 13px; margin-bottom: 6px;">Email</div>
+        <input type="email" name="customer[email]" autocomplete="email" required
+          style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      </label>
+      <label>
+        <div style="font-size: 13px; margin-bottom: 6px;">Password</div>
+        <input type="password" name="customer[password]" autocomplete="current-password" required
+          style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--espresso-12);">
+      </label>
+      <button type="submit" class="btn btn--primary">Sign in</button>
+    </div>
+  {% endform %}
+
+  <div style="margin-top: 24px; font-size: 14px; display: flex; gap: 16px; justify-content: space-between;">
+    <a href="{{ routes.account_register_url }}">Create account</a>
+    <a href="{{ routes.account_recover_url }}">Forgot password?</a>
+  </div>
+</div>

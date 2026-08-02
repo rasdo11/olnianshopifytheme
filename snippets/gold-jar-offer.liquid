@@ -1,0 +1,127 @@
+{%- comment -%}
+  Gold Jar founding offer - rendered on subscribable creatine PDPs (Monohydrate + Hydration).
+  When a customer subscribes, this adds the free OLNIAN Gold Jar to the cart alongside the
+  subscription, then opens the cart drawer. An AUTOMATIC Buy-X-Get-Y discount makes the jar
+  free at checkout; the 200-unit cap rides on the Gold Jar product's own inventory (tracked/deny).
+
+  The jar variant id is looked up by product handle so it survives id changes.
+  Renewal (Loop) orders never touch the storefront cart, so the jar is first-order-only automatically.
+{%- endcomment -%}
+
+{%- assign gold_jar = all_products['gold-jar-founding-gift'] -%}
+{%- assign gold_jar_variant_id = gold_jar.variants.first.id -%}
+
+<div class="gold-offer">
+  <span class="gold-offer__eyebrow">Founding offer · first 200 members</span>
+  <h3 class="gold-offer__title">Subscribe &amp; get a <em>free month</em> of Creatine</h3>
+  <p class="gold-offer__body">Start your monthly subscription and we’ll send you a <strong>free Gold Jar</strong>: a full bonus month of Creatine Monohydrate, on us, in a keepsake gold-lid jar you keep. <span class="gold-offer__value">A $36.99 gift.</span></p>
+  <ul class="gold-offer__points">
+    <li>A free bonus month in a keepsake Gold Jar</li>
+    <li>Only 200 available, then the offer closes</li>
+    <li>Free shipping · skip or cancel anytime after your second delivery</li>
+  </ul>
+</div>
+
+<style>
+  .gold-offer {
+    margin: 16px 0 20px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid #E4C878;
+    background:
+      radial-gradient(120% 140% at 12% 0%, rgba(246,224,178,.55) 0%, rgba(246,224,178,0) 55%),
+      linear-gradient(180deg, #FFFDF8 0%, #FFF6F4 100%);
+  }
+  .gold-offer__eyebrow {
+    display: inline-block;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
+    color: #A87D3B;
+  }
+  .gold-offer__title {
+    margin: 8px 0 6px; font-size: 22px; line-height: 1.15; font-weight: 600; color: #241F1B;
+  }
+  .gold-offer__title em { font-style: italic; color: #C77E9B; } /* pink accent */
+  .gold-offer__body { margin: 0 0 10px; font-size: 14px; line-height: 1.5; color: #4A423B; }
+  .gold-offer__value { color: #A87D3B; font-weight: 600; white-space: nowrap; }
+  .gold-offer__points { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .gold-offer__points li { position: relative; padding-left: 20px; font-size: 13px; color: #4A423B; }
+  .gold-offer__points li::before {
+    content: "✦"; position: absolute; left: 0; top: 0; color: #C9A55E; font-size: 12px;
+  }
+</style>
+
+<script>
+  (function () {
+    var JAR_VARIANT = {{ gold_jar_variant_id | default: 'null' }};
+
+    function addToCart(items) {
+      return fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ items: items })
+      });
+    }
+
+    // Refresh the cart-drawer section HTML and open it - mirrors the theme's own drawer behaviour,
+    // since we preempt the theme's submit handler below.
+    function refreshAndOpenDrawer() {
+      return fetch(window.location.pathname + '?section_id=cart-drawer', { headers: { Accept: 'text/html' } })
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (html) {
+          if (html) {
+            var parsed = new DOMParser().parseFromString(html, 'text/html');
+            var incoming = parsed.querySelector('[data-cart-drawer-content]');
+            var current = document.querySelector('#CartDrawerContent');
+            if (incoming && current) current.innerHTML = incoming.innerHTML;
+          }
+          return fetch('/cart.js', { headers: { Accept: 'application/json' } }).then(function (r) { return r.json(); }).then(function (cart) {
+            var countEl = document.querySelector('.site-header__cart-count');
+            if (countEl) { countEl.textContent = cart.item_count; countEl.style.display = cart.item_count > 0 ? '' : 'none'; }
+          }).catch(function () {});
+        })
+        .then(function () {
+          var drawer = document.querySelector('#CartDrawer');
+          if (drawer) {
+            drawer.setAttribute('data-open', 'true');
+            drawer.setAttribute('aria-hidden', 'false');
+            if (!(window.Shopify && window.Shopify.designMode)) document.body.style.overflow = 'hidden';
+          }
+        });
+    }
+
+    // Capture on document so we run BEFORE the theme's own form-submit handler, then stop it
+    // so the main item isn't added twice. The free Gold Jar is applied by an AUTOMATIC discount,
+    // so we just add both items and open the drawer - no discount-link redirect needed.
+    document.addEventListener('submit', function (e) {
+      var form = e.target;
+      if (!form || !form.matches || !form.matches('[data-product-form]')) return;
+      if (!JAR_VARIANT) return; // gift product missing - fall back to default behaviour
+
+      var sp = form.querySelector('[name="selling_plan"]');
+      if (!sp || !sp.value) return; // one-time purchase → let the theme handle it normally
+
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      var idInput = form.querySelector('[name="id"]');
+      var qtyInput = form.querySelector('[name="quantity"]');
+      var btn = form.querySelector('[data-product-submit]');
+      var label = (btn && btn.getAttribute('data-default-label')) || 'Add to Cart';
+      if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
+
+      addToCart([{ id: Number(idInput.value), quantity: Number((qtyInput || {}).value || 1), selling_plan: Number(sp.value) }])
+        .then(function (r) {
+          if (!r.ok) return r.json().then(function (x) { throw new Error(x.description || 'Could not add to cart.'); });
+          return r.json();
+        })
+        // Best-effort: if the 200 jars are gone (out of stock), the jar add fails and we continue without it.
+        .then(function () { return addToCart([{ id: JAR_VARIANT, quantity: 1 }]).catch(function () { return null; }); })
+        .then(function () { return refreshAndOpenDrawer(); })
+        .then(function () { if (btn) { btn.disabled = false; btn.textContent = label; } })
+        .catch(function (err) {
+          alert(err.message || 'Could not add to cart.');
+          if (btn) { btn.disabled = false; btn.textContent = label; }
+        });
+    }, true);
+  })();
+</script>

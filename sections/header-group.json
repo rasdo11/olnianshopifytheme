@@ -1,0 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "show_bar": true,
+        "bar_text": "Is Creatine Right for You?",
+        "bar_opens_quiz": true,
+        "bar_link": "",
+        "background_color": "#ff7e5f",
+        "text_color": "#ffffff",
+        "text_size": 13
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "utility_text": "Free Shipping",
+        "utility_link": "",
+        "utility_tooltip": "Free shipping on all subscriptions!",
+        "show_quiz_link": true,
+        "quiz_link_label": "Take the quiz"
+      }
+    },
+    "quiz": {
+      "type": "quiz",
+      "settings": {
+        "show_trigger_strip": false,
+        "eyebrow": "Find your protocol",
+        "headline": "Should I take creatine?",
+        "subtext": "Four questions. No email required. No pitch if the answer’s no.",
+        "trigger_label": "Is creatine for me, right now?",
+        "creatine_url": "shopify://products/creatine-monohydrate",
+        "bundle_url": "shopify://products/magnesium-glycinate"
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header",
+    "quiz"
+  ]
+}

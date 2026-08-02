@@ -1,0 +1,25 @@
+<div class="container" style="padding: 80px 0;">
+  <h1 class="display-md" style="font-size: clamp(40px, 5vw, 64px);">{{ 'general.search.title' | t }}</h1>
+
+  <form action="{{ routes.search_url }}" method="get" style="margin-top: 32px; max-width: 520px;">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}"
+      style="width: 100%; padding: 14px 18px; border-radius: 999px; border: 1px solid var(--espresso-12); font-family: inherit; font-size: 16px;">
+  </form>
+
+  {%- if search.performed -%}
+    {%- if search.results.size == 0 -%}
+      <p style="margin-top: 32px; opacity: 0.72;">{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+    {%- else -%}
+      <div style="margin-top: 16px; font-size: 13px; opacity: 0.6;">
+        {{ 'general.search.results_count.other' | t: count: search.results_count }}
+      </div>
+      <div class="sku-row__grid" style="margin-top: 40px;">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'product-card', product: item %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>

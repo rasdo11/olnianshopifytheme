@@ -1,0 +1,26 @@
+<section class="brand-intro section--{{ section.settings.scheme | default: 'white' }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;{% if section.settings.background != blank %} background: {{ section.settings.background }};{% endif %}">
+  <div class="container brand-intro__inner brand-intro__inner--{{ section.settings.alignment }}">
+    {%- if section.settings.kicker != blank -%}<p class="brand-intro__kicker">{{ section.settings.kicker }}</p>{%- endif -%}
+    {%- if section.settings.headline != blank -%}<h2 class="brand-intro__headline">{{ section.settings.headline }}</h2>{%- endif -%}
+    {%- if section.settings.body != blank -%}<div class="brand-intro__body">{{ section.settings.body | newline_to_br }}</div>{%- endif -%}
+    {%- if section.settings.cta_label != blank -%}<a class="btn btn--outline brand-intro__cta" href="{{ section.settings.cta_link | default: routes.collections_url | append: '/all' }}">{{ section.settings.cta_label }}</a>{%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Brand intro",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "A little bit about us" },
+    { "type": "textarea", "id": "headline", "label": "Headline", "default": "Daily supplements made to feel as good as they look." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "OLNIAN pairs science-backed essentials with a beauty-counter ritual: clean formulas, polished packaging, and routines you can keep." },
+    { "type": "text", "id": "cta_label", "label": "CTA label" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "select", "id": "alignment", "label": "Alignment", "default": "center", "options": [{"value":"center","label":"Center"},{"value":"left","label":"Left"}] },
+    { "type": "select", "id": "scheme", "label": "Color scheme", "default": "white", "options": [{"value":"blush","label":"Blush"},{"value":"cream","label":"Cream"},{"value":"white","label":"White"},{"value":"lavender","label":"Lavender"},{"value":"sky","label":"Blue"},{"value":"espresso","label":"Espresso"}] },
+    { "type": "color", "id": "background", "label": "Custom background" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 8, "default": 88 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 8, "default": 88 }
+  ],
+  "presets": [{ "name": "Brand intro", "category": "Text" }]
+}
+{% endschema %}

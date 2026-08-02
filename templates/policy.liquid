@@ -1,0 +1,29 @@
+{%- comment -%}
+  Styled template for all shop policy pages (refund, shipping, privacy, terms, subscription).
+  Mirrors the site's page.liquid layout (centered container, 720px, display heading) and adds
+  light prose styling so policy text reads as designed content, not raw plain text.
+{%- endcomment -%}
+<div class="container policy-page" style="padding: 80px 0; max-width: 720px;">
+  <h1 class="display-md" style="font-size: clamp(40px, 5vw, 64px); letter-spacing: -0.025em;">
+    {{ policy.title }}
+  </h1>
+  <div class="policy-page__body rte">
+    {{ policy.body }}
+  </div>
+</div>
+
+<style>
+  .policy-page__body { margin-top: 32px; font-size: 17px; line-height: 1.7; opacity: 0.9; }
+  .policy-page__body > *:first-child { margin-top: 0; }
+  .policy-page__body p { margin: 0 0 1.1em; }
+  .policy-page__body strong { font-weight: 600; opacity: 1; }
+  .policy-page__body h2,
+  .policy-page__body h3 { margin: 1.9em 0 .5em; line-height: 1.25; letter-spacing: -0.01em; opacity: 1; text-wrap: balance; }
+  .policy-page__body h2 { font-size: 25px; }
+  .policy-page__body h3 { font-size: 19px; }
+  .policy-page__body ul,
+  .policy-page__body ol { margin: 0 0 1.2em; padding-left: 1.4em; }
+  .policy-page__body li { margin: .35em 0; }
+  .policy-page__body a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .policy-page__body hr { border: 0; border-top: 1px solid rgba(128,128,128,.25); margin: 2.2em 0; }
+</style>

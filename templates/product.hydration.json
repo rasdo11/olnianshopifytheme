@@ -1,0 +1,253 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Steady muscle energy through your hardest sets, not just your first five reps"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Electrolytes back where you lost them, without a separate hydration packet"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Recovery that keeps pace with how often you train"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "A full 5 g clinical dose of creatine monohydrate, not a fraction of one"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Lemon flavor that actually mixes clean, no gritty texture"
+          }
+        },
+        "s1": {
+          "type": "support_item",
+          "settings": {
+            "text": "Muscle energy and ATP regeneration during training"
+          }
+        },
+        "s2": {
+          "type": "support_item",
+          "settings": {
+            "text": "Fluid and electrolyte balance from sodium, potassium, and magnesium"
+          }
+        },
+        "s3": {
+          "type": "support_item",
+          "settings": {
+            "text": "Recovery and reduced fatigue after exercise"
+          }
+        },
+        "s4": {
+          "type": "support_item",
+          "settings": {
+            "text": "Hydration during high-intensity or high-sweat sessions"
+          }
+        },
+        "s5": {
+          "type": "support_item",
+          "settings": {
+            "text": "A full creatine and electrolyte routine in one scoop"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "settings": {
+        "use_product_media": true,
+        "crosssell_product": "creatine-monohydrate",
+        "show_rating": false,
+        "rating_value": 46,
+        "rating_count": "",
+        "tagline": "Creatine monohydrate plus the electrolytes you sweat out, in one scoop. Built for training days, not just rest days.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What it supports",
+        "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
+        "atc_label": "Start Now",
+        "show_dynamic_checkout": true,
+        "show_subscription_card": true,
+        "show_expert_modal": true,
+        "expert_button_label": "Talk to an expert",
+        "show_gift_banner": true,
+        "gift_banner_text": "Free Gold Edition gift with purchase of subscription!",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": ""
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": {
+          "type": "stat",
+          "settings": {
+            "number": "5 g",
+            "label": "Creatine monohydrate per scoop, the studied daily dose",
+            "citation": ""
+          }
+        },
+        "st2": {
+          "type": "stat",
+          "settings": {
+            "number": "1,000 mg",
+            "label": "Sodium from sea salt to help maintain fluid balance",
+            "citation": ""
+          }
+        },
+        "st3": {
+          "type": "stat",
+          "settings": {
+            "number": "3",
+            "label": "Electrolytes: magnesium, sodium, and potassium in every scoop",
+            "citation": ""
+          }
+        }
+      },
+      "block_order": [
+        "st1",
+        "st2",
+        "st3"
+      ],
+      "settings": {
+        "kicker": "The formula",
+        "headline": "Built for training days.",
+        "body": "Creatine monohydrate supports ATP regeneration so muscles keep producing short bursts of power, while magnesium, sodium, and potassium replace what you lose through sweat. One scoop covers energy and hydration in a single step.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "What makes this different from plain creatine monohydrate?",
+            "answer": "It combines a full 5 g dose of creatine monohydrate with magnesium, sodium, and potassium, so you're replacing what you sweat out during training while also fueling ATP regeneration. One scoop covers both jobs instead of needing a separate electrolyte packet."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "When should I drink it?",
+            "answer": "Anytime around training works well — before, during, or after. Creatine builds up in your muscles with consistent daily use, so the exact timing matters less than taking it every day."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "Is it safe to take every day?",
+            "answer": "Yes. Creatine monohydrate and these electrolyte amounts are well tolerated by healthy adults with daily use. If you are pregnant, nursing, under 18, or managing a kidney or heart condition, check with your doctor first."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "How long until I notice a difference?",
+            "answer": "Hydration and workout stamina are often noticeable within the first week or two. Creatine's strength and recovery benefits build over 2 to 4 weeks of consistent daily use as your muscle stores saturate."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "Can I stack this with your other supplements?",
+            "answer": "Yes. It pairs well with Magnesium Glycinate in the evening and Colostrum Powder for gut support. Just keep an eye on total daily magnesium if you're taking both this and a separate magnesium supplement."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Can I cancel my subscription?",
+            "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day."
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    },
+    "testing-strip": {
+      "type": "testing-strip",
+      "blocks": {
+        "a": { "type": "item", "settings": { "label": "Heavy metals" } },
+        "b": { "type": "item", "settings": { "label": "Microbials" } },
+        "c": { "type": "item", "settings": { "label": "Identity" } },
+        "d": { "type": "item", "settings": { "label": "Potency" } }
+      },
+      "block_order": ["a", "b", "c", "d"],
+      "settings": {
+        "heading": "Third-party tested every batch",
+        "heading_size": 22,
+        "heading_kerning": 0,
+        "item_size": 13,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading_margin_bottom": 16,
+        "background": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "science",
+    "faq",
+    "testing-strip"
+  ]
+}

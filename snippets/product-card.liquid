@@ -1,0 +1,108 @@
+{%- comment -%}
+  Product card. Expects: product (Product object). Optional overrides: card_title, card_subtitle, card_badge, card_image, card_hover_image, cta_label, show_swatches, show_price
+{%- endcomment -%}
+
+{%- assign show_swatches = show_swatches | default: false, allow_false: true -%}
+{%- assign show_price = show_price | default: true, allow_false: true -%}
+{%- assign cta_label = cta_label | default: 'Shop' -%}
+{%- comment -%} Pick the first real multi-value option for swatches (Color/Scent/Flavor…) {%- endcomment -%}
+{%- assign swatch_option = null -%}
+{%- for opt in product.options_with_values -%}
+  {%- if opt.values.size > 1 -%}
+    {%- assign lc = opt.name | downcase -%}
+    {%- if lc contains 'color' or lc contains 'colour' or lc contains 'scent' or lc contains 'flavor' or lc contains 'flavour' or lc contains 'shade' -%}
+      {%- assign swatch_option = opt -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<div class="sku-card">
+  <a href="{{ product.url }}" class="sku-card__media-link" aria-label="{{ product.title | escape }}" tabindex="-1">
+    <div class="sku-card__image">
+      {%- if card_badge != blank -%}
+        <span class="sku-card__badge">{{ card_badge }}</span>
+      {%- elsif product.compare_at_price > product.price -%}
+        {%- assign _save = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+        <span class="sku-card__badge">Save {{ _save }}%</span>
+      {%- elsif product.metafields.custom.badge != blank -%}
+        <span class="sku-card__badge">{{ product.metafields.custom.badge }}</span>
+      {%- endif -%}
+      {%- assign _card_image = card_image | default: product.featured_image -%}
+      {%- if _card_image -%}
+        {%- assign _card_alt = _card_image.alt | default: product.title -%}
+        {{ _card_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: _card_alt, class: 'sku-card__primary-img' }}
+      {%- endif -%}
+      {%- comment -%} Hover swaps to the next image in the product's own gallery unless a specific hover image is set. {%- endcomment -%}
+      {%- assign _hover_image = card_hover_image -%}
+      {%- if _hover_image == blank and product.images.size > 1 -%}
+        {%- for _img in product.images -%}
+          {%- if _img != _card_image -%}
+            {%- assign _hover_image = _img -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if _hover_image != blank -%}
+        {%- assign _hover_alt = _hover_image.alt | default: product.title -%}
+        {{ _hover_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: _hover_alt, class: 'sku-card__hover-img' }}
+      {%- endif -%}
+    </div>
+  </a>
+
+  <div>
+    <a href="{{ product.url }}" class="sku-card__title-link">
+      <div class="sku-card__name">{{ card_title | default: product.title }}</div>
+    </a>
+    {%- if card_subtitle != blank -%}
+      <div class="sku-card__sub">{{ card_subtitle }}</div>
+    {%- elsif product.metafields.custom.subtitle != blank -%}
+      <div class="sku-card__sub">{{ product.metafields.custom.subtitle }}</div>
+    {%- elsif product.description != blank -%}
+      <div class="sku-card__sub">{{ product.description | strip_html | truncatewords: 12 }}</div>
+    {%- endif -%}
+
+    {%- if show_swatches and swatch_option -%}
+      <div class="sku-card__swatches">
+        <button type="button" class="sku-card__swatch-nav" data-swatch-prev aria-label="Previous colors" tabindex="-1">&lsaquo;</button>
+        <div class="sku-card__swatch-track" data-swatch-track>
+          {%- for value in swatch_option.values -%}
+            {%- assign palette = 'var(--flamingo)' -%}
+            {%- case forloop.index0 | modulo: 4 -%}
+              {%- when 0 -%}{%- assign palette = 'var(--flamingo)' -%}
+              {%- when 1 -%}{%- assign palette = 'var(--gold)' -%}
+              {%- when 2 -%}{%- assign palette = 'var(--mint)' -%}
+              {%- when 3 -%}{%- assign palette = 'var(--tangerine)' -%}
+            {%- endcase -%}
+            <span class="sku-card__swatch" title="{{ value | escape }}" style="background-color: {{ palette }};"></span>
+          {%- endfor -%}
+        </div>
+        <button type="button" class="sku-card__swatch-nav" data-swatch-next aria-label="More colors" tabindex="-1">&rsaquo;</button>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="sku-card__footer">
+    <a href="{{ product.url }}" class="btn btn--primary sku-card__shop">
+      {{ cta_label }}
+      {%- if show_price -%}
+        {%- if product.price_varies %} · From {{ product.price_min | money }}
+        {%- else %} · {{ product.price | money }}{% endif -%}
+      {%- endif -%}
+    </a>
+
+    {%- assign _qa_variant = product.selected_or_first_available_variant -%}
+    {%- if product.available and _qa_variant -%}
+      {%- if product.variants.size > 1 -%}
+        {%- comment -%} Multiple variants: send to product page to choose options {%- endcomment -%}
+        <a href="{{ product.url }}" class="sku-card__quick-add" aria-label="Choose options for {{ product.title | escape }}">
+          <span aria-hidden="true">+</span>
+        </a>
+      {%- else -%}
+        <button type="button" class="sku-card__quick-add" data-quick-add data-variant-id="{{ _qa_variant.id }}" aria-label="Add {{ product.title | escape }} to cart">
+          <span class="sku-card__quick-add-icon" aria-hidden="true">+</span>
+        </button>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>

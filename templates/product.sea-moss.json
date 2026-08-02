@@ -1,0 +1,180 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "One of the oldest wellness traditions, now in two capsules a day"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Support for a body that's already fighting off everything going around"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "A gut and inflammatory response that isn't constantly working overtime"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "BioPerine® added to help your body actually absorb what you're taking"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "No fillers beyond the plant-based capsule itself"
+          }
+        },
+        "s1": { "type": "support_item", "settings": { "text": "Immune system resilience" } },
+        "s2": { "type": "support_item", "settings": { "text": "Healthy inflammatory response" } },
+        "s3": { "type": "support_item", "settings": { "text": "Thyroid and metabolic support" } },
+        "s4": { "type": "support_item", "settings": { "text": "Blood and lymphatic system health" } },
+        "s5": { "type": "support_item", "settings": { "text": "Gut and digestive balance" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4", "b5", "s1", "s2", "s3", "s4", "s5"],
+      "settings": {
+        "use_product_media": true,
+        "crosssell_product": "creatine-monohydrate",
+        "show_rating": false,
+        "rating_value": 46,
+        "rating_count": "",
+        "tagline": "Organic Irish moss, bladderwrack, and burdock root — an ocean-and-earth blend used for generations to support immunity and gut balance.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What it supports",
+        "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
+        "atc_label": "Start Now",
+        "show_dynamic_checkout": true,
+        "show_subscription_card": true,
+        "show_expert_modal": true,
+        "expert_button_label": "Talk to an expert",
+        "show_gift_banner": false,
+        "gift_banner_text": "",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": ""
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": { "type": "stat", "settings": { "number": "3", "label": "Whole-food botanicals: Irish moss, bladderwrack, and burdock root", "citation": "" } },
+        "st2": { "type": "stat", "settings": { "number": "2", "label": "Capsules a day, taken before a meal", "citation": "" } },
+        "st3": { "type": "stat", "settings": { "number": "0", "label": "Synthetic fillers — organic ingredients only", "citation": "" } }
+      },
+      "block_order": ["st1", "st2", "st3"],
+      "settings": {
+        "kicker": "The tradition",
+        "headline": "Thousands of years old, still relevant today.",
+        "body": "Sea moss (Irish moss) has been used across coastal cultures for generations as a source of trace minerals and plant compounds. We pair it with organic bladderwrack and burdock root, plus BioPerine® to support absorption, in a simple two-capsule daily dose.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "What's actually in it?",
+            "answer": "Organic Irish moss (sea moss), organic bladderwrack, and organic burdock root, plus BioPerine® to support absorption. It comes in a plant-based capsule, no synthetic fillers."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "Is this the same as raw sea moss gel?",
+            "answer": "It's the same core ingredient, concentrated into capsules instead of a gel you'd make at home. That means a consistent, measured dose without prepping or storing raw sea moss."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "How and when should I take it?",
+            "answer": "Two capsules once a day, ideally 20 to 30 minutes before a meal. Consistency matters more than exact timing."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "Is it safe if I have a thyroid condition?",
+            "answer": "Sea moss naturally contains iodine, which can affect thyroid function. If you have a thyroid condition or take thyroid medication, talk to your doctor before starting."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "How long until I notice something?",
+            "answer": "Many people notice digestive and energy changes within a few weeks of consistent daily use. Immune and inflammatory support tends to build gradually rather than all at once."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Can I cancel my subscription?",
+            "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day."
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    },
+    "testing-strip": {
+      "type": "testing-strip",
+      "blocks": {
+        "a": { "type": "item", "settings": { "label": "Heavy metals" } },
+        "b": { "type": "item", "settings": { "label": "Microbials" } },
+        "c": { "type": "item", "settings": { "label": "Identity" } },
+        "d": { "type": "item", "settings": { "label": "Potency" } }
+      },
+      "block_order": ["a", "b", "c", "d"],
+      "settings": {
+        "heading": "Third-party tested every batch",
+        "heading_size": 22,
+        "heading_kerning": 0,
+        "item_size": 13,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading_margin_bottom": 16,
+        "background": ""
+      }
+    }
+  },
+  "order": ["main", "science", "faq", "testing-strip"]
+}

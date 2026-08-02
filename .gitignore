@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Shopify CLI local theme metadata cache
+.shopify/
+
+# Local Claude Code settings
+.claude/settings.local.json
