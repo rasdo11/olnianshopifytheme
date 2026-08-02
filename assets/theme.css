@@ -137,7 +137,9 @@ img { display: block; max-width: 100%; }
 @media (max-width: 600px) { .site-header__quiz { display: none; } }
 
 .site-nav-overlay__quiz {
-  margin-top: 20px;
+  /* Deliberately stays Nunito 600 — one contrasting voice reads as the single CTA rather
+     than a seventh menu item. Extra top margin separates it from the tracked caps. */
+  margin-top: 26px;
   font-family: var(--body-font);
   font-size: 15px;
   font-weight: 600;
@@ -1504,21 +1506,52 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   display: flex; align-items: center; justify-content: center;
   font-size: 24px; line-height: 1;
 }
+/* Left-aligned to the same 24px gutter as the wordmark in the bar above, so the menu
+   reads as one column starting where OLNIAN starts. */
 .site-nav-overlay__links {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 8px;
+  gap: 2px;
   padding: 24px;
 }
+/* Belleza at 400 — the same voice as the wordmark directly above it. The previous setting
+   (Nunito Sans 800 at -0.02em) was the heaviest, tightest type in the theme sitting under
+   the most delicate. Wide positive tracking on caps is where the editorial feel comes from. */
 .site-nav-overlay__links a {
-  font-family: var(--display-font);
-  font-weight: 800;
-  font-size: 30px;
-  letter-spacing: -0.02em;
-  padding: 12px 0;
+  font-family: var(--brand-font);
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  padding: 18px 0;
+}
+
+/* Stagger the menu in on open. Delays live on the .is-open selector only, so closing
+   collapses everything at once instead of unwinding item by item. */
+.site-nav-overlay__links > * {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s ease, transform .3s cubic-bezier(.22, .61, .36, 1);
+}
+.site-nav-overlay.is-open .site-nav-overlay__links > * {
+  opacity: 1;
+  transform: none;
+}
+.site-nav-overlay.is-open .site-nav-overlay__links > *:nth-child(1) { transition-delay: .05s; }
+.site-nav-overlay.is-open .site-nav-overlay__links > *:nth-child(2) { transition-delay: .09s; }
+.site-nav-overlay.is-open .site-nav-overlay__links > *:nth-child(3) { transition-delay: .13s; }
+.site-nav-overlay.is-open .site-nav-overlay__links > *:nth-child(4) { transition-delay: .17s; }
+.site-nav-overlay.is-open .site-nav-overlay__links > *:nth-child(5) { transition-delay: .21s; }
+.site-nav-overlay.is-open .site-nav-overlay__links > *:nth-child(6) { transition-delay: .25s; }
+.site-nav-overlay.is-open .site-nav-overlay__links > *:nth-child(7) { transition-delay: .29s; }
+.site-nav-overlay.is-open .site-nav-overlay__links > *:nth-child(8) { transition-delay: .33s; }
+@media (prefers-reduced-motion: reduce) {
+  .site-nav-overlay__links > * { transform: none; transition: opacity .2s ease; }
+  .site-nav-overlay.is-open .site-nav-overlay__links > * { transition-delay: 0s; }
 }
 .site-nav-overlay__footer {
   padding: 24px;
