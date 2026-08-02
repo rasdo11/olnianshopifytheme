@@ -631,11 +631,24 @@
       if (localStorage.getItem(storageKey) === 'true') return;
     } catch (_) {}
     const delay = Number(popup.dataset.popupDelay || 5) * 1000;
+    const peekMs = Number(popup.dataset.peekDuration || 3) * 1000;
+    let peekTimer;
     const makeReady = () => {
       popup.classList.add('is-ready');
       popup.setAttribute('aria-hidden', 'false');
+      // Arrive expanded, hold, then shrink back to the pill. Skipped when the merchant
+      // sets the duration to 0 or clears the peek text.
+      if (peekMs > 0 && popup.querySelector('.email-popup__tab-peek')) {
+        popup.classList.add('is-peeking');
+        peekTimer = setTimeout(() => popup.classList.remove('is-peeking'), peekMs);
+      }
+    };
+    const endPeek = () => {
+      clearTimeout(peekTimer);
+      popup.classList.remove('is-peeking');
     };
     const open = () => {
+      endPeek();
       popup.classList.add('is-open');
       popup.setAttribute('aria-hidden', 'false');
       if (!window.Shopify || !window.Shopify.designMode) document.body.style.overflow = 'hidden';

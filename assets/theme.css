@@ -2519,6 +2519,44 @@ body.nav-open { overflow: hidden; }
   .email-popup--right .email-popup__tab { left: auto; right: 16px; }
 }
 
+/* ── Email tab: timed peek ────────────────────────────────────
+   The tab appears expanded, then collapses to the pill. Width is animated on the peek
+   span (max-width, not grid-template-columns, so older Safari animates it too). */
+.email-popup__tab { max-width: calc(100vw - 32px); overflow: hidden; white-space: nowrap; }
+.email-popup__tab-label { flex: 0 0 auto; }
+.email-popup__tab-peek {
+  display: inline-block;
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+  overflow: hidden;
+  /* em keeps it proportional to the tab label, the clamp stops it going unreadably small */
+  font-size: clamp(12px, 0.5em, 15px);
+  line-height: 1.2;
+  text-align: left;
+  white-space: nowrap;
+  transition: max-width .38s cubic-bezier(.22,.61,.36,1), margin-left .38s cubic-bezier(.22,.61,.36,1), opacity .22s ease;
+}
+.email-popup.is-peeking .email-popup__tab-peek {
+  max-width: min(240px, 52vw);
+  margin-left: 8px;
+  opacity: .85;
+}
+/* Never peek while the dialog is open */
+.email-popup.is-open .email-popup__tab-peek { max-width: 0; margin-left: 0; opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .email-popup__tab-peek { transition: none; }
+}
+
+/* The PDP sticky buy bar owns the bottom of the screen on mobile — lift the tab above it
+   so it can't sit on top of Add to Cart. .has-sticky-buy is set by the sticky-bar JS. */
+@media (max-width: 900px) {
+  body.has-sticky-buy .email-popup__tab {
+    bottom: calc(76px + max(14px, env(safe-area-inset-bottom)));
+  }
+}
+
 /* ── Hero headline highlighter controls ──────────────────────── */
 .hero__highlight {
   position: relative;

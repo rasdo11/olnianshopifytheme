@@ -4,10 +4,20 @@
     style="--email-tab-font-size: {{ section.settings.tab_font_size | default: 26 }}px; --email-tab-bg: {{ section.settings.tab_background | default: '#C6D0FF' }};"
     data-email-popup
     data-popup-delay="{{ settings.email_popup_delay | default: 5 }}"
+    data-peek-duration="{{ section.settings.tab_peek_duration | default: 3 }}"
     aria-hidden="true"
   >
+    {%- comment -%}
+      The tab arrives expanded ("10% off your first order"), holds for tab_peek_duration
+      seconds, then collapses to the short pill so it stops competing with the page. The
+      peek text is a separate span that animates its width, so both states read as one
+      sentence rather than swapping copy.
+    {%- endcomment -%}
     <button type="button" class="email-popup__tab" data-email-popup-open aria-label="Open 10 percent off email signup">
-      {{ section.settings.tab_label | default: '10% off' }}
+      <span class="email-popup__tab-label">{{ section.settings.tab_label | default: '10% off' }}</span>
+      {%- if section.settings.tab_peek_label != blank -%}
+        <span class="email-popup__tab-peek" aria-hidden="true"><span>{{ section.settings.tab_peek_label }}</span></span>
+      {%- endif -%}
     </button>
     <div class="email-popup__overlay" data-email-popup-close></div>
     <div
@@ -51,6 +61,8 @@
   "name": "Email popup",
   "settings": [
     { "type": "text", "id": "tab_label", "label": "Collapsed button label", "default": "10% off" },
+    { "type": "text", "id": "tab_peek_label", "label": "Expanded peek text", "default": "your first order", "info": "Shown beside the label when the button first appears, then it collapses. Reads as one phrase with the label, e.g. \"10% off your first order\". Leave empty to disable the peek." },
+    { "type": "range", "id": "tab_peek_duration", "label": "Peek duration", "min": 0, "max": 10, "step": 1, "unit": "s", "default": 3, "info": "How long the button stays expanded before shrinking. 0 disables the peek." },
     { "type": "select", "id": "tab_position", "label": "Collapsed button position", "default": "right", "options": [
       { "value": "right", "label": "Bottom right" },
       { "value": "left", "label": "Bottom left" }
