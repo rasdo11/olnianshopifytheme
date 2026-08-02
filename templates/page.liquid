@@ -1,4 +1,4 @@
-<div class="container" style="padding: 80px 0; max-width: 720px;">
+<div class="container page-default">
   <h1 class="display-md" style="font-size: clamp(40px, 5vw, 64px); letter-spacing: -0.025em;">
     {{ page.title }}
   </h1>
@@ -6,7 +6,10 @@
     {{ page.content }}
   </div>
 
-  {%- comment -%} Contact form - rendered on the Contact page. Submissions go to the store's contact email. {%- endcomment -%}
+  {%- comment -%}
+    Contact form - rendered on the Contact page. Submissions go to the store's contact email
+    (Settings > Store details), not to anything set in the theme.
+  {%- endcomment -%}
   {%- if page.handle == 'contact' -%}
     {%- form 'contact', class: 'contact-form' -%}
       {%- if form.posted_successfully? -%}
@@ -14,24 +17,111 @@
       {%- elsif form.errors -%}
         <p class="contact-form__error">{{ form.errors | default_errors }}</p>
       {%- endif -%}
-      <div class="contact-form__field">
-        <label for="ContactName">Name</label>
-        <input type="text" id="ContactName" name="contact[name]" value="{{ form.name }}" autocomplete="name" required>
+
+      <div class="contact-form__row">
+        <div class="contact-form__field">
+          <label for="ContactName">Name</label>
+          <input type="text" id="ContactName" name="contact[name]" value="{{ form.name }}" autocomplete="name" placeholder="Jane Doe" required>
+        </div>
+        <div class="contact-form__field">
+          <label for="ContactEmail">Email</label>
+          <input type="email" id="ContactEmail" name="contact[email]" value="{{ form.email }}" autocomplete="email" placeholder="jane@email.com" required>
+        </div>
       </div>
+
+      {%- comment -%}
+        Optional topic chips. Each is its own contact[...] field so it survives without JS -
+        Shopify humanises the key in the notification email, e.g. "Product Advice: Yes".
+      {%- endcomment -%}
       <div class="contact-form__field">
-        <label for="ContactEmail">Email</label>
-        <input type="email" id="ContactEmail" name="contact[email]" value="{{ form.email }}" autocomplete="email" required>
+        <label class="contact-form__legend">What's this about? <span>Optional — pick any</span></label>
+        <div class="contact-form__topics">
+          <label class="contact-form__topic">
+            <input type="checkbox" name="contact[product_advice]" value="Yes">
+            <span>Which product is right for me</span>
+          </label>
+          <label class="contact-form__topic">
+            <input type="checkbox" name="contact[subscription]" value="Yes">
+            <span>Subscription</span>
+          </label>
+          <label class="contact-form__topic">
+            <input type="checkbox" name="contact[order_help]" value="Yes">
+            <span>Order or shipping</span>
+          </label>
+          <label class="contact-form__topic">
+            <input type="checkbox" name="contact[ingredients]" value="Yes">
+            <span>Ingredients &amp; testing</span>
+          </label>
+          <label class="contact-form__topic">
+            <input type="checkbox" name="contact[wholesale]" value="Yes">
+            <span>Wholesale</span>
+          </label>
+        </div>
       </div>
+
       <div class="contact-form__field">
         <label for="ContactMessage">Message</label>
-        <textarea id="ContactMessage" name="contact[body]" rows="5" required>{{ form.body }}</textarea>
+        <textarea id="ContactMessage" name="contact[body]" rows="5" placeholder="Tell us what you're working on and what you've tried." required>{{ form.body }}</textarea>
       </div>
-      <button type="submit" class="btn btn--primary">Send message</button>
+
+      {%- comment -%}
+        Unchecked by default. The script below also creates a tagged subscriber when it's
+        ticked, so the opt-in actually joins the list instead of only appearing in the email.
+      {%- endcomment -%}
+      <label class="contact-form__optin">
+        <input type="checkbox" name="contact[opt_in]" value="Yes">
+        <span>Email me OLNIAN tips and offers. Unsubscribe anytime.</span>
+      </label>
+
+      <button type="submit" class="btn btn--primary contact-form__submit">Send message</button>
     {%- endform -%}
+
+    <script>
+      (function () {
+        var form = document.querySelector('.contact-form');
+        if (!form) return;
+        form.addEventListener('submit', function () {
+          var optIn = form.querySelector('[name="contact[opt_in]"]');
+          if (!optIn || !optIn.checked) return;
+          var emailEl = form.querySelector('[name="contact[email]"]');
+          var nameEl = form.querySelector('[name="contact[name]"]');
+          var email = emailEl ? emailEl.value.trim() : '';
+          if (!email) return;
+
+          var body = new URLSearchParams();
+          body.set('form_type', 'customer');
+          body.set('utf8', '✓');
+          body.set('contact[email]', email);
+          body.set('contact[first_name]', (nameEl ? nameEl.value.trim() : '').split(' ')[0]);
+          // Tagged contact-form, NOT expert-request: these people already told us what they
+          // need in the message, so they shouldn't get the expert questionnaire flow.
+          body.set('contact[tags]', 'contact-form,newsletter');
+
+          // The page navigates on submit, so a normal fetch would be cancelled in flight.
+          var payload = new Blob([body.toString()], { type: 'application/x-www-form-urlencoded' });
+          if (navigator.sendBeacon && navigator.sendBeacon('/contact', payload)) return;
+          try {
+            fetch('/contact', {
+              method: 'POST',
+              body: body,
+              keepalive: true,
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            });
+          } catch (_) {}
+        });
+      })();
+    </script>
   {%- endif -%}
 </div>
 
 <style>
+  /* The old inline `padding: 80px 0` overrode .container's horizontal padding, so page
+     content ran edge to edge on mobile. */
+  .page-default { max-width: 720px; padding: 80px 24px; }
+  @media (max-width: 600px) {
+    .page-default { padding: 44px 22px 64px; }
+  }
+
   .page-default__body { font-size: 17px; line-height: 1.7; opacity: 0.9; }
   .page-default__body > *:first-child { margin-top: 0; }
   .page-default__body p { margin: 0 0 1.1em; }
@@ -47,15 +137,98 @@
   .page-default__body hr { border: 0; border-top: 1px solid rgba(128,128,128,.25); margin: 2.2em 0; }
   .page-default__body img { max-width: 100%; height: auto; border-radius: 12px; }
 
-  .contact-form { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; max-width: 520px; }
-  .contact-form__field { display: flex; flex-direction: column; gap: 6px; }
-  .contact-form label { font-size: 14px; font-weight: 600; }
-  .contact-form input,
-  .contact-form textarea { font: inherit; font-size: 16px; padding: 12px 14px; border: 1px solid rgba(128,128,128,.35); border-radius: 10px; background: #fff; color: #241F1B; width: 100%; box-sizing: border-box; }
-  .contact-form input:focus,
-  .contact-form textarea:focus { outline: 2px solid #C9A55E; outline-offset: 1px; border-color: #C9A55E; }
-  .contact-form textarea { resize: vertical; }
-  .contact-form .btn { align-self: flex-start; margin-top: 4px; }
-  .contact-form__success { padding: 14px 16px; border-radius: 10px; background: #E4ECE0; color: #2F5130; font-weight: 500; }
-  .contact-form__error { padding: 14px 16px; border-radius: 10px; background: #F4E2DD; color: #A6483C; }
+  /* ── Contact form ─────────────────────────────────────────── */
+  .contact-form {
+    margin-top: 36px;
+    display: grid;
+    gap: 18px;
+    padding: 28px 26px;
+    background: #fff;
+    border: 1px solid var(--espresso-12, rgba(46,18,6,.12));
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(46, 18, 6, .06);
+  }
+  .contact-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .contact-form__field { display: flex; flex-direction: column; gap: 7px; }
+  .contact-form label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+    opacity: .55;
+  }
+  .contact-form__legend { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .contact-form__legend span {
+    font-size: 10.5px; font-weight: 500; letter-spacing: .04em;
+    text-transform: none; opacity: .8;
+  }
+  .contact-form input[type="text"],
+  .contact-form input[type="email"],
+  .contact-form textarea {
+    font: inherit; font-size: 16px;
+    padding: 13px 15px;
+    border: 1.5px solid var(--espresso-12, rgba(46,18,6,.12));
+    border-radius: 12px;
+    background: #fff; color: #241F1B;
+    width: 100%; box-sizing: border-box;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(46,18,6,.32); }
+  .contact-form input[type="text"]:focus,
+  .contact-form input[type="email"]:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: #C9A55E;
+    box-shadow: 0 0 0 3px rgba(201,165,94,.18);
+  }
+  .contact-form textarea { resize: vertical; min-height: 128px; line-height: 1.55; }
+
+  /* Topic chips — multi-select, never required */
+  .contact-form__topics { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+  .contact-form__topic { cursor: pointer; }
+  .contact-form__topic input {
+    position: absolute; opacity: 0; width: 0; height: 0;
+  }
+  .contact-form__topic span {
+    display: inline-block;
+    padding: 9px 15px;
+    border: 1.5px solid var(--espresso-12, rgba(46,18,6,.12));
+    border-radius: 999px;
+    font-size: 13.5px; font-weight: 500; letter-spacing: 0;
+    text-transform: none; opacity: 1;
+    background: #fff;
+    transition: background .15s, border-color .15s, color .15s;
+    user-select: none;
+  }
+  .contact-form__topic span:hover { border-color: var(--espresso-30, rgba(46,18,6,.3)); }
+  .contact-form__topic input:checked + span {
+    background: var(--espresso, #2E1206);
+    border-color: var(--espresso, #2E1206);
+    color: var(--blush, #FFF8F0);
+  }
+  .contact-form__topic input:focus-visible + span {
+    outline: 2px solid #C9A55E; outline-offset: 2px;
+  }
+
+  .contact-form__optin {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 12.5px; font-weight: 500; letter-spacing: 0;
+    text-transform: none; opacity: .75;
+    line-height: 1.45; cursor: pointer;
+  }
+  .contact-form__optin input[type="checkbox"] {
+    flex: 0 0 auto; width: 18px; height: 18px; margin: 0;
+    accent-color: var(--espresso, #2E1206); cursor: pointer;
+  }
+
+  .contact-form__submit { justify-self: start; margin-top: 4px; }
+  .contact-form__success,
+  .contact-form__error { padding: 14px 16px; border-radius: 12px; font-size: 15px; }
+  .contact-form__success { background: #E4ECE0; color: #2F5130; font-weight: 500; }
+  .contact-form__error { background: #F4E2DD; color: #A6483C; }
+
+  @media (max-width: 600px) {
+    .contact-form { padding: 22px 18px; gap: 16px; border-radius: 18px; }
+    .contact-form__row { grid-template-columns: 1fr; gap: 16px; }
+    .contact-form__submit { justify-self: stretch; width: 100%; }
+  }
 </style>
