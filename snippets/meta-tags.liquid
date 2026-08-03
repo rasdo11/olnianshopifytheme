@@ -1,7 +1,9 @@
 {%- comment -%}
   Open Graph + Twitter Card tags for rich link previews (iMessage, WhatsApp, Facebook, X).
   Title and image are fixed brand-wide (not per-page) so every shared link looks the same:
-  "{Store name} | {Tagline}" plus the brand's shared link image.
+  "{Store name} | {Tagline}" plus the brand's shared link image. The product/article images
+  are only fallbacks for when the Shared link image setting is empty — set that setting and
+  every share keeps the single brand card.
 {%- endcomment -%}
 {%- liquid
   assign og_type = 'website'
@@ -10,21 +12,54 @@
   elsif request.page_type == 'article'
     assign og_type = 'article'
   endif
-  assign og_title = shop.name | append: ' | ' | append: settings.brand_tagline
+
+  assign og_title = shop.name
+  if settings.brand_tagline != blank
+    assign og_title = shop.name | append: ' | ' | append: settings.brand_tagline
+  endif
+
   assign og_image = settings.social_share_image
-  assign og_desc = page_description | default: shop.description | default: shop.name
+  comment
+    Fallbacks so a card never renders imageless: on a product page use the product's own
+    photo, then the article image, before giving up.
+  endcomment
+  if og_image == blank and product.featured_image
+    assign og_image = product.featured_image
+  endif
+  if og_image == blank and article.image
+    assign og_image = article.image
+  endif
+
+  assign og_desc = page_description | default: shop.description | default: settings.brand_tagline | default: shop.name
 -%}
 <meta property="og:site_name" content="{{ shop.name }}">
 <meta property="og:type" content="{{ og_type }}">
 <meta property="og:title" content="{{ og_title | escape }}">
 <meta property="og:description" content="{{ og_desc | escape }}">
 <meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:locale" content="{{ request.locale.iso_code | replace: '-', '_' }}">
 {%- if og_image -%}
-  {%- assign og_h = og_image.height | times: 1200 | divided_by: og_image.width -%}
-  <meta property="og:image" content="{{ og_image | image_url: width: 1200 }}">
-  <meta property="og:image:secure_url" content="{{ og_image | image_url: width: 1200 }}">
+  {%- comment -%}
+    image_url returns a PROTOCOL-RELATIVE url (//cdn.shopify.com/...). Open Graph requires an
+    absolute one, and scrapers — iMessage, WhatsApp, Facebook, Slack — drop the image when the
+    scheme is missing, which is why shared links showed no thumbnail. The `contains` test has
+    to sit in an if/else: Liquid's `assign` can't evaluate `contains` as a boolean.
+
+    Cropped to 1200x630, the standard large-card ratio, so the declared dimensions are always
+    truthful — a mismatch makes some scrapers discard the image outright.
+  {%- endcomment -%}
+  {%- comment -%} format: jpg so the declared og:image:type is actually true for PNG sources. {%- endcomment -%}
+  {%- assign og_image_src = og_image | image_url: width: 1200, height: 630, crop: 'center', format: 'jpg' -%}
+  {%- if og_image_src contains '://' -%}
+    {%- assign og_image_url = og_image_src -%}
+  {%- else -%}
+    {%- assign og_image_url = og_image_src | prepend: 'https:' -%}
+  {%- endif -%}
+  <meta property="og:image" content="{{ og_image_url }}">
+  <meta property="og:image:secure_url" content="{{ og_image_url }}">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="{{ og_h }}">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="{{ og_image.alt | default: og_title | escape }}">
 {%- endif -%}
 {%- if request.page_type == 'product' and product -%}
@@ -36,5 +71,7 @@
 <meta name="twitter:title" content="{{ og_title | escape }}">
 <meta name="twitter:description" content="{{ og_desc | escape }}">
 {%- if og_image -%}
-  <meta name="twitter:image" content="{{ og_image | image_url: width: 1200 }}">
+  {%- comment -%} Same absolute-URL requirement as og:image above. {%- endcomment -%}
+  <meta name="twitter:image" content="{{ og_image_url }}">
+  <meta name="twitter:image:alt" content="{{ og_image.alt | default: og_title | escape }}">
 {%- endif -%}
