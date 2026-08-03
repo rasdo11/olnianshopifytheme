@@ -148,8 +148,8 @@
             "image": "shopify://shop_images/Colostrum-banner-1.png",
             "focal_point": "center",
             "desktop_width_percent": 100,
-            "border_radius": 24,
-            "mobile_aspect_ratio": "50"
+            "border_radius": 2,
+            "mobile_aspect_ratio": "33.33"
           },
           "blocks": {}
         }
