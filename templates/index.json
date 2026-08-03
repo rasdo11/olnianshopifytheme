@@ -244,7 +244,7 @@
         "use_custom_headline_color": false,
         "headline_color": "#2e1206",
         "body": "Mix and match to fit the way you actually feel, like calming magnesium for wind-down nights, colostrum for gut and recovery support, all in the same clean daily ritual.",
-        "image": "shopify://shop_images/creatine_graphic1.png",
+        "image": "shopify://shop_images/bundle-home-3.png",
         "autoplay_video": true,
         "show_video_controls": false,
         "image_position": "right",
@@ -258,8 +258,8 @@
         "cta_link": "shopify://collections/all",
         "scheme": "cream",
         "background": "",
-        "padding_top": 88,
-        "padding_bottom": 88
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     },
     "proof": {
