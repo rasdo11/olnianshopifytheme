@@ -1124,19 +1124,21 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   .pdp-gallery__dot.is-active { background: var(--espresso); }
 
   /* Single-column PDP: promote the buy block above the long description.
-     Order: eyebrow → title → rating → ship badge → buy form → cross-sell →
-     tagline/features → divider → accordions (supports/details/ingredients last). */
+     Order: eyebrow → title → rating → tagline → ship badge → buy form → cross-sell →
+     features → divider → accordions (supports/details/ingredients last). */
   .product__info { display: flex; flex-direction: column; }
   .product__info .hero__kicker { order: 1; }
   .product__info .product__title { order: 2; margin-top: 0; }
   .product__info .product__rating { order: 3; }
-  .product__info .product__ship-badge { order: 4; }
-  .product__info form[data-product-form] { order: 5; }
-  .product__info .pdp-pair { order: 6; }
-  .product__info .product__tagline { order: 7; margin-top: 24px; }
-  .product__info .product__features { order: 7; }
-  .product__info .product__divider { order: 8; }
-  .product__info .product__accordion { order: 9; }
+  /* Tagline sits above the buy form so it reads before the price, matching desktop.
+     It used to fall below the whole form, so the price was the first thing after the title. */
+  .product__info .product__tagline { order: 4; margin-top: 12px; }
+  .product__info .product__ship-badge { order: 5; }
+  .product__info form[data-product-form] { order: 6; }
+  .product__info .pdp-pair { order: 7; }
+  .product__info .product__features { order: 8; }
+  .product__info .product__divider { order: 9; }
+  .product__info .product__accordion { order: 10; }
 
   /* Buy row is defined for all widths above; mobile just tightens it */
   .product__buy { gap: 10px; margin-top: 14px; }

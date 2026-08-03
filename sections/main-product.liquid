@@ -226,11 +226,22 @@
           {%- endfor -%}
         {%- endfor -%}
 
-        {%- comment -%} Gold Subscription (Free Gold Jar, exclusive gifts) is limited to these products; everything else gets a plain Subscribe & Save. {%- endcomment -%}
+        {%- comment -%}
+          Gold Subscription (free gift, exclusive perks) is limited to these products;
+          everything else gets a plain Subscribe & Save. The "Show founding offer" setting
+          then lets a single product opt out from the theme editor without editing this list.
+
+          _show_gold_offer gates BOTH the offer box and the "free gift" wording in the
+          Subscribe & Save option, so a page can never promise a gift it doesn't show.
+        {%- endcomment -%}
         {%- assign _offer_handles = 'creatine-monohydrate,creatine-hydration-powder,colostrum-powder' | split: ',' -%}
         {%- assign _is_gold_product = false -%}
         {%- if _offer_handles contains product.handle -%}
           {%- assign _is_gold_product = true -%}
+        {%- endif -%}
+        {%- assign _show_gold_offer = false -%}
+        {%- if _is_gold_product and section.settings.show_founding_offer -%}
+          {%- assign _show_gold_offer = true -%}
         {%- endif -%}
 
         {%- comment -%}
@@ -300,11 +311,11 @@
                 <span class="purchase-option__body">
                   <span class="purchase-option__title">Subscribe &amp; Save <span class="purchase-option__tag">Most popular</span></span>
                   {%- comment -%}
-                    Keep this note to one short line. The Gold Subscription offer itself is
-                    described once, in the gold-jar-offer block below - not repeated here.
+                    Keep this note to one short line. The founding offer itself is described
+                    once, in the gold-jar-offer block below - not repeated here.
                   {%- endcomment -%}
-                  {%- if _is_gold_product -%}
-                    <span class="purchase-option__note">Save 15% + free Gold gift</span>
+                  {%- if _show_gold_offer -%}
+                    <span class="purchase-option__note">Save 15% + free gift with purchase</span>
                   {%- else -%}
                     <span class="purchase-option__note">Save 15% · cancel anytime</span>
                   {%- endif -%}
@@ -333,8 +344,13 @@
             </div>
           {%- endif -%}
 
-          {%- comment -%} Founding Gold Jar offer - gold subscription products only {%- endcomment -%}
-          {%- if _is_gold_product -%}
+          {%- comment -%}
+            Founding offer - gold subscription products, unless switched off for this
+            template via "Show founding offer" in the theme editor. Hiding it also stops the
+            free gift being added to the cart, which is the intended behaviour: the gold lid
+            only fits the creatine jars.
+          {%- endcomment -%}
+          {%- if _show_gold_offer -%}
             {%- render 'gold-jar-offer' -%}
           {%- endif -%}
 
@@ -691,6 +707,8 @@
     { "type": "checkbox", "id": "show_subscription_card", "label": "Show subscription card", "default": true },
     { "type": "checkbox", "id": "show_expert_modal", "label": "Show expert modal", "default": true },
     { "type": "text", "id": "expert_button_label", "label": "Expert button label", "default": "Talk to an expert" },
+    { "type": "header", "content": "Founding offer" },
+    { "type": "checkbox", "id": "show_founding_offer", "label": "Show founding offer box", "default": true, "info": "The \"Join the Gold Subscription\" box under the price. Only ever shows on Premium Creatine, Creatine Hydration and Colostrum. Turning it off also removes the \"free gift with purchase\" line from Subscribe & Save, and stops the free gift being added to the cart." },
     { "type": "header", "content": "Gift banner" },
     { "type": "checkbox", "id": "show_gift_banner", "label": "Show gift banner", "default": true },
     { "type": "text", "id": "gift_banner_text", "label": "Gift banner text", "default": "First subscription includes the keepsake gold lid and signature pink scoop." },

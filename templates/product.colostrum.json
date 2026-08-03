@@ -124,6 +124,7 @@
         "show_dynamic_checkout": true,
         "show_subscription_card": true,
         "show_expert_modal": true,
+        "show_founding_offer": false,
         "expert_button_label": "Talk to an expert",
         "show_gift_banner": false,
         "gift_banner_text": "",
