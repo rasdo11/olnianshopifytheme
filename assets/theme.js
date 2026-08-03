@@ -65,12 +65,32 @@
       }
       return res.json();
     },
-    async change(line, quantity) {
-      const res = await fetch('/cart/change.js', {
+    async change(line, quantity, sellingPlan) {
+      const payload = { line, quantity };
+      if (arguments.length >= 3) payload.selling_plan = sellingPlan;
+      const root = window.Shopify && window.Shopify.routes ? window.Shopify.routes.root : '/';
+      const res = await fetch(`${root}cart/change.js`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ line, quantity }),
+        body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ description: 'Could not update cart.' }));
+        throw new Error(err.description || 'Cart update failed.');
+      }
+      return res.json();
+    },
+    async applyDiscount(code) {
+      const root = window.Shopify && window.Shopify.routes ? window.Shopify.routes.root : '/';
+      const res = await fetch(`${root}cart/update.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ discount: code }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ description: 'Could not apply discount.' }));
+        throw new Error(err.description || 'Could not apply discount.');
+      }
       return res.json();
     },
     async clear() {
@@ -230,22 +250,87 @@
 
   /* ---------- Cart item qty updates ---------- */
   function initCartDrawerEvents() {
+    document.addEventListener('submit', async (e) => {
+      const form = e.target.closest('[data-cart-discount-form]');
+      if (!form) return;
+      e.preventDefault();
+
+      const input = $('[name="discount"]', form);
+      const submit = $('[type="submit"]', form);
+      const status = $('[data-cart-discount-status]', form);
+      const code = input ? input.value.trim() : '';
+      if (!code) return;
+
+      submit.disabled = true;
+      submit.setAttribute('aria-busy', 'true');
+      if (status) status.textContent = '';
+
+      try {
+        const cart = await CartAPI.applyDiscount(code);
+        const codes = Array.isArray(cart.discount_codes) ? cart.discount_codes : [];
+        const requestedCode = codes.find((discount) => (
+          discount.code && discount.code.toLowerCase() === code.toLowerCase()
+        ));
+
+        if (requestedCode && requestedCode.applicable === false) {
+          if (status) status.textContent = form.dataset.invalidMessage;
+          return;
+        }
+
+        await Drawer.refresh();
+      } catch (err) {
+        if (status) status.textContent = form.dataset.errorMessage || err.message;
+      } finally {
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+      }
+    });
+
     document.addEventListener('click', async (e) => {
       const inc = e.target.closest('[data-cart-increment]');
       const dec = e.target.closest('[data-cart-decrement]');
       const remove = e.target.closest('[data-cart-remove]');
-      if (!inc && !dec && !remove) return;
+      const sellingPlanOption = e.target.closest('[data-cart-selling-plan]');
+      if (!inc && !dec && !remove && !sellingPlanOption) return;
       e.preventDefault();
       const item = e.target.closest('[data-cart-item]');
       if (!item) return;
       const line = Number(item.dataset.line);
       const currentQty = Number(item.dataset.quantity || 1);
+
+      if (sellingPlanOption) {
+        if (sellingPlanOption.getAttribute('aria-pressed') === 'true') return;
+        const optionButtons = $$('[data-cart-selling-plan]', item);
+        optionButtons.forEach((button) => {
+          button.disabled = true;
+          button.setAttribute('aria-busy', 'true');
+        });
+        const sellingPlan = sellingPlanOption.dataset.sellingPlan
+          ? Number(sellingPlanOption.dataset.sellingPlan)
+          : null;
+        try {
+          await CartAPI.change(line, currentQty, sellingPlan);
+          await Drawer.refresh();
+        } catch (err) {
+          optionButtons.forEach((button) => {
+            button.disabled = false;
+            button.removeAttribute('aria-busy');
+          });
+          alert(item.dataset.updateError || err.message);
+        }
+        return;
+      }
+
       let nextQty = currentQty;
       if (inc) nextQty = currentQty + 1;
       if (dec) nextQty = Math.max(0, currentQty - 1);
       if (remove) nextQty = 0;
-      await CartAPI.change(line, nextQty);
-      await Drawer.refresh();
+      try {
+        await CartAPI.change(line, nextQty);
+        await Drawer.refresh();
+      } catch (err) {
+        alert(item.dataset.updateError || err.message);
+      }
     });
 
     const stepper = $('[data-quantity-stepper]');

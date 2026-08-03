@@ -12,9 +12,80 @@
       <a href="{{ routes.collections_url }}/all" class="btn btn--outline" style="width: 100%;">{{ 'general.cart.continue_shopping' | t }}</a>
     </div>
   {%- else -%}
+    {%- liquid
+      assign free_shipping_threshold = section.settings.free_shipping_threshold | times: 100
+      assign free_shipping_progress = cart.total_price | times: 100 | divided_by: free_shipping_threshold | at_most: 100
+      assign free_shipping_remaining = free_shipping_threshold | minus: cart.total_price | at_least: 0
+      assign free_shipping_remaining_money = free_shipping_remaining | money
+      assign cart_has_subscription = false
+
+      if section.settings.subscriptions_unlock_shipping
+        for item in cart.items
+          if item.selling_plan_allocation
+            assign cart_has_subscription = true
+            break
+          endif
+        endfor
+      endif
+
+      if cart.total_price >= free_shipping_threshold or cart_has_subscription
+        assign free_shipping_progress = 100
+      endif
+    -%}
+
+    {%- if section.settings.show_free_shipping_bar -%}
+      <div class="cart-drawer__shipping-progress" aria-live="polite">
+        <p class="cart-drawer__shipping-message">
+          {%- if free_shipping_progress == 100 -%}
+            {{ 'general.cart.free_shipping_unlocked' | t }}
+          {%- else -%}
+            {{ 'general.cart.free_shipping_remaining' | t: amount: free_shipping_remaining_money }}
+          {%- endif -%}
+        </p>
+        <div
+          class="cart-drawer__shipping-track"
+          role="progressbar"
+          aria-label="{{ 'general.cart.free_shipping_progress' | t }}"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="{{ free_shipping_progress }}"
+        >
+          <span class="cart-drawer__shipping-fill" style="--shipping-progress: {{ free_shipping_progress }}%;"></span>
+        </div>
+        {%- if section.settings.subscriptions_unlock_shipping -%}
+          <p class="cart-drawer__shipping-subnote">{{ 'general.cart.subscription_shipping_note' | t }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
     <div class="cart-drawer__items">
       {%- for item in cart.items -%}
-        <div class="cart-drawer__item" data-cart-item data-line="{{ forloop.index }}" data-quantity="{{ item.quantity }}">
+        {%- liquid
+          assign subscription_allocation = nil
+
+          if item.selling_plan_allocation
+            assign subscription_allocation = item.selling_plan_allocation
+          else
+            for allocation in item.variant.selling_plan_allocations
+              assign subscription_allocation = allocation
+              break
+            endfor
+          endif
+
+          assign subscription_savings = 0
+          if subscription_allocation
+            if subscription_allocation.compare_at_price > subscription_allocation.price
+              assign subscription_savings = subscription_allocation.compare_at_price | minus: subscription_allocation.price | times: 100 | divided_by: subscription_allocation.compare_at_price
+            endif
+          endif
+        -%}
+        <div
+          class="cart-drawer__item"
+          data-cart-item
+          data-line="{{ forloop.index }}"
+          data-quantity="{{ item.quantity }}"
+          data-update-error="{{ 'general.cart.update_error' | t | escape }}"
+        >
           <div class="cart-drawer__thumb">
             {%- if item.image -%}
               <img src="{{ item.image | image_url: width: 144 }}" alt="{{ item.image.alt | escape }}" loading="lazy" width="72" height="72">
@@ -26,12 +97,38 @@
               <div class="cart-drawer__item-sub">{{ item.variant.title }}</div>
             {%- endif -%}
             {%- if item.selling_plan_allocation -%}
-              <div class="cart-drawer__item-sub" style="color: var(--tangerine);">{{ item.selling_plan_allocation.selling_plan.name }}</div>
+              <div class="cart-drawer__item-sub cart-drawer__item-sub--subscription">{{ item.selling_plan_allocation.selling_plan.name }}</div>
+            {%- endif -%}
+            {%- if section.settings.show_subscription_switch and subscription_allocation -%}
+              <div class="cart-drawer__purchase-options" role="group" aria-label="{{ 'general.cart.purchase_options' | t }}">
+                <button
+                  type="button"
+                  class="cart-drawer__purchase-option{% unless item.selling_plan_allocation %} is-active{% endunless %}"
+                  data-cart-selling-plan
+                  data-selling-plan=""
+                  aria-pressed="{% unless item.selling_plan_allocation %}true{% else %}false{% endunless %}"
+                >
+                  {{ 'general.product.one_time' | t }}
+                </button>
+                <button
+                  type="button"
+                  class="cart-drawer__purchase-option cart-drawer__purchase-option--subscribe{% if item.selling_plan_allocation %} is-active{% endif %}"
+                  data-cart-selling-plan
+                  data-selling-plan="{{ subscription_allocation.selling_plan.id }}"
+                  aria-pressed="{% if item.selling_plan_allocation %}true{% else %}false{% endif %}"
+                >
+                  {%- if subscription_savings > 0 -%}
+                    {{ 'general.cart.subscribe_and_save' | t: percent: subscription_savings }}
+                  {%- else -%}
+                    {{ 'general.product.subscribe' | t }}
+                  {%- endif -%}
+                </button>
+              </div>
             {%- endif -%}
             <div class="cart-drawer__qty">
-              <button type="button" data-cart-decrement aria-label="Decrease">−</button>
+              <button type="button" data-cart-decrement aria-label="{{ 'general.cart.decrease_quantity' | t }}">−</button>
               <span>{{ item.quantity }}</span>
-              <button type="button" data-cart-increment aria-label="Increase">+</button>
+              <button type="button" data-cart-increment aria-label="{{ 'general.cart.increase_quantity' | t }}">+</button>
             </div>
             <button type="button" class="cart-drawer__remove" data-cart-remove>{{ 'general.cart.remove' | t }}</button>
           </div>
@@ -40,6 +137,37 @@
       {%- endfor -%}
     </div>
     <div class="cart-drawer__footer">
+      <form
+        class="cart-drawer__discount-form"
+        data-cart-discount-form
+        data-invalid-message="{{ 'general.cart.discount_invalid' | t | escape }}"
+        data-error-message="{{ 'general.cart.discount_error' | t | escape }}"
+      >
+        <label class="visually-hidden" for="CartDrawerDiscount">{{ 'general.cart.discount_code' | t }}</label>
+        <div class="cart-drawer__discount-entry">
+          <input
+            id="CartDrawerDiscount"
+            class="cart-drawer__discount-input"
+            type="text"
+            name="discount"
+            placeholder="{{ 'general.cart.discount_code' | t }}"
+            autocomplete="off"
+            required
+          >
+          <button class="cart-drawer__discount-apply" type="submit">{{ 'general.cart.apply_discount' | t }}</button>
+        </div>
+        <p class="cart-drawer__discount-status" data-cart-discount-status role="status" aria-live="polite"></p>
+      </form>
+      {%- if cart.discount_applications.size > 0 -%}
+        <div class="cart-drawer__discounts" aria-label="{{ 'general.cart.applied_discounts' | t }}">
+          {%- for discount_application in cart.discount_applications -%}
+            <div class="cart-drawer__discount">
+              <span>{{ discount_application.title }}</span>
+              <span>−{{ discount_application.total_allocated_amount | money }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
       <div class="cart-drawer__subtotal">
         <span>{{ 'general.cart.subtotal' | t }}</span>
         <span>{{ cart.total_price | money }}</span>
@@ -57,6 +185,13 @@
 {% schema %}
 {
   "name": "Cart drawer",
-  "settings": []
+  "settings": [
+    { "type": "header", "content": "Free shipping progress" },
+    { "type": "checkbox", "id": "show_free_shipping_bar", "label": "Show free shipping progress", "default": true },
+    { "type": "range", "id": "free_shipping_threshold", "label": "Free shipping threshold", "min": 25, "max": 200, "step": 5, "unit": "$", "default": 50 },
+    { "type": "checkbox", "id": "subscriptions_unlock_shipping", "label": "Subscriptions unlock free shipping", "info": "Enable when an automatic Shopify discount gives subscription orders free shipping.", "default": true },
+    { "type": "header", "content": "Subscription upgrade" },
+    { "type": "checkbox", "id": "show_subscription_switch", "label": "Show one-time / subscription switch", "default": true }
+  ]
 }
 {% endschema %}
