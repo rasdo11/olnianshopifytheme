@@ -19,6 +19,7 @@
       "empty": "Your cart is empty.",
       "subtotal": "Subtotal",
       "checkout": "Checkout",
+      "express_checkout": "or check out with",
       "continue_shopping": "Continue shopping",
       "free_shipping_remaining": "Add {{ amount }} for free shipping",
       "free_shipping_unlocked": "Free shipping unlocked!",

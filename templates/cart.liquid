@@ -39,6 +39,14 @@
           <button type="submit" name="checkout" class="btn btn--primary">{{ 'general.cart.checkout' | t }}</button>
         </div>
       </div>
+
+      {%- comment -%} Express checkout — same wallets as the drawer. {%- endcomment -%}
+      {%- if additional_checkout_buttons -%}
+        <div class="cart-page__express">
+          <div class="cart-page__express-divider"><span>or check out with</span></div>
+          {{ content_for_additional_checkout_buttons }}
+        </div>
+      {%- endif -%}
     </form>
   {%- endif -%}
 </div>
@@ -49,6 +57,19 @@
      floating 10% off tab. */
   .cart-page { padding: 64px 24px 140px; }
   .cart-page__totals { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 32px 0; border-top: 1px solid var(--espresso-12); margin-top: 24px; }
+  .cart-page__express { max-width: 420px; margin-left: auto; }
+  .cart-page__express-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 4px 0 14px;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase; opacity: .62;
+  }
+  .cart-page__express-divider::before,
+  .cart-page__express-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--espresso-12);
+  }
+  /* Shopify injects the wallet buttons here; give them room and a consistent radius. */
+  .cart-page__express .shopify-cleanslate > div,
+  .cart-page__express [data-shopify-buttoncontainer] { justify-content: stretch !important; }
   .cart-page__actions { display: flex; gap: 12px; }
   @media (max-width: 600px) {
     .cart-page { padding: 40px 20px 140px; }

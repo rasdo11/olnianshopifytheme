@@ -1303,6 +1303,22 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 .cart-drawer__discount { display: flex; justify-content: space-between; gap: 16px; color: var(--tangerine-text); font-size: 12px; font-weight: 700; }
 .cart-drawer__subtotal { display: flex; justify-content: space-between; font-family: var(--display-font); font-size: 20px; margin-bottom: 16px; }
 .cart-drawer__ship-note { font-size: 12px; opacity: 0.72; text-align: center; margin-top: 12px; }
+
+/* ── Express checkout in the cart drawer ──────────────────────
+   Shopify injects the enabled wallet buttons (Shop Pay, Apple Pay, Google Pay, PayPal)
+   into content_for_additional_checkout_buttons. It renders its own markup, so this only
+   provides spacing and a labelled divider — don't restyle the buttons themselves. */
+.cart-drawer__express { margin-top: 14px; }
+.cart-drawer__express-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 12px;
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase; opacity: .62;
+}
+.cart-drawer__express-divider::before,
+.cart-drawer__express-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--espresso-12);
+}
+.cart-drawer__express [data-shopify-buttoncontainer] { justify-content: stretch !important; }
 .cart-drawer__empty { padding: 64px 24px; text-align: center; opacity: 0.6; }
 
 @media (max-width: 420px) {

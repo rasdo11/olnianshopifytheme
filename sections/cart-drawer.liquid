@@ -172,8 +172,21 @@
         <span>{{ 'general.cart.subtotal' | t }}</span>
         <span>{{ cart.total_price | money }}</span>
       </div>
-      <form action="{{ routes.cart_url }}" method="post" novalidate>
+      {%- comment -%}
+        Express checkout. content_for_additional_checkout_buttons renders whichever wallets
+        the shop has enabled (Shop Pay, Apple Pay, Google Pay, PayPal) and must live inside
+        the cart form. Shopify decides which of them can complete the current cart, so a
+        subscription line item simply drops the wallets that can't carry a selling plan —
+        we don't have to gate it ourselves.
+      {%- endcomment -%}
+      <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-drawer__checkout-form">
         <button type="submit" name="checkout" class="btn btn--primary" style="width: 100%;">{{ 'general.cart.checkout' | t }}</button>
+        {%- if additional_checkout_buttons -%}
+          <div class="cart-drawer__express">
+            <div class="cart-drawer__express-divider"><span>{{ 'general.cart.express_checkout' | t }}</span></div>
+            {{ content_for_additional_checkout_buttons }}
+          </div>
+        {%- endif -%}
       </form>
       {%- if settings.show_ship_badge -%}
         <div class="cart-drawer__ship-note">{{ settings.ship_badge_text }}. Taxes & shipping at checkout.</div>
