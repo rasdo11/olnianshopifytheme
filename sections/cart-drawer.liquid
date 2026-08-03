@@ -75,7 +75,7 @@
           assign subscription_savings = 0
           if subscription_allocation
             if subscription_allocation.compare_at_price > subscription_allocation.price
-              assign subscription_savings = subscription_allocation.compare_at_price | minus: subscription_allocation.price | times: 100 | divided_by: subscription_allocation.compare_at_price
+              assign subscription_savings = subscription_allocation.compare_at_price | minus: subscription_allocation.price | times: 100.0 | divided_by: subscription_allocation.compare_at_price | round
             endif
           endif
         -%}
