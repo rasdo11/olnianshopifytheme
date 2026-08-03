@@ -551,16 +551,36 @@
     const mainAtc = $('[data-product-submit]');
     if (!bar || !mainAtc) return;
 
+    // Same move the lightbox needs above, and for the same reason: the bar is rendered
+    // inside <section class="product page-enter">, so any transform/clip on an ancestor
+    // makes position:fixed resolve against that section instead of the viewport — the bar
+    // then parks itself off-screen at the bottom of the section and never appears. It's
+    // fixed-position chrome, so its place in the DOM doesn't matter otherwise.
+    document.body.appendChild(bar);
+
     // Reserve space at the end of the page so the bar never covers the footer (mobile only,
     // via the CSS rule scoped to this class).
     document.body.classList.add('has-sticky-buy');
 
-    // Show bar once the main ATC button leaves the viewport
-    const observer = new IntersectionObserver(
-      ([entry]) => { bar.classList.toggle('is-visible', !entry.isIntersecting); },
-      { threshold: 0 }
-    );
-    observer.observe(mainAtc);
+    // Show the bar once the real Add to Cart has scrolled out of view. Deliberately a plain
+    // rect check rather than an IntersectionObserver: one source of truth, no dependence on
+    // observer callbacks firing, and trivial to reason about when it misbehaves.
+    function update() {
+      const r = mainAtc.getBoundingClientRect();
+      const viewportH = window.innerHeight || document.documentElement.clientHeight;
+      const offscreen = r.bottom <= 0 || r.top >= viewportH;
+      bar.classList.toggle('is-visible', offscreen);
+    }
+
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { update(); ticking = false; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
 
     // The sticky button submits the real product form, so it always carries whatever
     // purchase option (subscribe / one-time) the customer selected above.
