@@ -20,6 +20,14 @@
       "subtotal": "Subtotal",
       "checkout": "Checkout",
       "continue_shopping": "Continue shopping",
+      "free_shipping_remaining": "Add {{ amount }} for free shipping",
+      "free_shipping_unlocked": "Free shipping unlocked!",
+      "free_shipping_progress": "Progress toward free shipping",
+      "purchase_options": "Purchase options",
+      "subscribe_and_save": "Subscribe & save {{ percent }}%",
+      "decrease_quantity": "Decrease quantity",
+      "increase_quantity": "Increase quantity",
+      "update_error": "We couldn't update your cart. Please try again.",
       "item_count": {
         "one": "{{ count }} item",
         "other": "{{ count }} items"

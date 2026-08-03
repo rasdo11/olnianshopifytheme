@@ -65,12 +65,19 @@
       }
       return res.json();
     },
-    async change(line, quantity) {
-      const res = await fetch('/cart/change.js', {
+    async change(line, quantity, sellingPlan) {
+      const payload = { line, quantity };
+      if (arguments.length >= 3) payload.selling_plan = sellingPlan;
+      const root = window.Shopify && window.Shopify.routes ? window.Shopify.routes.root : '/';
+      const res = await fetch(`${root}cart/change.js`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ line, quantity }),
+        body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ description: 'Could not update cart.' }));
+        throw new Error(err.description || 'Cart update failed.');
+      }
       return res.json();
     },
     async clear() {
@@ -234,18 +241,47 @@
       const inc = e.target.closest('[data-cart-increment]');
       const dec = e.target.closest('[data-cart-decrement]');
       const remove = e.target.closest('[data-cart-remove]');
-      if (!inc && !dec && !remove) return;
+      const sellingPlanOption = e.target.closest('[data-cart-selling-plan]');
+      if (!inc && !dec && !remove && !sellingPlanOption) return;
       e.preventDefault();
       const item = e.target.closest('[data-cart-item]');
       if (!item) return;
       const line = Number(item.dataset.line);
       const currentQty = Number(item.dataset.quantity || 1);
+
+      if (sellingPlanOption) {
+        if (sellingPlanOption.getAttribute('aria-pressed') === 'true') return;
+        const optionButtons = $$('[data-cart-selling-plan]', item);
+        optionButtons.forEach((button) => {
+          button.disabled = true;
+          button.setAttribute('aria-busy', 'true');
+        });
+        const sellingPlan = sellingPlanOption.dataset.sellingPlan
+          ? Number(sellingPlanOption.dataset.sellingPlan)
+          : null;
+        try {
+          await CartAPI.change(line, currentQty, sellingPlan);
+          await Drawer.refresh();
+        } catch (err) {
+          optionButtons.forEach((button) => {
+            button.disabled = false;
+            button.removeAttribute('aria-busy');
+          });
+          alert(item.dataset.updateError || err.message);
+        }
+        return;
+      }
+
       let nextQty = currentQty;
       if (inc) nextQty = currentQty + 1;
       if (dec) nextQty = Math.max(0, currentQty - 1);
       if (remove) nextQty = 0;
-      await CartAPI.change(line, nextQty);
-      await Drawer.refresh();
+      try {
+        await CartAPI.change(line, nextQty);
+        await Drawer.refresh();
+      } catch (err) {
+        alert(item.dataset.updateError || err.message);
+      }
     });
 
     const stepper = $('[data-quantity-stepper]');
