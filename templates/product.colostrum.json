@@ -49,6 +49,7 @@
         },
         "b5": {
           "type": "benefit",
+          "disabled": true,
           "settings": {
             "icon": "○",
             "text": "The same growth factors that build a newborn calf in weeks, now supporting your gut and skin"
@@ -117,7 +118,7 @@
         "tagline": "A daily shield for gut integrity that benefits your metabolism, skin, hair, overall immunity, and fitness recovery. There's a reason it's nature's first nutrient source.",
         "benefits_heading": "Benefits",
         "supports_heading": "What it supports",
-        "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
+        "trust_line": "Free shipping on this product!",
         "atc_label": "Start Now",
         "show_dynamic_checkout": true,
         "show_subscription_card": true,
