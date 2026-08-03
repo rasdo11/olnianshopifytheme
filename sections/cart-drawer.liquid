@@ -52,6 +52,9 @@
         >
           <span class="cart-drawer__shipping-fill" style="--shipping-progress: {{ free_shipping_progress }}%;"></span>
         </div>
+        {%- if section.settings.subscriptions_unlock_shipping -%}
+          <p class="cart-drawer__shipping-subnote">{{ 'general.cart.subscription_shipping_note' | t }}</p>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
@@ -134,6 +137,37 @@
       {%- endfor -%}
     </div>
     <div class="cart-drawer__footer">
+      <form
+        class="cart-drawer__discount-form"
+        data-cart-discount-form
+        data-invalid-message="{{ 'general.cart.discount_invalid' | t | escape }}"
+        data-error-message="{{ 'general.cart.discount_error' | t | escape }}"
+      >
+        <label class="visually-hidden" for="CartDrawerDiscount">{{ 'general.cart.discount_code' | t }}</label>
+        <div class="cart-drawer__discount-entry">
+          <input
+            id="CartDrawerDiscount"
+            class="cart-drawer__discount-input"
+            type="text"
+            name="discount"
+            placeholder="{{ 'general.cart.discount_code' | t }}"
+            autocomplete="off"
+            required
+          >
+          <button class="cart-drawer__discount-apply" type="submit">{{ 'general.cart.apply_discount' | t }}</button>
+        </div>
+        <p class="cart-drawer__discount-status" data-cart-discount-status role="status" aria-live="polite"></p>
+      </form>
+      {%- if cart.discount_applications.size > 0 -%}
+        <div class="cart-drawer__discounts" aria-label="{{ 'general.cart.applied_discounts' | t }}">
+          {%- for discount_application in cart.discount_applications -%}
+            <div class="cart-drawer__discount">
+              <span>{{ discount_application.title }}</span>
+              <span>−{{ discount_application.total_allocated_amount | money }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
       <div class="cart-drawer__subtotal">
         <span>{{ 'general.cart.subtotal' | t }}</span>
         <span>{{ cart.total_price | money }}</span>

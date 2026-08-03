@@ -80,6 +80,19 @@
       }
       return res.json();
     },
+    async applyDiscount(code) {
+      const root = window.Shopify && window.Shopify.routes ? window.Shopify.routes.root : '/';
+      const res = await fetch(`${root}cart/update.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ discount: code }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ description: 'Could not apply discount.' }));
+        throw new Error(err.description || 'Could not apply discount.');
+      }
+      return res.json();
+    },
     async clear() {
       const res = await fetch('/cart/clear.js', { method: 'POST', headers: { Accept: 'application/json' } });
       return res.json();
@@ -237,6 +250,42 @@
 
   /* ---------- Cart item qty updates ---------- */
   function initCartDrawerEvents() {
+    document.addEventListener('submit', async (e) => {
+      const form = e.target.closest('[data-cart-discount-form]');
+      if (!form) return;
+      e.preventDefault();
+
+      const input = $('[name="discount"]', form);
+      const submit = $('[type="submit"]', form);
+      const status = $('[data-cart-discount-status]', form);
+      const code = input ? input.value.trim() : '';
+      if (!code) return;
+
+      submit.disabled = true;
+      submit.setAttribute('aria-busy', 'true');
+      if (status) status.textContent = '';
+
+      try {
+        const cart = await CartAPI.applyDiscount(code);
+        const codes = Array.isArray(cart.discount_codes) ? cart.discount_codes : [];
+        const requestedCode = codes.find((discount) => (
+          discount.code && discount.code.toLowerCase() === code.toLowerCase()
+        ));
+
+        if (requestedCode && requestedCode.applicable === false) {
+          if (status) status.textContent = form.dataset.invalidMessage;
+          return;
+        }
+
+        await Drawer.refresh();
+      } catch (err) {
+        if (status) status.textContent = form.dataset.errorMessage || err.message;
+      } finally {
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+      }
+    });
+
     document.addEventListener('click', async (e) => {
       const inc = e.target.closest('[data-cart-increment]');
       const dec = e.target.closest('[data-cart-decrement]');
