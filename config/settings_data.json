@@ -16,9 +16,9 @@
     "color_accent_gold": "#E8A13C",
     "color_accent_mint": "#3ECFB2",
     "display_font": "Nunito Sans",
-    "display_font_weight": "800",
+    "display_font_weight": "700",
     "body_font": "Nunito Sans",
-    "body_font_weight": "400",
+    "body_font_weight": "500",
     "product_name_uppercase": true,
     "product_name_weight": "600",
     "product_name_letter_spacing": 9,
@@ -39,12 +39,19 @@
     "sections": {
       "cart-drawer": {
         "type": "cart-drawer",
-        "settings": {}
+        "settings": {
+          "show_free_shipping_bar": true,
+          "free_shipping_threshold": 50,
+          "subscriptions_unlock_shipping": true,
+          "show_subscription_switch": true
+        }
       },
       "email-popup": {
         "type": "email-popup",
         "settings": {
           "tab_label": "10% off",
+          "tab_peek_label": "your first order",
+          "tab_peek_duration": 3,
           "tab_position": "right",
           "tab_font_size": 26,
           "tab_background": "#c6d0ff",
