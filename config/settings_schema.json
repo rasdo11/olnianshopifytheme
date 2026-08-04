@@ -109,11 +109,11 @@
         "type": "range",
         "id": "product_name_letter_spacing",
         "label": "Letter spacing (kerning)",
-        "info": "In thousandths of an em - e.g. 30 = 0.030em",
-        "min": 0,
-        "max": 100,
+        "info": "In thousandths of an em - e.g. -10 = -0.010em",
+        "min": -20,
+        "max": 80,
         "step": 1,
-        "default": 3
+        "default": -10
       },
       {
         "type": "range",
