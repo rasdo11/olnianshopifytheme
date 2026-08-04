@@ -91,10 +91,9 @@
         "s5"
       ],
       "settings": {
+        "background_image_size": "cover",
+        "background_image_position": "center center",
         "use_product_media": true,
-        "crosssell_product": "creatine-monohydrate",
-        "crosssell_eyebrow": "Pairs with",
-        "crosssell_note": "The daily 5g dose. One ingredient, clinically studied in women.",
         "show_rating": false,
         "rating_value": 46,
         "rating_count": "",
@@ -107,8 +106,26 @@
         "show_subscription_card": true,
         "show_expert_modal": true,
         "expert_button_label": "Talk to an expert",
+        "show_founding_offer": true,
         "show_gift_banner": false,
         "gift_banner_text": "",
+        "order_rating": "1",
+        "order_tagline": "2",
+        "order_benefits": "3",
+        "order_ship": "4",
+        "order_buy": "5",
+        "order_pair": "6",
+        "order_details": "7",
+        "crosssell_product": "creatine-monohydrate",
+        "crosssell_eyebrow": "Pairs with",
+        "crosssell_note": "The daily 5g dose. One ingredient, clinically studied in women.",
+        "crosssell_image_position": "left",
+        "crosssell_button_position": "inline",
+        "crosssell_align": "center",
+        "crosssell_image_size": 56,
+        "crosssell_order_name": "1",
+        "crosssell_order_note": "2",
+        "crosssell_order_price": "3",
         "show_bundle_upsell": false,
         "bundle_upsell_headline": "",
         "bundle_upsell_body": "",
@@ -121,19 +138,63 @@
     "more-products": {
       "type": "pdp-more-products",
       "blocks": {
-        "p1": { "type": "product", "settings": { "product": "creatine-monohydrate", "label": "Best seller" } },
-        "p2": { "type": "product", "settings": { "product": "creatine-hydration-powder", "label": "Training days" } },
-        "p3": { "type": "product", "settings": { "product": "colostrum-powder", "label": "" } },
-        "p4": { "type": "product", "settings": { "product": "magnesium-glycinate", "label": "" } },
-        "p5": { "type": "product", "settings": { "product": "grass-fed-hydrolyzed-collagen-peptides", "label": "" } },
-        "p6": { "type": "product", "settings": { "product": "probiotic-40-billion-with-prebiotics", "label": "" } }
+        "p1": {
+          "type": "product",
+          "settings": {
+            "product": "creatine-monohydrate",
+            "label": "Best seller"
+          }
+        },
+        "p2": {
+          "type": "product",
+          "settings": {
+            "product": "creatine-hydration-powder",
+            "label": "Training days"
+          }
+        },
+        "p3": {
+          "type": "product",
+          "settings": {
+            "product": "colostrum-powder",
+            "label": ""
+          }
+        },
+        "p4": {
+          "type": "product",
+          "settings": {
+            "product": "magnesium-glycinate",
+            "label": ""
+          }
+        },
+        "p5": {
+          "type": "product",
+          "settings": {
+            "product": "grass-fed-hydrolyzed-collagen-peptides",
+            "label": ""
+          }
+        },
+        "p6": {
+          "type": "product",
+          "settings": {
+            "product": "probiotic-40-billion-with-prebiotics",
+            "label": ""
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
       "settings": {
         "kicker": "The rest of the line",
         "heading": "More from OLNIAN",
         "view_all_label": "Shop all",
         "view_all_link": "",
+        "collection": "",
         "padding_top": 40,
         "padding_bottom": 40
       }
@@ -176,6 +237,7 @@
         "headline": "Built for training days.",
         "body": "Creatine monohydrate supports ATP regeneration so muscles keep producing short bursts of power, while magnesium, sodium, and potassium replace what you lose through sweat. One scoop covers energy and hydration in a single step.",
         "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "image": "shopify://shop_images/modelgroup_a1.png",
         "headline_size": 48,
         "padding_top": 96,
         "padding_bottom": 96,
@@ -248,12 +310,37 @@
     "testing-strip": {
       "type": "testing-strip",
       "blocks": {
-        "a": { "type": "item", "settings": { "label": "Heavy metals" } },
-        "b": { "type": "item", "settings": { "label": "Microbials" } },
-        "c": { "type": "item", "settings": { "label": "Identity" } },
-        "d": { "type": "item", "settings": { "label": "Potency" } }
+        "a": {
+          "type": "item",
+          "settings": {
+            "label": "Heavy metals"
+          }
+        },
+        "b": {
+          "type": "item",
+          "settings": {
+            "label": "Microbials"
+          }
+        },
+        "c": {
+          "type": "item",
+          "settings": {
+            "label": "Identity"
+          }
+        },
+        "d": {
+          "type": "item",
+          "settings": {
+            "label": "Potency"
+          }
+        }
       },
-      "block_order": ["a", "b", "c", "d"],
+      "block_order": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
       "settings": {
         "heading": "Third-party tested every batch",
         "heading_size": 22,
