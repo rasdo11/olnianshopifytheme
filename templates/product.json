@@ -317,7 +317,7 @@
           "type": "item",
           "settings": {
             "question": "How fast does it ship?",
-            "answer": "Within a week of ordering. We make your batch to order rather than pulling from a warehouse shelf, so it's milled, tested, and sealed shortly before it ships to you."
+            "answer": "Within a week of ordering."
           }
         },
         "q5": {
