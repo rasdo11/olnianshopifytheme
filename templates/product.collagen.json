@@ -141,7 +141,7 @@
         "st1": {
           "type": "stat",
           "settings": {
-            "number": "Types 1 & 3",
+            "number": "Types 1&3",
             "label": "Collagen types included, the most abundant in skin, bone, and muscle",
             "citation": ""
           }
@@ -158,7 +158,7 @@
           "type": "stat",
           "settings": {
             "number": "0",
-            "label": "Flavor added — mixes clean into anything",
+            "label": "Flavor added. It mixes clean into anything",
             "citation": ""
           }
         }
