@@ -12,21 +12,88 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "b1": { "type": "benefit", "settings": { "icon": "○", "text": "Skin, hair, and nails that don't just rely on what you eat" } },
-        "b2": { "type": "benefit", "settings": { "icon": "○", "text": "Joint and connective tissue support as your body's own collagen production slows" } },
-        "b3": { "type": "benefit", "settings": { "icon": "○", "text": "Hydrolyzed for faster absorption than whole collagen protein" } },
-        "b4": { "type": "benefit", "settings": { "icon": "○", "text": "Completely unflavored — disappears into coffee, smoothies, or water" } },
-        "b5": { "type": "benefit", "settings": { "icon": "○", "text": "Grass-fed sourcing, one simple ingredient" } },
-        "s1": { "type": "support_item", "settings": { "text": "Skin elasticity and hydration" } },
-        "s2": { "type": "support_item", "settings": { "text": "Hair and nail strength" } },
-        "s3": { "type": "support_item", "settings": { "text": "Joint and connective tissue support" } },
-        "s4": { "type": "support_item", "settings": { "text": "Collagen synthesis via glycine, proline, and hydroxyproline" } },
-        "s5": { "type": "support_item", "settings": { "text": "A daily habit that stacks easily with any routine" } }
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Skin, hair, and nails that don't just rely on what you eat"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Joint and connective tissue support as your body's own collagen production slows"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Hydrolyzed for faster absorption than whole collagen protein"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Completely unflavored and it disappears into coffee, smoothies, or water"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Grass-fed sourcing, one simple ingredient"
+          }
+        },
+        "s1": {
+          "type": "support_item",
+          "settings": {
+            "text": "Skin elasticity and hydration"
+          }
+        },
+        "s2": {
+          "type": "support_item",
+          "settings": {
+            "text": "Hair and nail strength"
+          }
+        },
+        "s3": {
+          "type": "support_item",
+          "settings": {
+            "text": "Joint and connective tissue support"
+          }
+        },
+        "s4": {
+          "type": "support_item",
+          "settings": {
+            "text": "Collagen synthesis via glycine, proline, and hydroxyproline"
+          }
+        },
+        "s5": {
+          "type": "support_item",
+          "settings": {
+            "text": "A daily habit that stacks easily with any routine"
+          }
+        }
       },
-      "block_order": ["b1", "b2", "b3", "b4", "b5", "s1", "s2", "s3", "s4", "s5"],
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
       "settings": {
+        "background_image_size": "cover",
+        "background_image_position": "center center",
         "use_product_media": true,
-        "crosssell_product": "creatine-monohydrate",
         "show_rating": false,
         "rating_value": 46,
         "rating_count": "",
@@ -39,8 +106,26 @@
         "show_subscription_card": true,
         "show_expert_modal": true,
         "expert_button_label": "Talk to an expert",
+        "show_founding_offer": true,
         "show_gift_banner": false,
         "gift_banner_text": "",
+        "order_rating": "1",
+        "order_tagline": "2",
+        "order_benefits": "3",
+        "order_ship": "4",
+        "order_buy": "5",
+        "order_pair": "6",
+        "order_details": "7",
+        "crosssell_product": "creatine-monohydrate",
+        "crosssell_eyebrow": "Pairs with",
+        "crosssell_note": "",
+        "crosssell_image_position": "left",
+        "crosssell_button_position": "inline",
+        "crosssell_align": "center",
+        "crosssell_image_size": 56,
+        "crosssell_order_name": "1",
+        "crosssell_order_note": "2",
+        "crosssell_order_price": "3",
         "show_bundle_upsell": false,
         "bundle_upsell_headline": "",
         "bundle_upsell_body": "",
@@ -53,11 +138,36 @@
     "science": {
       "type": "product-science",
       "blocks": {
-        "st1": { "type": "stat", "settings": { "number": "Types 1 & 3", "label": "Collagen types included, the most abundant in skin, bone, and muscle", "citation": "" } },
-        "st2": { "type": "stat", "settings": { "number": "1", "label": "Ingredient: grass-fed bovine hide collagen peptides", "citation": "" } },
-        "st3": { "type": "stat", "settings": { "number": "0", "label": "Flavor added — mixes clean into anything", "citation": "" } }
+        "st1": {
+          "type": "stat",
+          "settings": {
+            "number": "Types 1 & 3",
+            "label": "Collagen types included, the most abundant in skin, bone, and muscle",
+            "citation": ""
+          }
+        },
+        "st2": {
+          "type": "stat",
+          "settings": {
+            "number": "1",
+            "label": "Ingredient: grass-fed bovine hide collagen peptides",
+            "citation": ""
+          }
+        },
+        "st3": {
+          "type": "stat",
+          "settings": {
+            "number": "0",
+            "label": "Flavor added — mixes clean into anything",
+            "citation": ""
+          }
+        }
       },
-      "block_order": ["st1", "st2", "st3"],
+      "block_order": [
+        "st1",
+        "st2",
+        "st3"
+      ],
       "settings": {
         "kicker": "The basics",
         "headline": "One ingredient, built for absorption.",
@@ -115,10 +225,24 @@
           }
         }
       },
-      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
       "settings": {
         "kicker": "Questions",
         "headline": "Straight answers.",
+        "highlight_phrase": "answers",
+        "intro_text": "The details that matter before this becomes part of your daily routine.",
+        "editorial_heading": "Clear enough to trust.",
+        "editorial_text": "Simple enough to make part of real life.",
+        "contact_label": "Still curious? Talk to us →",
+        "contact_link": "",
+        "color_palette": "soft-rose",
         "headline_size": 40,
         "padding_top": 80,
         "padding_bottom": 80,
@@ -128,12 +252,37 @@
     "testing-strip": {
       "type": "testing-strip",
       "blocks": {
-        "a": { "type": "item", "settings": { "label": "Heavy metals" } },
-        "b": { "type": "item", "settings": { "label": "Microbials" } },
-        "c": { "type": "item", "settings": { "label": "Identity" } },
-        "d": { "type": "item", "settings": { "label": "Potency" } }
+        "a": {
+          "type": "item",
+          "settings": {
+            "label": "Heavy metals"
+          }
+        },
+        "b": {
+          "type": "item",
+          "settings": {
+            "label": "Microbials"
+          }
+        },
+        "c": {
+          "type": "item",
+          "settings": {
+            "label": "Identity"
+          }
+        },
+        "d": {
+          "type": "item",
+          "settings": {
+            "label": "Potency"
+          }
+        }
       },
-      "block_order": ["a", "b", "c", "d"],
+      "block_order": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
       "settings": {
         "heading": "Third-party tested every batch",
         "heading_size": 22,
@@ -146,5 +295,10 @@
       }
     }
   },
-  "order": ["main", "science", "faq", "testing-strip"]
+  "order": [
+    "main",
+    "science",
+    "faq",
+    "testing-strip"
+  ]
 }
