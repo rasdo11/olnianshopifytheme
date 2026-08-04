@@ -1,7 +1,68 @@
-<section class="product-faq" style="
+{%- liquid
+  case section.settings.color_palette
+    when 'warm-peony'
+      assign faq_background = '#FFF6F1'
+      assign faq_surface = '#FFFDF9'
+      assign faq_ink = '#4A2E2A'
+      assign faq_muted = '#866B63'
+      assign faq_accent = '#D98078'
+      assign faq_tint = '#F4DDD7'
+      assign faq_highlight = '#E4EC73'
+    when 'lavender-veil'
+      assign faq_background = '#FAF7FC'
+      assign faq_surface = '#FFFCFF'
+      assign faq_ink = '#403347'
+      assign faq_muted = '#786B7E'
+      assign faq_accent = '#A983B8'
+      assign faq_tint = '#EBE3F1'
+      assign faq_highlight = '#D7E75B'
+    when 'powder-blue'
+      assign faq_background = '#F8FAFC'
+      assign faq_surface = '#FFFFFF'
+      assign faq_ink = '#303B49'
+      assign faq_muted = '#687584'
+      assign faq_accent = '#D67D8B'
+      assign faq_tint = '#E3EDF5'
+      assign faq_highlight = '#E2E95A'
+    when 'cocoa-citron'
+      assign faq_background = '#FBF6EE'
+      assign faq_surface = '#FFFDF9'
+      assign faq_ink = '#44352E'
+      assign faq_muted = '#77685F'
+      assign faq_accent = '#B86C62'
+      assign faq_tint = '#EEE2D6'
+      assign faq_highlight = '#DCE54F'
+    else
+      assign faq_background = '#FFF9F7'
+      assign faq_surface = '#FFFDFC'
+      assign faq_ink = '#49323B'
+      assign faq_muted = '#806A73'
+      assign faq_accent = '#E47782'
+      assign faq_tint = '#E8E5F3'
+      assign faq_highlight = '#DCE94A'
+  endcase
+
+  assign faq_headline = section.settings.headline | escape
+  if section.settings.highlight_phrase != blank
+    assign highlight_text = section.settings.highlight_phrase | escape
+    capture highlight_markup
+      echo '<mark class="product-faq__highlight">' | append: highlight_text | append: '</mark>'
+    endcapture
+    assign faq_headline = faq_headline | replace: highlight_text, highlight_markup
+  endif
+-%}
+
+<section id="ProductFaq-{{ section.id }}" class="product-faq" style="
   padding-top: {{ section.settings.padding_top }}px;
   padding-bottom: {{ section.settings.padding_bottom }}px;
-  {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+  --faq-background: {{ section.settings.background | default: faq_background }};
+  --faq-surface: {{ faq_surface }};
+  --faq-ink: {{ faq_ink }};
+  --faq-muted: {{ faq_muted }};
+  --faq-accent: {{ faq_accent }};
+  --faq-tint: {{ faq_tint }};
+  --faq-highlight: {{ faq_highlight }};
+  --faq-headline-size: {{ section.settings.headline_size }}px;
 ">
   <div class="container product-faq__inner">
 
@@ -9,17 +70,31 @@
       {%- if section.settings.kicker != blank -%}
         <div class="sku-row__kicker">{{ section.settings.kicker }}</div>
       {%- endif -%}
-      <h2 class="product-faq__headline" style="font-size: {{ section.settings.headline_size }}px;">{{ section.settings.headline }}</h2>
+      <h2 class="product-faq__headline">{{ faq_headline }}</h2>
+      {%- if section.settings.intro_text != blank -%}
+        <p class="product-faq__intro">{{ section.settings.intro_text }}</p>
+      {%- endif -%}
+      {%- if section.settings.editorial_heading != blank or section.settings.editorial_text != blank -%}
+        <p class="product-faq__editorial">
+          {%- if section.settings.editorial_heading != blank -%}<strong>{{ section.settings.editorial_heading }}</strong>{%- endif -%}
+          {%- if section.settings.editorial_heading != blank and section.settings.editorial_text != blank -%}<br>{%- endif -%}
+          {{ section.settings.editorial_text }}
+        </p>
+      {%- endif -%}
+      {%- if section.settings.contact_label != blank -%}
+        <a class="product-faq__contact" href="{{ section.settings.contact_link | default: '/pages/contact' }}">{{ section.settings.contact_label }}</a>
+      {%- endif -%}
     </div>
 
-    <div class="product-faq__list" id="FaqList">
+    <div class="product-faq__list">
       {%- for block in section.blocks -%}
         <div class="faq-item" {{ block.shopify_attributes }}>
-          <button type="button" class="faq-item__q" aria-expanded="false" aria-controls="faq-a-{{ forloop.index }}">
-            <span>{{ block.settings.question }}</span>
+          <button type="button" class="faq-item__q" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="faq-a-{{ section.id }}-{{ block.id }}">
+            <span class="faq-item__number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="faq-item__question">{{ block.settings.question }}</span>
             <span class="faq-item__icon" aria-hidden="true">+</span>
           </button>
-          <div class="faq-item__a" id="faq-a-{{ forloop.index }}" hidden>
+          <div class="faq-item__a" id="faq-a-{{ section.id }}-{{ block.id }}"{% unless forloop.first %} hidden{% endunless %}>
             <div class="faq-item__a-inner">{{ block.settings.answer }}</div>
           </div>
         </div>
@@ -31,8 +106,9 @@
 
 <script>
 (function () {
-  var list = document.getElementById('FaqList');
-  if (!list) return;
+  var section = document.getElementById('ProductFaq-{{ section.id }}');
+  if (!section) return;
+  var list = section.querySelector('.product-faq__list');
   list.addEventListener('click', function (e) {
     var btn = e.target.closest('.faq-item__q');
     if (!btn) return;
@@ -53,7 +129,7 @@
     // Toggle this one
     btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
     answer.hidden = isOpen;
-    icon.textContent = isOpen ? '+' : '−';
+    icon.textContent = '+';
   });
 })();
 </script>
@@ -65,12 +141,26 @@
     { "type": "header", "content": "Content" },
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "Questions" },
     { "type": "text", "id": "headline", "label": "Headline", "default": "Straight answers." },
+    { "type": "text", "id": "highlight_phrase", "label": "Highlighted phrase", "default": "answers", "info": "This must exactly match part of the headline." },
+    { "type": "textarea", "id": "intro_text", "label": "Intro text", "default": "The details that matter before this becomes part of your daily routine." },
+    { "type": "text", "id": "editorial_heading", "label": "Editorial note heading", "default": "Clear enough to trust." },
+    { "type": "text", "id": "editorial_text", "label": "Editorial note text", "default": "Simple enough to make part of real life." },
+    { "type": "text", "id": "contact_label", "label": "Contact link label", "default": "Still curious? Talk to us →" },
+    { "type": "url", "id": "contact_link", "label": "Contact link" },
+    { "type": "header", "content": "Color palette" },
+    { "type": "select", "id": "color_palette", "label": "Color combination", "default": "soft-rose", "options": [
+      { "value": "soft-rose", "label": "1 · Soft rose + lilac" },
+      { "value": "warm-peony", "label": "2 · Warm peony + cream" },
+      { "value": "lavender-veil", "label": "3 · Lavender veil + citron" },
+      { "value": "powder-blue", "label": "4 · Powder blue + blush" },
+      { "value": "cocoa-citron", "label": "5 · Cocoa + citron" }
+    ]},
     { "type": "header", "content": "Typography" },
     { "type": "range", "id": "headline_size", "label": "Headline size (px)", "min": 24, "max": 64, "step": 2, "default": 40 },
     { "type": "header", "content": "Spacing" },
     { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 80 },
     { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 80 },
-    { "type": "color", "id": "background", "label": "Background color" }
+    { "type": "color", "id": "background", "label": "Custom background override", "info": "Leave blank to use the selected color combination." }
   ],
   "blocks": [
     {
