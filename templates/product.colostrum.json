@@ -137,6 +137,27 @@
         "bundle_upsell_link": ""
       }
     },
+    "blocks_6AYE3V": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_640901c_PYTMVD": {
+          "type": "ai_gen_block_640901c",
+          "settings": {
+            "image": "shopify://shop_images/Colostrum-banner-1.png",
+            "focal_point": "center",
+            "desktop_width_percent": 100,
+            "border_radius": 24,
+            "mobile_aspect_ratio": "50"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_640901c_PYTMVD"
+      ],
+      "name": "Wide image",
+      "settings": {}
+    },
     "more-products": {
       "type": "pdp-more-products",
       "blocks": {
@@ -319,6 +340,7 @@
   },
   "order": [
     "main",
+    "blocks_6AYE3V",
     "more-products",
     "science",
     "faq"
