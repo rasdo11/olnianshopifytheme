@@ -7,6 +7,15 @@
     cs_product - Product object (required)
     cs_eyebrow - small label above the card (optional, default "Pairs with")
     cs_note    - one-line reason to add it (optional, falls back to the product subtitle)
+
+  Layout params, all optional and all driven by "Cross-sell card layout" in the theme
+  editor. They're applied as data attributes + custom properties rather than extra markup,
+  so the DOM stays one shape and theme.css does the arranging:
+    cs_image_position  - 'left' (default) | 'right'
+    cs_button_position - 'inline' (default) | 'below'
+    cs_align           - 'center' (default) | 'top'
+    cs_image_size      - px, default 56
+    cs_order_name / cs_order_note / cs_order_price - 1..3 within the text stack
 {%- endcomment -%}
 
 {%- if cs_product != blank -%}
@@ -27,9 +36,22 @@
   {%- assign _cs_note = cs_note -%}
   {%- if _cs_note == blank -%}{%- assign _cs_note = cs_product.metafields.custom.subtitle -%}{%- endif -%}
 
+  {%- comment -%} Defaults live here, not in the caller, so the snippet is safe to render bare. {%- endcomment -%}
+  {%- assign _cs_img_pos = cs_image_position | default: 'left' -%}
+  {%- assign _cs_btn_pos = cs_button_position | default: 'inline' -%}
+  {%- assign _cs_align   = cs_align | default: 'center' -%}
+  {%- assign _cs_img_size = cs_image_size | default: 56 -%}
+  {%- assign _cs_ord_name  = cs_order_name  | default: 1 -%}
+  {%- assign _cs_ord_note  = cs_order_note  | default: 2 -%}
+  {%- assign _cs_ord_price = cs_order_price | default: 3 -%}
+
   <div class="pdp-pair">
     <div class="pdp-pair__eyebrow">{{ cs_eyebrow | default: 'Pairs with' }}</div>
-    <div class="pdp-pair__card">
+    <div class="pdp-pair__card"
+      data-pair-image="{{ _cs_img_pos }}"
+      data-pair-button="{{ _cs_btn_pos }}"
+      data-pair-align="{{ _cs_align }}"
+      style="--pair-img-size: {{ _cs_img_size }}px; --pair-order-name: {{ _cs_ord_name }}; --pair-order-note: {{ _cs_ord_note }}; --pair-order-price: {{ _cs_ord_price }};">
       <a href="{{ cs_product.url }}" class="pdp-pair__media" tabindex="-1" aria-hidden="true">
         {%- if cs_product.featured_image -%}
           <img src="{{ cs_product.featured_image | image_url: width: 200 }}" alt="" loading="lazy" width="72" height="72">

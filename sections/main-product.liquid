@@ -168,6 +168,23 @@
 
         <h1 class="product__title">{{ product.title }}</h1>
 
+        {%- comment -%}
+          ── Reorderable subsections ──────────────────────────────────────────────
+          Everything below the title is captured, then emitted in the order the merchant
+          sets under "Info column order" in the theme editor. Captured rather than
+          reordered with CSS `order` for two reasons: one order now drives BOTH desktop and
+          mobile (they used to be maintained separately and had silently drifted apart —
+          the benefit bullets sat above the buy form on desktop and below the cross-sell
+          card on mobile), and source order is what screen readers and Tab follow, so the
+          reading order always matches what's on screen.
+
+          Order of the captures themselves is irrelevant — only the emit loop at the bottom
+          of this column decides what renders where. But anything a capture DEPENDS on must
+          be assigned before it: the shared variables between the ship badge and the buy
+          form below are positioned there deliberately.
+        {%- endcomment -%}
+
+        {%- capture _pdp_rating -%}
         {%- if section.settings.show_rating -%}
           <div class="product__rating">
             {%- assign rating_display = section.settings.rating_value | divided_by: 10.0 -%}
@@ -190,13 +207,17 @@
             {%- endif -%}
           </div>
         {%- endif -%}
+        {%- endcapture -%}
 
         {%- comment -%} Short tagline - above price. The full product description now renders below "What it supports". {%- endcomment -%}
+        {%- capture _pdp_tagline -%}
         {%- if section.settings.tagline != blank -%}
           <p class="product__tagline">{{ section.settings.tagline }}</p>
         {%- endif -%}
+        {%- endcapture -%}
 
         {%- comment -%} Visible feature list - coloured dot bullets (Billie PDP format) {%- endcomment -%}
+        {%- capture _pdp_benefits -%}
         {%- assign _has_benefits = false -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'benefit' -%}{%- assign _has_benefits = true -%}{%- endif -%}
@@ -210,13 +231,20 @@
             {%- endfor -%}
           </ul>
         {%- endif -%}
+        {%- endcapture -%}
 
+        {%- capture _pdp_ship -%}
         {%- if section.settings.show_ship_badge or settings.show_ship_badge -%}
           <div class="product__ship-badge">
             <span aria-hidden="true">●</span> {{ settings.ship_badge_text }}
           </div>
         {%- endif -%}
+        {%- endcapture -%}
 
+        {%- comment -%}
+          Shared buy-block variables. These MUST stay ahead of the _pdp_buy capture below —
+          a capture runs its contents at the point it appears, not where it's emitted.
+        {%- endcomment -%}
         {%- assign _first_selling_plan = nil -%}
         {%- for group in product.selling_plan_groups -%}
           {%- for plan in group.selling_plans -%}
@@ -253,6 +281,7 @@
         {%- assign _atc_available = _sel_variant.available -%}
         {%- if _sel_variant.inventory_policy == 'continue' -%}{%- assign _atc_available = true -%}{%- endif -%}
 
+        {%- capture _pdp_buy -%}
         <form data-product-form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" novalidate>
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
           <input type="hidden" name="selling_plan" id="SellingPlanInput" value="">
@@ -396,19 +425,32 @@
           {%- comment -%} Subscription is now handled by the purchase-option toggle above the price. {%- endcomment -%}
 
         </form>
+        {%- endcapture -%}
 
         {%- comment -%}
           ── Cross-sell: one-tap add for the paired product (Creatine ↔ Hydration) ──
-          Sits immediately under the buy block so it's visible without scrolling past the fold.
+          Defaults to sitting immediately under the buy block so it's visible without
+          scrolling past the fold; the cs_layout_* params below are the theme-editor
+          controls for arranging the pieces inside the card itself.
         {%- endcomment -%}
+        {%- capture _pdp_pair -%}
         {%- assign _cs = section.settings.crosssell_product -%}
         {%- if _cs != blank and _cs.handle != product.handle -%}
           {%- render 'pdp-cross-sell',
               cs_product: _cs,
               cs_eyebrow: section.settings.crosssell_eyebrow,
-              cs_note: section.settings.crosssell_note -%}
+              cs_note: section.settings.crosssell_note,
+              cs_image_position: section.settings.crosssell_image_position,
+              cs_button_position: section.settings.crosssell_button_position,
+              cs_align: section.settings.crosssell_align,
+              cs_image_size: section.settings.crosssell_image_size,
+              cs_order_name: section.settings.crosssell_order_name,
+              cs_order_note: section.settings.crosssell_order_note,
+              cs_order_price: section.settings.crosssell_order_price -%}
         {%- endif -%}
+        {%- endcapture -%}
 
+        {%- capture _pdp_details -%}
         <hr class="product__divider">
 
         {%- comment -%} What it supports accordion {%- endcomment -%}
@@ -477,7 +519,31 @@
             </div>
           </div>
         {%- endif -%}
+        {%- endcapture -%}
 
+        {%- comment -%}
+          ── Emit the subsections in the merchant's order ──
+          `| plus: 0` turns each select's string value into a number so it compares against
+          the loop counter. Two subsections set to the same slot both render there, in the
+          fixed order below — no subsection can be lost, whatever the settings say.
+        {%- endcomment -%}
+        {%- assign _o_rating   = section.settings.order_rating   | plus: 0 -%}
+        {%- assign _o_tagline  = section.settings.order_tagline  | plus: 0 -%}
+        {%- assign _o_benefits = section.settings.order_benefits | plus: 0 -%}
+        {%- assign _o_ship     = section.settings.order_ship     | plus: 0 -%}
+        {%- assign _o_buy      = section.settings.order_buy      | plus: 0 -%}
+        {%- assign _o_pair     = section.settings.order_pair     | plus: 0 -%}
+        {%- assign _o_details  = section.settings.order_details  | plus: 0 -%}
+
+        {%- for _pos in (1..7) -%}
+          {%- if _o_rating   == _pos -%}{{ _pdp_rating }}{%- endif -%}
+          {%- if _o_tagline  == _pos -%}{{ _pdp_tagline }}{%- endif -%}
+          {%- if _o_benefits == _pos -%}{{ _pdp_benefits }}{%- endif -%}
+          {%- if _o_ship     == _pos -%}{{ _pdp_ship }}{%- endif -%}
+          {%- if _o_buy      == _pos -%}{{ _pdp_buy }}{%- endif -%}
+          {%- if _o_pair     == _pos -%}{{ _pdp_pair }}{%- endif -%}
+          {%- if _o_details  == _pos -%}{{ _pdp_details }}{%- endif -%}
+        {%- endfor -%}
 
       </div>
     </div>
@@ -712,10 +778,39 @@
     { "type": "header", "content": "Gift banner" },
     { "type": "checkbox", "id": "show_gift_banner", "label": "Show gift banner", "default": true },
     { "type": "text", "id": "gift_banner_text", "label": "Gift banner text", "default": "First subscription includes the keepsake gold lid and signature pink scoop." },
+    { "type": "header", "content": "Info column order", "info": "Position of each block down the right-hand column, top to bottom. The same order is used on desktop and mobile. The eyebrow and product title are always first." },
+    { "type": "select", "id": "order_rating", "label": "Star rating", "default": "1",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" }, { "value": "6", "label": "6" }, { "value": "7", "label": "7" } ] },
+    { "type": "select", "id": "order_tagline", "label": "Tagline", "default": "2",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" }, { "value": "6", "label": "6" }, { "value": "7", "label": "7" } ] },
+    { "type": "select", "id": "order_benefits", "label": "Benefit bullets", "default": "3", "info": "The orange dot list.",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" }, { "value": "6", "label": "6" }, { "value": "7", "label": "7" } ] },
+    { "type": "select", "id": "order_ship", "label": "Free shipping badge", "default": "4",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" }, { "value": "6", "label": "6" }, { "value": "7", "label": "7" } ] },
+    { "type": "select", "id": "order_buy", "label": "Purchase options + Add to Cart", "default": "5",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" }, { "value": "6", "label": "6" }, { "value": "7", "label": "7" } ] },
+    { "type": "select", "id": "order_pair", "label": "\"Pairs with\" card", "default": "6",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" }, { "value": "6", "label": "6" }, { "value": "7", "label": "7" } ] },
+    { "type": "select", "id": "order_details", "label": "Details accordions", "default": "7", "info": "What it supports / Details / Ingredients, with the divider above them.",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" }, { "value": "6", "label": "6" }, { "value": "7", "label": "7" } ] },
     { "type": "header", "content": "Cross-sell card (under Add to Cart)" },
     { "type": "product", "id": "crosssell_product", "label": "Cross-sell product", "info": "Shown as a one-tap \"Add\" card directly under the buy block, e.g. Creatine ↔ Hydration. Leave empty to hide. The sticky bar always buys the current product." },
     { "type": "text", "id": "crosssell_eyebrow", "label": "Cross-sell label", "default": "Pairs with" },
     { "type": "text", "id": "crosssell_note", "label": "Cross-sell one-liner", "info": "One short reason to add it. Falls back to the product's subtitle metafield." },
+    { "type": "header", "content": "Cross-sell card layout", "info": "Arranges the pieces inside the \"Pairs with\" card." },
+    { "type": "select", "id": "crosssell_image_position", "label": "Product image", "default": "left",
+      "options": [ { "value": "left", "label": "Left of the text" }, { "value": "right", "label": "Right of the text" } ] },
+    { "type": "select", "id": "crosssell_button_position", "label": "Add button", "default": "inline",
+      "options": [ { "value": "inline", "label": "Beside the text" }, { "value": "below", "label": "Full width, below" } ] },
+    { "type": "select", "id": "crosssell_align", "label": "Vertical alignment", "default": "center",
+      "options": [ { "value": "center", "label": "Middle" }, { "value": "top", "label": "Top" } ] },
+    { "type": "range", "id": "crosssell_image_size", "label": "Image size", "min": 40, "max": 96, "step": 4, "unit": "px", "default": 56 },
+    { "type": "select", "id": "crosssell_order_name", "label": "Text order: product name", "default": "1",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" } ] },
+    { "type": "select", "id": "crosssell_order_note", "label": "Text order: one-liner", "default": "2",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" } ] },
+    { "type": "select", "id": "crosssell_order_price", "label": "Text order: price", "default": "3",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" } ] },
     { "type": "header", "content": "Bundle + Save card" },
     { "type": "checkbox", "id": "show_bundle_upsell", "label": "Show bundle card", "default": true },
     { "type": "text", "id": "bundle_upsell_headline", "label": "Headline (e.g. Bundle + Save 25%)", "default": "Bundle + Save 25%" },
