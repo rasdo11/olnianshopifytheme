@@ -28,6 +28,7 @@
         },
         "b3": {
           "type": "benefit",
+          "disabled": true,
           "settings": {
             "icon": "○",
             "text": "Recovery that keeps pace with how often you train"
@@ -35,6 +36,7 @@
         },
         "b4": {
           "type": "benefit",
+          "disabled": true,
           "settings": {
             "icon": "○",
             "text": "A full 5 g clinical dose of creatine monohydrate, not a fraction of one"
