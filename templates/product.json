@@ -18,9 +18,7 @@
         },
         "g2": {
           "type": "gallery_image",
-          "settings": {
-            "image": "shopify://shop_images/pdp-4-facts.png"
-          }
+          "settings": {}
         },
         "gallery_image_rPL6pC": {
           "type": "gallery_image",
@@ -28,9 +26,7 @@
         },
         "gallery_image_NqzpMX": {
           "type": "gallery_image",
-          "settings": {
-            "image": "shopify://shop_images/pdp-2-pour.png"
-          }
+          "settings": {}
         },
         "b1": {
           "type": "benefit",
@@ -41,6 +37,7 @@
         },
         "b2": {
           "type": "benefit",
+          "disabled": true,
           "settings": {
             "icon": "○",
             "text": "Remember what you walked into the room for"
@@ -146,6 +143,7 @@
         "show_subscription_card": true,
         "show_expert_modal": true,
         "expert_button_label": "Talk to an expert",
+        "show_founding_offer": true,
         "show_gift_banner": false,
         "gift_banner_text": "",
         "crosssell_product": "creatine-hydration-powder",
@@ -163,19 +161,63 @@
     "more-products": {
       "type": "pdp-more-products",
       "blocks": {
-        "p1": { "type": "product", "settings": { "product": "creatine-monohydrate", "label": "Best seller" } },
-        "p2": { "type": "product", "settings": { "product": "creatine-hydration-powder", "label": "Training days" } },
-        "p3": { "type": "product", "settings": { "product": "colostrum-powder", "label": "" } },
-        "p4": { "type": "product", "settings": { "product": "magnesium-glycinate", "label": "" } },
-        "p5": { "type": "product", "settings": { "product": "grass-fed-hydrolyzed-collagen-peptides", "label": "" } },
-        "p6": { "type": "product", "settings": { "product": "probiotic-40-billion-with-prebiotics", "label": "" } }
+        "p1": {
+          "type": "product",
+          "settings": {
+            "product": "creatine-monohydrate",
+            "label": "Best seller"
+          }
+        },
+        "p2": {
+          "type": "product",
+          "settings": {
+            "product": "creatine-hydration-powder",
+            "label": "Training days"
+          }
+        },
+        "p3": {
+          "type": "product",
+          "settings": {
+            "product": "colostrum-powder",
+            "label": ""
+          }
+        },
+        "p4": {
+          "type": "product",
+          "settings": {
+            "product": "magnesium-glycinate",
+            "label": ""
+          }
+        },
+        "p5": {
+          "type": "product",
+          "settings": {
+            "product": "grass-fed-hydrolyzed-collagen-peptides",
+            "label": ""
+          }
+        },
+        "p6": {
+          "type": "product",
+          "settings": {
+            "product": "probiotic-40-billion-with-prebiotics",
+            "label": ""
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
       "settings": {
         "kicker": "The rest of the line",
         "heading": "More from OLNIAN",
         "view_all_label": "Shop all",
         "view_all_link": "",
+        "collection": "",
         "padding_top": 40,
         "padding_bottom": 40
       }
