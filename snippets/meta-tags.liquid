@@ -47,17 +47,21 @@
 
     Cropped to 1200x630, the standard large-card ratio, so the declared dimensions are always
     truthful — a mismatch makes some scrapers discard the image outright.
+
+    Do not force a different output format here. Apple Link Presentation infers the shared
+    item's type from the URL extension. A `.png` URL serving JPEG bytes can work when Messages
+    fetches the URL itself, but render as an empty image when Chrome passes that metadata through
+    the iOS share sheet. Keeping the source format makes the URL, HTTP Content-Type, and bytes agree.
   {%- endcomment -%}
-  {%- comment -%} format: jpg so the declared og:image:type is actually true for PNG sources. {%- endcomment -%}
-  {%- assign og_image_src = og_image | image_url: width: 1200, height: 630, crop: 'center', format: 'jpg' -%}
+  {%- assign og_image_src = og_image | image_url: width: 1200, height: 630, crop: 'center' -%}
   {%- if og_image_src contains '://' -%}
     {%- assign og_image_url = og_image_src -%}
   {%- else -%}
     {%- assign og_image_url = og_image_src | prepend: 'https:' -%}
   {%- endif -%}
-  <meta property="og:image" content="{{ og_image_url }}">
-  <meta property="og:image:secure_url" content="{{ og_image_url }}">
-  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image" content="{{ og_image_url | escape }}">
+  <meta property="og:image:url" content="{{ og_image_url | escape }}">
+  <meta property="og:image:secure_url" content="{{ og_image_url | escape }}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="{{ og_image.alt | default: og_title | escape }}">
@@ -72,6 +76,6 @@
 <meta name="twitter:description" content="{{ og_desc | escape }}">
 {%- if og_image -%}
   {%- comment -%} Same absolute-URL requirement as og:image above. {%- endcomment -%}
-  <meta name="twitter:image" content="{{ og_image_url }}">
+  <meta name="twitter:image" content="{{ og_image_url | escape }}">
   <meta name="twitter:image:alt" content="{{ og_image.alt | default: og_title | escape }}">
 {%- endif -%}
