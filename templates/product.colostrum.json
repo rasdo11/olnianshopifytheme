@@ -12,20 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "g1": {
-          "type": "gallery_image",
-          "settings": {
-            "image": "shopify://shop_images/Collostrum-pdp-1_a9e136f0-70f0-49a2-8b0a-6542c0df3081.png"
-          }
-        },
-        "gallery_image_c2": {
-          "type": "gallery_image",
-          "settings": {}
-        },
-        "gallery_image_c3": {
-          "type": "gallery_image",
-          "settings": {}
-        },
         "b1": {
           "type": "benefit",
           "settings": {
@@ -93,9 +79,6 @@
         }
       },
       "block_order": [
-        "g1",
-        "gallery_image_c2",
-        "gallery_image_c3",
         "b1",
         "b2",
         "b3",
