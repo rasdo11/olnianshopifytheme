@@ -159,6 +159,27 @@
         "bundle_upsell_link": "shopify://collections/brain-bundle"
       }
     },
+    "blocks_dHXUq8": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_640901c_rUcCyc": {
+          "type": "ai_gen_block_640901c",
+          "settings": {
+            "image": "shopify://shop_images/Creatine-banner-1.png",
+            "focal_point": "center",
+            "desktop_width_percent": 100,
+            "border_radius": 24,
+            "mobile_aspect_ratio": "33.33"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_640901c_rUcCyc"
+      ],
+      "name": "Wide image",
+      "settings": {}
+    },
     "more-products": {
       "type": "pdp-more-products",
       "blocks": {
@@ -379,6 +400,7 @@
   },
   "order": [
     "main",
+    "blocks_dHXUq8",
     "more-products",
     "science",
     "faq",
