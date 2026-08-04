@@ -137,9 +137,26 @@
         "show_subscription_card": true,
         "show_expert_modal": true,
         "expert_button_label": "Talk to an expert",
+        "show_founding_offer": true,
         "show_gift_banner": false,
         "gift_banner_text": "",
+        "order_rating": "1",
+        "order_tagline": "2",
+        "order_benefits": "3",
+        "order_ship": "4",
+        "order_buy": "5",
+        "order_pair": "6",
+        "order_details": "7",
         "crosssell_product": "creatine-monohydrate",
+        "crosssell_eyebrow": "Pairs with",
+        "crosssell_note": "",
+        "crosssell_image_position": "left",
+        "crosssell_button_position": "inline",
+        "crosssell_align": "center",
+        "crosssell_image_size": 56,
+        "crosssell_order_name": "1",
+        "crosssell_order_note": "2",
+        "crosssell_order_price": "3",
         "show_bundle_upsell": false,
         "bundle_upsell_headline": "",
         "bundle_upsell_body": "",
@@ -148,6 +165,27 @@
         "bundle_image_filename": "",
         "bundle_upsell_link": ""
       }
+    },
+    "blocks_qa3bBP": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_640901c_iHDFyM": {
+          "type": "ai_gen_block_640901c",
+          "settings": {
+            "image": "shopify://shop_images/Mg-banner1.png",
+            "focal_point": "center",
+            "desktop_width_percent": 100,
+            "border_radius": 24,
+            "mobile_aspect_ratio": "50"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_640901c_iHDFyM"
+      ],
+      "name": "Wide image",
+      "settings": {}
     },
     "science": {
       "type": "product-science",
@@ -305,6 +343,7 @@
   },
   "order": [
     "main",
+    "blocks_qa3bBP",
     "science",
     "faq",
     "testing-strip"
