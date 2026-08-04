@@ -233,8 +233,12 @@
           payload.selling_plan = Number(sellingPlanInput.value);
         }
         await CartAPI.add([payload]);
-        await Drawer.refresh();
+        // Open FIRST, then repopulate. Drawer.refresh() re-renders the cart section
+        // server-side and then hits /cart.js, which can take a second or more — opening
+        // only after that left a dead pause where the tap looked ignored, so people tapped
+        // again (into a now-disabled button) and concluded it was broken.
         Drawer.open();
+        await Drawer.refresh();
       } catch (err) {
         alert(err.message || 'Could not add to cart.');
       } finally {
@@ -363,8 +367,12 @@
         // Cross-sell / rail cards can opt into the product's subscription plan.
         if (btn.dataset.sellingPlan) payload.selling_plan = Number(btn.dataset.sellingPlan);
         await CartAPI.add([payload]);
-        await Drawer.refresh();
+        // Open FIRST, then repopulate. Drawer.refresh() re-renders the cart section
+        // server-side and then hits /cart.js, which can take a second or more — opening
+        // only after that left a dead pause where the tap looked ignored, so people tapped
+        // again (into a now-disabled button) and concluded it was broken.
         Drawer.open();
+        await Drawer.refresh();
       } catch (err) {
         alert(err.message || 'Could not add to cart.');
       } finally {
