@@ -52,6 +52,7 @@
         },
         "b4": {
           "type": "benefit",
+          "disabled": true,
           "settings": {
             "icon": "○",
             "text": "Recover from workouts without the next-day drag"
@@ -134,7 +135,7 @@
         "show_rating": true,
         "rating_value": 46,
         "rating_count": "142 reviews",
-        "tagline": "Premium Creatine Monohydrate for women that's clinically studied to support brain clarity, cognitive performance, and cellular energy. The only ingredient is the ingredient.",
+        "tagline": "Premium Creatine Monohydrate for women that's clinically studied to support brain clarity, cognitive performance, and cellular energy.",
         "benefits_heading": "Benefits",
         "supports_heading": "What It Supports",
         "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
