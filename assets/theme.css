@@ -1081,7 +1081,9 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
 
 @media (max-width: 900px) {
   .product { padding: 20px 0 96px; }
-  .product__grid { grid-template-columns: 1fr; gap: 20px; }
+  /* 14px, not 20px: with the dots overlaid on the image this gap is now the *only* space
+     between the photo and the product title, so it reads as a deliberate pairing. */
+  .product__grid { grid-template-columns: 1fr; gap: 14px; }
   .product__media { position: static; }
 
   /* Cap the hero so title + price + Add to Cart land in the first screen.
@@ -1104,16 +1106,36 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
     scroll-snap-align: start;
   }
   .pdp-gallery__img { object-fit: contain; }
-  /* Dots replace the thumbnail grid — same navigation, a fraction of the height */
+  /* Dots replace the thumbnail grid — same navigation, a fraction of the height.
+     They're overlaid on the bottom-left of the image rather than stacked underneath it:
+     as a flow row they cost ~28px of vertical space and pushed the product title down
+     the page. Absolute positioning takes them out of .pdp-gallery's flex column, so the
+     column gap doesn't apply to them either. */
   .pdp-gallery__thumbs { display: none; }
-  .pdp-gallery__dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
-  /* The visible dot stays 7px, but ::after gives it a 24px touch target (WCAG 2.5.8).
-     Gap accounts for the overlap so the targets don't collide. */
-  .pdp-gallery__dots { gap: 12px; }
+  .pdp-gallery { position: relative; }
+  .pdp-gallery__dots {
+    position: absolute;
+    left: 20px;
+    bottom: 12px;
+    z-index: 2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* The visible dot stays 7px, but ::after gives it a 24px touch target (WCAG 2.5.8).
+       Gap accounts for the overlap so the targets don't collide. */
+    gap: 12px;
+    margin-top: 0;
+    /* Frosted pill: the dots now sit over photography, which can be any colour. */
+    padding: 8px 13px;
+    border-radius: 999px;
+    background: rgba(255, 253, 249, 0.72);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
   .pdp-gallery__dot {
     position: relative;
     width: 7px; height: 7px; border-radius: 50%; padding: 0;
-    background: var(--espresso-12); border: none;
+    background: var(--espresso-30); border: none;
     transition: background 0.15s;
   }
   .pdp-gallery__dot::after {
@@ -1429,8 +1451,9 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
     width: 88%;
     scroll-snap-align: start;
   }
-  /* Dots */
-  .pdp-gallery__dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+  /* Dots — overlaid inside the image, bottom-left (see the 900px block above).
+     Positioning only here; the pill itself is defined once, up there. */
+  .pdp-gallery__dots { justify-content: flex-start; gap: 12px; margin-top: 0; }
   .pdp-gallery__dot {
     width: 7px; height: 7px; border-radius: 50%;
     background: var(--espresso-30); border: none; padding: 0;
@@ -2192,7 +2215,10 @@ body.nav-open { overflow: hidden; }
   .pdp-gallery { gap: 6px; margin-left: -20px; margin-right: -20px; }
   .pdp-gallery__main { gap: 8px; padding: 0 20px 4px; scroll-padding-left: 20px; }
   .pdp-gallery__slide { flex-basis: 84%; width: 84%; }
-  .pdp-gallery__dots { margin-top: 8px; }
+  /* The gallery is full-bleed here (negative margins) while .pdp-gallery__main insets the
+     slide by 20px — so the dots need 20px + 12px to land inside the image, not on the
+     gutter beside it. Bottom clears the container's 4px scroll padding. */
+  .pdp-gallery__dots { left: 32px; bottom: 16px; margin-top: 0; }
 
   .cart-drawer__panel { width: 100vw; max-width: none; }
   .cart-drawer__header,
@@ -2686,7 +2712,9 @@ body.nav-open { overflow: hidden; }
   pointer-events: auto;
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity .2s ease, transform .2s ease;
+  /* bottom is animated so the tab slides with the PDP sticky bar instead of jumping —
+     same curve and duration as .pdp-sticky-bar's transform. */
+  transition: opacity .2s ease, transform .2s ease, bottom .28s cubic-bezier(.22, .61, .36, 1);
 }
 .email-popup.is-ready .email-popup__tab,
 .email-popup.is-open .email-popup__tab {
@@ -2773,12 +2801,18 @@ body.nav-open .email-popup.is-ready .email-popup__tab {
 
 @media (prefers-reduced-motion: reduce) {
   .email-popup__tab-peek { transition: none; }
+  /* Keep the fade, drop the travel (reveal slide + the sticky-bar-follow slide). */
+  .email-popup__tab { transition: opacity .2s ease; }
 }
 
 /* The PDP sticky buy bar owns the bottom of the screen on mobile — lift the tab above it
-   so it can't sit on top of Add to Cart. .has-sticky-buy is set by the sticky-bar JS. */
+   so it can't sit on top of Add to Cart. Keyed on .sticky-buy-visible, which the sticky-bar
+   JS toggles with the bar's own .is-visible — NOT on .has-sticky-buy, which is set once on
+   page load and never removed. On .has-sticky-buy the tab stayed parked 76px up even while
+   the bar was slid off-screen, leaving an obvious empty band underneath it. It now rides
+   down with the bar, on the bar's timing curve. */
 @media (max-width: 900px) {
-  body.has-sticky-buy .email-popup__tab {
+  body.sticky-buy-visible .email-popup__tab {
     bottom: calc(76px + max(14px, env(safe-area-inset-bottom)));
   }
 }

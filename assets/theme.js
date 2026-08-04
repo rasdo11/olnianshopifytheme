@@ -663,6 +663,10 @@
       const viewportH = window.innerHeight || document.documentElement.clientHeight;
       const offscreen = r.bottom <= 0 || r.top >= viewportH;
       bar.classList.toggle('is-visible', offscreen);
+      // Separate from .has-sticky-buy (set once, for the page's bottom padding): this one
+      // tracks whether the bar is actually on screen, so the 10% off tab can ride above it
+      // when it's up and drop back down to the bottom row when it slides away.
+      document.body.classList.toggle('sticky-buy-visible', offscreen);
     }
 
     let ticking = false;
