@@ -144,7 +144,7 @@
         "show_subscription_card": true,
         "show_expert_modal": true,
         "expert_button_label": "Talk to an expert",
-        "show_founding_offer": true,
+        "show_founding_offer": false,
         "show_gift_banner": false,
         "gift_banner_text": "",
         "crosssell_product": "magnesium-glycinate",
