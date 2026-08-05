@@ -138,27 +138,6 @@
         "bundle_upsell_link": ""
       }
     },
-    "blocks_dQnrtz": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_640901c_edVrgb": {
-          "type": "ai_gen_block_640901c",
-          "settings": {
-            "image": "shopify://shop_images/HC-banner1.png",
-            "focal_point": "center",
-            "desktop_width_percent": 100,
-            "border_radius": 24,
-            "mobile_aspect_ratio": "50"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_640901c_edVrgb"
-      ],
-      "name": "Wide image",
-      "settings": {}
-    },
     "more-products": {
       "type": "pdp-more-products",
       "blocks": {
@@ -222,6 +201,27 @@
         "padding_top": 40,
         "padding_bottom": 40
       }
+    },
+    "blocks_dQnrtz": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_640901c_edVrgb": {
+          "type": "ai_gen_block_640901c",
+          "settings": {
+            "image": "shopify://shop_images/HC-banner1.png",
+            "focal_point": "center",
+            "desktop_width_percent": 100,
+            "border_radius": 24,
+            "mobile_aspect_ratio": "33.33"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_640901c_edVrgb"
+      ],
+      "name": "Wide image",
+      "settings": {}
     },
     "science": {
       "type": "product-science",
@@ -341,8 +341,8 @@
   },
   "order": [
     "main",
-    "blocks_dQnrtz",
     "more-products",
+    "blocks_dQnrtz",
     "science",
     "faq"
   ]
