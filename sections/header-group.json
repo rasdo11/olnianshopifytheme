@@ -46,11 +46,19 @@
             "label": "Contact",
             "link": "/pages/contact"
           }
+        },
+        "m4": {
+          "type": "menu_link",
+          "settings": {
+            "label": "About",
+            "link": "/pages/about-us"
+          }
         }
       },
       "block_order": [
         "m1",
         "m2",
+        "m4",
         "m3"
       ],
       "settings": {

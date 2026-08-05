@@ -5,8 +5,8 @@
       "settings": {
         "kicker": "Family owned · Named for our grandmother",
         "headline": "We named the company after the woman who taught us how to take care of people.",
-        "body": "<p>OLNIAN is a family business. The name is hers — Mamik Olnian, our grandmother. Every formula we make still gets held to the standard she set: if you wouldn't hand it to someone you love, it doesn't leave the kitchen.</p>",
-        "signature": "— The Olnian family",
+        "body": "<p>OLNIAN is a family business. The name is hers: Mamik Olnian, our grandmother. Every formula we make still gets held to the standard she set. If you wouldn't hand it to someone you love, it doesn't leave the kitchen.</p>",
+        "signature": "The Olnian family",
         "cta_label": "Shop the line",
         "cta_link": "/collections/all-products",
         "photo_caption": "Mamik Olnian",
@@ -25,12 +25,12 @@
       "settings": {
         "kicker": "Our namesake",
         "headline": "Mamik Olnian",
-        "body": "<p>Mamik was the one everyone came to. A sore back, a long week, a new baby, bad news — somehow you ended up in her kitchen, and you left better than you arrived. She never called any of it wellness. She called it feeding people properly and paying attention.</p><p>She was exacting about ingredients in a way that seemed excessive right up until you tasted the difference. Nothing cheap. Nothing she couldn't name. Nothing bought only because it happened to be on sale that week. She would rather make less of something than make it with the wrong thing in it.</p><p>We started OLNIAN because that standard wasn't anywhere on the supplement shelf. Beautiful labels, ingredient lists as long as your arm, and very little you'd actually want to hand to someone you love. So we built the company she would have been willing to put her name on — which, in the end, is exactly what we did.</p>",
+        "body": "<p>Mamik was the one everyone came to. A sore back, a long week, a new baby, bad news. Somehow you ended up in her kitchen, and you left better than you arrived. She never called any of it wellness. She called it feeding people properly and paying attention.</p><p>She was exacting about ingredients in a way that seemed excessive right up until you tasted the difference. Nothing cheap. Nothing she couldn't name. Nothing bought only because it happened to be on sale that week. She would rather make less of something than make it with the wrong thing in it.</p><p>We started OLNIAN because that standard wasn't anywhere on the supplement shelf. Beautiful labels, ingredient lists as long as your arm, and very little you'd actually want to hand to someone you love. So we built the company she would have been willing to put her name on, which, in the end, is exactly what we did.</p>",
         "quote": "Make less of it, or make it right.",
         "quote_attribution": "The standard every OLNIAN formula still gets held to.",
         "photo_caption": "Mamik in the kitchen",
         "photo_alt": "Mamik Olnian in her kitchen",
-        "photo_label": "Mamik — the portrait everyone in the family knows",
+        "photo_label": "Mamik: the portrait everyone in the family knows",
         "photo_ratio": "4 / 5",
         "photo_shape": "rounded",
         "photo_position": "left",
@@ -47,21 +47,21 @@
           "type": "value",
           "settings": {
             "title": "Growth through community",
-            "body": "We don't buy our way into a room. We grow the way a family does — one person tells another, and the circle widens. Every woman who found us because a friend pressed a jar into her hands is the reason there's a next batch. It's slower than an ad budget. It's also the only kind of growth that holds."
+            "body": "We don't buy our way into a room. We grow the way a family does. One person tells another, and the circle widens. Every woman who found us because a friend pressed a jar into her hands is the reason there's a next batch. It's slower than an ad budget. It's also the only kind of growth that holds."
           }
         },
         "quality": {
           "type": "value",
           "settings": {
             "title": "Quality, with no asterisk",
-            "body": "Third-party tested every batch — heavy metals, microbials, identity, potency — before it's sealed. No proprietary blends hiding a dusting of the active ingredient. No fillers we couldn't defend out loud. If a batch doesn't pass, it doesn't ship. That has cost us money. It has never cost us a decision."
+            "body": "Third-party tested every batch for heavy metals, microbials, identity, and potency before it's sealed. No proprietary blends hiding a dusting of the active ingredient. No fillers we couldn't defend out loud. If a batch doesn't pass, it doesn't ship. That has cost us money. It has never cost us a decision."
           }
         },
         "service": {
           "type": "value",
           "settings": {
             "title": "Service like you're family",
-            "body": "A real person reads every message that comes in, and most days it's one of us. If something arrives wrong, we make it right — no form, no fight. And if you ask which product you need, we'll happily tell you it's none of them when that's the honest answer."
+            "body": "A real person reads every message that comes in, and most days it's one of us. If something arrives wrong, we make it right. No form, no fight. And if you ask which product you need, we'll happily tell you it's none of them when that's the honest answer."
           }
         }
       },
@@ -75,36 +75,17 @@
         "padding_bottom": 96
       }
     },
-    "testing": {
-      "type": "testing-strip",
-      "blocks": {
-        "metals": { "type": "item", "settings": { "label": "Heavy metals" } },
-        "microbials": { "type": "item", "settings": { "label": "Microbials" } },
-        "identity": { "type": "item", "settings": { "label": "Identity" } },
-        "potency": { "type": "item", "settings": { "label": "Potency" } }
-      },
-      "block_order": ["metals", "microbials", "identity", "potency"],
-      "settings": {
-        "heading": "Third-party tested every batch",
-        "heading_size": 22,
-        "heading_kerning": 0,
-        "item_size": 13,
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "heading_margin_bottom": 16
-      }
-    },
     "no-social": {
       "type": "about-chapter",
       "settings": {
         "kicker": "Where you won't find us",
         "headline": "We don't do social media. We do the product.",
-        "body": "<p>There's no OLNIAN feed to scroll. No posting calendar, no trend-chasing, nobody on payroll whose full-time job is being interesting online.</p><p>It isn't a judgment on anyone else's business — it's a decision about ours. Every hour we don't spend making content is an hour that goes into sourcing, testing, and the batch shipping next week. That's where we'd rather your money went, too.</p>",
+        "body": "<p>There's no OLNIAN feed to scroll. No posting calendar, no trend-chasing, nobody on payroll whose full-time job is being interesting online.</p><p>It isn't a judgment on anyone else's business. It's a decision about ours. Every hour we don't spend making content is an hour that goes into sourcing, testing, and the batch shipping next week. That's where we'd rather your money went, too.</p>",
         "quote": "The product is the marketing.",
         "quote_attribution": "How we decide where the money goes.",
         "photo_caption": "",
         "photo_alt": "OLNIAN powder being weighed and packed",
-        "photo_label": "The work — sourcing, testing, packing a batch",
+        "photo_label": "The work: sourcing, testing, packing a batch",
         "photo_ratio": "3 / 4",
         "photo_shape": "rounded",
         "photo_position": "right",
@@ -125,10 +106,10 @@
       "settings": {
         "kicker": "The people who speak for us",
         "headline": "We'd rather be represented than advertised.",
-        "body": "<p>Instead of a brand feed, we work with a small number of creators who have built something real: an audience that trusts them because they earned it with careful, well-researched work. Not the loudest accounts — the ones worth reading twice.</p><p>We don't hand them a script. We hand them the product, the batch test results, and our phone number. What they say after that is theirs. They're the ones showing what a healthy, purposeful life actually looks like day to day, and they do it far better than a brand account ever could.</p>",
+        "body": "<p>Instead of a brand feed, we work with a small number of creators who have built something real: an audience that trusts them because they earned it with careful, well-researched work. Not the loudest accounts. The ones worth reading twice.</p><p>We don't hand them a script. We hand them the product, the batch test results, and our phone number. What they say after that is theirs. They're the ones showing what a healthy, purposeful life actually looks like day to day, and they do it far better than a brand account ever could.</p>",
         "cta_label": "Apply to work with us",
         "cta_link": "/pages/collab",
-        "footnote": "Building something thoughtful and think we'd fit? Tell us about it — we read every one.",
+        "footnote": "Building something thoughtful and think we'd fit? Tell us about it. We read every one.",
         "scheme": "cream",
         "padding_top": 96,
         "padding_bottom": 96
@@ -139,7 +120,7 @@
       "settings": {
         "kicker": "Pure supplements for her",
         "headline": "Made by a family. Named for the woman who set the standard.",
-        "body": "Every jar comes out of the same small operation — sourced carefully, tested every batch, sealed, and sent with a real person on the other end of it.",
+        "body": "Every jar comes out of the same small operation: sourced carefully, tested every batch, sealed, and sent with a real person on the other end of it.",
         "cta_label": "Shop the line",
         "cta_link": "/collections/all-products",
         "alignment": "center",
@@ -149,5 +130,5 @@
       }
     }
   },
-  "order": ["hero", "namesake", "values", "testing", "no-social", "creators", "closing"]
+  "order": ["hero", "namesake", "values", "no-social", "creators", "closing"]
 }
