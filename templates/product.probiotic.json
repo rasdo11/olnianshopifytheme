@@ -136,6 +136,19 @@
         "bundle_upsell_link": ""
       }
     },
+    "pdp_more_products_QKeXWF": {
+      "type": "pdp-more-products",
+      "name": "PDP - more products",
+      "settings": {
+        "kicker": "The rest of the line",
+        "heading": "More from OLNIAN",
+        "view_all_label": "Shop all",
+        "view_all_link": "",
+        "collection": "all-products",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
     "science": {
       "type": "product-science",
       "blocks": {
@@ -299,6 +312,7 @@
   },
   "order": [
     "main",
+    "pdp_more_products_QKeXWF",
     "science",
     "faq",
     "testing-strip"
