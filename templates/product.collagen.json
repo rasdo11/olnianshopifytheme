@@ -97,7 +97,7 @@
         "show_rating": false,
         "rating_value": 46,
         "rating_count": "",
-        "tagline": "Grass-fed, hydrolyzed collagen types 1 and 3 — unflavored, dissolves clean, one scoop a day for skin, hair, joints, and connective tissue.",
+        "tagline": "Grass-fed, hydrolyzed collagen types 1 and 3. It's unflavored and dissolves clean with one scoop a day for skin, hair, joints, and connective tissue.",
         "benefits_heading": "Benefits",
         "supports_heading": "What it supports",
         "trust_line": "Third-party tested · Free shipping over $50 · Cancel anytime",
@@ -133,6 +133,19 @@
         "bundle_compare_price": "",
         "bundle_image_filename": "",
         "bundle_upsell_link": ""
+      }
+    },
+    "pdp_more_products_bqx6fc": {
+      "type": "pdp-more-products",
+      "name": "PDP - more products",
+      "settings": {
+        "kicker": "The rest of the line",
+        "heading": "More from OLNIAN",
+        "view_all_label": "Shop all",
+        "view_all_link": "",
+        "collection": "all-products",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "science": {
@@ -243,7 +256,7 @@
         "editorial_text": "Simple enough to make part of real life.",
         "contact_label": "Still curious? Talk to us →",
         "contact_link": "",
-        "color_palette": "soft-rose",
+        "color_palette": "cocoa-citron",
         "headline_size": 40,
         "padding_top": 80,
         "padding_bottom": 80,
@@ -253,6 +266,7 @@
   },
   "order": [
     "main",
+    "pdp_more_products_bqx6fc",
     "science",
     "faq"
   ]
