@@ -1,0 +1,57 @@
+{%- comment -%}
+  About-page photo frame.
+
+  Renders the picked image, or a branded stand-in when the slot is still empty.
+
+  The dashed "add a photo" affordance is deliberately limited to `request.design_mode`, so
+  a customer never sees an editor empty-state on the published page — they get a soft
+  blush/flamingo panel that reads as a design element instead. That means the About page
+  can go live before every family photo has been scanned, and each slot fills in as the
+  photos arrive without touching the layout.
+
+  Accepts:
+    image    - image_picker value (optional)
+    alt      - alt text override; falls back to the image's own alt, then `label`
+    caption  - figcaption text (optional)
+    ratio    - CSS aspect-ratio, e.g. '4 / 5'
+    shape    - 'rounded' | 'arch' | 'square'
+    label    - what belongs in this slot; shown to the merchant in the editor
+    loading  - 'lazy' (default) or 'eager' for above-the-fold slots
+{%- endcomment -%}
+
+{%- liquid
+  assign photo_ratio = ratio | default: '4 / 5'
+  assign photo_shape = shape | default: 'rounded'
+  assign photo_label = label | default: 'Photo'
+  assign photo_loading = loading | default: 'lazy'
+  assign photo_alt = alt | default: image.alt | default: photo_label
+-%}
+
+<figure class="about-photo about-photo--{{ photo_shape }}" style="--about-photo-ratio: {{ photo_ratio }};">
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: 1600
+      | image_tag:
+        loading: photo_loading,
+        sizes: '(max-width: 900px) 92vw, 46vw',
+        widths: '400, 600, 800, 1000, 1200, 1600',
+        alt: photo_alt,
+        class: 'about-photo__img'
+    }}
+  {%- else -%}
+    <div class="about-photo__empty" {% unless request.design_mode %}aria-hidden="true"{% endunless %}>
+      <span class="about-photo__monogram" aria-hidden="true">O</span>
+      {%- if request.design_mode -%}
+        <span class="about-photo__hint">
+          Add a photo
+          <em>{{ photo_label }}</em>
+        </span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if caption != blank -%}
+    <figcaption class="about-photo__caption">{{ caption }}</figcaption>
+  {%- endif -%}
+</figure>

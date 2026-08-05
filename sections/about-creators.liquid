@@ -1,0 +1,139 @@
+{%- comment -%}
+  "We'd rather be represented than advertised" — the creator partners section.
+
+  The copy and CTA always render. The portrait grid is gated on a creator actually being
+  named, so the published page never shows empty cards while the roster is still being
+  built; inside the theme editor every slot shows regardless, so the empty ones are
+  visible and fillable.
+{%- endcomment -%}
+
+{%- liquid
+  assign named_creators = 0
+  for block in section.blocks
+    if block.settings.name != blank
+      assign named_creators = named_creators | plus: 1
+    endif
+  endfor
+
+  assign show_creator_grid = false
+  if named_creators > 0 or request.design_mode
+    assign show_creator_grid = true
+  endif
+-%}
+
+<section
+  class="about-creators section--{{ section.settings.scheme | default: 'cream' }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+  "
+>
+  <div class="container">
+    <div class="about-creators__header">
+      {%- if section.settings.kicker != blank -%}
+        <p class="about-creators__kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+      {%- if section.settings.headline != blank -%}
+        <h2 class="about-creators__headline">{{ section.settings.headline }}</h2>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <div class="about-creators__body rte">{{ section.settings.body }}</div>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn btn--primary about-creators__cta" href="{{ section.settings.cta_link | default: '/pages/contact' }}">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if show_creator_grid and section.blocks.size > 0 -%}
+      <ul class="about-creators__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.name != blank or request.design_mode -%}
+            <li class="about-creators__card" {{ block.shopify_attributes }}>
+              {%- capture creator_slot_label -%}
+                {%- if block.settings.name != blank -%}{{ block.settings.name }}{%- else -%}Creator portrait {{ forloop.index }}{%- endif -%}
+              {%- endcapture -%}
+              {%- render 'about-photo',
+                image: block.settings.image,
+                alt: block.settings.name,
+                ratio: '1 / 1',
+                shape: 'rounded',
+                label: creator_slot_label
+              -%}
+              {%- if block.settings.name != blank -%}
+                <p class="about-creators__name">{{ block.settings.name }}</p>
+              {%- endif -%}
+              {%- if block.settings.line != blank -%}
+                <p class="about-creators__line">{{ block.settings.line }}</p>
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="about-creators__footnote">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About creators",
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "creator",
+      "name": "Creator",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Portrait" },
+        { "type": "text", "id": "name", "label": "Name", "info": "This card only appears on the live page once a name is filled in." },
+        { "type": "text", "id": "line", "label": "One-line description", "info": "What they write about, and why their audience trusts them." }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The people who speak for us" },
+    { "type": "textarea", "id": "headline", "label": "Headline", "default": "We'd rather be represented than advertised." },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Instead of a brand feed, we work with a small number of creators who have built something real: an audience that trusts them because they earned it with careful, well-researched work. Not the loudest accounts — the ones worth reading twice.</p><p>We don't hand them a script. We hand them the product, the batch test results, and our phone number. What they say after that is theirs.</p>"
+    },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Work with us" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "textarea", "id": "footnote", "label": "Footnote" },
+    { "type": "header", "content": "Spacing & color" },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Band color scheme",
+      "default": "cream",
+      "options": [
+        { "value": "blush", "label": "Blush (cream)" },
+        { "value": "cream", "label": "Warm white" },
+        { "value": "white", "label": "White" },
+        { "value": "flamingo", "label": "Flamingo (peach)" },
+        { "value": "peach", "label": "Soft peach" },
+        { "value": "gold-tint", "label": "Gold tint" },
+        { "value": "mint-tint", "label": "Mint tint" },
+        { "value": "espresso", "label": "Espresso (dark)" }
+      ]
+    },
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 96 }
+  ],
+  "presets": [
+    {
+      "name": "About creators",
+      "category": "About",
+      "blocks": [{ "type": "creator" }, { "type": "creator" }, { "type": "creator" }]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,142 @@
+{%- comment -%}
+  A single chapter of the About story: photo on one side, copy on the other, with an
+  optional pull quote. Designed to be used more than once down the page with the photo
+  side alternating, so the story reads as a sequence rather than a wall of text.
+{%- endcomment -%}
+
+<section
+  class="about-chapter section--{{ section.settings.scheme | default: 'white' }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+  "
+>
+  <div class="container about-chapter__grid about-chapter__grid--photo-{{ section.settings.photo_position }}">
+    <div class="about-chapter__media">
+      {%- render 'about-photo',
+        image: section.settings.photo,
+        caption: section.settings.photo_caption,
+        alt: section.settings.photo_alt,
+        ratio: section.settings.photo_ratio,
+        shape: section.settings.photo_shape,
+        label: section.settings.photo_label
+      -%}
+    </div>
+
+    <div class="about-chapter__copy">
+      {%- if section.settings.kicker != blank -%}
+        <p class="about-chapter__kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.headline != blank -%}
+        <h2 class="about-chapter__headline" style="font-size: clamp(32px, 5.4vw, {{ section.settings.headline_size }}px);">
+          {{ section.settings.headline | escape | newline_to_br }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.body != blank -%}
+        <div class="about-chapter__body rte">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.quote != blank -%}
+        <blockquote class="about-chapter__quote">
+          <p class="about-chapter__quote-text">{{ section.settings.quote }}</p>
+          {%- if section.settings.quote_attribution != blank -%}
+            <cite class="about-chapter__quote-attrib">{{ section.settings.quote_attribution }}</cite>
+          {%- endif -%}
+        </blockquote>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn btn--outline about-chapter__cta" href="{{ section.settings.cta_link | default: '/collections/all-products' }}">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About chapter",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Our namesake" },
+    { "type": "textarea", "id": "headline", "label": "Headline", "default": "Mamik Olnian" },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Mamik was the one everyone came to. A sore back, a long week, a new baby, bad news — somehow you ended up in her kitchen, and you left better than you arrived.</p><p>She never called any of it wellness. She called it feeding people properly and paying attention.</p>"
+    },
+    { "type": "header", "content": "Pull quote" },
+    { "type": "textarea", "id": "quote", "label": "Quote", "info": "Optional. If you have a line Mamik actually said, use it here in her words." },
+    { "type": "text", "id": "quote_attribution", "label": "Attribution" },
+    { "type": "header", "content": "Photo" },
+    { "type": "image_picker", "id": "photo", "label": "Photo", "info": "Until one is added, a soft branded panel holds the space on the live page." },
+    { "type": "text", "id": "photo_caption", "label": "Photo caption" },
+    { "type": "text", "id": "photo_alt", "label": "Photo alt text", "info": "Describes the photo for screen readers and when images fail to load." },
+    { "type": "text", "id": "photo_label", "label": "Editor slot note", "info": "Only shown to you inside the theme editor, to label what belongs in this slot.", "default": "Chapter photo" },
+    {
+      "type": "select",
+      "id": "photo_ratio",
+      "label": "Photo shape ratio",
+      "default": "4 / 5",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 5", "label": "Portrait" },
+        { "value": "3 / 4", "label": "Tall portrait" },
+        { "value": "3 / 2", "label": "Landscape" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "photo_shape",
+      "label": "Photo frame",
+      "default": "rounded",
+      "options": [
+        { "value": "rounded", "label": "Rounded" },
+        { "value": "arch", "label": "Soft arch" },
+        { "value": "square", "label": "Square" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "photo_position",
+      "label": "Photo position",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    { "type": "header", "content": "Call to action" },
+    { "type": "text", "id": "cta_label", "label": "CTA label" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "headline_size", "label": "Headline maximum size (px)", "min": 28, "max": 88, "step": 2, "default": 56 },
+    { "type": "header", "content": "Spacing & color" },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Band color scheme",
+      "default": "white",
+      "options": [
+        { "value": "blush", "label": "Blush (cream)" },
+        { "value": "cream", "label": "Warm white" },
+        { "value": "white", "label": "White" },
+        { "value": "flamingo", "label": "Flamingo (peach)" },
+        { "value": "peach", "label": "Soft peach" },
+        { "value": "gold-tint", "label": "Gold tint" },
+        { "value": "mint-tint", "label": "Mint tint" },
+        { "value": "espresso", "label": "Espresso (dark)" }
+      ]
+    },
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 96 }
+  ],
+  "presets": [{ "name": "About chapter", "category": "About" }]
+}
+{% endschema %}

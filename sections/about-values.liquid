@@ -1,0 +1,93 @@
+{%- comment -%}
+  The three things OLNIAN grows on: community, quality, service.
+  Numbering is derived from loop position so reordering the blocks in the editor
+  renumbers them automatically — there's no number field to keep in sync.
+{%- endcomment -%}
+
+<section
+  class="about-values section--{{ section.settings.scheme | default: 'blush' }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+  "
+>
+  <div class="container">
+    <div class="about-values__header">
+      {%- if section.settings.kicker != blank -%}
+        <p class="about-values__kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+      {%- if section.settings.headline != blank -%}
+        <h2 class="about-values__headline">{{ section.settings.headline }}</h2>
+      {%- endif -%}
+      {%- if section.settings.intro != blank -%}
+        <p class="about-values__intro">{{ section.settings.intro }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ol class="about-values__grid">
+        {%- for block in section.blocks -%}
+          <li class="about-values__card" {{ block.shopify_attributes }}>
+            <span class="about-values__num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            {%- if block.settings.title != blank -%}
+              <h3 class="about-values__card-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.body != blank -%}
+              <p class="about-values__card-body">{{ block.settings.body }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ol>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About values",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Growth through community" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "We grow the way a family does — one person tells another, and the circle widens." }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "What we believe" },
+    { "type": "textarea", "id": "headline", "label": "Headline", "default": "Three things we grow on." },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "We're a small company on purpose. These are the only three levers we pull." },
+    { "type": "header", "content": "Spacing & color" },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Band color scheme",
+      "default": "blush",
+      "options": [
+        { "value": "blush", "label": "Blush (cream)" },
+        { "value": "cream", "label": "Warm white" },
+        { "value": "white", "label": "White" },
+        { "value": "flamingo", "label": "Flamingo (peach)" },
+        { "value": "peach", "label": "Soft peach" },
+        { "value": "gold-tint", "label": "Gold tint" },
+        { "value": "mint-tint", "label": "Mint tint" },
+        { "value": "espresso", "label": "Espresso (dark)" }
+      ]
+    },
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 96 }
+  ],
+  "presets": [
+    {
+      "name": "About values",
+      "category": "About",
+      "blocks": [{ "type": "value" }, { "type": "value" }, { "type": "value" }]
+    }
+  ]
+}
+{% endschema %}

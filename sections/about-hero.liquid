@@ -1,0 +1,138 @@
+{%- comment -%}
+  About page hero. Copy on one side, the family portrait on the other.
+  The portrait loads eagerly — it's the only above-the-fold image on the page.
+{%- endcomment -%}
+
+<section
+  class="about-hero page-enter section--{{ section.settings.scheme | default: 'blush' }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.background != blank %}background: {{ section.settings.background }};{% endif %}
+  "
+>
+  <div class="container about-hero__grid about-hero__grid--photo-{{ section.settings.photo_position }}">
+    <div class="about-hero__copy">
+      {%- if section.settings.kicker != blank -%}
+        <p class="about-hero__kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.headline != blank -%}
+        <h1 class="about-hero__headline" style="font-size: clamp(38px, 6.2vw, {{ section.settings.headline_size }}px);">
+          {{ section.settings.headline | escape | newline_to_br }}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.body != blank -%}
+        <div class="about-hero__body rte">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.signature != blank -%}
+        <p class="about-hero__signature">{{ section.settings.signature }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn btn--primary about-hero__cta" href="{{ section.settings.cta_link | default: '/collections/all-products' }}">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="about-hero__media">
+      {%- render 'about-photo',
+        image: section.settings.photo,
+        caption: section.settings.photo_caption,
+        alt: section.settings.photo_alt,
+        ratio: section.settings.photo_ratio,
+        shape: section.settings.photo_shape,
+        label: 'Hero portrait — Mamik, or the family together',
+        loading: 'eager'
+      -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About hero",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Family owned · Named for our grandmother" },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "We named the company after the woman who taught us how to take care of people."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>OLNIAN is a family business. The name is hers — Mamik Olnian, our grandmother. Every formula we make still gets held to the standard she set: if you wouldn't hand it to someone you love, it doesn't leave the kitchen.</p>"
+    },
+    { "type": "text", "id": "signature", "label": "Signature line", "default": "— The Olnian family" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop the line" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "header", "content": "Photo" },
+    { "type": "image_picker", "id": "photo", "label": "Hero photo", "info": "A portrait of Mamik, or the family together. Until one is added, a soft branded panel holds the space on the live page." },
+    { "type": "text", "id": "photo_caption", "label": "Photo caption", "info": "Optional. Add the year and place once you pick the photo — e.g. \"Mamik Olnian, 1978\"." },
+    { "type": "text", "id": "photo_alt", "label": "Photo alt text", "info": "Describes the photo for screen readers and when images fail to load." },
+    {
+      "type": "select",
+      "id": "photo_ratio",
+      "label": "Photo shape ratio",
+      "default": "4 / 5",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 5", "label": "Portrait" },
+        { "value": "3 / 4", "label": "Tall portrait" },
+        { "value": "3 / 2", "label": "Landscape" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "photo_shape",
+      "label": "Photo frame",
+      "default": "arch",
+      "options": [
+        { "value": "rounded", "label": "Rounded" },
+        { "value": "arch", "label": "Soft arch" },
+        { "value": "square", "label": "Square" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "photo_position",
+      "label": "Photo position",
+      "default": "right",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "headline_size", "label": "Headline maximum size (px)", "min": 40, "max": 96, "step": 2, "default": 68 },
+    { "type": "header", "content": "Spacing & color" },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Band color scheme",
+      "default": "blush",
+      "options": [
+        { "value": "blush", "label": "Blush (cream)" },
+        { "value": "cream", "label": "Warm white" },
+        { "value": "white", "label": "White" },
+        { "value": "flamingo", "label": "Flamingo (peach)" },
+        { "value": "peach", "label": "Soft peach" },
+        { "value": "gold-tint", "label": "Gold tint" },
+        { "value": "mint-tint", "label": "Mint tint" },
+        { "value": "espresso", "label": "Espresso (dark)" }
+      ]
+    },
+    { "type": "color", "id": "background", "label": "Custom background (overrides scheme)" },
+    { "type": "range", "id": "padding_top", "label": "Padding top (px)", "min": 0, "max": 160, "step": 8, "default": 88 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom (px)", "min": 0, "max": 160, "step": 8, "default": 96 }
+  ],
+  "presets": [{ "name": "About hero", "category": "About" }]
+}
+{% endschema %}
