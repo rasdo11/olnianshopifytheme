@@ -2182,7 +2182,12 @@ body.nav-open { overflow: hidden; }
 .category-feature__media { overflow: hidden; background: rgba(255,255,255,.35); box-shadow: 0 24px 70px rgba(46,18,6,.08); width: 100%; max-width: var(--category-media-max-width, 100%); justify-self: center; }
 .category-feature__media--soft { border-radius: 46% 46% var(--card-radius,24px) var(--card-radius,24px); }
 .category-feature__media--square { border-radius: 0; }
-.category-feature__media img, .category-feature__media video { width: 100%; aspect-ratio: var(--category-media-ratio, 4 / 5); object-fit: var(--category-media-fit, cover); object-position: var(--category-media-position, center center); }
+/* height:auto is required, not cosmetic: image_tag emits width/height attributes that the
+   UA maps to the width/height properties. `width: 100%` overrides the width hint, but an
+   unopposed height hint keeps the image at its full intrinsic pixel height and defeats
+   aspect-ratio. No visual change today, since both live instances use "contain" (handled
+   on the next line) — this stops the "Fill/crop" option from rendering a stretched image. */
+.category-feature__media img, .category-feature__media video { width: 100%; height: auto; aspect-ratio: var(--category-media-ratio, 4 / 5); object-fit: var(--category-media-fit, cover); object-position: var(--category-media-position, center center); }
 .category-feature__media--fit-contain { background: transparent; }
 .category-feature__media--fit-contain img, .category-feature__media--fit-contain video { aspect-ratio: auto; height: auto; object-fit: contain; }
 .category-feature__headline { font-size: clamp(42px, 6.8vw, 88px); line-height: .94; letter-spacing: -.045em; max-width: 760px; }
@@ -3290,6 +3295,12 @@ body.nav-open .email-popup.is-ready .email-popup__tab {
 .about-photo__img,
 .about-photo__empty {
   width: 100%;
+  /* height:auto is load-bearing, not tidying. image_tag emits width/height attributes,
+     which the UA maps to the width/height properties as presentational hints. The author
+     `width: 100%` overrides the width hint, but nothing was overriding the height hint, so
+     the image kept its full intrinsic pixel height (a 1200x1600 upload rendered 507x1600)
+     and aspect-ratio was ignored, since it only applies when one dimension is auto. */
+  height: auto;
   aspect-ratio: var(--about-photo-ratio, 4 / 5);
   object-fit: cover;
   border-radius: var(--card-radius, 24px);
