@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -9,13 +18,15 @@
         "signature": "The Olnian family",
         "cta_label": "Shop the line",
         "cta_link": "/collections/all-products",
-        "photo_caption": "Mamik Olnian",
+        "photo": "shopify://shop_images/mamik-2.png",
+        "photo_caption": "The Olnian Gals",
         "photo_alt": "Mamik Olnian, the grandmother OLNIAN is named for",
         "photo_ratio": "4 / 5",
         "photo_shape": "arch",
         "photo_position": "right",
         "headline_size": 68,
         "scheme": "blush",
+        "background": "",
         "padding_top": 88,
         "padding_bottom": 96
       }
@@ -28,14 +39,18 @@
         "body": "<p>Mamik was the one everyone came to. A sore back, a long week, a new baby, bad news. Somehow you ended up in her kitchen, and you left better than you arrived. She never called any of it wellness. She called it feeding people properly and paying attention.</p><p>She was exacting about ingredients in a way that seemed excessive right up until you tasted the difference. Nothing cheap. Nothing she couldn't name. Nothing bought only because it happened to be on sale that week. She would rather make less of something than make it with the wrong thing in it.</p><p>We started OLNIAN because that standard wasn't anywhere on the supplement shelf. Beautiful labels, ingredient lists as long as your arm, and very little you'd actually want to hand to someone you love. So we built the company she would have been willing to put her name on, which, in the end, is exactly what we did.</p>",
         "quote": "Make less of it, or make it right.",
         "quote_attribution": "The standard every OLNIAN formula still gets held to.",
-        "photo_caption": "Mamik in the kitchen",
+        "photo": "shopify://shop_images/mamik-1.png",
+        "photo_caption": "Mamik in the old country",
         "photo_alt": "Mamik Olnian in her kitchen",
         "photo_label": "Mamik: the portrait everyone in the family knows",
         "photo_ratio": "4 / 5",
         "photo_shape": "rounded",
         "photo_position": "left",
+        "cta_label": "",
+        "cta_link": "",
         "headline_size": 56,
         "scheme": "white",
+        "background": "",
         "padding_top": 96,
         "padding_bottom": 96
       }
@@ -65,12 +80,17 @@
           }
         }
       },
-      "block_order": ["community", "quality", "service"],
+      "block_order": [
+        "community",
+        "quality",
+        "service"
+      ],
       "settings": {
         "kicker": "What we believe",
         "headline": "Three things we grow on.",
         "intro": "We're a small company on purpose. These are the only three levers we pull.",
         "scheme": "gold-tint",
+        "background": "",
         "padding_top": 96,
         "padding_bottom": 96
       }
@@ -83,14 +103,18 @@
         "body": "<p>There's no OLNIAN feed to scroll. No posting calendar, no trend-chasing, nobody on payroll whose full-time job is being interesting online.</p><p>It isn't a judgment on anyone else's business. It's a decision about ours. Every hour we don't spend making content is an hour that goes into sourcing, testing, and the batch shipping next week. That's where we'd rather your money went, too.</p>",
         "quote": "The product is the marketing.",
         "quote_attribution": "How we decide where the money goes.",
+        "photo": "shopify://shop_images/creatine_graphic2_7605bbcc-c638-42d2-8f89-cd610e0709e8.png",
         "photo_caption": "",
         "photo_alt": "OLNIAN powder being weighed and packed",
         "photo_label": "The work: sourcing, testing, packing a batch",
         "photo_ratio": "3 / 4",
         "photo_shape": "rounded",
         "photo_position": "right",
+        "cta_label": "",
+        "cta_link": "",
         "headline_size": 56,
         "scheme": "flamingo",
+        "background": "",
         "padding_top": 96,
         "padding_bottom": 96
       }
@@ -98,11 +122,36 @@
     "creators": {
       "type": "about-creators",
       "blocks": {
-        "creator-1": { "type": "creator", "settings": {} },
-        "creator-2": { "type": "creator", "settings": {} },
-        "creator-3": { "type": "creator", "settings": {} }
+        "creator-1": {
+          "type": "creator",
+          "settings": {
+            "image": "shopify://shop_images/creatine_new15.png",
+            "name": "",
+            "line": ""
+          }
+        },
+        "creator-2": {
+          "type": "creator",
+          "settings": {
+            "image": "shopify://shop_images/HydrationCreatine-pdp-11.png",
+            "name": "",
+            "line": ""
+          }
+        },
+        "creator-3": {
+          "type": "creator",
+          "settings": {
+            "image": "shopify://shop_images/NAD-pdp-9.png",
+            "name": "",
+            "line": ""
+          }
+        }
       },
-      "block_order": ["creator-1", "creator-2", "creator-3"],
+      "block_order": [
+        "creator-1",
+        "creator-2",
+        "creator-3"
+      ],
       "settings": {
         "kicker": "The people who speak for us",
         "headline": "We'd rather be represented than advertised.",
@@ -111,6 +160,7 @@
         "cta_link": "/pages/collab",
         "footnote": "Building something thoughtful and think we'd fit? Tell us about it. We read every one.",
         "scheme": "cream",
+        "background": "",
         "padding_top": 96,
         "padding_bottom": 96
       }
@@ -125,10 +175,18 @@
         "cta_link": "/collections/all-products",
         "alignment": "center",
         "scheme": "espresso",
+        "background": "",
         "padding_top": 96,
         "padding_bottom": 104
       }
     }
   },
-  "order": ["hero", "namesake", "values", "no-social", "creators", "closing"]
+  "order": [
+    "hero",
+    "namesake",
+    "values",
+    "no-social",
+    "creators",
+    "closing"
+  ]
 }
