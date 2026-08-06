@@ -15,7 +15,7 @@
         "kicker": "Family owned · Named for our grandmother",
         "headline": "We named the company after the woman who taught us how to take care of people.",
         "body": "<p>OLNIAN is a family business. The name is hers: Mamik Olnian, our grandmother. Every formula we make still gets held to the standard she set. If you wouldn't hand it to someone you love, it doesn't leave the kitchen.</p>",
-        "signature": "The Olnian family",
+        "signature": "The Olnian family tree",
         "cta_label": "Shop the line",
         "cta_link": "/collections/all-products",
         "photo": "shopify://shop_images/about-fam-2.png",
@@ -24,11 +24,11 @@
         "photo_ratio": "4 / 5",
         "photo_shape": "arch",
         "photo_position": "right",
-        "headline_size": 68,
+        "headline_size": 50,
         "scheme": "blush",
         "background": "",
-        "padding_top": 88,
-        "padding_bottom": 96
+        "padding_top": 64,
+        "padding_bottom": 72
       }
     },
     "namesake": {
