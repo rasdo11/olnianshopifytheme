@@ -40,18 +40,19 @@
             "link": "/collections/all-products"
           }
         },
+        "m4": {
+          "type": "menu_link",
+          "disabled": true,
+          "settings": {
+            "label": "About",
+            "link": "/pages/about-us"
+          }
+        },
         "m3": {
           "type": "menu_link",
           "settings": {
             "label": "Contact",
             "link": "/pages/contact"
-          }
-        },
-        "m4": {
-          "type": "menu_link",
-          "settings": {
-            "label": "About",
-            "link": "/pages/about-us"
           }
         }
       },
