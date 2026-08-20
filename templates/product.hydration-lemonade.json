@@ -7,14 +7,14 @@
           "type": "benefit",
           "settings": {
             "icon": "○",
-            "text": "Four electrolytes to put back what you sweat out: sodium, potassium, magnesium, and calcium"
+            "text": "Four electrolytes to put back what you sweat out: 200 mg potassium, 100 mg sodium, plus calcium and magnesium"
           }
         },
         "b2": {
           "type": "benefit",
           "settings": {
             "icon": "○",
-            "text": "Six B vitamins for energy metabolism, including methylated B12 and folate"
+            "text": "Seven B vitamins, each at a third of your daily value, including methylcobalamin B12"
           }
         },
         "b3": {
@@ -28,7 +28,7 @@
           "type": "benefit",
           "settings": {
             "icon": "○",
-            "text": "Zero sugar and keto-friendly, in a lemonade that still tastes like lemonade"
+            "text": "Ten calories a scoop and keto-friendly, in a lemonade that still tastes like lemonade"
           }
         },
         "b5": {
@@ -40,26 +40,47 @@
         },
         "s1": {
           "type": "support_item",
-          "settings": { "text": "Fluid and electrolyte balance during and after sweat loss" }
+          "settings": {
+            "text": "Fluid and electrolyte balance during and after sweat loss"
+          }
         },
         "s2": {
           "type": "support_item",
-          "settings": { "text": "Energy metabolism through B1, B2, B3, B6, B9, and B12" }
+          "settings": {
+            "text": "Energy metabolism through B1, B2, B3, B5, B6, B9, and B12"
+          }
         },
         "s3": {
           "type": "support_item",
-          "settings": { "text": "Normal muscle function from magnesium, potassium, and calcium" }
+          "settings": {
+            "text": "Normal muscle function from magnesium, potassium, and calcium"
+          }
         },
         "s4": {
           "type": "support_item",
-          "settings": { "text": "Focus and stamina through long days, without a stimulant" }
+          "settings": {
+            "text": "Focus and stamina through long days, without a stimulant"
+          }
         },
         "s5": {
           "type": "support_item",
-          "settings": { "text": "Everyday hydration, not only on training days" }
+          "settings": {
+            "text": "Everyday hydration, not only on training days"
+          }
         }
       },
-      "block_order": ["b1", "b2", "b3", "b4", "b5", "s1", "s2", "s3", "s4", "s5"],
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
       "settings": {
         "background_image": "shopify://shop_images/background1.png",
         "background_image_size": "cover",
@@ -68,10 +89,10 @@
         "show_rating": false,
         "rating_value": 46,
         "rating_count": "",
-        "tagline": "Four electrolytes and six B vitamins in one lemonade scoop. Caffeine-free and sugar-free, for training days, desk days, and every dehydrated afternoon in between.",
+        "tagline": "Four electrolytes and seven B vitamins in one lemonade scoop. Caffeine-free and ten calories, for training days, desk days, and every dehydrated afternoon in between.",
         "benefits_heading": "Benefits",
         "supports_heading": "What it supports",
-        "trust_line": "Caffeine-free · Free shipping over $50 · Cancel anytime",
+        "trust_line": "Caffeine-free · 30 servings · Free shipping over $50 · Cancel anytime",
         "atc_label": "Start Now",
         "show_dynamic_checkout": true,
         "show_subscription_card": true,
@@ -109,14 +130,57 @@
     "more-products": {
       "type": "pdp-more-products",
       "blocks": {
-        "p1": { "type": "product", "settings": { "product": "creatine-monohydrate", "label": "Best seller" } },
-        "p2": { "type": "product", "settings": { "product": "creatine-hydration-powder", "label": "Training days" } },
-        "p3": { "type": "product", "settings": { "product": "colostrum-powder", "label": "" } },
-        "p4": { "type": "product", "settings": { "product": "magnesium-glycinate", "label": "" } },
-        "p5": { "type": "product", "settings": { "product": "grass-fed-hydrolyzed-collagen-peptides", "label": "" } },
-        "p6": { "type": "product", "settings": { "product": "probiotic-40-billion-with-prebiotics", "label": "" } }
+        "p1": {
+          "type": "product",
+          "settings": {
+            "product": "creatine-monohydrate",
+            "label": "Best seller"
+          }
+        },
+        "p2": {
+          "type": "product",
+          "settings": {
+            "product": "creatine-hydration-powder",
+            "label": "Training days"
+          }
+        },
+        "p3": {
+          "type": "product",
+          "settings": {
+            "product": "colostrum-powder",
+            "label": ""
+          }
+        },
+        "p4": {
+          "type": "product",
+          "settings": {
+            "product": "magnesium-glycinate",
+            "label": ""
+          }
+        },
+        "p5": {
+          "type": "product",
+          "settings": {
+            "product": "grass-fed-hydrolyzed-collagen-peptides",
+            "label": ""
+          }
+        },
+        "p6": {
+          "type": "product",
+          "settings": {
+            "product": "probiotic-40-billion-with-prebiotics",
+            "label": ""
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
       "settings": {
         "kicker": "The rest of the line",
         "heading": "More from OLNIAN",
@@ -134,32 +198,36 @@
           "type": "stat",
           "settings": {
             "number": "4",
-            "label": "Electrolytes: sodium, potassium, magnesium, and calcium",
+            "label": "Electrolytes per scoop: potassium, sodium, calcium, and magnesium",
             "citation": ""
           }
         },
         "st2": {
           "type": "stat",
           "settings": {
-            "number": "6",
-            "label": "B vitamins, including methylated B12 and folate",
+            "number": "7",
+            "label": "B vitamins, each at 33% of the daily value",
             "citation": ""
           }
         },
         "st3": {
           "type": "stat",
           "settings": {
-            "number": "0",
-            "label": "Grams of sugar, and no caffeine",
+            "number": "10",
+            "label": "Calories a scoop, and no caffeine",
             "citation": ""
           }
         }
       },
-      "block_order": ["st1", "st2", "st3"],
+      "block_order": [
+        "st1",
+        "st2",
+        "st3"
+      ],
       "settings": {
         "kicker": "The formula",
         "headline": "Hydration that carries its own energy.",
-        "body": "Sodium, potassium, magnesium, and calcium citrate replace the minerals you lose through sweat. A full B-complex, including methylated B12 and P5P vitamin B6, supports the way your body turns food into usable energy. No caffeine, so it hydrates without borrowing against your evening.",
+        "body": "Potassium at 200 mg and sodium at 100 mg, plus calcium and magnesium citrate, replace the minerals you lose through sweat. Seven B vitamins, each at a third of your daily value and led by methylcobalamin B12, support the way your body turns food into usable energy. Ten calories a scoop and no caffeine, so it hydrates without borrowing against your evening.",
         "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
         "image": "shopify://shop_images/modelgroup_a2.png",
         "headline_size": 48,
@@ -189,14 +257,14 @@
           "type": "item",
           "settings": {
             "question": "How much water do I mix it with?",
-            "answer": "One scoop into 14 to 20 ounces of water, adjusted to taste. Two scoops go into 28 to 40 ounces. Keep it under five scoops in any 24 hour period."
+            "answer": "One scoop into 14 to 20 ounces of water, adjusted to taste. Two scoops go into 28 to 40 ounces. Keep it under five scoops in any 24 hour period. Each jar holds 30 scoops, so a once-a-day habit lasts a month."
           }
         },
         "q4": {
           "type": "item",
           "settings": {
             "question": "Is it really sugar-free?",
-            "answer": "Yes, there is no sugar in it. The sweetness comes from sucralose and the taste from a natural and artificial lemonade flavor blend, which is what keeps it keto-friendly and light. The full ingredient list is on this page, and we would rather you read it than take our word for it."
+            "answer": "Yes, there is no sugar in it. A scoop is 10 calories with 2 g of carbohydrate, and that carbohydrate is polydextrose. The sweetness comes from sucralose, the taste from a natural and artificial lemonade flavor blend, and the color from beta carotene. The full panel is on this page, and we would rather you read it than take our word for it."
           }
         },
         "q5": {
@@ -214,7 +282,14 @@
           }
         }
       },
-      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
       "settings": {
         "kicker": "Questions",
         "headline": "Straight answers.",
@@ -232,5 +307,10 @@
       }
     }
   },
-  "order": ["main", "more-products", "science", "faq"]
+  "order": [
+    "main",
+    "more-products",
+    "science",
+    "faq"
+  ]
 }
