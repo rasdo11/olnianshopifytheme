@@ -1,0 +1,236 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Four electrolytes to put back what you sweat out: sodium, potassium, magnesium, and calcium"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Six B vitamins for energy metabolism, including methylated B12 and folate"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Caffeine-free, so it will not stack on top of your coffee or follow you to bed"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Zero sugar and keto-friendly, in a lemonade that still tastes like lemonade"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "○",
+            "text": "Mixes into cold water without grit or clumping"
+          }
+        },
+        "s1": {
+          "type": "support_item",
+          "settings": { "text": "Fluid and electrolyte balance during and after sweat loss" }
+        },
+        "s2": {
+          "type": "support_item",
+          "settings": { "text": "Energy metabolism through B1, B2, B3, B6, B9, and B12" }
+        },
+        "s3": {
+          "type": "support_item",
+          "settings": { "text": "Normal muscle function from magnesium, potassium, and calcium" }
+        },
+        "s4": {
+          "type": "support_item",
+          "settings": { "text": "Focus and stamina through long days, without a stimulant" }
+        },
+        "s5": {
+          "type": "support_item",
+          "settings": { "text": "Everyday hydration, not only on training days" }
+        }
+      },
+      "block_order": ["b1", "b2", "b3", "b4", "b5", "s1", "s2", "s3", "s4", "s5"],
+      "settings": {
+        "background_image": "shopify://shop_images/background1.png",
+        "background_image_size": "cover",
+        "background_image_position": "center center",
+        "use_product_media": true,
+        "show_rating": false,
+        "rating_value": 46,
+        "rating_count": "",
+        "tagline": "Four electrolytes and six B vitamins in one lemonade scoop. Caffeine-free and sugar-free, for training days, desk days, and every dehydrated afternoon in between.",
+        "benefits_heading": "Benefits",
+        "supports_heading": "What it supports",
+        "trust_line": "Caffeine-free · Free shipping over $50 · Cancel anytime",
+        "atc_label": "Start Now",
+        "show_dynamic_checkout": true,
+        "show_subscription_card": true,
+        "show_expert_modal": true,
+        "expert_button_label": "Talk to an expert",
+        "show_founding_offer": false,
+        "show_gift_banner": false,
+        "gift_banner_text": "",
+        "order_rating": "1",
+        "order_tagline": "2",
+        "order_benefits": "3",
+        "order_ship": "4",
+        "order_buy": "5",
+        "order_pair": "6",
+        "order_details": "7",
+        "crosssell_product": "creatine-monohydrate",
+        "crosssell_eyebrow": "Pairs with",
+        "crosssell_note": "The daily creatine to go alongside it.",
+        "crosssell_image_position": "left",
+        "crosssell_button_position": "inline",
+        "crosssell_align": "center",
+        "crosssell_image_size": 56,
+        "crosssell_order_name": "1",
+        "crosssell_order_note": "2",
+        "crosssell_order_price": "3",
+        "show_bundle_upsell": false,
+        "bundle_upsell_headline": "",
+        "bundle_upsell_body": "",
+        "bundle_sale_price": "",
+        "bundle_compare_price": "",
+        "bundle_image_filename": "",
+        "bundle_upsell_link": ""
+      }
+    },
+    "more-products": {
+      "type": "pdp-more-products",
+      "blocks": {
+        "p1": { "type": "product", "settings": { "product": "creatine-monohydrate", "label": "Best seller" } },
+        "p2": { "type": "product", "settings": { "product": "creatine-hydration-powder", "label": "Training days" } },
+        "p3": { "type": "product", "settings": { "product": "colostrum-powder", "label": "" } },
+        "p4": { "type": "product", "settings": { "product": "magnesium-glycinate", "label": "" } },
+        "p5": { "type": "product", "settings": { "product": "grass-fed-hydrolyzed-collagen-peptides", "label": "" } },
+        "p6": { "type": "product", "settings": { "product": "probiotic-40-billion-with-prebiotics", "label": "" } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"],
+      "settings": {
+        "kicker": "The rest of the line",
+        "heading": "More from OLNIAN",
+        "view_all_label": "Shop all",
+        "view_all_link": "",
+        "collection": "",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "science": {
+      "type": "product-science",
+      "blocks": {
+        "st1": {
+          "type": "stat",
+          "settings": {
+            "number": "4",
+            "label": "Electrolytes: sodium, potassium, magnesium, and calcium",
+            "citation": ""
+          }
+        },
+        "st2": {
+          "type": "stat",
+          "settings": {
+            "number": "6",
+            "label": "B vitamins, including methylated B12 and folate",
+            "citation": ""
+          }
+        },
+        "st3": {
+          "type": "stat",
+          "settings": {
+            "number": "0",
+            "label": "Grams of sugar, and no caffeine",
+            "citation": ""
+          }
+        }
+      },
+      "block_order": ["st1", "st2", "st3"],
+      "settings": {
+        "kicker": "The formula",
+        "headline": "Hydration that carries its own energy.",
+        "body": "Sodium, potassium, magnesium, and calcium citrate replace the minerals you lose through sweat. A full B-complex, including methylated B12 and P5P vitamin B6, supports the way your body turns food into usable energy. No caffeine, so it hydrates without borrowing against your evening.",
+        "disclaimer": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "image": "shopify://shop_images/modelgroup_a2.png",
+        "headline_size": 48,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "background": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "How is this different from your Creatine Hydration Powder?",
+            "answer": "There is no creatine in this one. It is electrolytes and B vitamins, built for daily hydration rather than training performance. If you want creatine and electrolytes together in a single scoop, Creatine Hydration Powder is the one you want. Plenty of people keep both and use this on the days they are not training."
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "When should I drink it?",
+            "answer": "Whenever you need it. Morning, mid-afternoon, during a workout, or after a long flight. There is no caffeine in it, so having it late will not keep you up."
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "How much water do I mix it with?",
+            "answer": "One scoop into 14 to 20 ounces of water, adjusted to taste. Two scoops go into 28 to 40 ounces. Keep it under five scoops in any 24 hour period."
+          }
+        },
+        "q4": {
+          "type": "item",
+          "settings": {
+            "question": "Is it really sugar-free?",
+            "answer": "Yes, there is no sugar in it. The sweetness comes from sucralose and the taste from a natural and artificial lemonade flavor blend, which is what keeps it keto-friendly and light. The full ingredient list is on this page, and we would rather you read it than take our word for it."
+          }
+        },
+        "q5": {
+          "type": "item",
+          "settings": {
+            "question": "Can I take it alongside your other supplements?",
+            "answer": "Yes. It sits well with Premium Creatine, Colostrum, and Collagen. It does contain magnesium, so if you also take Magnesium Glycinate at night, keep an eye on your total for the day."
+          }
+        },
+        "q6": {
+          "type": "item",
+          "settings": {
+            "question": "Can I cancel my subscription?",
+            "answer": "Yes, anytime. No fees, no penalties, no runaround. Log into your account and cancel before your next billing date. If you have trouble, email us and we will handle it the same day."
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "settings": {
+        "kicker": "Questions",
+        "headline": "Straight answers.",
+        "highlight_phrase": "answers",
+        "intro_text": "The details worth knowing before this becomes a daily habit.",
+        "editorial_heading": "Clear enough to trust.",
+        "editorial_text": "Simple enough to make part of real life.",
+        "contact_label": "Still curious? Talk to us →",
+        "contact_link": "",
+        "color_palette": "lavender-veil",
+        "headline_size": 40,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background": ""
+      }
+    }
+  },
+  "order": ["main", "more-products", "science", "faq"]
+}
