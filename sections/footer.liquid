@@ -29,7 +29,7 @@
                   <li><a href="{{ link.url }}">{{ link.title }}</a></li>
                 {%- endfor -%}
               {%- else -%}
-                {%- case footer_heading | handleize -%}
+                {%- case footer_heading -%}
                   {%- when 'shop' -%}
                     <li><a href="/collections/all">Shop the Line</a></li>
                     <li><a href="/products/creatine">Creatine</a></li>
@@ -185,3 +185,13 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- case footer_heading | handleize -%}"
+  to: "{%- case footer_heading -%}"
+  position: 3196..3223
+{% endcomment %}

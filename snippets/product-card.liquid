@@ -68,7 +68,7 @@
         <div class="sku-card__swatch-track" data-swatch-track>
           {%- for value in swatch_option.values -%}
             {%- assign palette = 'var(--flamingo)' -%}
-            {%- case forloop.index0 | modulo: 4 -%}
+            {%- case forloop.index0 -%}
               {%- when 0 -%}{%- assign palette = 'var(--flamingo)' -%}
               {%- when 1 -%}{%- assign palette = 'var(--gold)' -%}
               {%- when 2 -%}{%- assign palette = 'var(--mint)' -%}
@@ -106,3 +106,13 @@
     {%- endif -%}
   </div>
 </div>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- case forloop.index0 | modulo: 4 -%}"
+  to: "{%- case forloop.index0 -%}"
+  position: 3714..3741
+{% endcomment %}
