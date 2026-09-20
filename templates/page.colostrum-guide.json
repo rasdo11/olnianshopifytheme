@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "main": {
+      "type": "colostrum-guide",
+      "settings": {
+        "product": "colostrum-powder",
+        "offer_image": "shopify://shop_images/olnian-product-v4.png",
+        "offer_enabled": true,
+        "discount_percent": 20,
+        "facts_image": "shopify://shop_images/olnian-colostrum-guide-facts.png",
+        "lifestyle_image": "shopify://shop_images/olnian-colostrum-routine-v2.png",
+        "digestion_image": "shopify://shop_images/olnian-digestion-v4.png",
+        "energy_image": "shopify://shop_images/olnian-energy-v5.png",
+        "immune_image": "shopify://shop_images/olnian-immune-v5.png",
+        "recovery_image": "shopify://shop_images/olnian-recovery-v4.png",
+        "discount_code": "CHATGPT20"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
