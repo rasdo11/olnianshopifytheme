@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="{{ settings.color_background }}">
+  {% if template.name == 'page' and template.suffix == 'colostrum-guide' %}<meta name="robots" content="noindex, follow">{% endif %}
   <link rel="canonical" href="{{ canonical_url }}">
   {%- if settings.favicon != blank -%}
     <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
@@ -66,15 +67,18 @@
 <body class="template-{{ template.name | handle }}" data-scroll-fade="{{ settings.enable_scroll_fade }}" data-scroll-parallax="{{ settings.enable_scroll_parallax }}" data-parallax-strength="{{ settings.parallax_strength | default: 15 }}">
   <a class="skip-to-content" href="#MainContent">Skip to content</a>
 
-  {% sections 'header-group' %}
+  {% unless template.name == 'page' and template.suffix == 'colostrum-guide' %}
+    {% sections 'header-group' %}
+  {% endunless %}
 
   <main id="MainContent" role="main">
     {{ content_for_layout }}
   </main>
 
-  {% sections 'footer-group' %}
-
-  {% section 'email-popup' %}
+  {% unless template.name == 'page' and template.suffix == 'colostrum-guide' %}
+    {% sections 'footer-group' %}
+    {% section 'email-popup' %}
+  {% endunless %}
 
   <div id="CartDrawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping cart">
     <div class="cart-drawer__overlay" data-cart-close></div>
