@@ -268,16 +268,28 @@
           {%- assign _is_gold_product = true -%}
         {%- endif -%}
         {%- comment -%}
-          The offer also closes on its own once the gift product sells out (the 200-set cap is
-          its inventory), so the page never promises a gift the cart can't add.
+          Gift variant for the founding offer. The gift product is UNLISTED, and all_products
+          does not return unlisted products, so the lookup below comes back empty on the live
+          store; the variant id (verified via the Admin API, 2026-09-23) is the fallback. When
+          the lookup does resolve (e.g. the product is made active), the offer also closes on
+          its own once the gift sells out. With the fallback, stock can't be read here: a
+          sold-out gift is reported in the cart drawer instead, and the offer box should be
+          switched off with "Show founding offer box".
         {%- endcomment -%}
+        {%- assign _gift_fallback_variant_id = 44542256840770 -%}
         {%- assign _show_gold_offer = false -%}
         {%- assign _gift_variant_id = '' -%}
         {%- if _is_gold_product and section.settings.show_founding_offer -%}
-          {%- assign _gift_variant = all_products['gold-jar-founding-gift'].selected_or_first_available_variant -%}
-          {%- if _gift_variant and _gift_variant.available -%}
+          {%- assign _gift_product = all_products['gold-jar-founding-gift'] -%}
+          {%- if _gift_product.id != blank -%}
+            {%- assign _gift_variant = _gift_product.selected_or_first_available_variant -%}
+            {%- if _gift_variant.available -%}
+              {%- assign _show_gold_offer = true -%}
+              {%- assign _gift_variant_id = _gift_variant.id -%}
+            {%- endif -%}
+          {%- else -%}
             {%- assign _show_gold_offer = true -%}
-            {%- assign _gift_variant_id = _gift_variant.id -%}
+            {%- assign _gift_variant_id = _gift_fallback_variant_id -%}
           {%- endif -%}
         {%- endif -%}
 
@@ -811,7 +823,7 @@
     { "type": "checkbox", "id": "show_expert_modal", "label": "Show expert modal", "default": true },
     { "type": "text", "id": "expert_button_label", "label": "Expert button label", "default": "Talk to an expert" },
     { "type": "header", "content": "Founding offer" },
-    { "type": "checkbox", "id": "show_founding_offer", "label": "Show founding offer box", "default": true, "info": "The \"Join the Gold Subscription\" box under the price. Only ever shows on Premium Creatine, Creatine Hydration and Colostrum, and hides itself once the gift product sells out. Turning it off also removes the \"free gift with purchase\" line from Subscribe & Save, and stops the free gift being added to the cart." },
+    { "type": "checkbox", "id": "show_founding_offer", "label": "Show founding offer box", "default": true, "info": "The \"Join the Gold Subscription\" box under the price. Only ever shows on Premium Creatine, Creatine Hydration and Colostrum. Switch it off when the gift sells out. Turning it off also removes the \"free gift with purchase\" line from Subscribe & Save, and stops the free gift being added to the cart." },
     { "type": "header", "content": "Gift banner" },
     { "type": "checkbox", "id": "show_gift_banner", "label": "Show gift banner", "default": true },
     { "type": "text", "id": "gift_banner_text", "label": "Gift banner text", "default": "First subscription includes the keepsake gold lid and signature pink scoop." },
