@@ -31,7 +31,7 @@
     image so every product's shared link is distinct.
   endcomment
   if request.page_type == 'product' and product
-    assign og_title = product.title
+    assign og_title = product.title | append: ' | ' | append: shop.name
     if product.images.first
       assign og_image = product.images.first
     elsif product.featured_image
