@@ -46,9 +46,9 @@
           required>
         <button type="submit" class="email-popup__submit" aria-label="Submit email signup">→</button>
         {%- if form.posted_successfully? -%}
-          <p class="email-popup__success" role="status">{{ section.settings.success_message | default: 'Thanks, check your inbox for 10% off.' }}</p>
+          <p class="email-popup__success" role="status" data-email-popup-result="success">{{ section.settings.success_message | default: 'Thanks, check your inbox for 10% off.' }}</p>
         {%- elsif form.errors -%}
-          <p class="email-popup__fineprint" role="alert">{{ form.errors | default_errors }}</p>
+          <p class="email-popup__fineprint" role="alert" data-email-popup-result="error">{{ form.errors | default_errors }}</p>
         {%- endif -%}
       {%- endform -%}
       <p class="email-popup__fineprint">{{ section.settings.fineprint | default: 'Offer valid for new email subscribers. By signing up, you agree to receive email from OLNIAN.' }}</p>

@@ -809,9 +809,27 @@
     const popup = $('[data-email-popup]');
     if (!popup) return;
     const storageKey = 'olnianEmailPopupSubmitted';
+    // Set on popup submit, read once on the page the form returns to. Shopify marks every
+    // customer form on that page as posted, so this is how we know the popup was the one used.
+    const pendingKey = 'olnianEmailPopupPending';
+    let pending = false;
     try {
-      if (localStorage.getItem(storageKey) === 'true') return;
+      pending = sessionStorage.getItem(pendingKey) === 'true';
+      sessionStorage.removeItem(pendingKey);
     } catch (_) {}
+    const result = popup.querySelector('[data-email-popup-result]');
+    const outcome = result ? result.dataset.emailPopupResult : '';
+    // Only a server-confirmed signup (from the popup, footer or inline form) retires the offer.
+    if (outcome === 'success') {
+      try { localStorage.setItem(storageKey, 'true'); } catch (_) {}
+    }
+    // Show the popup's own result, success or error, instead of silently hiding it.
+    const showResult = pending && !!outcome;
+    if (!showResult) {
+      try {
+        if (localStorage.getItem(storageKey) === 'true') return;
+      } catch (_) {}
+    }
     const delay = Number(popup.dataset.popupDelay || 5) * 1000;
     const peekMs = Number(popup.dataset.peekDuration || 3) * 1000;
     let peekTimer;
@@ -829,13 +847,13 @@
       clearTimeout(peekTimer);
       popup.classList.remove('is-peeking');
     };
-    const open = () => {
+    const open = (focusInput = true) => {
       endPeek();
       popup.classList.add('is-open');
       popup.setAttribute('aria-hidden', 'false');
       if (!window.Shopify || !window.Shopify.designMode) document.body.style.overflow = 'hidden';
       const input = popup.querySelector('input[type="email"]');
-      if (input) setTimeout(() => input.focus({ preventScroll: true }), 120);
+      if (input && focusInput) setTimeout(() => input.focus({ preventScroll: true }), 120);
     };
     const close = () => {
       popup.classList.remove('is-open');
@@ -843,13 +861,18 @@
       popup.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = '';
     };
-    setTimeout(makeReady, delay);
+    if (showResult) {
+      popup.classList.add('is-ready');
+      open(outcome === 'error');
+    } else {
+      setTimeout(makeReady, delay);
+    }
     popup.addEventListener('click', (e) => {
       if (e.target.closest('[data-email-popup-open]')) open();
       if (e.target.closest('[data-email-popup-close]')) close();
     });
     popup.addEventListener('submit', () => {
-      try { localStorage.setItem(storageKey, 'true'); } catch (_) {}
+      try { sessionStorage.setItem(pendingKey, 'true'); } catch (_) {}
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && popup.classList.contains('is-open')) close();
