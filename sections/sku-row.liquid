@@ -28,7 +28,7 @@
           {%- if _va_link == blank and section.settings.collection != blank -%}
             {%- assign _va_link = collections[section.settings.collection].url -%}
           {%- endif -%}
-          <a href="{{ _va_link | default: routes.collections_url | append: '/all' }}" class="sku-row__viewall">{{ section.settings.view_all_label }}</a>
+          <a href="{{ _va_link | default: routes.all_products_collection_url }}" class="sku-row__viewall">{{ section.settings.view_all_label }}</a>
         {%- endif -%}
       </div>
     {%- else -%}

@@ -50,7 +50,7 @@
           {%- for block in section.blocks -%}<li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>{%- endfor -%}
         </ul>
       {%- endif -%}
-      {%- if section.settings.cta_label != blank -%}<a class="btn btn--primary category-feature__cta" href="{{ section.settings.cta_link | default: routes.collections_url | append: '/all' }}">{{ section.settings.cta_label }}</a>{%- endif -%}
+      {%- if section.settings.cta_label != blank -%}<a class="btn btn--primary category-feature__cta" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">{{ section.settings.cta_label }}</a>{%- endif -%}
     </div>
   </div>
 </section>
