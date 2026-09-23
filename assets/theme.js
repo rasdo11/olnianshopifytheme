@@ -1022,7 +1022,28 @@
     popup.addEventListener('click', (e) => {
       if (e.target.closest('[data-email-popup-open]')) open();
       if (e.target.closest('[data-email-popup-close]')) close();
+      const copyBtn = e.target.closest('[data-email-popup-copy]');
+      if (copyBtn) copyCode(copyBtn);
     });
+    function copyCode(btn) {
+      const codeEl = popup.querySelector('[data-email-popup-code]');
+      if (!codeEl) return;
+      const done = () => { btn.textContent = btn.dataset.copiedLabel || 'Copied'; };
+      const fallback = () => {
+        // Select the code so a long-press / Ctrl+C still works without the Clipboard API.
+        const range = document.createRange();
+        range.selectNodeContents(codeEl);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        try { if (document.execCommand('copy')) done(); } catch (_) {}
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(codeEl.textContent.trim()).then(done, fallback);
+      } else {
+        fallback();
+      }
+    }
     popup.addEventListener('submit', () => {
       try { sessionStorage.setItem(pendingKey, 'true'); } catch (_) {}
     });
