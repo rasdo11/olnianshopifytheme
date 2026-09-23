@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="{{ settings.color_background }}">
-  {% if template.name == 'page' and template.suffix == 'colostrum-guide' %}<meta name="robots" content="noindex, follow">{% endif %}
+  {% if template.name == 'page' and template.suffix == 'colostrum-guide' or template.name == 'page' and template.suffix == 'unsubscribe' %}<meta name="robots" content="noindex, follow">{% endif %}
   <link rel="canonical" href="{{ canonical_url }}">
   {%- if settings.favicon != blank -%}
     <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
@@ -77,7 +77,8 @@
 
   {% unless template.name == 'page' and template.suffix == 'colostrum-guide' %}
     {% sections 'footer-group' %}
-    {% section 'email-popup' %}
+    {%- comment -%} No "10% off" signup prompt on the page people use to leave the list. {%- endcomment -%}
+    {% unless template.suffix == 'unsubscribe' %}{% section 'email-popup' %}{% endunless %}
   {% endunless %}
 
   <div id="CartDrawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping cart">

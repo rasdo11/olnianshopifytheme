@@ -3186,7 +3186,13 @@ body.nav-open .email-popup.is-ready .email-popup__tab {
   font-size: 13px;
   line-height: 1.45;
 }
-.unsubscribe__success { color: var(--tangerine-text); font-weight: 800; }
+.unsubscribe__success { color: var(--tangerine-text); font-weight: 800; font-size: 15px; }
+.unsubscribe__status {
+  margin: 20px auto 0;
+  max-width: 56ch;
+  font-weight: 700;
+}
+.unsubscribe__body p + p { margin-top: 10px; }
 .unsubscribe__error { color: #9f2f17; }
 .unsubscribe__note {
   max-width: 58ch;
