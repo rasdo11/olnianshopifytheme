@@ -312,7 +312,10 @@
 
     // Set by main-product.liquid only while the Gold founding offer is shown and the gift
     // is in stock. Replaces the separate submit handler gold-jar-offer.liquid used to run.
-    const giftVariant = Number(form.dataset.goldGiftVariant || 0);
+    // Gift variant comes from a hidden input inside the form (main-product.liquid), not a
+    // form-tag attribute, because the {% form %} tag didn't render the numeric attribute.
+    const giftInput = $('[data-gold-gift-variant]', form);
+    const giftVariant = giftInput ? Number(giftInput.value || 0) : 0;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

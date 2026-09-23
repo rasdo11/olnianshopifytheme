@@ -326,12 +326,21 @@
         {%- comment -%}
           A real Liquid product form: payment_button (Shop Pay etc.) only renders inside one,
           and without JavaScript the form still posts to the cart natively. theme.js takes over
-          submit for the drawer. data-gold-gift-variant is only set while the founding offer
+          submit for the drawer. the gift hidden input is only rendered while the founding offer
           is shown (which requires the gift to be in stock).
         {%- endcomment -%}
-        {%- form 'product', product, data-product-form: '', data-gold-gift-variant: _gift_variant_id, novalidate: 'novalidate' -%}
+        {%- form 'product', product, data-product-form: '', novalidate: 'novalidate' -%}
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
           <input type="hidden" name="selling_plan" id="SellingPlanInput" value="">
+          {%- comment -%}
+            Gift variant for theme.js as a plain hidden input, NOT a {% form %} attribute:
+            the form tag reliably emits the empty-string data-product-form, but a numeric
+            data-gold-gift-variant attribute did not render, so the gift was never added.
+            Present only while the founding offer shows (a mapped, in-offer product).
+          {%- endcomment -%}
+          {%- if _show_gold_offer and _gift_variant_id != '' -%}
+            <input type="hidden" data-gold-gift-variant value="{{ _gift_variant_id }}">
+          {%- endif -%}
 
           {%- if product.variants.size > 1 -%}
             {%- for option in product.options_with_values -%}
