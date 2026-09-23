@@ -267,9 +267,18 @@
         {%- if _offer_handles contains product.handle -%}
           {%- assign _is_gold_product = true -%}
         {%- endif -%}
+        {%- comment -%}
+          The offer also closes on its own once the gift product sells out (the 200-set cap is
+          its inventory), so the page never promises a gift the cart can't add.
+        {%- endcomment -%}
         {%- assign _show_gold_offer = false -%}
+        {%- assign _gift_variant_id = '' -%}
         {%- if _is_gold_product and section.settings.show_founding_offer -%}
-          {%- assign _show_gold_offer = true -%}
+          {%- assign _gift_variant = all_products['gold-jar-founding-gift'].selected_or_first_available_variant -%}
+          {%- if _gift_variant and _gift_variant.available -%}
+            {%- assign _show_gold_offer = true -%}
+            {%- assign _gift_variant_id = _gift_variant.id -%}
+          {%- endif -%}
         {%- endif -%}
 
         {%- comment -%}
@@ -282,7 +291,13 @@
         {%- if _sel_variant.inventory_policy == 'continue' -%}{%- assign _atc_available = true -%}{%- endif -%}
 
         {%- capture _pdp_buy -%}
-        <form data-product-form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" novalidate>
+        {%- comment -%}
+          A real Liquid product form: payment_button (Shop Pay etc.) only renders inside one,
+          and without JavaScript the form still posts to the cart natively. theme.js takes over
+          submit for the drawer. data-gold-gift-variant is only set while the founding offer
+          is shown (which requires the gift to be in stock).
+        {%- endcomment -%}
+        {%- form 'product', product, data-product-form: '', data-gold-gift-variant: _gift_variant_id, novalidate: 'novalidate' -%}
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
           <input type="hidden" name="selling_plan" id="SellingPlanInput" value="">
 
@@ -319,10 +334,19 @@
             <p class="product__trust-line product__trust-line--top">{{ section.settings.trust_line }}</p>
           {%- endif -%}
 
-          {%- assign sub_price = product.selected_or_first_available_variant.price | times: 0.85 | round -%}
+          {%- comment -%}
+            Subscription price and savings come from the variant's actual selling-plan
+            allocation, so the PDP always matches the cart and checkout.
+          {%- endcomment -%}
+          {%- assign sub_price = product.selected_or_first_available_variant.price -%}
+          {%- assign _sub_save_pct = 0 -%}
           {%- assign _default_plan_id = '' -%}
           {%- for _alloc in product.selected_or_first_available_variant.selling_plan_allocations -%}
             {%- assign _default_plan_id = _alloc.selling_plan.id -%}
+            {%- assign sub_price = _alloc.price -%}
+            {%- if _alloc.compare_at_price > _alloc.price -%}
+              {%- assign _sub_save_pct = _alloc.compare_at_price | minus: _alloc.price | times: 100.0 | divided_by: _alloc.compare_at_price | round -%}
+            {%- endif -%}
             {%- break -%}
           {%- endfor -%}
 
@@ -344,12 +368,12 @@
                     once, in the gold-jar-offer block below - not repeated here.
                   {%- endcomment -%}
                   {%- if _show_gold_offer -%}
-                    <span class="purchase-option__note">Save 15% + free gift with purchase</span>
+                    <span class="purchase-option__note">{% if _sub_save_pct > 0 %}Save {{ _sub_save_pct }}% + free gift{% else %}Free gift{% endif %} with purchase</span>
                   {%- else -%}
-                    <span class="purchase-option__note">Save 15% · cancel anytime</span>
+                    <span class="purchase-option__note">{% if _sub_save_pct > 0 %}Save {{ _sub_save_pct }}% · {% endif %}cancel anytime</span>
                   {%- endif -%}
                 </span>
-                <span class="purchase-option__price"><del>{{ product.selected_or_first_available_variant.price | money }}</del> {{ sub_price | money }}<span class="purchase-option__per">/mo</span></span>
+                <span class="purchase-option__price">{% if sub_price < product.selected_or_first_available_variant.price %}<del>{{ product.selected_or_first_available_variant.price | money }}</del> {% endif %}{{ sub_price | money }}<span class="purchase-option__per">/mo</span></span>
               </button>
               <button type="button" class="purchase-option" data-purchase-option data-mode="onetime" aria-pressed="false">
                 <span class="purchase-option__radio" aria-hidden="true"></span>
@@ -409,12 +433,12 @@
           </div>
 
           {%- comment -%}
-            payment_button only renders inside a Liquid product form tag. The buy form above
-            is a raw <form>, so `form` is empty here and the block showed an "or" divider with
-            no button under it. Guarded until the buy form moves to a Liquid product form
-            (which also needs the Gold gift flow reworked, since wallets bypass its JS).
+            Shop Pay / wallets buy the form's current variant and quantity directly. Both the
+            purchase-option toggle and theme.js hide this block in Subscribe mode, so wallets
+            are only offered for one-time purchases (the Gold gift is added by theme.js and
+            would be skipped by a wallet checkout).
           {%- endcomment -%}
-          {%- if section.settings.show_dynamic_checkout and form != blank -%}
+          {%- if section.settings.show_dynamic_checkout -%}
             <div class="product__dynamic-checkout" data-dynamic-checkout>
               <div class="product__or-divider">or</div>
               {{ form | payment_button }}
@@ -430,7 +454,7 @@
 
           {%- comment -%} Subscription is now handled by the purchase-option toggle above the price. {%- endcomment -%}
 
-        </form>
+        {%- endform -%}
         {%- endcapture -%}
 
         {%- comment -%}
@@ -559,7 +583,8 @@
     window.__productVariants = window.__productVariants || {};
     {%- for v in product.variants -%}
       {%- assign _v_plan_id = '' -%}
-      {%- for _va in v.selling_plan_allocations -%}{%- assign _v_plan_id = _va.selling_plan.id -%}{%- break -%}{%- endfor -%}
+      {%- assign _v_sub_price = v.price -%}
+      {%- for _va in v.selling_plan_allocations -%}{%- assign _v_plan_id = _va.selling_plan.id -%}{%- assign _v_sub_price = _va.price -%}{%- break -%}{%- endfor -%}
       {%- assign _v_media_index = -1 -%}
       {%- if v.featured_image -%}
         {%- for _img in product.images -%}
@@ -572,6 +597,7 @@
         available: {% if v.available or v.inventory_policy == 'continue' %}true{% else %}false{% endif %},
         title: {{ v.title | json }},
         sellingPlanId: {% if _v_plan_id != blank %}"{{ _v_plan_id }}"{% else %}null{% endif %},
+        subPrice: {{ _v_sub_price }},
         mediaIndex: {{ _v_media_index }}
       };
     {%- endfor -%}
@@ -785,7 +811,7 @@
     { "type": "checkbox", "id": "show_expert_modal", "label": "Show expert modal", "default": true },
     { "type": "text", "id": "expert_button_label", "label": "Expert button label", "default": "Talk to an expert" },
     { "type": "header", "content": "Founding offer" },
-    { "type": "checkbox", "id": "show_founding_offer", "label": "Show founding offer box", "default": true, "info": "The \"Join the Gold Subscription\" box under the price. Only ever shows on Premium Creatine, Creatine Hydration and Colostrum. Turning it off also removes the \"free gift with purchase\" line from Subscribe & Save, and stops the free gift being added to the cart." },
+    { "type": "checkbox", "id": "show_founding_offer", "label": "Show founding offer box", "default": true, "info": "The \"Join the Gold Subscription\" box under the price. Only ever shows on Premium Creatine, Creatine Hydration and Colostrum, and hides itself once the gift product sells out. Turning it off also removes the \"free gift with purchase\" line from Subscribe & Save, and stops the free gift being added to the cart." },
     { "type": "header", "content": "Gift banner" },
     { "type": "checkbox", "id": "show_gift_banner", "label": "Show gift banner", "default": true },
     { "type": "text", "id": "gift_banner_text", "label": "Gift banner text", "default": "First subscription includes the keepsake gold lid and signature pink scoop." },

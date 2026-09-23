@@ -47,59 +47,75 @@
     },
   };
 
-  /* ---------- Cart API ---------- */
+  /* ---------- Cart API ----------
+     Every cart write goes through CartAPI.run(), one at a time, so rapid taps can't race
+     each other. Each write also asks Shopify to render the cart drawer section in the same
+     response (bundled section rendering): a normal add is one round trip, and the header
+     count and Gold gift state come back in that markup instead of a separate /cart.js call. */
+  const DRAWER_SECTION = 'cart-drawer';
+  const cartRoot = () => (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+
+  class CartError extends Error {
+    // uncertain: the request may or may not have reached Shopify (network drop). Such a
+    // write is never replayed; the drawer is re-read from the server instead.
+    constructor(message, uncertain) { super(message); this.uncertain = !!uncertain; }
+  }
+
   const CartAPI = {
-    async get() {
-      const res = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
-      return res.json();
+    _queue: Promise.resolve(),
+    run(task) {
+      const next = this._queue.then(task, task);
+      this._queue = next.catch(() => {});
+      return next;
     },
-    async add(items) {
-      const res = await fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ items }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ description: 'Could not add to cart.' }));
-        throw new Error(err.description || 'Could not add to cart.');
+    async _write(path, body, fallback, reconcile = true) {
+      let res;
+      try {
+        res = await fetch(`${cartRoot()}${path}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(Object.assign({}, body, { sections: DRAWER_SECTION, sections_url: window.location.pathname })),
+        });
+      } catch (_) {
+        await Drawer.refresh();
+        throw new CartError("We couldn't confirm your cart was updated. Please check it before checking out.", true);
       }
-      return res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new CartError(data.description || data.message || fallback);
+      // The cart changed. A missing or unusable section render is a display problem only:
+      // fall back to one plain re-render, never to repeating the write.
+      if (!Drawer.render(data.sections && data.sections[DRAWER_SECTION])) await Drawer.refresh();
+      if (reconcile) await this._reconcileGift();
+      return data;
     },
-    async change(line, quantity, sellingPlan) {
-      const payload = { line, quantity };
-      if (arguments.length >= 3) payload.selling_plan = sellingPlan;
-      const root = window.Shopify && window.Shopify.routes ? window.Shopify.routes.root : '/';
-      const res = await fetch(`${root}cart/change.js`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ description: 'Could not update cart.' }));
-        throw new Error(err.description || 'Cart update failed.');
-      }
-      return res.json();
+    // The Gold gift is only free next to a subscribed Creatine / Hydration line (see
+    // cart-drawer.liquid). Remove it when that line is gone and keep at most one.
+    async _reconcileGift() {
+      const s = Drawer.state();
+      if (!s.giftKey || s.giftQty < 1) return;
+      const target = s.giftQualifies ? 1 : 0;
+      if (s.giftQty === target) return;
+      try {
+        await this._write('cart/change.js', { id: s.giftKey, quantity: target }, 'Could not update cart.', false);
+      } catch (_) { /* leave it; checkout still shows the real price */ }
     },
-    async applyDiscount(code) {
-      const root = window.Shopify && window.Shopify.routes ? window.Shopify.routes.root : '/';
-      const res = await fetch(`${root}cart/update.js`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ discount: code }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ description: 'Could not apply discount.' }));
-        throw new Error(err.description || 'Could not apply discount.');
-      }
-      return res.json();
+    add(items) {
+      return this.run(() => this._write('cart/add.js', { items }, 'Could not add to cart.'));
     },
-    async clear() {
-      const res = await fetch('/cart/clear.js', { method: 'POST', headers: { Accept: 'application/json' } });
-      return res.json();
+    // key: the line item key (stable across reorders, unlike a line number).
+    // sellingPlan: omit to keep the plan, null for one-time, or a plan id.
+    change(key, quantity, sellingPlan) {
+      const payload = { id: key, quantity };
+      if (sellingPlan !== undefined) payload.selling_plan = sellingPlan;
+      return this.run(() => this._write('cart/change.js', payload, 'Could not update cart.'));
+    },
+    applyDiscount(code) {
+      return this.run(() => this._write('cart/update.js', { discount: code }, 'Could not apply discount.'));
     },
   };
 
   /* ---------- Cart Drawer ---------- */
+  const STATE_ATTRS = ['data-cart-count', 'data-gift-qty', 'data-gift-key', 'data-gift-qualifies'];
   const Drawer = {
     el: null,
     init() {
@@ -117,7 +133,7 @@
     },
     isOpen() { return this.el && this.el.getAttribute('data-open') === 'true'; },
     open() {
-      if (!this.el) return;
+      if (!this.el || this.isOpen()) return;
       this.el.setAttribute('data-open', 'true');
       this.el.setAttribute('aria-hidden', 'false');
       // Lets CSS pull the 10% off tab out of the way of the Checkout button.
@@ -133,26 +149,74 @@
       document.body.style.overflow = '';
       DialogFocus.release(this.el);
     },
-    async refresh() {
-      const res = await fetch(`${window.location.pathname}?section_id=cart-drawer`, {
-        headers: { Accept: 'text/html' },
-      }).catch(() => null);
-      if (res && res.ok) {
-        const html = await res.text();
-        const parsed = new DOMParser().parseFromString(html, 'text/html');
-        const incoming = parsed.querySelector('[data-cart-drawer-content]');
-        const current = $('#CartDrawerContent');
-        if (incoming && current) current.innerHTML = incoming.innerHTML;
-      }
-      this.updateHeaderCount();
+    state() {
+      const c = $('#CartDrawerContent');
+      const get = (a) => (c && c.getAttribute(a)) || '';
+      return {
+        count: Number(get('data-cart-count') || 0),
+        giftQty: Number(get('data-gift-qty') || 0),
+        giftKey: get('data-gift-key'),
+        giftQualifies: get('data-gift-qualifies') === 'true',
+      };
     },
-    async updateHeaderCount() {
-      const cart = await CartAPI.get();
+    // Swap in server-rendered drawer markup. Returns false if there was nothing usable.
+    render(html) {
+      if (!html) return false;
+      const incoming = new DOMParser().parseFromString(html, 'text/html').querySelector('[data-cart-drawer-content]');
+      const current = $('#CartDrawerContent');
+      if (!incoming || !current) return false;
+      const focus = this._rememberFocus(current);
+      current.innerHTML = incoming.innerHTML;
+      STATE_ATTRS.forEach((a) => current.setAttribute(a, incoming.getAttribute(a) || ''));
+      this.syncCount();
+      this._restoreFocus(current, focus);
+      return true;
+    },
+    async refresh() {
+      try {
+        const res = await fetch(`${window.location.pathname}?section_id=${DRAWER_SECTION}`, { headers: { Accept: 'text/html' } });
+        if (res.ok && this.render(await res.text())) return true;
+      } catch (_) {}
+      this.notice("We couldn't refresh your cart here.", true);
+      return false;
+    },
+    syncCount() {
+      const count = this.state().count;
       const countEl = $('.site-header__cart-count');
       if (countEl) {
-        countEl.textContent = cart.item_count;
-        countEl.style.display = cart.item_count > 0 ? '' : 'none';
+        countEl.textContent = count;
+        countEl.style.display = count > 0 ? '' : 'none';
       }
+    },
+    notice(message, withCartLink) {
+      const el = $('[data-cart-notice]');
+      if (!el) { alert(message); return; }
+      el.textContent = message + (withCartLink ? ' ' : '');
+      if (withCartLink) {
+        const a = document.createElement('a');
+        a.href = `${cartRoot()}cart`;
+        a.textContent = 'View your cart';
+        el.appendChild(a);
+      }
+      el.hidden = false;
+    },
+    // Replacing the markup would otherwise drop keyboard focus to <body> after every +/−.
+    _rememberFocus(root) {
+      const a = document.activeElement;
+      if (!a || !root.contains(a)) return null;
+      const item = a.closest('[data-cart-item]');
+      const attr = ['data-cart-increment', 'data-cart-decrement', 'data-cart-remove'].find((x) => a.hasAttribute(x));
+      return { key: item && item.dataset.key, attr, id: a.id };
+    },
+    _restoreFocus(root, memo) {
+      if (!memo) return;
+      let target = memo.id ? root.querySelector(`#${CSS.escape(memo.id)}`) : null;
+      if (!target && memo.key && memo.attr) {
+        const item = $$('[data-cart-item]', root).find((n) => n.dataset.key === memo.key);
+        target = item && item.querySelector(`[${memo.attr}]`);
+      }
+      target = target || root.querySelector('.cart-drawer__close');
+      if (target) { try { target.focus({ preventScroll: true }); } catch (_) {} }
     },
   };
 
@@ -196,7 +260,8 @@
       if (priceEl && variant) {
         const base = variant.price;
         if (isSub) {
-          priceEl.innerHTML = `<del>${formatMoney(base)}</del> ${formatMoney(Math.round(base * 0.85))}<span class="product__price-per">/mo</span>`;
+          const sub = typeof variant.subPrice === 'number' ? variant.subPrice : base;
+          priceEl.innerHTML = `${sub < base ? `<del>${formatMoney(base)}</del> ` : ''}${formatMoney(sub)}<span class="product__price-per">/mo</span>`;
         } else {
           priceEl.textContent = formatMoney(base);
         }
@@ -226,33 +291,50 @@
       });
     });
 
+    // Set by main-product.liquid only while the Gold founding offer is shown and the gift
+    // is in stock. Replaces the separate submit handler gold-jar-offer.liquid used to run.
+    const giftVariant = Number(form.dataset.goldGiftVariant || 0);
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (submitBtn && submitBtn.disabled) return;
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Adding…'; }
-      try {
-        const payload = {
-          id: Number(variantInput.value),
-          quantity: Number(($('[name="quantity"]', form) || {}).value || 1),
-        };
-        if (sellingPlanInput && sellingPlanInput.value) {
-          payload.selling_plan = Number(sellingPlanInput.value);
-        }
-        await CartAPI.add([payload]);
-        // Open FIRST, then repopulate. Drawer.refresh() re-renders the cart section
-        // server-side and then hits /cart.js, which can take a second or more — opening
-        // only after that left a dead pause where the tap looked ignored, so people tapped
-        // again (into a now-disabled button) and concluded it was broken.
-        Drawer.open();
-        await Drawer.refresh();
-      } catch (err) {
-        alert(err.message || 'Could not add to cart.');
-      } finally {
-        if (submitBtn) submitBtn.disabled = false;
-        // Re-sync (restores label + selling plan for the next add, keeping the
-        // shopper's chosen purchase mode)
-        applyState();
+      const payload = {
+        id: Number(variantInput.value),
+        quantity: Number(($('[name="quantity"]', form) || {}).value || 1),
+      };
+      if (sellingPlanInput && sellingPlanInput.value) {
+        payload.selling_plan = Number(sellingPlanInput.value);
       }
+      try {
+        // One round trip: the add returns the re-rendered drawer.
+        await CartAPI.add([payload]);
+        Drawer.open();
+      } catch (err) {
+        if (err.uncertain) { Drawer.open(); Drawer.notice(err.message, true); }
+        else alert(err.message || 'Could not add to cart.');
+        finish();
+        return;
+      }
+      // Gold gift: a second, separate write so a sold-out gift can never block the
+      // subscription itself. Skipped if the cart already holds one or doesn't qualify.
+      const s = Drawer.state();
+      if (giftVariant && payload.selling_plan && s.giftQualifies && s.giftQty === 0) {
+        try {
+          await CartAPI.add([{ id: giftVariant, quantity: 1 }]);
+        } catch (_) {
+          Drawer.notice("Your subscription is in your cart, but we couldn't add the free Gold gift. It may have just sold out.");
+        }
+      }
+      finish();
     });
+
+    function finish() {
+      if (submitBtn) submitBtn.disabled = false;
+      // Re-sync (restores label + selling plan for the next add, keeping the
+      // shopper's chosen purchase mode)
+      applyState();
+    }
 
     // Sync the initial variant (Premium → Gold Subscription) on load.
     applyState();
@@ -275,26 +357,64 @@
       submit.setAttribute('aria-busy', 'true');
       if (status) status.textContent = '';
 
+      const invalidMessage = form.dataset.invalidMessage;
+      const errorMessage = form.dataset.errorMessage;
+      // The write re-renders the drawer, replacing this form, so messages go to the new one.
+      const setStatus = (msg) => {
+        const el = $('[data-cart-discount-status]');
+        if (el) el.textContent = msg;
+      };
       try {
         const cart = await CartAPI.applyDiscount(code);
         const codes = Array.isArray(cart.discount_codes) ? cart.discount_codes : [];
         const requestedCode = codes.find((discount) => (
           discount.code && discount.code.toLowerCase() === code.toLowerCase()
         ));
-
-        if (requestedCode && requestedCode.applicable === false) {
-          if (status) status.textContent = form.dataset.invalidMessage;
-          return;
-        }
-
-        await Drawer.refresh();
+        if (requestedCode && requestedCode.applicable === false) setStatus(invalidMessage);
       } catch (err) {
-        if (status) status.textContent = form.dataset.errorMessage || err.message;
+        setStatus(errorMessage || err.message);
       } finally {
         submit.disabled = false;
         submit.removeAttribute('aria-busy');
       }
     });
+
+    // Latest quantity the shopper asked for, per line key, while writes are pending. Taps
+    // build on this rather than on the (possibly stale) rendered quantity, and a burst of
+    // taps collapses into as few writes as needed to reach the final number.
+    const qtyIntent = new Map();
+    const flushing = new Set();
+
+    function showIntent(key) {
+      if (!qtyIntent.has(key)) return;
+      const item = $$('[data-cart-item]').find((n) => n.dataset.key === key);
+      if (!item) return;
+      const qtyEl = $('[data-cart-qty]', item);
+      if (qtyEl) qtyEl.textContent = qtyIntent.get(key);
+      item.setAttribute('aria-busy', 'true');
+    }
+
+    async function flushQty(key) {
+      if (flushing.has(key)) return; // the running loop picks up the newest intent
+      flushing.add(key);
+      try {
+        while (qtyIntent.has(key)) {
+          const qty = qtyIntent.get(key);
+          try {
+            await CartAPI.change(key, qty);
+          } catch (err) {
+            qtyIntent.delete(key);
+            if (!err.uncertain) await Drawer.refresh();
+            Drawer.notice(err.message, err.uncertain);
+            break;
+          }
+          if (qtyIntent.get(key) === qty) qtyIntent.delete(key);
+          else showIntent(key); // a newer tap arrived; keep it visible over the re-render
+        }
+      } finally {
+        flushing.delete(key);
+      }
+    }
 
     document.addEventListener('click', async (e) => {
       const inc = e.target.closest('[data-cart-increment]');
@@ -304,9 +424,9 @@
       if (!inc && !dec && !remove && !sellingPlanOption) return;
       e.preventDefault();
       const item = e.target.closest('[data-cart-item]');
-      if (!item) return;
-      const line = Number(item.dataset.line);
-      const currentQty = Number(item.dataset.quantity || 1);
+      if (!item || !item.dataset.key) return;
+      const key = item.dataset.key;
+      const renderedQty = Number(item.dataset.quantity || 1);
 
       if (sellingPlanOption) {
         if (sellingPlanOption.getAttribute('aria-pressed') === 'true') return;
@@ -319,28 +439,23 @@
           ? Number(sellingPlanOption.dataset.sellingPlan)
           : null;
         try {
-          await CartAPI.change(line, currentQty, sellingPlan);
-          await Drawer.refresh();
+          await CartAPI.change(key, qtyIntent.get(key) || renderedQty, sellingPlan);
         } catch (err) {
-          optionButtons.forEach((button) => {
-            button.disabled = false;
-            button.removeAttribute('aria-busy');
-          });
-          alert(item.dataset.updateError || err.message);
+          if (!err.uncertain) await Drawer.refresh();
+          Drawer.notice(item.dataset.updateError || err.message, err.uncertain);
         }
         return;
       }
 
-      let nextQty = currentQty;
-      if (inc) nextQty = currentQty + 1;
-      if (dec) nextQty = Math.max(0, currentQty - 1);
+      const base = qtyIntent.has(key) ? qtyIntent.get(key) : renderedQty;
+      let nextQty = base;
+      if (inc) nextQty = base + 1;
+      if (dec) nextQty = Math.max(0, base - 1);
       if (remove) nextQty = 0;
-      try {
-        await CartAPI.change(line, nextQty);
-        await Drawer.refresh();
-      } catch (err) {
-        alert(item.dataset.updateError || err.message);
-      }
+      if (nextQty === base) return;
+      qtyIntent.set(key, nextQty);
+      showIntent(key);
+      flushQty(key);
     });
 
     const stepper = $('[data-quantity-stepper]');
@@ -372,15 +487,12 @@
         const payload = { id: variantId, quantity: 1 };
         // Cross-sell / rail cards can opt into the product's subscription plan.
         if (btn.dataset.sellingPlan) payload.selling_plan = Number(btn.dataset.sellingPlan);
+        // One round trip: the add returns the re-rendered drawer, so it opens populated.
         await CartAPI.add([payload]);
-        // Open FIRST, then repopulate. Drawer.refresh() re-renders the cart section
-        // server-side and then hits /cart.js, which can take a second or more — opening
-        // only after that left a dead pause where the tap looked ignored, so people tapped
-        // again (into a now-disabled button) and concluded it was broken.
         Drawer.open();
-        await Drawer.refresh();
       } catch (err) {
-        alert(err.message || 'Could not add to cart.');
+        if (err.uncertain) { Drawer.open(); Drawer.notice(err.message, true); }
+        else alert(err.message || 'Could not add to cart.');
       } finally {
         btn.disabled = false;
         btn.removeAttribute('data-loading');

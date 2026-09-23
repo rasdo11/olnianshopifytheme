@@ -41,6 +41,14 @@ Only `creatine-monohydrate`, `creatine-hydration-powder`, and `colostrum-powder`
 
 `/pages/unsubscribe` uses `templates/page.unsubscribe.json` → `sections/unsubscribe-form.liquid`. It submits a Shopify **contact** form, which emails the request to the store inbox; someone must then unsubscribe the customer in Admin. Never use a `customer` form there: that is the newsletter signup form and subscribes the person. The email popup and indexing are disabled on that template in `layout/theme.liquid`.
 
+## Cart and Gold gift flow
+
+All cart writes go through `CartAPI` in `assets/theme.js`: one queue, line items addressed by key, and each write requests the `cart-drawer` section in the same response (no follow-up `/cart.js`). `sections/cart-drawer.liquid` exposes `data-cart-count` and `data-gift-*` on `#CartDrawerContent` for this.
+
+The Gold gift (`gold-jar-founding-gift`) is added by the product form submit in `theme.js` when the form has `data-gold-gift-variant` (set in `main-product.liquid` only while the offer shows and the gift is in stock; the offer box hides itself when the gift sells out). After every write, `theme.js` removes the gift if no subscribed Creatine Monohydrate / Creatine Hydration line remains and trims it to 1. That list mirrors the automatic "Gold Subscription Gift" BXGY discount's "Customer buys" products (Colostrum is NOT in it; its template has the offer off). Keep `gift_qualifying_handles` in `cart-drawer.liquid` in sync with that discount.
+
+Subscription prices come from `selling_plan_allocations` (never `price × 0.85`).
+
 ## Header shipping tooltip
 
 `sections/header-group.json` → `header.settings.utility_tooltip` drives a CSS-only hover bubble on the "Free Shipping" header link (`sections/header.liquid`, `data-shipping-tooltip` attr, styled in `assets/theme.css` via `content: attr(...)`). Schema default lives in `sections/header.liquid`; keep both in sync when changing the copy.

@@ -25,13 +25,14 @@
   {%- assign _cs_single = false -%}
   {%- if cs_product.variants.size == 1 -%}{%- assign _cs_single = true -%}{%- endif -%}
 
-  {%- comment -%} Subscription price for the paired product, matching the 15% PDP discount. {%- endcomment -%}
+  {%- comment -%} Subscription price for the paired product, from its actual selling-plan allocation. {%- endcomment -%}
   {%- assign _cs_plan_id = '' -%}
+  {%- assign _cs_sub_price = _cs_variant.price -%}
   {%- for _alloc in _cs_variant.selling_plan_allocations -%}
     {%- assign _cs_plan_id = _alloc.selling_plan.id -%}
+    {%- assign _cs_sub_price = _alloc.price -%}
     {%- break -%}
   {%- endfor -%}
-  {%- assign _cs_sub_price = _cs_variant.price | times: 0.85 | round -%}
 
   {%- assign _cs_note = cs_note -%}
   {%- if _cs_note == blank -%}{%- assign _cs_note = cs_product.metafields.custom.subtitle -%}{%- endif -%}
@@ -67,7 +68,7 @@
           {%- if _cs_plan_id != blank -%}
             <span class="pdp-pair__tag">Subscribe</span>
             <strong>{{ _cs_sub_price | money }}</strong><span class="pdp-pair__per">/mo</span>
-            <del>{{ _cs_variant.price | money }}</del>
+            {%- if _cs_sub_price < _cs_variant.price -%}<del>{{ _cs_variant.price | money }}</del>{%- endif -%}
           {%- else -%}
             <strong>{{ _cs_variant.price | money }}</strong>
           {%- endif -%}

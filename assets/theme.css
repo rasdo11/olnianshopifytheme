@@ -1374,6 +1374,18 @@ a.announcement-bar__inner, button.announcement-bar__inner { text-decoration: non
   background: var(--blush);
 }
 .cart-drawer__title { font-family: var(--display-font); font-size: 24px; }
+.cart-drawer__notice {
+  margin: 0;
+  padding: 12px 24px;
+  font-size: 13px;
+  line-height: 1.45;
+  background: color-mix(in srgb, var(--tangerine, #e8743b) 12%, var(--blush));
+  border-bottom: 1px solid var(--espresso-06);
+}
+.cart-drawer__notice[hidden] { display: none; }
+.cart-drawer__notice a { text-decoration: underline; }
+.cart-drawer__item[aria-busy="true"] .cart-drawer__qty,
+.cart-drawer__item[aria-busy="true"] .cart-drawer__remove { opacity: .55; }
 .cart-drawer__close { font-size: 20px; padding: 8px; }
 .cart-drawer__shipping-progress {
   padding: 18px 24px 20px;
