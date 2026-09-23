@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "main": {
+      "type": "unsubscribe-form",
+      "settings": {
+        "kicker": "Email preferences",
+        "heading": "Unsubscribe from OLNIAN emails",
+        "body": "<p><strong>Fastest:</strong> click \"Unsubscribe\" at the bottom of any OLNIAN email. It takes effect immediately.</p><p>Or enter your email below and we will remove you from our marketing list within 2 business days.</p>",
+        "placeholder": "Email address",
+        "button_label": "Unsubscribe",
+        "success_message": "Request received. We will remove you from our marketing emails within 2 business days. Order and shipping emails will still reach you.",
+        "already_unsubscribed_message": "You are signed in and already unsubscribed from our marketing emails. Nothing else to do.",
+        "note": "<p>Unsubscribing stops marketing emails only. You will still get emails about your orders and active subscription.</p>",
+        "scheme": "blush",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

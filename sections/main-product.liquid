@@ -408,7 +408,13 @@
             </div>
           </div>
 
-          {%- if section.settings.show_dynamic_checkout -%}
+          {%- comment -%}
+            payment_button only renders inside a Liquid product form tag. The buy form above
+            is a raw <form>, so `form` is empty here and the block showed an "or" divider with
+            no button under it. Guarded until the buy form moves to a Liquid product form
+            (which also needs the Gold gift flow reworked, since wallets bypass its JS).
+          {%- endcomment -%}
+          {%- if section.settings.show_dynamic_checkout and form != blank -%}
             <div class="product__dynamic-checkout" data-dynamic-checkout>
               <div class="product__or-divider">or</div>
               {{ form | payment_button }}
@@ -674,6 +680,7 @@
         var planId = toggle.getAttribute('data-plan-id');
         var form = document.querySelector('[data-product-form]');
         var spInput = form && form.querySelector('[name="selling_plan"]');
+        var idInput = form && form.querySelector('[name="id"]');
         var subBadge = document.querySelector('[data-sub-badge]');
         var offer = document.querySelector('.gold-offer');
         var dynamicCheckout = form && form.querySelector('[data-dynamic-checkout]');
@@ -687,7 +694,11 @@
             o.classList.toggle('is-selected', on);
             o.setAttribute('aria-pressed', on ? 'true' : 'false');
           });
-          if (spInput) spInput.value = subscribe ? planId : '';
+          // theme.js reads this after every add and variant change, so the choice sticks.
+          if (form) form.dataset.purchaseMode = subscribe ? 'subscribe' : 'onetime';
+          // Use the selected variant's own plan; fall back to the initial variant's.
+          var v = idInput && window.__productVariants && window.__productVariants[idInput.value];
+          if (spInput) spInput.value = subscribe ? ((v && v.sellingPlanId) || planId) : '';
           if (subBadge) subBadge.hidden = !subscribe;
           if (offer) offer.style.display = subscribe ? '' : 'none';
           // Express checkout (Shop Pay) can't carry a subscription, so only show it for one-time.

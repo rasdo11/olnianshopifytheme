@@ -10,29 +10,46 @@
       <div class="unsubscribe__body">{{ section.settings.body }}</div>
     {%- endif -%}
 
+    {%- comment -%}
+      Shopify has no storefront endpoint that turns email consent off, so this uses the
+      CONTACT form: it emails the request to the store's customer email address, and the
+      team unsubscribes the customer in Admin (Customers → customer → Email marketing →
+      Unsubscribe). Never switch this to a customer form: that is the newsletter SIGNUP
+      form and would subscribe the person instead. The instant path is the unsubscribe
+      link Shopify Email puts in every marketing email, which the body copy points to.
+    {%- endcomment -%}
+    {%- if customer and customer.accepts_marketing == false -%}
+      <p class="unsubscribe__status" role="status">{{ section.settings.already_unsubscribed_message }}</p>
+    {%- endif -%}
+
     {%- assign unsubscribe_form_id = 'UnsubscribeForm-' | append: section.id -%}
-    {%- form 'customer', id: unsubscribe_form_id, class: 'unsubscribe__form' -%}
-      <input type="hidden" name="contact[tags]" value="unsubscribe-request">
-      <label class="visually-hidden" for="UnsubscribeEmail-{{ section.id }}">Email address</label>
-      <input
-        id="UnsubscribeEmail-{{ section.id }}"
-        class="unsubscribe__input"
-        type="email"
-        name="contact[email]"
-        value="{{ form.email }}"
-        placeholder="{{ section.settings.placeholder | default: 'Email address' }}"
-        autocomplete="email"
-        required>
-      <button type="submit" class="btn btn--primary unsubscribe__submit">{{ section.settings.button_label | default: 'Unsubscribe' }}</button>
+    {%- form 'contact', id: unsubscribe_form_id, class: 'unsubscribe__form' -%}
       {%- if form.posted_successfully? -%}
-        <p class="unsubscribe__success" role="status">{{ section.settings.success_message | default: 'Thanks. We received your unsubscribe request.' }}</p>
-      {%- elsif form.errors -%}
-        <p class="unsubscribe__error" role="alert">{{ form.errors | default_errors }}</p>
+        <p class="unsubscribe__success" role="status">{{ section.settings.success_message }}</p>
+      {%- else -%}
+        <input type="hidden" name="contact[Request]" value="Unsubscribe from marketing emails">
+        <label class="visually-hidden" for="UnsubscribeEmail-{{ section.id }}">Email address</label>
+        <input
+          id="UnsubscribeEmail-{{ section.id }}"
+          class="unsubscribe__input"
+          type="email"
+          name="contact[email]"
+          value="{% if form.email != blank %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          placeholder="{{ section.settings.placeholder | default: 'Email address' }}"
+          autocomplete="email"
+          spellcheck="false"
+          autocapitalize="off"
+          {% if form.errors %}aria-invalid="true" aria-describedby="UnsubscribeError-{{ section.id }}"{% endif %}
+          required>
+        <button type="submit" class="btn btn--primary unsubscribe__submit">{{ section.settings.button_label | default: 'Unsubscribe' }}</button>
+        {%- if form.errors -%}
+          <p class="unsubscribe__error" id="UnsubscribeError-{{ section.id }}" role="alert">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
       {%- endif -%}
     {%- endform -%}
 
     {%- if section.settings.note != blank -%}
-      <p class="unsubscribe__note">{{ section.settings.note }}</p>
+      <div class="unsubscribe__note">{{ section.settings.note }}</div>
     {%- endif -%}
   </div>
 </section>
@@ -43,11 +60,12 @@
   "settings": [
     { "type": "text", "id": "kicker", "label": "Kicker", "default": "Email preferences" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Unsubscribe from OLNIAN emails" },
-    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Enter your email address and we will mark it as an unsubscribe request in Shopify Customers.</p>" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p><strong>Fastest:</strong> click \"Unsubscribe\" at the bottom of any OLNIAN email. It takes effect immediately.</p><p>Or enter your email below and we will remove you from our marketing list within 2 business days.</p>" },
     { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Email address" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Unsubscribe" },
-    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks. We received your unsubscribe request." },
-    { "type": "richtext", "id": "note", "label": "Note", "default": "<p>This theme-owned form creates an unsubscribe-request tag in Shopify. Marketing emails sent through Shopify Email also include Shopify's automatic unsubscribe link, which updates email consent directly.</p>" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Request received. We will remove you from our marketing emails within 2 business days. Order and shipping emails will still reach you." },
+    { "type": "text", "id": "already_unsubscribed_message", "label": "Message for signed-in customers who are already unsubscribed", "default": "You are signed in and already unsubscribed from our marketing emails. Nothing else to do." },
+    { "type": "richtext", "id": "note", "label": "Note", "default": "<p>Unsubscribing stops marketing emails only. You will still get emails about your orders and active subscription.</p>" },
     { "type": "select", "id": "scheme", "label": "Color scheme", "default": "blush", "options": [
       { "value": "blush", "label": "Blush" },
       { "value": "cream", "label": "Cream" },

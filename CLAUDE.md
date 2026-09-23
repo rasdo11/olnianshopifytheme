@@ -35,6 +35,12 @@ Don't infer handles from `footer.liquid` links or template filenames (`product.c
 
 Only `creatine-monohydrate`, `creatine-hydration-powder`, and `colostrum-powder` get "Gold Subscription" treatment (badge with exclusive perks, "Gold Gift Pack ⊙ Free Shipping ⊙ Cancel Anytime" purchase-option copy, and the `gold-jar-offer` snippet). This is gated in `sections/main-product.liquid` via an `_is_gold_product` flag computed near the top of the product form, from `_offer_handles`. All other subscribable products show plain "Subscribe & Save" with "Free shipping · cancel anytime" — no gold badge. If asked to change which products get gold treatment, edit `_offer_handles` there (and verify handles per the table above).
 
+**Cancellation terms (confirmed by the owner 2026-09-23):** Gold subscriptions have a two-delivery minimum; customers can skip or cancel anytime only after the second delivery. Never write "cancel anytime" on Gold products (`product.json`, `product.hydration.json`, `product.colostrum.json` templates, `gold-jar-offer` snippet). Whether non-Gold subscriptions share the minimum is unconfirmed.
+
+## Unsubscribe page
+
+`/pages/unsubscribe` uses `templates/page.unsubscribe.json` → `sections/unsubscribe-form.liquid`. It submits a Shopify **contact** form, which emails the request to the store inbox; someone must then unsubscribe the customer in Admin. Never use a `customer` form there: that is the newsletter signup form and subscribes the person. The email popup and indexing are disabled on that template in `layout/theme.liquid`.
+
 ## Header shipping tooltip
 
 `sections/header-group.json` → `header.settings.utility_tooltip` drives a CSS-only hover bubble on the "Free Shipping" header link (`sections/header.liquid`, `data-shipping-tooltip` attr, styled in `assets/theme.css` via `content: attr(...)`). Schema default lives in `sections/header.liquid`; keep both in sync when changing the copy.

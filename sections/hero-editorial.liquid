@@ -57,7 +57,7 @@
 
       <div class="hero__ctas" style="margin-top: {{ section.settings.cta_margin_top }}px;">
         {%- if section.settings.primary_cta_label != blank -%}
-          <a href="{{ section.settings.primary_cta_link | default: routes.collections_url | append: '/all' }}" class="btn btn--primary">
+          <a href="{{ section.settings.primary_cta_link | default: routes.all_products_collection_url }}" class="btn btn--primary">
             {{ section.settings.primary_cta_label }}
           </a>
         {%- endif -%}

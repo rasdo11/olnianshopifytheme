@@ -3,7 +3,7 @@
     {%- if section.settings.kicker != blank -%}<p class="brand-intro__kicker">{{ section.settings.kicker }}</p>{%- endif -%}
     {%- if section.settings.headline != blank -%}<h2 class="brand-intro__headline">{{ section.settings.headline }}</h2>{%- endif -%}
     {%- if section.settings.body != blank -%}<div class="brand-intro__body">{{ section.settings.body | newline_to_br }}</div>{%- endif -%}
-    {%- if section.settings.cta_label != blank -%}<a class="btn btn--outline brand-intro__cta" href="{{ section.settings.cta_link | default: routes.collections_url | append: '/all' }}">{{ section.settings.cta_label }}</a>{%- endif -%}
+    {%- if section.settings.cta_label != blank -%}<a class="btn btn--outline brand-intro__cta" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">{{ section.settings.cta_label }}</a>{%- endif -%}
   </div>
 </section>
 {% schema %}
