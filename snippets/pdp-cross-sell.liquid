@@ -63,14 +63,20 @@
         {%- if _cs_note != blank -%}
           <div class="pdp-pair__note">{{ _cs_note }}</div>
         {%- endif -%}
-        <div class="pdp-pair__price">
+        {%- comment -%}
+          Liquid renders the current price, but the Creatine page's full-page cache can hold a
+          stale copy of a paired product's price after that product is edited (editing the
+          paired product only invalidates its own page). theme.js re-reads the live price from
+          /products/<handle>.js and updates these nodes, so the pair price is always current.
+        {%- endcomment -%}
+        <div class="pdp-pair__price" data-cs-price data-cs-handle="{{ cs_product.handle }}" data-cs-variant-id="{{ _cs_variant.id }}">
           {%- comment -%} "Subscribe" is spelled out so the one-tap Add is never a surprise. {%- endcomment -%}
           {%- if _cs_plan_id != blank -%}
             <span class="pdp-pair__tag">Subscribe</span>
-            <strong>{{ _cs_sub_price | money }}</strong><span class="pdp-pair__per">/mo</span>
-            {%- if _cs_sub_price < _cs_variant.price -%}<del>{{ _cs_variant.price | money }}</del>{%- endif -%}
+            <strong data-cs-sub>{{ _cs_sub_price | money }}</strong><span class="pdp-pair__per">/mo</span>
+            <del data-cs-compare{% if _cs_sub_price >= _cs_variant.price %} hidden{% endif %}>{{ _cs_variant.price | money }}</del>
           {%- else -%}
-            <strong>{{ _cs_variant.price | money }}</strong>
+            <strong data-cs-onetime>{{ _cs_variant.price | money }}</strong>
           {%- endif -%}
         </div>
       </div>

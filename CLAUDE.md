@@ -62,6 +62,8 @@ Keep the handle/id map in `main-product.liquid`, the qualification handles in `c
 
 Subscription prices come from `selling_plan_allocations` (never `price × 0.85`).
 
+The PDP "Pairs with" cross-sell (`snippets/pdp-cross-sell.liquid`) shows a *different* product's price, so a cached Creatine page can display that product's old price after it's edited. `initCrossSellPrice()` in `theme.js` re-reads the live price from `/products/<handle>.js` on load and updates `[data-cs-onetime]` / `[data-cs-sub]` / `[data-cs-compare]`. The same full-page-cache staleness affects any card that renders another product's price (home product cards, rails); only the cross-sell is auto-refreshed so far.
+
 ## Header shipping tooltip
 
 `sections/header-group.json` → `header.settings.utility_tooltip` drives a CSS-only hover bubble on the "Free Shipping" header link (`sections/header.liquid`, `data-shipping-tooltip` attr, styled in `assets/theme.css` via `content: attr(...)`). Schema default lives in `sections/header.liquid`; keep both in sync when changing the copy.
