@@ -1,40 +1,34 @@
 {%- comment -%}
-  Cart state for theme.js, rendered with the drawer so every cart write gets it back in the
-  same response (no extra /cart.js request):
+  Cart state for theme.js, returned with every cart write (bundled section rendering, no
+  extra /cart.js request):
   - data-cart-count: header badge.
-  - data-gift-*: the Gold Subscription Gift line(s). A discount can split the gift across
-    lines, so data-gift-qty is the total and data-gift-line-qty the quantity on gift_key. The automatic "Gold Subscription Gift"
-    discount only makes it free alongside Creatine Monohydrate or Creatine Hydration, and the
-    offer is for subscribers, so theme.js removes the gift when no subscribed line of those
-    products remains (otherwise the customer would pay full price for it) and trims it to 1.
-    Keep gift_qualifying_handles in sync with that discount's "Customer buys" products.
+  - data-gifts: JSON, one object per Gold gift line in the cart
+    {id (variant id), key (line key), qty, qualifies}. A gift "qualifies" only while a
+    subscribed line of the product that earns it is in the cart; theme.js removes a gift that
+    no longer qualifies (else the customer is charged for it) and trims each gift to 1.
+      gold-jar-founding-gift            <- subscribed creatine-monohydrate / creatine-hydration-powder
+      gold-subscription-gift-colostrum  <- subscribed colostrum-powder
+    Keep these handles + ids in sync with the automatic BXGY discounts and main-product.liquid.
 {%- endcomment -%}
 {%- liquid
-  assign gift_qualifying_handles = 'creatine-monohydrate,creatine-hydration-powder' | split: ','
-  assign gift_qty = 0
-  assign gift_key = ''
-  assign gift_line_qty = 0
-  assign gift_qualifies = false
+  assign qual_founding = false
+  assign qual_colostrum = false
   for item in cart.items
-    if item.product.handle == 'gold-jar-founding-gift'
-      assign gift_qty = gift_qty | plus: item.quantity
-      assign gift_key = item.key
-      assign gift_line_qty = item.quantity
-    elsif item.selling_plan_allocation
-      if gift_qualifying_handles contains item.product.handle
-        assign gift_qualifies = true
+    if item.selling_plan_allocation
+      if item.product.handle == 'creatine-monohydrate' or item.product.handle == 'creatine-hydration-powder'
+        assign qual_founding = true
+      elsif item.product.handle == 'colostrum-powder'
+        assign qual_colostrum = true
       endif
     endif
   endfor
 -%}
+{%- capture gifts_json -%}[{% assign _sep = '' %}{% for item in cart.items %}{% assign _is_gift = false %}{% assign _gq = false %}{% if item.product.handle == 'gold-jar-founding-gift' %}{% assign _is_gift = true %}{% assign _gq = qual_founding %}{% elsif item.product.handle == 'gold-subscription-gift-colostrum' %}{% assign _is_gift = true %}{% assign _gq = qual_colostrum %}{% endif %}{% if _is_gift %}{{ _sep }}{"id":{{ item.variant_id }},"key":{{ item.key | json }},"qty":{{ item.quantity }},"qualifies":{{ _gq }}}{% assign _sep = ',' %}{% endif %}{% endfor %}]{%- endcapture -%}
 <div
   id="CartDrawerContent"
   data-cart-drawer-content
   data-cart-count="{{ cart.item_count }}"
-  data-gift-qty="{{ gift_qty }}"
-  data-gift-key="{{ gift_key }}"
-  data-gift-line-qty="{{ gift_line_qty }}"
-  data-gift-qualifies="{{ gift_qualifies }}"
+  data-gifts="{{ gifts_json | escape }}"
 >
   <div class="cart-drawer__header">
     <h2 class="cart-drawer__title" id="CartDrawerTitle">{{ 'general.cart.title' | t }}</h2>

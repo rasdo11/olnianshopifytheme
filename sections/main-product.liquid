@@ -292,29 +292,25 @@
           {%- assign _is_gold_product = true -%}
         {%- endif -%}
         {%- comment -%}
-          Gift variant for the founding offer. The gift product is UNLISTED, and all_products
-          does not return unlisted products, so the lookup below comes back empty on the live
-          store; the variant id (verified via the Admin API, 2026-09-23) is the fallback. When
-          the lookup does resolve (e.g. the product is made active), the offer also closes on
-          its own once the gift sells out. With the fallback, stock can't be read here: a
-          sold-out gift is reported in the cart drawer instead, and the offer box should be
-          switched off with "Show founding offer box".
+          Per-product gift. The gift products are UNLISTED, so all_products can't resolve them
+          reliably (it returns an unusable variant, which silently hid the offer and the gift).
+          Map each gold product to its gift variant id directly (verified via Admin API,
+          2026-09-23). Each gift MUST have a matching automatic BXGY discount or it is charged:
+            - gold-jar-founding-gift (44542256840770, $16.99, lid + scoop) - Creatine / Hydration
+            - gold-subscription-gift-colostrum (45260558434370, $6.99, lid only) - Colostrum
+          _gift_offer decides the offer copy (scoop vs lid only). Update these ids if a gift
+          product is recreated, and keep them in sync with cart-drawer.liquid.
         {%- endcomment -%}
-        {%- assign _gift_fallback_variant_id = 44542256840770 -%}
-        {%- assign _show_gold_offer = false -%}
         {%- assign _gift_variant_id = '' -%}
-        {%- if _is_gold_product and section.settings.show_founding_offer -%}
-          {%- assign _gift_product = all_products['gold-jar-founding-gift'] -%}
-          {%- if _gift_product.id != blank -%}
-            {%- assign _gift_variant = _gift_product.selected_or_first_available_variant -%}
-            {%- if _gift_variant.available -%}
-              {%- assign _show_gold_offer = true -%}
-              {%- assign _gift_variant_id = _gift_variant.id -%}
-            {%- endif -%}
-          {%- else -%}
-            {%- assign _show_gold_offer = true -%}
-            {%- assign _gift_variant_id = _gift_fallback_variant_id -%}
-          {%- endif -%}
+        {%- assign _gift_offer = '' -%}
+        {%- case product.handle -%}
+          {%- when 'creatine-monohydrate' -%}{%- assign _gift_variant_id = 44542256840770 -%}{%- assign _gift_offer = 'founding' -%}
+          {%- when 'creatine-hydration-powder' -%}{%- assign _gift_variant_id = 44542256840770 -%}{%- assign _gift_offer = 'founding' -%}
+          {%- when 'colostrum-powder' -%}{%- assign _gift_variant_id = 45260558434370 -%}{%- assign _gift_offer = 'colostrum' -%}
+        {%- endcase -%}
+        {%- assign _show_gold_offer = false -%}
+        {%- if _is_gold_product and section.settings.show_founding_offer and _gift_variant_id != '' -%}
+          {%- assign _show_gold_offer = true -%}
         {%- endif -%}
 
         {%- comment -%}
@@ -440,7 +436,7 @@
             only fits the creatine jars.
           {%- endcomment -%}
           {%- if _show_gold_offer -%}
-            {%- render 'gold-jar-offer' -%}
+            {%- render 'gold-jar-offer', offer: _gift_offer -%}
           {%- endif -%}
 
           {%- comment -%}

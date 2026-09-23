@@ -88,18 +88,34 @@
       if (reconcile) await this._reconcileGift();
       return data;
     },
-    // The Gold gift is only free next to a subscribed Creatine / Hydration line (see
-    // cart-drawer.liquid). Remove it when that line is gone and keep at most one. A discount
-    // can split the gift over several lines, so trim one line per pass (bounded).
+    // Each Gold gift is only free next to a subscribed line of the product that earns it
+    // (cart-drawer.liquid marks it 'qualifies'). Remove a gift that no longer qualifies -
+    // otherwise it is charged - and keep each gift to 1, trimming one line per pass (a
+    // discount can split a gift across lines). Bounded so a stuck line can't loop forever.
     async _reconcileGift() {
-      for (let pass = 0; pass < 3; pass++) {
-        const s = Drawer.state();
-        const target = s.giftQualifies ? 1 : 0;
-        if (!s.giftKey || s.giftQty <= target) return;
-        const lineTarget = Math.max(0, s.giftLineQty - (s.giftQty - target));
-        try {
-          await this._write('cart/change.js', { id: s.giftKey, quantity: lineTarget }, 'Could not update cart.', false);
-        } catch (_) { return; /* leave it; checkout still shows the real price */ }
+      for (let pass = 0; pass < 6; pass++) {
+        const groups = {};
+        Drawer.gifts().forEach((g) => {
+          const grp = groups[g.id] || (groups[g.id] = { total: 0, qualifies: false, lines: [] });
+          grp.total += g.qty;
+          grp.qualifies = grp.qualifies || g.qualifies;
+          grp.lines.push(g);
+        });
+        let acted = false;
+        for (const id in groups) {
+          const grp = groups[id];
+          const target = grp.qualifies ? 1 : 0;
+          if (grp.total <= target) continue;
+          const line = grp.lines.find((l) => l.qty > 0);
+          if (!line) continue;
+          const lineTarget = Math.max(0, line.qty - (grp.total - target));
+          try {
+            await this._write('cart/change.js', { id: line.key, quantity: lineTarget }, 'Could not update cart.', false);
+          } catch (_) { return; /* leave it; checkout still shows the real price */ }
+          acted = true;
+          break; // re-read the drawer after each write
+        }
+        if (!acted) return;
       }
     },
     add(items) {
@@ -118,7 +134,7 @@
   };
 
   /* ---------- Cart Drawer ---------- */
-  const STATE_ATTRS = ['data-cart-count', 'data-gift-qty', 'data-gift-key', 'data-gift-line-qty', 'data-gift-qualifies'];
+  const STATE_ATTRS = ['data-cart-count', 'data-gifts'];
   const Drawer = {
     el: null,
     init() {
@@ -154,14 +170,13 @@
     },
     state() {
       const c = $('#CartDrawerContent');
-      const get = (a) => (c && c.getAttribute(a)) || '';
-      return {
-        count: Number(get('data-cart-count') || 0),
-        giftQty: Number(get('data-gift-qty') || 0),
-        giftKey: get('data-gift-key'),
-        giftLineQty: Number(get('data-gift-line-qty') || 0),
-        giftQualifies: get('data-gift-qualifies') === 'true',
-      };
+      return { count: Number((c && c.getAttribute('data-cart-count')) || 0) };
+    },
+    // Every Gold gift line in the cart: [{id, key, qty, qualifies}].
+    gifts() {
+      const c = $('#CartDrawerContent');
+      try { return JSON.parse((c && c.getAttribute('data-gifts')) || '[]'); }
+      catch (_) { return []; }
     },
     // Swap in server-rendered drawer markup. Returns false if there was nothing usable.
     render(html) {
@@ -321,9 +336,10 @@
         return;
       }
       // Gold gift: a second, separate write so a sold-out gift can never block the
-      // subscription itself. Skipped if the cart already holds one or doesn't qualify.
-      const s = Drawer.state();
-      if (giftVariant && payload.selling_plan && s.giftQualifies && s.giftQty === 0) {
+      // subscription itself. Only when subscribing, and only if this product's gift isn't
+      // already in the cart (reconcile trims duplicates / removes it if it stops qualifying).
+      const already = Drawer.gifts().filter((g) => g.id === giftVariant).reduce((n, g) => n + g.qty, 0);
+      if (giftVariant && payload.selling_plan && already === 0) {
         try {
           await CartAPI.add([{ id: giftVariant, quantity: 1 }]);
         } catch (_) {

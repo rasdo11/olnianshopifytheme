@@ -33,7 +33,7 @@ Don't infer handles from `footer.liquid` links or template filenames (`product.c
 
 ## Gold Subscription
 
-Only `creatine-monohydrate`, `creatine-hydration-powder`, and `colostrum-powder` get "Gold Subscription" treatment (the "Save X% + free gift with purchase" purchase-option note and the `gold-jar-offer` snippet, which states the two-delivery minimum). This is gated in `sections/main-product.liquid` via an `_is_gold_product` flag computed near the top of the product form, from `_offer_handles`. All other subscribable products show plain "Subscribe & Save" with "Free shipping · cancel anytime" — no gold badge. If asked to change which products get gold treatment, edit `_offer_handles` there (and verify handles per the table above).
+Only `creatine-monohydrate`, `creatine-hydration-powder`, and `colostrum-powder` get "Gold Subscription" treatment (the "Save X% + free gift with purchase" purchase-option note and the `gold-jar-offer` snippet, which states the two-delivery minimum). This is gated in `sections/main-product.liquid` via `_is_gold_product` (from `_offer_handles`). All other subscribable products show plain "Subscribe & Save" — no gift. If asked to change which products get gold treatment, edit `_offer_handles` AND the gift map / discounts (below).
 
 **Cancellation terms (confirmed by the owner 2026-09-23):** Gold subscriptions have a two-delivery minimum; customers can skip or cancel anytime only after the second delivery. Never write "cancel anytime" on Gold products (`product.json`, `product.hydration.json`, `product.colostrum.json` templates, `gold-jar-offer` snippet). Whether non-Gold subscriptions share the minimum is unconfirmed.
 
@@ -43,9 +43,22 @@ Only `creatine-monohydrate`, `creatine-hydration-powder`, and `colostrum-powder`
 
 ## Cart and Gold gift flow
 
-All cart writes go through `CartAPI` in `assets/theme.js`: one queue, line items addressed by key, and each write requests the `cart-drawer` section in the same response (no follow-up `/cart.js`). `sections/cart-drawer.liquid` exposes `data-cart-count` and `data-gift-*` on `#CartDrawerContent` for this.
+All cart writes go through `CartAPI` in `assets/theme.js`: one queue, line items addressed by key, each write requests the `cart-drawer` section in the same response (no follow-up `/cart.js`). `sections/cart-drawer.liquid` exposes `data-cart-count` and `data-gifts` (JSON: one object per gift line, `{id, key, qty, qualifies}`) on `#CartDrawerContent`.
 
-The Gold gift (`gold-jar-founding-gift`) is added by the product form submit in `theme.js` when the form has `data-gold-gift-variant` (set in `main-product.liquid` only while the offer shows). **The gift product is UNLISTED and `all_products['gold-jar-founding-gift']` returns nothing for unlisted products**, so `main-product.liquid` falls back to the verified variant id `44542256840770` (`_gift_fallback_variant_id`); update it if the gift product is ever recreated. Before 2026-09-23 this lookup silently failed and the gift was never added (the BXGY discount had 0 uses). With the fallback, stock isn't visible to Liquid: switch off "Show founding offer box" when the 200 sell out. After every write, `theme.js` removes the gift if no subscribed Creatine Monohydrate / Creatine Hydration line remains and trims it to 1. That list mirrors the automatic "Gold Subscription Gift" BXGY discount's "Customer buys" products (Colostrum is NOT in it; its template has the offer off). Keep `gift_qualifying_handles` in `cart-drawer.liquid` in sync with that discount.
+**Two gift products, mapped per product** (both UNLISTED, so `all_products` can't resolve them — it returns an unusable variant, which silently hid the offer AND the gift before 2026-09-23; map variant ids directly instead). In `main-product.liquid` a `case product.handle` sets `_gift_variant_id` + `_gift_offer`, and `gold-jar-offer.liquid` takes `offer:` to switch the copy:
+
+| Product(s) | Gift product | Gift variant id | Price | Copy |
+|---|---|---|---|---|
+| `creatine-monohydrate`, `creatine-hydration-powder` | `gold-jar-founding-gift` | `44542256840770` | $16.99 | gold lid + pink scoop |
+| `colostrum-powder` | `gold-subscription-gift-colostrum` | `45260558434370` | $6.99 | gold lid only |
+
+Each gift is added by the product-form submit in `theme.js` (when the form has `data-gold-gift-variant` and the shopper subscribes), and only if the cart doesn't already hold that gift. After every write, `theme.js` (`_reconcileGift`) removes any gift that no longer "qualifies" and trims each to 1. A gift qualifies only while a subscribed line of a product that earns it is in the cart (`cart-drawer.liquid` computes this: founding ← creatine/hydration subs, colostrum ← colostrum sub).
+
+Each gift is made free by an automatic BXGY discount — **a gift with no matching discount would be charged**:
+- "Gold Subscription Gift" (`DiscountAutomaticNode/1569031225410`): buys creatine-monohydrate/creatine-hydration-powder → free gold-jar-founding-gift.
+- "Gold Subscription Gift (Colostrum)" (`DiscountAutomaticNode/1591626694722`, created 2026-09-23): buys colostrum-powder → free gold-subscription-gift-colostrum.
+
+Keep the handle/id map in `main-product.liquid`, the qualification handles in `cart-drawer.liquid`, and the BXGY discounts' "Customer buys" in sync. Stock isn't visible to Liquid (gifts are unlisted), so switch off "Show founding offer box" on a product's template when its gift's 200 sell out.
 
 Subscription prices come from `selling_plan_allocations` (never `price × 0.85`).
 
