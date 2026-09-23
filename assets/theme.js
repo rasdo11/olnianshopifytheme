@@ -175,11 +175,16 @@
       return v && v.sellingPlanId ? String(v.sellingPlanId) : '';
     }
 
-    // Each variant has ONE purchase mode: variants with a selling plan are
-    // subscription-only (Premium → Gold Subscription); the rest are one-time.
+    // When the Subscribe / One-time toggle is on the page, the shopper's choice (mirrored
+    // on form.dataset.purchaseMode by the toggle script in main-product.liquid) decides the
+    // mode, and this function must never override it. Without the toggle, a variant with a
+    // selling plan is subscription-only (Premium → Gold Subscription); the rest are one-time.
+    const hasPurchaseToggle = !!document.querySelector('[data-purchase-options]');
     function applyState() {
       const variant = variantInput && window.__productVariants[variantInput.value];
-      const planId = variantInput ? planForVariant(variantInput.value) : '';
+      const variantPlan = variantInput ? planForVariant(variantInput.value) : '';
+      const wantsSub = !hasPurchaseToggle || form.dataset.purchaseMode !== 'onetime';
+      const planId = wantsSub ? variantPlan : '';
       const isSub = !!planId;
 
       if (sellingPlanInput) sellingPlanInput.value = isSub ? planId : '';
@@ -243,7 +248,8 @@
         alert(err.message || 'Could not add to cart.');
       } finally {
         if (submitBtn) submitBtn.disabled = false;
-        // Re-sync (restores label + selling plan for the next add)
+        // Re-sync (restores label + selling plan for the next add, keeping the
+        // shopper's chosen purchase mode)
         applyState();
       }
     });
