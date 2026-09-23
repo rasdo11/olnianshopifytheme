@@ -1,19 +1,17 @@
 {%- comment -%}
   Gold Subscription founding offer - rendered on subscribable gold PDPs (Creatine Monohydrate,
-  Creatine Hydration, Colostrum). When a customer subscribes, this adds the free OLNIAN Gold
-  Subscription Gift (keepsake gold lid + signature pink scoop) to the cart alongside the
-  subscription, then opens the cart drawer. An AUTOMATIC Buy-X-Get-Y discount makes the gift
-  free at checkout; the 200-unit cap rides on the gift product's own inventory (tracked/deny).
+  Creatine Hydration, Colostrum). Markup only: when a customer subscribes, theme.js adds the
+  free OLNIAN Gold Subscription Gift (keepsake gold lid + signature pink scoop) through the
+  shared cart flow, using the gift variant main-product.liquid puts on the form. An AUTOMATIC
+  Buy-X-Get-Y discount makes the gift free at checkout; the 200-unit cap rides on the gift
+  product's own inventory (tracked/deny). cart-drawer.liquid removes a gift that no longer
+  qualifies for that discount.
 
   This block is the ONLY place the founding offer is described - the purchase-option note and
   the trust line stay short so the offer isn't repeated three times on one screen.
 
-  The gift variant id is looked up by product handle so it survives id changes.
   Renewal (Loop) orders never touch the storefront cart, so the gift is first-order-only automatically.
 {%- endcomment -%}
-
-{%- assign gold_jar = all_products['gold-jar-founding-gift'] -%}
-{%- assign gold_jar_variant_id = gold_jar.variants.first.id -%}
 
 <div class="gold-offer">
   <span class="gold-offer__eyebrow">Founding offer · first 200 members</span>
@@ -60,79 +58,3 @@
     .gold-offer__points li { font-size: 12.5px; }
   }
 </style>
-
-<script>
-  (function () {
-    var JAR_VARIANT = {{ gold_jar_variant_id | default: 'null' }};
-
-    function addToCart(items) {
-      return fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ items: items })
-      });
-    }
-
-    // Refresh the cart-drawer section HTML and open it - mirrors the theme's own drawer behaviour,
-    // since we preempt the theme's submit handler below.
-    function refreshAndOpenDrawer() {
-      return fetch(window.location.pathname + '?section_id=cart-drawer', { headers: { Accept: 'text/html' } })
-        .then(function (r) { return r.ok ? r.text() : null; })
-        .then(function (html) {
-          if (html) {
-            var parsed = new DOMParser().parseFromString(html, 'text/html');
-            var incoming = parsed.querySelector('[data-cart-drawer-content]');
-            var current = document.querySelector('#CartDrawerContent');
-            if (incoming && current) current.innerHTML = incoming.innerHTML;
-          }
-          return fetch('/cart.js', { headers: { Accept: 'application/json' } }).then(function (r) { return r.json(); }).then(function (cart) {
-            var countEl = document.querySelector('.site-header__cart-count');
-            if (countEl) { countEl.textContent = cart.item_count; countEl.style.display = cart.item_count > 0 ? '' : 'none'; }
-          }).catch(function () {});
-        })
-        .then(function () {
-          var drawer = document.querySelector('#CartDrawer');
-          if (drawer) {
-            drawer.setAttribute('data-open', 'true');
-            drawer.setAttribute('aria-hidden', 'false');
-            if (!(window.Shopify && window.Shopify.designMode)) document.body.style.overflow = 'hidden';
-          }
-        });
-    }
-
-    // Capture on document so we run BEFORE the theme's own form-submit handler, then stop it
-    // so the main item isn't added twice. The free Gold Jar is applied by an AUTOMATIC discount,
-    // so we just add both items and open the drawer - no discount-link redirect needed.
-    document.addEventListener('submit', function (e) {
-      var form = e.target;
-      if (!form || !form.matches || !form.matches('[data-product-form]')) return;
-      if (!JAR_VARIANT) return; // gift product missing - fall back to default behaviour
-
-      var sp = form.querySelector('[name="selling_plan"]');
-      if (!sp || !sp.value) return; // one-time purchase → let the theme handle it normally
-
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
-      var idInput = form.querySelector('[name="id"]');
-      var qtyInput = form.querySelector('[name="quantity"]');
-      var btn = form.querySelector('[data-product-submit]');
-      var label = (btn && btn.getAttribute('data-default-label')) || 'Add to Cart';
-      if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
-
-      addToCart([{ id: Number(idInput.value), quantity: Number((qtyInput || {}).value || 1), selling_plan: Number(sp.value) }])
-        .then(function (r) {
-          if (!r.ok) return r.json().then(function (x) { throw new Error(x.description || 'Could not add to cart.'); });
-          return r.json();
-        })
-        // Best-effort: if the 200 jars are gone (out of stock), the jar add fails and we continue without it.
-        .then(function () { return addToCart([{ id: JAR_VARIANT, quantity: 1 }]).catch(function () { return null; }); })
-        .then(function () { return refreshAndOpenDrawer(); })
-        .then(function () { if (btn) { btn.disabled = false; btn.textContent = label; } })
-        .catch(function (err) {
-          alert(err.message || 'Could not add to cart.');
-          if (btn) { btn.disabled = false; btn.textContent = label; }
-        });
-    }, true);
-  })();
-</script>
