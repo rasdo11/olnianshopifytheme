@@ -59,7 +59,10 @@
           "headline": "Enjoy 10% off",
           "body": "Sign up for emails and receive 10% off your first order.",
           "placeholder": "Email address",
-          "success_message": "Thanks, check your inbox for 10% off.",
+          "success_message": "You're in! Here's your 10% off code:",
+          "discount_code": "WELCOME10",
+          "code_note": "Valid on one-time purchases. It's applied automatically when you shop from here.",
+          "shop_label": "Shop with 10% off",
           "fineprint": "Offer valid for new email subscribers. By signing up, you agree to receive email from OLNIAN."
         }
       }

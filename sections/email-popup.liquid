@@ -46,7 +46,26 @@
           required>
         <button type="submit" class="email-popup__submit" aria-label="Submit email signup">→</button>
         {%- if form.posted_successfully? -%}
-          <p class="email-popup__success" role="status" data-email-popup-result="success">{{ section.settings.success_message | default: 'Thanks, check your inbox for 10% off.' }}</p>
+          <div class="email-popup__success" role="status" data-email-popup-result="success">
+            <p>{{ section.settings.success_message | default: 'Thanks, check your inbox for 10% off.' }}</p>
+            {%- comment -%}
+              The code is shown right away instead of only promised by email. The discount
+              itself (limits, eligible products) lives in Shopify Admin → Discounts; the Shop
+              link goes through /discount/CODE, which stores the code for checkout.
+            {%- endcomment -%}
+            {%- assign _code = section.settings.discount_code | strip -%}
+            {%- if _code != blank -%}
+              {%- assign _discount_url = routes.root_url | append: '/discount/' | append: _code | replace: '//discount', '/discount' -%}
+              <div class="email-popup__code">
+                <span class="email-popup__code-value" data-email-popup-code>{{ _code | escape }}</span>
+                <button type="button" class="email-popup__code-copy" data-email-popup-copy data-copied-label="Copied">Copy</button>
+              </div>
+              {%- if section.settings.code_note != blank -%}
+                <p class="email-popup__code-note">{{ section.settings.code_note }}</p>
+              {%- endif -%}
+              <a class="btn btn--primary email-popup__code-shop" href="{{ _discount_url }}?redirect={{ routes.all_products_collection_url | url_encode }}">{{ section.settings.shop_label | default: 'Shop with 10% off' }}</a>
+            {%- endif -%}
+          </div>
         {%- elsif form.errors -%}
           <p class="email-popup__fineprint" role="alert" data-email-popup-result="error">{{ form.errors | default_errors }}</p>
         {%- endif -%}
@@ -73,7 +92,10 @@
     { "type": "text", "id": "headline", "label": "Headline", "default": "Enjoy 10% off" },
     { "type": "textarea", "id": "body", "label": "Body", "default": "Sign up for emails and receive 10% off your first order." },
     { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Email address" },
-    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks, check your inbox for 10% off." },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "You're in! Here's your 10% off code:" },
+    { "type": "text", "id": "discount_code", "label": "Discount code shown after signup", "info": "Must match an active code in Shopify Admin → Discounts. Leave empty to show only the success message.", "default": "WELCOME10" },
+    { "type": "text", "id": "code_note", "label": "Note under the code", "default": "Valid on one-time purchases. It's applied automatically when you shop from here." },
+    { "type": "text", "id": "shop_label", "label": "Shop button label", "default": "Shop with 10% off" },
     { "type": "textarea", "id": "fineprint", "label": "Fine print", "default": "Offer valid for new email subscribers. By signing up, you agree to receive email from OLNIAN." }
   ]
 }
