@@ -6,7 +6,7 @@
     {%- for line_item in order.line_items -%}
       <div style="display: grid; grid-template-columns: 96px 1fr auto; gap: 20px; padding: 20px; background: white; border-radius: 12px; border: 1px solid var(--espresso-06);">
         {%- if line_item.image -%}
-          <img src="{{ line_item.image | image_url: width: 192 }}" alt="{{ line_item.title | escape }}" style="width: 96px; aspect-ratio: 1; object-fit: cover; border-radius: 8px;">
+          <img src="{{ line_item.image | image_url: width: 192 }}" alt="{{ line_item.title | escape }}" width="96" height="96" loading="lazy" style="width: 96px; aspect-ratio: 1; object-fit: cover; border-radius: 8px;">
         {%- else -%}
           <div></div>
         {%- endif -%}

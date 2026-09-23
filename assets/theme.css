@@ -2727,6 +2727,12 @@ body.nav-open { overflow: hidden; }
 /* ── Dynamic mobile experience controls ──────────────────────── */
 .hero__image { position: relative; }
 .hero__video { width: 100%; height: 100%; object-fit: var(--hero-media-fit, cover); cursor: pointer; }
+/* Video heroes: the poster <img> holds the layout and is the LCP; the video sits on top and
+   only fades in once it has actually started, so a source that never loads (mobile,
+   reduced motion, Save-Data) costs nothing and leaves the poster in place. */
+.hero__poster { width: 100%; height: 100%; object-fit: var(--hero-media-fit, cover); }
+.hero__poster + .hero__video { position: absolute; inset: 0; opacity: 0; transition: opacity .4s ease; }
+.hero__image.is-video-started .hero__video { opacity: 1; }
 .divider-bar {
   min-height: var(--divider-height, 64px);
   background: var(--divider-bg, var(--lavender));

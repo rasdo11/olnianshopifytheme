@@ -41,7 +41,18 @@
                 {%- for image in product.images -%}
                   <div class="pdp-gallery__slide{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}">
                     <button type="button" class="pdp-gallery__main-btn" data-lightbox-open="{{ forloop.index0 }}" aria-label="View full image">
-                      <img src="{{ image | image_url: width: 1400 }}" alt="{{ image.alt | default: product.title }}" class="pdp-gallery__img" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+                      {%- comment -%} Responsive sources + intrinsic width/height (no fixed 1400px file, no layout shift); only the first slide is eager/high priority. {%- endcomment -%}
+                      {%- liquid
+                        assign _alt = image.alt | default: product.title
+                        if forloop.first
+                          assign _load = 'eager'
+                          assign _prio = 'high'
+                        else
+                          assign _load = 'lazy'
+                          assign _prio = 'auto'
+                        endif
+                      -%}
+                      {{ image | image_url: width: 1400 | image_tag: class: 'pdp-gallery__img', loading: _load, fetchpriority: _prio, widths: '400, 600, 800, 1000, 1200, 1400', sizes: '(max-width: 900px) 100vw, 50vw', alt: _alt }}
                     </button>
                   </div>
                 {%- endfor -%}
@@ -49,7 +60,7 @@
                 {%- if _hero_file != blank -%}
                   <div class="pdp-gallery__slide is-active" data-slide="0">
                     <button type="button" class="pdp-gallery__main-btn" data-lightbox-open="0" aria-label="View full image">
-                      <img src="{{ _hero_file | image_url: width: 1400 }}" alt="{{ product.title }}" class="pdp-gallery__img" loading="eager">
+                      {{ _hero_file | image_url: width: 1400 | image_tag: class: 'pdp-gallery__img', loading: 'eager', fetchpriority: 'high', widths: '400, 600, 800, 1000, 1200, 1400', sizes: '(max-width: 900px) 100vw, 50vw', alt: product.title }}
                     </button>
                   </div>
                   {%- assign _slide_i = 1 -%}
@@ -58,7 +69,17 @@
                   {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
                     <div class="pdp-gallery__slide{% if _slide_i == 0 %} is-active{% endif %}" data-slide="{{ _slide_i }}" {{ block.shopify_attributes }}>
                       <button type="button" class="pdp-gallery__main-btn" data-lightbox-open="{{ _slide_i }}" aria-label="View full image">
-                        <img src="{{ block.settings.image | image_url: width: 1400 }}" alt="{{ block.settings.image.alt | default: product.title }}" class="pdp-gallery__img" loading="lazy">
+                        {%- liquid
+                          assign _alt = block.settings.image.alt | default: product.title
+                          if _slide_i == 0
+                            assign _load = 'eager'
+                            assign _prio = 'high'
+                          else
+                            assign _load = 'lazy'
+                            assign _prio = 'auto'
+                          endif
+                        -%}
+                        {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'pdp-gallery__img', loading: _load, fetchpriority: _prio, widths: '400, 600, 800, 1000, 1200, 1400', sizes: '(max-width: 900px) 100vw, 50vw', alt: _alt }}
                       </button>
                     </div>
                     {%- assign _slide_i = _slide_i | plus: 1 -%}
@@ -68,7 +89,8 @@
             {%- elsif product.featured_image -%}
               <div class="pdp-gallery__slide is-active">
                 <button type="button" class="pdp-gallery__main-btn" data-lightbox-open="0" aria-label="View full image">
-                  <img src="{{ product.featured_image | image_url: width: 1400 }}" alt="{{ product.featured_image.alt | default: product.title }}" class="pdp-gallery__img" loading="eager">
+                  {%- assign _alt = product.featured_image.alt | default: product.title -%}
+                  {{ product.featured_image | image_url: width: 1400 | image_tag: class: 'pdp-gallery__img', loading: 'eager', fetchpriority: 'high', widths: '400, 600, 800, 1000, 1200, 1400', sizes: '(max-width: 900px) 100vw, 50vw', alt: _alt }}
                 </button>
               </div>
             {%- endif -%}
@@ -80,21 +102,23 @@
               {%- if use_product_media and product.images.size > 0 -%}
                 {%- for image in product.images -%}
                   <button type="button" class="pdp-gallery__thumb{% if forloop.first %} is-active{% endif %}" data-thumb="{{ forloop.index0 }}" aria-label="View image {{ forloop.index }}">
-                    <img src="{{ image | image_url: width: 300 }}" alt="{{ image.alt | default: product.title }}" loading="lazy">
+                    {%- assign _alt = image.alt | default: product.title -%}
+                    {{ image | image_url: width: 300 | image_tag: widths: '150, 300', sizes: '12vw', loading: 'lazy', alt: _alt }}
                   </button>
                 {%- endfor -%}
               {%- else -%}
                 {%- assign _thumb_i = 0 -%}
                 {%- if _hero_file != blank -%}
                   <button type="button" class="pdp-gallery__thumb is-active" data-thumb="0" aria-label="View image 1">
-                    <img src="{{ _hero_file | image_url: width: 300 }}" alt="{{ product.title }}" loading="lazy">
+                    {{ _hero_file | image_url: width: 300 | image_tag: widths: '150, 300', sizes: '12vw', loading: 'lazy', alt: product.title }}
                   </button>
                   {%- assign _thumb_i = 1 -%}
                 {%- endif -%}
                 {%- for block in section.blocks -%}
                   {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
                     <button type="button" class="pdp-gallery__thumb{% if _thumb_i == 0 %} is-active{% endif %}" data-thumb="{{ _thumb_i }}" aria-label="View image {{ _thumb_i | plus: 1 }}">
-                      <img src="{{ block.settings.image | image_url: width: 300 }}" alt="{{ block.settings.image.alt | default: product.title }}" loading="lazy">
+                      {%- assign _alt = block.settings.image.alt | default: product.title -%}
+                      {{ block.settings.image | image_url: width: 300 | image_tag: widths: '150, 300', sizes: '12vw', loading: 'lazy', alt: _alt }}
                     </button>
                     {%- assign _thumb_i = _thumb_i | plus: 1 -%}
                   {%- endif -%}
@@ -133,21 +157,21 @@
               {%- if use_product_media and product.images.size > 0 -%}
                 {%- for image in product.images -%}
                   <div class="pdp-lightbox__slide{% if forloop.first %} is-active{% endif %}" data-lightbox-slide="{{ forloop.index0 }}">
-                    <img src="{{ image | image_url: width: 2000 }}" alt="{{ image.alt | default: product.title }}" loading="lazy">
+                    <img data-lightbox-src="{{ image | image_url: width: 2000 }}" data-lightbox-srcset="{{ image | image_url: width: 1000 }} 1000w, {{ image | image_url: width: 1500 }} 1500w, {{ image | image_url: width: 2000 }} 2000w" sizes="min(90vw, 90vh)" width="{{ image.width }}" height="{{ image.height }}" alt="{{ image.alt | default: product.title | escape }}">
                   </div>
                 {%- endfor -%}
               {%- else -%}
                 {%- assign _lb_i = 0 -%}
                 {%- if _hero_file != blank -%}
                   <div class="pdp-lightbox__slide is-active" data-lightbox-slide="0">
-                    <img src="{{ _hero_file | image_url: width: 2000 }}" alt="{{ product.title }}" loading="lazy">
+                    <img data-lightbox-src="{{ _hero_file | image_url: width: 2000 }}" data-lightbox-srcset="{{ _hero_file | image_url: width: 1000 }} 1000w, {{ _hero_file | image_url: width: 1500 }} 1500w, {{ _hero_file | image_url: width: 2000 }} 2000w" sizes="min(90vw, 90vh)" width="{{ _hero_file.width }}" height="{{ _hero_file.height }}" alt="{{ product.title | escape }}">
                   </div>
                   {%- assign _lb_i = 1 -%}
                 {%- endif -%}
                 {%- for block in section.blocks -%}
                   {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
                     <div class="pdp-lightbox__slide{% if _lb_i == 0 %} is-active{% endif %}" data-lightbox-slide="{{ _lb_i }}">
-                      <img src="{{ block.settings.image | image_url: width: 2000 }}" alt="{{ block.settings.image.alt | default: product.title }}" loading="lazy">
+                      <img data-lightbox-src="{{ block.settings.image | image_url: width: 2000 }}" data-lightbox-srcset="{{ block.settings.image | image_url: width: 1000 }} 1000w, {{ block.settings.image | image_url: width: 1500 }} 1500w, {{ block.settings.image | image_url: width: 2000 }} 2000w" sizes="min(90vw, 90vh)" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}" alt="{{ block.settings.image.alt | default: product.title | escape }}">
                     </div>
                     {%- assign _lb_i = _lb_i | plus: 1 -%}
                   {%- endif -%}

@@ -8,7 +8,7 @@
     <form action="{{ routes.cart_url }}" method="post" novalidate style="margin-top: 40px;">
       {%- for item in cart.items -%}
         <div class="cart-page__line" style="display: grid; grid-template-columns: 120px 1fr auto; gap: 24px; padding: 24px 0; border-top: 1px solid var(--espresso-06);">
-          <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.image.alt | escape }}" loading="lazy" style="width: 120px; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
+          <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.image.alt | escape }}" loading="lazy" width="120" height="120" style="width: 120px; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
           <div>
             <h3 class="serif" style="font-size: 22px;">{{ item.product.title }}</h3>
             {%- if item.variant.title != 'Default Title' -%}

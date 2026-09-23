@@ -641,8 +641,20 @@
 
     const lbSlides = $$('.pdp-lightbox__slide', lightbox);
 
+    // Full-size images carry no src until the lightbox is used (see main-product.liquid);
+    // load the shown slide and its neighbours so swiping stays instant.
+    function lbLoad(index) {
+      const slide = lbSlides[index];
+      const img = slide && slide.querySelector('img[data-lightbox-src]');
+      if (!img) return;
+      if (img.dataset.lightboxSrcset) img.srcset = img.dataset.lightboxSrcset;
+      img.src = img.dataset.lightboxSrc;
+      img.removeAttribute('data-lightbox-src');
+    }
+
     function lbGoTo(index) {
       lbSlides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+      [index, index + 1, index - 1].forEach(lbLoad);
     }
 
     function lbOpen(index) {
@@ -1054,6 +1066,8 @@
 
   function initHeroVideoToggle() {
     const mobileQuery = window.matchMedia('(max-width: 600px)');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const saveData = !!(navigator.connection && navigator.connection.saveData);
 
     $$('.hero__video').forEach((video) => {
       const mediaFrame = video.closest('.hero__image');
@@ -1071,7 +1085,20 @@
         }
       };
 
+      // The markup ships the source as data-src so nothing downloads until we decide the
+      // video should play (see hero-editorial.liquid).
+      const attachSource = () => {
+        const pending = $$('source[data-src]', video);
+        if (!pending.length) return;
+        pending.forEach((source) => {
+          source.src = source.dataset.src;
+          source.removeAttribute('data-src');
+        });
+        video.load();
+      };
+
       const playVideo = () => {
+        attachSource();
         video.play().catch(() => {}).finally(syncState);
       };
 
@@ -1080,16 +1107,29 @@
         syncState();
       };
 
-      // Don't autoplay for anyone who has asked the OS to reduce motion.
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if (mobileQuery.matches || reduceMotion.matches) {
-        pauseVideo();
-      } else {
-        syncState();
-      }
-
+      video.addEventListener('playing', () => {
+        if (mediaFrame) mediaFrame.classList.add('is-video-started');
+      });
       video.addEventListener('play', syncState);
       video.addEventListener('pause', syncState);
+
+      // Autoplay only on larger screens, without reduced motion or Save-Data, and only once
+      // the hero is actually on screen.
+      const mayAutoplay = () => !mobileQuery.matches && !reduceMotion.matches && !saveData;
+      if (mayAutoplay()) {
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver((entries) => {
+            if (entries.some((e) => e.isIntersecting)) {
+              io.disconnect();
+              if (mayAutoplay()) playVideo();
+            }
+          });
+          io.observe(video);
+        } else {
+          playVideo();
+        }
+      }
+      syncState();
 
       if (playButton) {
         playButton.addEventListener('click', (event) => {
