@@ -188,6 +188,19 @@
       "name": "Wide image",
       "settings": {}
     },
+    "pdp_more_products_YQrm7N": {
+      "type": "pdp-more-products",
+      "name": "PDP - more products",
+      "settings": {
+        "kicker": "The rest of the line",
+        "heading": "More from OLNIAN",
+        "view_all_label": "Shop all",
+        "view_all_link": "shopify://collections/all",
+        "collection": "all-products",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
     "science": {
       "type": "product-science",
       "blocks": {
@@ -307,6 +320,7 @@
   "order": [
     "main",
     "blocks_qa3bBP",
+    "pdp_more_products_YQrm7N",
     "science",
     "faq"
   ]
