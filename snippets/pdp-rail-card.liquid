@@ -18,7 +18,8 @@
       <span class="pdp-rail__badge">{{ rail_label }}</span>
     {%- endif -%}
     {%- if rail_product.featured_image -%}
-      <img src="{{ rail_product.featured_image | image_url: width: 400 }}" alt="{{ rail_product.featured_image.alt | default: rail_product.title }}" loading="lazy">
+      {%- assign _rail_alt = rail_product.featured_image.alt | default: rail_product.title -%}
+      {{ rail_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '(max-width: 600px) 45vw, 200px', alt: _rail_alt }}
     {%- endif -%}
   </a>
   <a href="{{ rail_product.url }}" class="pdp-rail__name">{{ rail_product.title }}</a>
