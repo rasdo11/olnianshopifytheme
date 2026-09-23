@@ -2,7 +2,8 @@
   Cart state for theme.js, rendered with the drawer so every cart write gets it back in the
   same response (no extra /cart.js request):
   - data-cart-count: header badge.
-  - data-gift-*: the Gold Subscription Gift line. The automatic "Gold Subscription Gift"
+  - data-gift-*: the Gold Subscription Gift line(s). A discount can split the gift across
+    lines, so data-gift-qty is the total and data-gift-line-qty the quantity on gift_key. The automatic "Gold Subscription Gift"
     discount only makes it free alongside Creatine Monohydrate or Creatine Hydration, and the
     offer is for subscribers, so theme.js removes the gift when no subscribed line of those
     products remains (otherwise the customer would pay full price for it) and trims it to 1.
@@ -12,11 +13,13 @@
   assign gift_qualifying_handles = 'creatine-monohydrate,creatine-hydration-powder' | split: ','
   assign gift_qty = 0
   assign gift_key = ''
+  assign gift_line_qty = 0
   assign gift_qualifies = false
   for item in cart.items
     if item.product.handle == 'gold-jar-founding-gift'
       assign gift_qty = gift_qty | plus: item.quantity
       assign gift_key = item.key
+      assign gift_line_qty = item.quantity
     elsif item.selling_plan_allocation
       if gift_qualifying_handles contains item.product.handle
         assign gift_qualifies = true
@@ -30,6 +33,7 @@
   data-cart-count="{{ cart.item_count }}"
   data-gift-qty="{{ gift_qty }}"
   data-gift-key="{{ gift_key }}"
+  data-gift-line-qty="{{ gift_line_qty }}"
   data-gift-qualifies="{{ gift_qualifies }}"
 >
   <div class="cart-drawer__header">
@@ -118,6 +122,8 @@
           class="cart-drawer__item"
           data-cart-item
           data-key="{{ item.key }}"
+          data-variant-id="{{ item.variant_id }}"
+          data-selling-plan-id="{{ item.selling_plan_allocation.selling_plan.id }}"
           data-quantity="{{ item.quantity }}"
           data-update-error="{{ 'general.cart.update_error' | t | escape }}"
         >

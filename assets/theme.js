@@ -89,15 +89,18 @@
       return data;
     },
     // The Gold gift is only free next to a subscribed Creatine / Hydration line (see
-    // cart-drawer.liquid). Remove it when that line is gone and keep at most one.
+    // cart-drawer.liquid). Remove it when that line is gone and keep at most one. A discount
+    // can split the gift over several lines, so trim one line per pass (bounded).
     async _reconcileGift() {
-      const s = Drawer.state();
-      if (!s.giftKey || s.giftQty < 1) return;
-      const target = s.giftQualifies ? 1 : 0;
-      if (s.giftQty === target) return;
-      try {
-        await this._write('cart/change.js', { id: s.giftKey, quantity: target }, 'Could not update cart.', false);
-      } catch (_) { /* leave it; checkout still shows the real price */ }
+      for (let pass = 0; pass < 3; pass++) {
+        const s = Drawer.state();
+        const target = s.giftQualifies ? 1 : 0;
+        if (!s.giftKey || s.giftQty <= target) return;
+        const lineTarget = Math.max(0, s.giftLineQty - (s.giftQty - target));
+        try {
+          await this._write('cart/change.js', { id: s.giftKey, quantity: lineTarget }, 'Could not update cart.', false);
+        } catch (_) { return; /* leave it; checkout still shows the real price */ }
+      }
     },
     add(items) {
       return this.run(() => this._write('cart/add.js', { items }, 'Could not add to cart.'));
@@ -115,7 +118,7 @@
   };
 
   /* ---------- Cart Drawer ---------- */
-  const STATE_ATTRS = ['data-cart-count', 'data-gift-qty', 'data-gift-key', 'data-gift-qualifies'];
+  const STATE_ATTRS = ['data-cart-count', 'data-gift-qty', 'data-gift-key', 'data-gift-line-qty', 'data-gift-qualifies'];
   const Drawer = {
     el: null,
     init() {
@@ -156,6 +159,7 @@
         count: Number(get('data-cart-count') || 0),
         giftQty: Number(get('data-gift-qty') || 0),
         giftKey: get('data-gift-key'),
+        giftLineQty: Number(get('data-gift-line-qty') || 0),
         giftQualifies: get('data-gift-qualifies') === 'true',
       };
     },
@@ -383,7 +387,22 @@
     // build on this rather than on the (possibly stale) rendered quantity, and a burst of
     // taps collapses into as few writes as needed to reach the final number.
     const qtyIntent = new Map();
+    const lineIdentity = new Map(); // key -> { variantId, planId }, to follow a re-keyed line
     const flushing = new Set();
+
+    // Shopify can re-key a line when its discounts change. Find the same line (variant +
+    // selling plan) in the cart a write returned; null if it's gone or ambiguous.
+    function resolveKey(key, cart) {
+      const items = (cart && cart.items) || [];
+      if (items.some((i) => i.key === key)) return key;
+      const id = lineIdentity.get(key);
+      if (!id) return null;
+      const matches = items.filter((i) => (
+        String(i.variant_id) === id.variantId &&
+        String((i.selling_plan_allocation && i.selling_plan_allocation.selling_plan.id) || '') === id.planId
+      ));
+      return matches.length === 1 ? matches[0].key : null;
+    }
 
     function showIntent(key) {
       if (!qtyIntent.has(key)) return;
@@ -394,22 +413,42 @@
       item.setAttribute('aria-busy', 'true');
     }
 
-    async function flushQty(key) {
-      if (flushing.has(key)) return; // the running loop picks up the newest intent
+    async function flushQty(startKey) {
+      if (flushing.has(startKey)) return; // the running loop picks up the newest intent
+      let key = startKey;
       flushing.add(key);
       try {
         while (qtyIntent.has(key)) {
           const qty = qtyIntent.get(key);
+          let cart;
           try {
-            await CartAPI.change(key, qty);
+            cart = await CartAPI.change(key, qty);
           } catch (err) {
             qtyIntent.delete(key);
             if (!err.uncertain) await Drawer.refresh();
             Drawer.notice(err.message, err.uncertain);
             break;
           }
-          if (qtyIntent.get(key) === qty) qtyIntent.delete(key);
-          else showIntent(key); // a newer tap arrived; keep it visible over the re-render
+          if (qtyIntent.get(key) === qty) { qtyIntent.delete(key); break; }
+          // A newer tap is waiting. Carry it to the line's current key before writing again.
+          const nextKey = qty > 0 ? resolveKey(key, cart) : null;
+          if (!nextKey) {
+            qtyIntent.delete(key);
+            await Drawer.refresh();
+            Drawer.notice("Some quantity changes couldn't be applied. Please check your cart.");
+            break;
+          }
+          if (nextKey !== key) {
+            // A tap already made on the re-rendered line is newer; otherwise move ours over.
+            if (!qtyIntent.has(nextKey)) qtyIntent.set(nextKey, qtyIntent.get(key));
+            lineIdentity.set(nextKey, lineIdentity.get(key));
+            qtyIntent.delete(key);
+            flushing.delete(key);
+            if (flushing.has(nextKey)) break; // that line already has its own loop
+            key = nextKey;
+            flushing.add(key);
+          }
+          showIntent(key);
         }
       } finally {
         flushing.delete(key);
@@ -447,6 +486,7 @@
         return;
       }
 
+      lineIdentity.set(key, { variantId: item.dataset.variantId || '', planId: item.dataset.sellingPlanId || '' });
       const base = qtyIntent.has(key) ? qtyIntent.get(key) : renderedQty;
       let nextQty = base;
       if (inc) nextQty = base + 1;
