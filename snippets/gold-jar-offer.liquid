@@ -1,7 +1,7 @@
 {%- comment -%}
   Gold Subscription founding offer - rendered on subscribable gold PDPs (Creatine Monohydrate,
   Creatine Hydration, Colostrum). Markup only: when a customer subscribes, theme.js adds the
-  free OLNIAN Gold Subscription Gift (keepsake gold lid + signature pink scoop) through the
+  free gift (gold lid + pink scoop for Creatine/Hydration, gold lid only for Colostrum) through the
   shared cart flow, using the gift variant main-product.liquid puts on the form. An AUTOMATIC
   Buy-X-Get-Y discount makes the gift free at checkout; the 200-unit cap rides on the gift
   product's own inventory (tracked/deny). cart-drawer.liquid removes a gift that no longer
@@ -13,10 +13,20 @@
   Renewal (Loop) orders never touch the storefront cart, so the gift is first-order-only automatically.
 {%- endcomment -%}
 
+{%- comment -%}
+  offer: 'founding' (Creatine / Hydration - gold lid + pink scoop, $16.99) or 'colostrum'
+  (Colostrum - gold lid only, $6.99). Keep the described gift in sync with the BXGY discount
+  and the gift variant ids in main-product.liquid / cart-drawer.liquid.
+{%- endcomment -%}
+{%- assign _offer = offer | default: 'founding' -%}
 <div class="gold-offer">
   <span class="gold-offer__eyebrow">Founding offer · first 200 members</span>
   <h3 class="gold-offer__title">Join the <em>Gold Subscription</em></h3>
-  <p class="gold-offer__body">Your first subscription order ships with the keepsake <strong>gold jar lid</strong> and our <strong>signature pink scoop</strong> — free. <span class="gold-offer__value">A $16.99 gift, yours to keep.</span></p>
+  {%- if _offer == 'colostrum' -%}
+    <p class="gold-offer__body">Your first subscription order ships with the keepsake <strong>gold jar lid</strong> — free. <span class="gold-offer__value">A $6.99 gift, yours to keep.</span></p>
+  {%- else -%}
+    <p class="gold-offer__body">Your first subscription order ships with the keepsake <strong>gold jar lid</strong> and our <strong>signature pink scoop</strong> — free. <span class="gold-offer__value">A $16.99 gift, yours to keep.</span></p>
+  {%- endif -%}
   <ul class="gold-offer__points">
     <li>Only 200 gift sets, then the offer closes</li>
     <li>Skip or cancel anytime after your second delivery</li>
