@@ -58,7 +58,9 @@ Each gift is made free by an automatic BXGY discount — **a gift with no matchi
 - "Gold Subscription Gift" (`DiscountAutomaticNode/1569031225410`): buys creatine-monohydrate/creatine-hydration-powder → free gold-jar-founding-gift.
 - "Gold Subscription Gift (Colostrum)" (`DiscountAutomaticNode/1591626694722`, created 2026-09-23): buys colostrum-powder → free gold-subscription-gift-colostrum.
 
-Keep the handle/id map in `main-product.liquid`, the qualification handles in `cart-drawer.liquid`, and the BXGY discounts' "Customer buys" in sync. Stock isn't visible to Liquid (gifts are unlisted), so switch off "Show founding offer box" on a product's template when its gift's 200 sell out.
+Keep the handle/id map in `main-product.liquid`, the qualification handles in `cart-drawer.liquid`, and the BXGY discounts' "Customer buys" in sync. **Shipping profile gotcha (root cause of "already sold out", fixed 2026-09-23):** the store's products are fulfilled by the "Supliful Fulfillment" location, and the General shipping profile only has rates for that location. The gifts are stocked at "815 Orienta Ave", which had no rates there, so the storefront reported them `available: false` and `/cart/add` returned 422 "already sold out" even though Admin showed them active, published and in stock. Both gift variants now sit in their own "Gold Subscription Gifts" profile (`DeliveryProfile/96573620290`): 815 Orienta Ave, US, "Free gift shipping" $0. Any new gift or self-shipped product needs a profile with rates from the location that stocks it.
+
+Stock isn't visible to Liquid (gifts are unlisted), so switch off "Show founding offer box" on a product's template when its gift's 200 sell out.
 
 Subscription prices come from `selling_plan_allocations` (never `price × 0.85`).
 
