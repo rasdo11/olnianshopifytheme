@@ -52,7 +52,7 @@ All cart writes go through `CartAPI` in `assets/theme.js`: one queue, line items
 | `creatine-monohydrate`, `creatine-hydration-powder` | `gold-jar-founding-gift` | `44542256840770` | $16.99 | gold lid + pink scoop |
 | `colostrum-powder` | `gold-subscription-gift-colostrum` | `45260558434370` | $6.99 | gold lid only |
 
-Each gift is added by the product-form submit in `theme.js` (when the form has `data-gold-gift-variant` and the shopper subscribes), and only if the cart doesn't already hold that gift. After every write, `theme.js` (`_reconcileGift`) removes any gift that no longer "qualifies" and trims each to 1. A gift qualifies only while a subscribed line of a product that earns it is in the cart (`cart-drawer.liquid` computes this: founding ← creatine/hydration subs, colostrum ← colostrum sub).
+Each gift is added by the product-form submit in `theme.js`. The gift variant reaches JS as a **plain hidden input** `[data-gold-gift-variant]` inside the buy form (rendered when the offer shows), NOT a `{% form %}` tag attribute — the form tag did not render a numeric custom attribute, which is why the gift never added before 2026-09-23. The gift is added when the shopper subscribes, and only if the cart doesn't already hold that gift. After every write, `theme.js` (`_reconcileGift`) removes any gift that no longer "qualifies" and trims each to 1. A gift qualifies only while a subscribed line of a product that earns it is in the cart (`cart-drawer.liquid` computes this: founding ← creatine/hydration subs, colostrum ← colostrum sub).
 
 Each gift is made free by an automatic BXGY discount — **a gift with no matching discount would be charged**:
 - "Gold Subscription Gift" (`DiscountAutomaticNode/1569031225410`): buys creatine-monohydrate/creatine-hydration-powder → free gold-jar-founding-gift.
@@ -61,6 +61,8 @@ Each gift is made free by an automatic BXGY discount — **a gift with no matchi
 Keep the handle/id map in `main-product.liquid`, the qualification handles in `cart-drawer.liquid`, and the BXGY discounts' "Customer buys" in sync. Stock isn't visible to Liquid (gifts are unlisted), so switch off "Show founding offer box" on a product's template when its gift's 200 sell out.
 
 Subscription prices come from `selling_plan_allocations` (never `price × 0.85`).
+
+The PDP "Pairs with" cross-sell (`snippets/pdp-cross-sell.liquid`) shows a *different* product's price, so a cached Creatine page can display that product's old price after it's edited. `initCrossSellPrice()` in `theme.js` re-reads the live price from `/products/<handle>.js` on load and updates `[data-cs-onetime]` / `[data-cs-sub]` / `[data-cs-compare]`. The same full-page-cache staleness affects any card that renders another product's price (home product cards, rails); only the cross-sell is auto-refreshed so far.
 
 ## Header shipping tooltip
 

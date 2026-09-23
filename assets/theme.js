@@ -312,7 +312,10 @@
 
     // Set by main-product.liquid only while the Gold founding offer is shown and the gift
     // is in stock. Replaces the separate submit handler gold-jar-offer.liquid used to run.
-    const giftVariant = Number(form.dataset.goldGiftVariant || 0);
+    // Gift variant comes from a hidden input inside the form (main-product.liquid), not a
+    // form-tag attribute, because the {% form %} tag didn't render the numeric attribute.
+    const giftInput = $('[data-gold-gift-variant]', form);
+    const giftVariant = giftInput ? Number(giftInput.value || 0) : 0;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -555,6 +558,40 @@
         btn.textContent = label;
       }
     });
+  }
+
+  /* ---------- Cross-sell live price ----------
+     The paired product's price is rendered by Liquid, but a cached Creatine page can show a
+     stale price after the paired product is edited. Re-read the live price from the product's
+     JSON and update the card so it always matches the current price. */
+  async function initCrossSellPrice() {
+    const cards = $$('[data-cs-price][data-cs-handle]');
+    await Promise.all(cards.map(async (el) => {
+      const handle = el.dataset.csHandle;
+      const variantId = Number(el.dataset.csVariantId);
+      if (!handle) return;
+      let product;
+      try {
+        const res = await fetch(`${cartRoot()}products/${handle}.js`, { headers: { Accept: 'application/json' } });
+        if (!res.ok) return;
+        product = await res.json();
+      } catch (_) { return; }
+      const variant = (product.variants || []).find((v) => v.id === variantId) || (product.variants || [])[0];
+      if (!variant) return;
+      const oneTime = el.querySelector('[data-cs-onetime]');
+      if (oneTime) oneTime.textContent = formatMoney(variant.price);
+      const sub = el.querySelector('[data-cs-sub]');
+      if (sub) {
+        const alloc = variant.selling_plan_allocations && variant.selling_plan_allocations[0];
+        // Only overwrite the subscription price when the JSON actually carries an allocation,
+        // so we never replace a real /mo price with the full price.
+        if (alloc) {
+          sub.textContent = formatMoney(alloc.price);
+          const del = el.querySelector('[data-cs-compare]');
+          if (del) { del.textContent = formatMoney(variant.price); del.hidden = !(alloc.price < variant.price); }
+        }
+      }
+    }));
   }
 
   /* ---------- Helpers ---------- */
@@ -1223,6 +1260,7 @@
     initProductForm();
     initCartDrawerEvents();
     initQuickAdd();
+    initCrossSellPrice();
     initGallery();
     initMobileNav();
     initSwatchCarousels();
