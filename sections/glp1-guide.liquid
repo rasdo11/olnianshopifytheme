@@ -1,0 +1,646 @@
+{% liquid
+  assign offer_active = false
+  assign offer_code = section.settings.discount_code | strip
+  if section.settings.offer_enabled and offer_code != blank and section.settings.discount_percent > 0
+    assign offer_active = true
+  endif
+  if customer and customer.orders_count > 0
+    assign offer_active = false
+  endif
+  assign return_url = routes.cart_url
+  if offer_active
+    assign encoded_code = offer_code | url_encode
+    assign return_url = routes.root_url | append: 'discount/' | append: encoded_code | append: '?redirect=' | append: routes.cart_url
+  endif
+  assign review_count = 0
+  for block in section.blocks
+    if block.type == 'testimonial' and block.settings.quote != blank and block.settings.author != blank
+      assign review_count = review_count | plus: 1
+    endif
+  endfor
+%}
+<div class="glg" id="Guide-{{ section.id }}">
+  <div class="glg-welcome"><button type="button" data-email-open aria-haspopup="dialog" aria-controls="GuideEmail-{{ section.id }}">{{ 'glp1_guide.email.trigger' | t }} <span aria-hidden="true">↗</span></button></div>
+  <header class="glg-nav glg-wrap">
+    <a class="glg-logo" href="{{ routes.root_url }}" aria-label="{{ 'glp1_guide.nav.home' | t }}">{{ 'glp1_guide.nav.brand' | t }}</a>
+    <nav aria-label="{{ 'glp1_guide.nav.label' | t }}">
+      <a href="#GuideLearn-{{ section.id }}">{{ 'glp1_guide.nav.learn' | t }}</a>
+      <a href="#GuideFormula-{{ section.id }}">{{ 'glp1_guide.nav.formula' | t }}</a>
+    </nav>
+    <a class="glg-nav-cta" href="#GuideOffer-{{ section.id }}">{{ 'glp1_guide.nav.shop' | t }} <span aria-hidden="true">↗</span></a>
+  </header>
+  <section class="glg-hero glg-wrap" aria-labelledby="GuideHeading-{{ section.id }}"><div class="glg-hero-copy"><p class="glg-eyebrow">{{ 'glp1_guide.hero.eyebrow' | t }}</p><h1 id="GuideHeading-{{ section.id }}">{% if section.settings.heading != blank %}{{ section.settings.heading | escape }}{% else %}{{ 'glp1_guide.hero.heading' | t }}{% endif %}</h1><p class="glg-hero-lead">{{ 'glp1_guide.hero.body' | t }}</p></div></section>
+  <section class="glg-tree glg-space glg-wrap" id="GuideFit-{{ section.id }}" aria-labelledby="GuideFitTitle-{{ section.id }}">
+    <h2 class="visually-hidden" id="GuideFitTitle-{{ section.id }}">{{ 'glp1_guide.tree.heading' | t }}</h2>
+    <div class="glg-tree-interactive" hidden data-tree>
+      <div class="glg-tree-choices" role="group" aria-label="{{ 'glp1_guide.tree.heading' | t }}">
+        {% assign concerns = 'nutrition,digestion,energy,routine' | split: ',' %}
+        {% for concern in concerns %}{% assign concern_key = 'glp1_guide.tree.' | append: concern %}
+          {% assign image_key = concern | append: '_image' %}
+          <button type="button" data-tree-choice="{{ concern }}" aria-controls="GuideTreeResult-{{ section.id }}" aria-pressed="false">{% if section.settings[image_key] != blank %}{{ section.settings[image_key] | image_url: width: 800 | image_tag: widths: '240, 400, 600, 800', sizes: '(min-width: 750px) 23vw, 46vw', loading: 'eager', alt: '' }}{% endif %}<span class="glg-card-copy">{{ concern_key | t }}</span><span class="glg-tree-arrow" aria-hidden="true">↗</span></button>
+        {% endfor %}
+      </div>
+      <div class="glg-tree-connector" aria-hidden="true"></div>
+      <div class="glg-tree-result" id="GuideTreeResult-{{ section.id }}" data-tree-result aria-live="polite" aria-atomic="true"><div class="glg-tree-placeholder"><span aria-hidden="true">↓</span><h3>{{ 'glp1_guide.tree.prompt' | t }}</h3><p>{{ 'glp1_guide.tree.hint' | t }}</p></div></div>
+      <div class="glg-tree-more" data-tree-more hidden><p>{{ 'glp1_guide.tree.other' | t }}</p><div role="group" aria-label="{{ 'glp1_guide.tree.other' | t }}"><button type="button" data-tree-choice="nutrition" aria-controls="GuideTreeResult-{{ section.id }}" aria-pressed="false">{{ 'glp1_guide.tree.nutrition_short' | t }} ↗</button><button type="button" data-tree-choice="digestion" aria-controls="GuideTreeResult-{{ section.id }}" aria-pressed="false">{{ 'glp1_guide.tree.digestion_short' | t }} ↗</button><button type="button" data-tree-choice="energy" aria-controls="GuideTreeResult-{{ section.id }}" aria-pressed="false">{{ 'glp1_guide.tree.energy_short' | t }} ↗</button><button type="button" data-tree-choice="routine" aria-controls="GuideTreeResult-{{ section.id }}" aria-pressed="false">{{ 'glp1_guide.tree.routine_short' | t }} ↗</button></div></div>
+    </div>
+    {% assign paths = 'nutrition,digestion,energy,routine' | split: ',' %}{% for path in paths %}
+      {% assign title_key = 'glp1_guide.tree.' | append: path | append: '_title' %}{% assign body_key = 'glp1_guide.tree.' | append: path | append: '_body' %}{% assign limit_key = 'glp1_guide.tree.' | append: path | append: '_limit' %}{% assign source_key = 'glp1_guide.tree.' | append: path | append: '_source' %}
+      <template data-tree-template="{{ path }}"><div class="glg-tree-answer"><div><p class="glg-eyebrow">{{ 'glp1_guide.tree.result_label' | t }}</p><h3 tabindex="-1">{{ title_key | t }}</h3><p class="glg-body">{{ body_key | t }}</p><a class="glg-text-link" href="#GuideFormula-{{ section.id }}">{{ 'glp1_guide.tree.why' | t }} ↗</a></div><aside><p class="glg-eyebrow">{{ 'glp1_guide.tree.limit_label' | t }}</p><p>{{ limit_key | t }}</p><a class="glg-text-link" href="{{ source_key | t }}" target="_blank" rel="noopener">{{ 'glp1_guide.tree.source' | t }} ↗</a></aside></div></template>
+    {% endfor %}
+    <noscript><p class="glg-body">{{ 'glp1_guide.tree.nojs' | t }}</p></noscript><p class="glg-fine glg-tree-scope">{{ 'glp1_guide.tree.scope' | t }}</p>
+  </section>
+  <section class="glg-learn glg-space" id="GuideLearn-{{ section.id }}" aria-labelledby="GuideLearnTitle-{{ section.id }}">
+    <div class="glg-wrap">
+      <div class="glg-split">
+        <div>
+          <p class="glg-eyebrow">{{ 'glp1_guide.learn.eyebrow' | t }}</p>
+          <h2 id="GuideLearnTitle-{{ section.id }}">{{ 'glp1_guide.learn.heading' | t }}</h2>
+          <p class="glg-body">{{ 'glp1_guide.learn.intro' | t }}</p>
+          <p class="glg-body">{{ 'glp1_guide.learn.body' | t }}</p>
+        <details class="glg-details">
+          <summary>{{ 'glp1_guide.science.link' | t }}<span aria-hidden="true">+</span></summary>
+          <div><p>{{ 'glp1_guide.science.body' | t }}</p><ul><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12125019/" target="_blank" rel="noopener">{{ 'glp1_guide.science.study1' | t }}</a></li><li><a href="https://ods.od.nih.gov/factsheets/MVMS-Consumer/" target="_blank" rel="noopener">{{ 'glp1_guide.science.study2' | t }}</a></li></ul><p>{{ 'glp1_guide.science.limit' | t }}</p></div>
+        </details>
+        </div>
+        {% if section.settings.lifestyle_image != blank %}
+          <figure class="glg-lifestyle">{% assign lifestyle_alt = 'glp1_guide.learn.photo_alt' | t %}{{ section.settings.lifestyle_image | image_url: width: 1100 | image_tag: widths: '400, 650, 900, 1100', sizes: '(min-width: 750px) 45vw, 90vw', loading: 'lazy', alt: lifestyle_alt }}<figcaption>{{ 'glp1_guide.learn.photo_caption' | t }}</figcaption></figure>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  <section class="glg-month glg-space" id="GuideFormula-{{ section.id }}" aria-labelledby="GuideFormulaTitle-{{ section.id }}">
+    <div class="glg-wrap">
+      <p class="glg-eyebrow">{{ 'glp1_guide.month.eyebrow' | t }}</p>
+      <h2 id="GuideFormulaTitle-{{ section.id }}">{{ 'glp1_guide.month.heading' | t }}</h2>
+      <p class="glg-body">{{ 'glp1_guide.month.intro' | t }}</p>
+      <div class="glg-timeline">
+        {% for day in (1..3) %}{% assign title_key = 'glp1_guide.month.title' | append: day %}{% assign body_key = 'glp1_guide.month.body' | append: day %}{% assign day_key = 'glp1_guide.month.day' | append: day %}
+          <article><span class="glg-day">{{ day_key | t }}</span><div class="glg-progress" aria-hidden="true"><i style="width:100%"></i></div><h3>{{ title_key | t }}</h3><p>{{ body_key | t }}</p></article>
+        {% endfor %}
+      </div>
+      <p class="glg-fine">{{ 'glp1_guide.month.science' | t }}</p>
+      <div class="glg-clean"><h3>{{ 'glp1_guide.proof.heading' | t }}</h3><div>{% for item in (1..3) %}{% assign clean_key = 'glp1_guide.proof.clean' | append: item %}<p><span aria-hidden="true">✓</span> {{ clean_key | t }}</p>{% endfor %}</div></div>
+      {% if section.settings.facts_image != blank %}<details class="glg-details glg-facts-disclosure"><summary>{{ 'glp1_guide.proof.facts' | t }}<span aria-hidden="true">+</span></summary><div>{% assign facts_alt = 'glp1_guide.proof.alt' | t %}{{ section.settings.facts_image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: facts_alt }}</div></details>{% endif %}
+    {% if review_count > 0 %}
+      <div class="glg-reviews"><h3>{{ 'glp1_guide.proof.reviews' | t }}</h3><div class="glg-review-grid">{% for block in section.blocks %}{% if block.type == 'testimonial' and block.settings.quote != blank and block.settings.author != blank %}<figure {{ block.shopify_attributes }}><blockquote>{{ block.settings.quote | escape }}</blockquote><figcaption>{{ block.settings.author | escape }}</figcaption>{% if block.settings.source_url != blank %}<a class="glg-text-link" href="{{ block.settings.source_url }}">{{ block.settings.source_label | escape }}</a>{% endif %}</figure>{% endif %}{% endfor %}</div></div>
+    {% endif %}    </div>
+  </section>
+  <section class="glg-offer glg-space" id="GuideOffer-{{ section.id }}" aria-labelledby="GuideOfferTitle-{{ section.id }}">
+    <div class="glg-wrap glg-offer-grid">
+      <div class="glg-offer-image">{% assign offer_image = section.settings.offer_image %}{% if offer_image != blank %}{{ offer_image | image_url: width: 1000 | image_tag: widths: '400, 600, 800, 1000', sizes: '(min-width: 900px) 45vw, 90vw', loading: 'lazy', alt: 'OLNIAN GLP-1 Nutrient Support, 60 capsules' }}{% endif %}</div>
+      <div class="glg-offer-copy">
+        <p class="glg-eyebrow">{{ 'glp1_guide.offer.eyebrow' | t }}</p><h2 id="GuideOfferTitle-{{ section.id }}">{{ 'glp1_guide.offer.heading' | t }}</h2><p class="glg-body">{{ 'glp1_guide.offer.body' | t }}</p>
+        <h3>{{ 'glp1_guide.offer.name' | t }}</h3><p class="glg-fine">{{ 'glp1_guide.offer.size' | t }}</p>
+        <div data-live-offer hidden data-product-url="{{ routes.root_url }}products/glp-1-nutrient-support" data-percent="{% if offer_active %}{{ section.settings.discount_percent }}{% else %}0{% endif %}" data-currency="{{ cart.currency.iso_code | default: shop.currency }}" data-buy-label="{{ 'glp1_guide.offer.discount_button' | t }}" data-standard-label="{{ 'glp1_guide.offer.button' | t }}" data-sold-label="{{ 'glp1_guide.offer.sold_out' | t }}">
+          {% if offer_active %}<p class="glg-offer-badge">{{ 'glp1_guide.offer.badge' | t: percent: section.settings.discount_percent }}</p>{% endif %}
+          <div class="glg-price" aria-live="polite">{% if offer_active %}<s><span class="visually-hidden">{{ 'glp1_guide.offer.regular' | t }}</span><span data-guide-original></span></s>{% endif %}<strong><span class="visually-hidden">{{ 'glp1_guide.offer.price_label' | t }}</span><span data-guide-price></span></strong></div>
+          <p class="glg-one-time">{{ 'glp1_guide.offer.one_time' | t }}</p>
+          <form action="{{ routes.cart_add_url }}" method="post" class="glg-product-form">
+            <input type="hidden" name="id" value="44512991608898"><input type="hidden" name="quantity" value="1"><input type="hidden" name="return_to" value="{{ return_url | escape }}">
+            <button class="glg-button glg-buy" type="submit" disabled>{{ 'glp1_guide.offer.button' | t }}</button>
+          </form>
+          {% if offer_active %}<p class="glg-fine glg-terms">{{ 'glp1_guide.offer.terms' | t }}</p>{% endif %}
+          <p class="glg-fine glg-shipping">{{ 'glp1_guide.offer.shipping' | t }}</p>
+        </div>
+        <p class="glg-fine glg-safety">{{ 'glp1_guide.offer.safety' | t }}</p>
+        <a class="glg-text-link" data-product-fallback href="{{ routes.root_url }}products/glp-1-nutrient-support">{{ 'glp1_guide.offer.details' | t }} ↗</a>
+      </div>
+    </div>
+  </section>
+  {% assign email_form_id = 'GuideEmailForm-' | append: section.id %}
+  <dialog class="glg-email-dialog" id="GuideEmail-{{ section.id }}" aria-labelledby="GuideEmailTitle-{{ section.id }}" aria-describedby="GuideEmailIntro-{{ section.id }}">
+    <button type="button" class="glg-email-close" data-email-close aria-label="{{ 'glp1_guide.email.close' | t }}">×</button>
+    <p class="glg-eyebrow">{{ 'glp1_guide.email.eyebrow' | t }}</p><h2 id="GuideEmailTitle-{{ section.id }}">{{ 'glp1_guide.email.heading' | t }}</h2><p class="glg-body" id="GuideEmailIntro-{{ section.id }}">{{ 'glp1_guide.email.body' | t }}</p>
+    {% form 'customer', id: email_form_id, class: 'glg-email-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter,olnian-guide">
+      {% if form.posted_successfully? %}<p class="glg-email-status" role="status" data-email-status tabindex="-1">{{ 'glp1_guide.email.success' | t }}</p>{% else %}
+        {% if form.errors %}<div class="glg-email-status" role="alert" data-email-status tabindex="-1">{{ form.errors | default_errors }}</div>{% endif %}
+        <label for="GuideEmailInput-{{ section.id }}">{{ 'glp1_guide.email.label' | t }}</label>
+        <input id="GuideEmailInput-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" autocapitalize="off" required value="{{ form.email | escape }}" placeholder="{{ 'glp1_guide.email.placeholder' | t }}">
+        <p class="glg-fine glg-email-consent">{{ 'glp1_guide.email.consent' | t }}{% if shop.privacy_policy.body != blank %} <a href="{{ shop.privacy_policy.url }}">{{ 'glp1_guide.footer.privacy' | t }}</a>{% endif %}</p>
+        <button class="glg-button" type="submit">{{ 'glp1_guide.email.submit' | t }} <span aria-hidden="true">↗</span></button>
+      {% endif %}
+    {% endform %}
+  </dialog>
+  <noscript><p class="glg-wrap glg-fine">{{ 'glp1_guide.email.nojs' | t }}</p></noscript>
+  <footer class="glg-footer glg-wrap"><div><a class="glg-logo" href="{{ routes.root_url }}">{{ 'glp1_guide.nav.brand' | t }}</a><span>{{ 'glp1_guide.footer.guide' | t }}</span></div><nav aria-label="{{ 'glp1_guide.footer.guide' | t }}">{% if shop.privacy_policy.body != blank %}<a href="{{ shop.privacy_policy.url }}">{{ 'glp1_guide.footer.privacy' | t }}</a>{% endif %}{% if shop.shipping_policy.body != blank %}<a href="{{ shop.shipping_policy.url }}">{{ 'glp1_guide.footer.shipping' | t }}</a>{% endif %}{% if shop.refund_policy.body != blank %}<a href="{{ shop.refund_policy.url }}">{{ 'glp1_guide.footer.returns' | t }}</a>{% endif %}<a href="mailto:{{ shop.email | escape }}">{{ 'glp1_guide.footer.contact' | t }}</a></nav><p>{{ 'glp1_guide.footer.disclaimer' | t }}</p></footer>
+  <div class="glg-sticky" hidden><span>{{ 'glp1_guide.offer.sticky' | t }}</span><a class="glg-button" href="#GuideOffer-{{ section.id }}">{% if offer_active %}{{ 'glp1_guide.offer.sticky_offer' | t }}{% else %}{{ 'glp1_guide.offer.sticky_button' | t }}{% endif %}<span aria-hidden="true">↗</span></a></div>
+</div>
+{% stylesheet %}
+.glg { --glg-blue: #0066a6; --glg-ink: #2e1206; --glg-paper: #fff8f0; color: var(--glg-ink); background: var(--glg-paper); font-family: var(--body-font); font-weight: 400; overflow: clip; }
+.glg *, .glg *::before, .glg *::after { box-sizing: border-box; }
+.glg [hidden] { display: none !important; }
+.glg-wrap { width: min(1240px, calc(100% - 96px)); margin-inline: auto; }
+.glg-space { padding-block: 100px; }
+.glg h1, .glg h2, .glg h3 { font-family: var(--body-font); font-weight: 700; text-wrap: balance; }
+.glg h1 { font-size: clamp(48px, 5.2vw, 76px); line-height: 1.02; letter-spacing: -.055em; max-width: 600px; margin: 28px 0 24px; }
+.glg h2 { font-size: clamp(32px, 3.3vw, 48px); line-height: 1.12; letter-spacing: -.045em; }
+.glg h3 { font-size: 22px; line-height: 1.25; letter-spacing: -.025em; }
+.glg p { margin: 0; }
+.glg a { text-underline-offset: 5px; }
+.glg a:hover { text-decoration: underline; }
+.glg a:focus-visible, .glg button:focus-visible, .glg summary:focus-visible, .glg select:focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
+.glg [id] { scroll-margin-top: 30px; }
+.glg-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; line-height: 1.7; margin-bottom: 20px !important; display: flex; align-items: center; gap: 9px; }
+.glg-dot { width: 7px; height: 7px; border-radius: 100%; background: #c43a16; }
+.glg-body { font-size: 17px; line-height: 1.75; margin-top: 22px !important; max-width: 610px; }
+.glg-muted { color: #624d43; line-height: 1.7; max-width: 350px; font-size: 16px; }
+.glg-fine { font-size: 12px; line-height: 1.7; }
+.glg-welcome { text-align: center; background: #e8f0f4; color: #214f6b; padding: 11px 20px; font-size: 12px; font-weight: 600; }
+.glg-welcome a { display: block; }
+.glg-welcome span { padding-left: 10px; }
+.glg-nav { display: flex; align-items: center; justify-content: space-between; padding-block: 24px; gap: 24px; border-bottom: 1px solid #2e12061a; }
+.glg-logo { font-family: var(--brand-font); font-size: 31px; letter-spacing: .04em; line-height: 1; }
+.glg-nav nav { display: flex; gap: 32px; font-size: 13px; }
+.glg-nav-cta { font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 24px; }
+.glg-hero { display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 30px; padding-block: 44px 52px; }
+.glg-hero-lead { font-size: 22px; line-height: 1.45; margin-bottom: 13px !important; }
+.glg-hero-media { position: relative; margin: 0; height: 580px; border-radius: 160px 160px 8px 8px; overflow: hidden; background: #ede8db; }
+.glg-hero-media img { height: 100%; width: 100%; object-fit: cover; object-position: 75% center; }
+.glg-hero-media figcaption { position: absolute; bottom: 18px; left: 16px; right: 16px; width: fit-content; max-width: calc(100% - 32px); padding: 8px 13px; margin: auto; font-size: 10px; background: #fff8f0ed; border-radius: 4px; letter-spacing: .035em; }
+.glg-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin-top: 30px; }
+.glg-button { display: inline-flex; align-items: center; justify-content: center; gap: 34px; min-height: 52px; padding: 14px 25px; border: 1px solid transparent; background: #ff5a2c; color: #2e1206; border-radius: 4px; font-size: 14px; font-weight: 800; line-height: 1.4; cursor: pointer; transition: background .18s, color .18s; }
+.glg-button:hover { background: #2e1206; color: #fff8f0; text-decoration: none !important; }
+.glg-button:disabled { cursor: not-allowed; background: #ded6cf; color: #624d43; }
+.glg-text-link { font-size: 13px; font-weight: 700; text-decoration: underline; }
+.glg-facts { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #2e120625; padding-block: 25px; gap: 20px; }
+.glg-facts span { display: flex; gap: 14px; align-items: center; justify-content: center; font-size: 13px; }
+.glg-facts b { color: var(--glg-blue); font-size: 21px; font-weight: 600; }
+.glg-split { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: start; }
+.glg-learn { margin-top: 10px; background: #eaf2f6; }
+.glg-definition { border-left: 1px solid #0066a638; padding: 0 0 0 48px; }
+.glg-definition p { margin-top: 18px; font-size: 17px; line-height: 1.75; }
+.glg-orbit { background: #0066a6; color: white; display: grid; place-items: center; width: 65px; height: 65px; border-radius: 100%; font-size: 34px; margin-bottom: 28px; }
+.glg-benefits { display: grid; grid-template-columns: repeat(3,1fr); gap: 36px; margin-top: 65px; }
+.glg-benefits article { border-top: 1px solid #0066a64d; padding-top: 20px; }
+.glg-number { font-size: 11px; letter-spacing: .1em; display: block; margin-bottom: 26px; color: #215472; }
+.glg-benefits p { margin-top: 14px; font-size: 15px; line-height: 1.65; }
+.glg-learn-note { margin-top: 30px !important; color: #3c5665; max-width: 800px; }
+.glg-science .glg-body { margin-top: 0 !important; }
+.glg-details { border-bottom: 1px solid #2e12062e; }
+.glg-details summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; list-style: none; cursor: pointer; padding: 21px 0; font-size: 15px; font-weight: 700; line-height: 1.5; }
+.glg-details summary::-webkit-details-marker { display: none; }
+.glg-details summary span { flex-shrink: 0; font-size: 23px; line-height: 1; font-weight: 400; transition: transform .15s; }
+.glg-details[open] summary span { transform: rotate(45deg); }
+.glg-details > div { padding-bottom: 24px; font-size: 15px; line-height: 1.8; }
+.glg-details > div p + p { margin-top: 15px; }
+.glg-details ul { padding-left: 20px; margin: 0 0 20px; }
+.glg-details li + li { margin-top: 12px; }
+.glg-details li a { text-decoration: underline; }
+.glg-comparison { background: #f2e9df; }
+.glg-section-intro { max-width: 670px; }
+.glg-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 42px; font-size: 14px; line-height: 1.6; text-align: left; }
+.glg-table th, .glg-table td { padding: 22px 25px; vertical-align: middle; border-bottom: 1px solid #2e120624; }
+.glg-table th { font-weight: 600; }
+.glg-table thead th { font-size: 12px; font-weight: 800; }
+.glg-table td:nth-child(2), .glg-table th:nth-child(2) { background: #fff8f0; }
+.glg-table thead th:nth-child(2) { background: #0066a6; color: white; }
+.glg-table tbody th { padding-left: 0; }
+.glg-table thead th:first-child { padding-left: 0; }
+.glg-explain { gap: 50px; margin-top: 26px; }
+.glg-proof-links { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 30px; }
+.glg-label { background: #fff; border: 1px solid #2e12062a; padding: 32px 38px; border-radius: 4px; }
+.glg-label > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; justify-content: space-between; padding-block: 20px; border-top: 1px solid #2e12061a; }
+.glg-label strong { font-size: 42px; letter-spacing: -.05em; font-weight: 600; color: var(--glg-blue); }
+.glg-label small { font-size: 16px; letter-spacing: 0; }
+.glg-label span { font-size: 12px; }
+.glg-label .glg-fine { margin-top: 12px; }
+.glg-reviews { margin-top: 65px; }
+.glg-review-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 24px; }
+.glg-review-grid figure { margin: 20px 0 0; background: #f2e9df; padding: 25px; }
+.glg-review-grid blockquote { margin: 0 0 20px; font-size: 18px; }
+.glg-review-grid figcaption { font-size: 13px; font-weight: 700; }
+.glg-faq h2 { max-width: 350px; }
+.glg-faq .glg-details:first-child summary { padding-top: 0; }
+.glg-offer { background: #f2e9df; }
+.glg-offer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+.glg-offer-image { border-radius: 8px; overflow: hidden; background: #e7e0d6; }
+.glg-offer-image img { width: 100%; height: auto; }
+.glg-offer-copy .glg-body { margin-top: 15px !important; margin-bottom: 28px; }
+.glg-offer-copy h3 { font-size: 18px; margin-bottom: 8px; }
+.glg-offer-badge { display: inline-block; background: #0066a6; color: white; border-radius: 3px; padding: 9px 12px; font-size: 12px; font-weight: 700; margin-bottom: 22px !important; }
+.glg-price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 18px 0 7px; }
+.glg-price strong { font-size: 32px; font-weight: 700; letter-spacing: -.03em; }
+.glg-price s { font-size: 19px; color: #624d43; }
+.glg-one-time { font-size: 13px; margin-bottom: 20px !important; }
+.glg-buy { width: 100%; margin-top: 6px; }
+.glg-product-form label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.glg-product-form select { width: 100%; padding: 14px; font: inherit; border: 1px solid #2e12065c; background: #fff8f0; color: inherit; border-radius: 4px; margin-bottom: 12px; }
+.glg-terms { margin-top: 15px !important; color: #624d43; }
+.glg-shipping { margin: 12px 0 18px !important; }
+.glg-footer { padding-block: 45px 110px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
+.glg-footer > div { display: flex; gap: 25px; align-items: center; }
+.glg-footer > div span { font-size: 12px; }
+.glg-footer nav { display: flex; gap: 25px; font-size: 12px; }
+.glg-footer > p { border-top: 1px solid #2e120625; padding-top: 25px; width: 100%; font-size: 11px; line-height: 1.7; max-width: 850px; }
+.glg-sticky { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: min(610px,calc(100% - 32px)); z-index: 25; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 10px 10px 10px 22px; background: #fff8f0; border: 1px solid #2e120625; border-radius: 7px; box-shadow: 0 5px 30px #2e12061a; }
+.glg-sticky > span { font-size: 13px; font-weight: 700; }
+.glg-sticky .glg-button { min-height: 44px; font-size: 12px; gap: 16px; padding: 12px 18px; }
+@media (min-width: 1600px) { .glg-hero { gap: 65px; } }
+@media (max-width: 1000px) { .glg-wrap { width: calc(100% - 56px); } .glg-split { gap: 40px; } .glg-hero-media { height: 530px; border-radius: 110px 110px 6px 6px; } .glg-definition { padding-left: 30px; } .glg-offer-grid { gap: 40px; } }
+@media (max-width: 749px) {
+  .glg-wrap { width: calc(100% - 40px); } .glg-space { padding-block: 60px; } .glg-nav { padding-block: 20px; } .glg-nav nav { display: none; } .glg-logo { font-size: 27px; } .glg-nav-cta { font-size: 12px; gap: 15px; }
+  .glg-welcome { font-size: 11px; padding: 10px 20px; } .glg-hero { grid-template-columns: 1fr; padding-block: 34px 25px; gap: 28px; } .glg h1 { font-size: clamp(46px,12vw,68px); max-width: 510px; margin: 18px 0; } .glg-eyebrow { font-size: 10px; margin-bottom: 16px !important; } .glg-hero-lead { font-size: 20px; } .glg-muted { font-size: 15px; max-width: 380px; } .glg-actions { margin-top: 24px; gap: 25px; } .glg-hero-media { height: 320px; border-radius: 90px 90px 6px 6px; } .glg-hero-media img { object-position: 75% 65%; }
+  .glg-facts { gap: 10px; padding-block: 20px; } .glg-facts span { flex-direction: column; gap: 4px; text-align: center; font-size: 10px; line-height: 1.45; } .glg-facts b { font-size: 18px; } .glg-split { grid-template-columns: 1fr; gap: 30px; } .glg-body { font-size: 16px; line-height: 1.75; } .glg-definition { padding: 25px; border: 1px solid #0066a633; } .glg-definition p { font-size: 15px; } .glg-orbit { width: 44px; height: 44px; font-size: 24px; margin-bottom: 20px; } .glg-benefits { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; } .glg-benefits article { position: relative; padding-left: 38px; } .glg-number { position: absolute; left: 0; top: 25px; } .glg-benefits h3 { font-size: 20px; } .glg-benefits p { margin-top: 10px; }
+  .glg-table { margin-top: 30px; font-size: 12px; line-height: 1.6; } .glg-table th, .glg-table td { padding: 15px 10px; overflow-wrap: anywhere; } .glg-table thead th { font-size: 11px; } .glg-table th:first-child { width: 27%; } .glg-table th:nth-child(2) { width: 34%; } .glg-explain { gap: 0; margin-top: 12px; } .glg-details summary { font-size: 14px; } .glg-label { padding: 25px; } .glg-label strong { font-size: 36px; }     .glg-offer-grid { grid-template-columns: 1fr; gap: 35px; } .glg-offer-image { max-width: 420px; margin: auto; } .glg-footer { gap: 26px; padding-top: 35px; } .glg-footer > div { gap: 20px; } .glg-footer nav { gap: 22px; } .glg-sticky { bottom: max(10px,env(safe-area-inset-bottom)); padding-left: 13px; } .glg-sticky > span { font-size: 11px; max-width: 100px; } .glg-sticky .glg-button { gap: 12px; padding-inline: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .glg *, .glg *::before, .glg *::after { transition: none !important; scroll-behavior: auto !important; } }
+
+.glg-space { padding-block: 76px; }
+.glg-learn .glg-split { align-items: center; gap: 65px; }
+.glg-lifestyle { margin: 0; position: relative; border-radius: 6px 95px 6px 6px; overflow: hidden; background: #e0eaf0; }
+.glg-lifestyle img { display: block; width: 100%; aspect-ratio: 1; height: auto; object-fit: contain; }
+.glg-lifestyle figcaption { position: absolute; bottom: 15px; left: 15px; padding: 8px 12px; font-size: 11px; color: #2e1206; background: #fff8f0ee; border-radius: 3px; }
+.glg-benefits { margin-top: 35px; gap: 35px; }
+.glg-number { margin-bottom: 14px; }
+.glg-benefits p { margin-top: 9px; }
+.glg-choice-tiles { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-block: 30px; }
+.glg-choice-tiles article { background: #fff8f0; border: 1px solid #2e12061a; border-radius: 5px; padding: 26px; }
+.glg-choice-tiles article > span { display: grid; place-items: center; width: 52px; height: 52px; background: #eaf2f6; color: #0066a6; border-radius: 50%; font-size: 23px; font-weight: 700; margin-bottom: 23px; }
+.glg-choice-tiles h3 { font-size: 21px; }
+.glg-choice-tiles p { font-size: 13px; margin-top: 8px; }
+.glg-table-details .glg-table { margin-top: 0; }
+.glg-facts-disclosure img { max-width: 650px; width: 100%; height: auto; background: white; }
+.glg-explain { margin-top: 0; }
+@media (max-width: 1000px) {   .glg-learn .glg-split { gap: 35px; } }
+@media (max-width: 749px) {
+  .glg-space { padding-block: 48px; }
+  .glg-lifestyle { border-radius: 5px 60px 5px 5px; }
+  .glg-lifestyle figcaption { font-size: 10px; bottom: 10px; left: 10px; }
+  .glg-benefits { gap: 18px; margin-top: 28px; }
+  
+  
+  
+  
+  
+  
+  
+  
+  .glg-choice-tiles { grid-template-columns: repeat(3,1fr); gap: 8px; margin-block: 23px; }
+  .glg-choice-tiles article { padding: 15px 10px; }
+  .glg-choice-tiles article > span { width: 38px; height: 38px; margin-bottom: 18px; font-size: 19px; }
+  .glg-choice-tiles h3 { font-size: 16px; }
+  .glg-choice-tiles p { font-size: 11px; line-height: 1.5; }
+  
+  
+  
+  
+  
+  
+}
+.glg-tree-intro { max-width: 700px; }
+.glg-tree-intro .glg-body { margin-top: 16px !important; }
+.glg-tree-interactive { margin-top: 32px; }
+.glg-tree-choices { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.glg-tree-choices button { min-height: 165px; padding: 22px; background: #fff; border: 1px solid #8d969b; border-radius: 6px; text-align: left; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; font-size: 17px; font-weight: 700; line-height: 1.35; position: relative; }
+.glg-tree-choices button:hover { background: #eaf2f6; border-color: #0066a6; }
+.glg-tree-choices button[aria-pressed="true"] { background: #0066a6; color: #fff; border-color: #0066a6; }
+.glg-tree-icon { display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; width: 37px; height: 37px; font-size: 23px; font-weight: 400; }
+.glg-tree-arrow { position: absolute; top: 24px; right: 20px; font-size: 15px; }
+.glg-tree-connector { width: 76%; height: 24px; margin: 0 auto 24px; border: 1px solid #0066a65e; border-top: 0; position: relative; }
+.glg-tree-connector::after { content: ''; position: absolute; top: 100%; left: 50%; height: 24px; width: 1px; background: #0066a65e; }
+.glg-tree-result { border: 1px solid #0066a633; border-radius: 7px; background: #eaf2f6; padding: 35px; }
+.glg-tree-placeholder { text-align: center; padding: 3px; }
+.glg-tree-placeholder > span { display: inline-block; color: #0066a6; font-size: 28px; margin-bottom: 8px; }
+.glg-tree-placeholder h3 { font-size: 23px; }
+.glg-tree-placeholder p { font-size: 14px; margin-top: 12px; }
+.glg-tree-answer { display: grid; grid-template-columns: 1.25fr 1fr; gap: 50px; }
+.glg-tree-answer h3 { font-size: 32px; line-height: 1.15; }
+.glg-tree-answer .glg-body { margin: 15px 0 20px !important; font-size: 16px; }
+.glg-tree-answer aside { border-left: 1px solid #0066a647; padding-left: 30px; }
+.glg-tree-answer aside p:not(.glg-eyebrow) { font-size: 14px; line-height: 1.75; margin-bottom: 20px; }
+.glg-tree-answer .glg-eyebrow { color: #214f6b; }
+.glg-tree-more { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 25px; }
+.glg-tree-more > p { font-size: 13px; font-weight: 700; }
+.glg-tree-more > div { display: flex; flex-wrap: wrap; gap: 10px; }
+.glg-tree-more button { min-height: 44px; border: 1px solid #96877f; background: #fff8f0; padding: 10px 15px; border-radius: 30px; font-size: 12px; font-weight: 700; }
+.glg-tree-more button[aria-pressed="true"] { color: #fff; background: #0066a6; border-color: #0066a6; }
+.glg-tree-scope { color: #624d43; margin-top: 18px !important; }
+.glg-versus { margin-top: 30px; }
+.glg-versus td, .glg-versus th { width: 25%; }
+.glg-versus-note { color: #624d43; margin-top: 18px !important; }
+@media (max-width: 749px) {
+ .glg-tree-choices { grid-template-columns: 1fr 1fr; gap: 10px; }
+ .glg-tree-choices button { min-height: 150px; padding: 17px; font-size: 15px; }
+ .glg-tree-icon { width: 32px; height: 32px; font-size: 20px; }
+ .glg-tree-arrow { top: 20px; right: 14px; }
+ .glg-tree-connector { width: 52%; }
+ .glg-tree-result { padding: 24px 20px; }
+ .glg-tree-answer { grid-template-columns: 1fr; gap: 25px; }
+ .glg-tree-answer h3 { font-size: 27px; }
+ .glg-tree-answer aside { border-left: 0; border-top: 1px solid #0066a647; padding: 20px 0 0; }
+ .glg-tree-answer aside p:not(.glg-eyebrow) { margin-bottom: 12px; }
+ .glg-tree-placeholder h3 { font-size: 21px; }
+ .glg-tree-more { display: block; }
+ .glg-tree-more > div { margin-top: 12px; gap: 8px; }
+ .glg-tree-more button { font-size: 11px; padding-inline: 11px; }
+ .glg-versus td, .glg-versus th, .glg-versus th:first-child, .glg-versus th:nth-child(2) { width: 25%; padding: 14px 7px; font-size: 11px; }
+ .glg-versus td:nth-child(2) { font-weight: 700; }
+}
+
+.glg-hero { display:block; padding-block:36px 0; text-align:center; }
+.glg-hero-copy { max-width:800px; margin:auto; }
+.glg-hero .glg-eyebrow { justify-content:center; margin-bottom:12px!important; }
+.glg h1 { max-width:780px; margin:0 auto 18px; font-size:clamp(36px,5vw,66px); line-height:1.08; }
+.glg-hero-lead { font-size:17px; max-width:610px; margin-inline:auto!important; }
+.glg-tree.glg-space { padding-block:8px 44px; }
+.glg-tree-interactive { margin-top:18px; }
+.glg-tree-choices button { aspect-ratio:1/1.15; min-height:0; padding:0; overflow:hidden; background:#26404c; border:0; border-radius:12px; color:white; isolation:isolate; }
+.glg-tree-choices button img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; }
+.glg-tree-choices button::after { content:''; position:absolute; inset:0; background:linear-gradient(transparent 32%,rgba(10,22,29,.92)); z-index:-1; }
+.glg-tree-choices button[aria-pressed="true"] { outline:4px solid #0066a6; outline-offset:3px; }
+.glg-card-copy { margin-top:auto; padding:20px; font-size:22px; line-height:1.16; max-width:95%; }
+.glg-tree-arrow { top:12px; right:12px; width:28px; height:28px; display:grid; place-items:center; background:#fff8f0; color:#2e1206; border-radius:50%; }
+.glg-tree-connector { display:none; }
+.glg-tree-result { margin-top:22px; }
+.glg-tree-result:has(.glg-tree-placeholder) { display:none; }
+.glg-tree-scope { text-align:center; }
+.glg-space { padding-block:60px; }
+.glg-choice-tiles article { padding:22px; }
+.glg-versus td,.glg-versus th { width:33.333%; }
+.glg-comparison-sources { margin-top:10px!important; text-decoration:underline; }
+@media(max-width:749px){
+.glg-wrap { width:calc(100% - 32px); }
+.glg-nav { padding-block:18px; }
+.glg-hero { padding-top:26px; }
+.glg h1 { font-size:38px; letter-spacing:-.045em; }
+.glg-hero-lead { font-size:14px; line-height:1.5; }
+.glg-hero .glg-eyebrow { font-size:10px; }
+.glg-card-copy { padding:14px 12px; font-size:18px; }
+.glg-tree-choices { gap:12px; }
+.glg-tree-choices button { min-height:0; aspect-ratio:1/1.1; }
+.glg-tree-result { padding:22px 18px; }
+.glg-tree-answer { gap:16px; }
+.glg-tree-answer .glg-body { font-size:15px; line-height:1.6; }
+.glg-tree-answer aside { padding-top:14px; }
+.glg-tree-answer aside p:not(.glg-eyebrow) { font-size:12px; }
+.glg-space { padding-block:38px; }
+.glg-choice-tiles { grid-template-columns:1fr; gap:8px; }
+.glg-choice-tiles article { padding:15px 18px; }
+.glg-choice-tiles h3 { font-size:19px; }
+.glg-choice-tiles p { font-size:13px; }
+.glg-versus td,.glg-versus th,.glg-versus th:first-child,.glg-versus th:nth-child(2) { width:33.333%; padding:14px 8px; font-size:12px; overflow-wrap:break-word; }
+.glg-offer-grid { gap:24px; }
+.glg-offer-image { max-height:360px; }
+.glg-offer-image img { object-fit:contain; }
+}
+
+.glg { padding-top:44px; }
+.glg-welcome { position:fixed; top:0; left:0; width:100%; z-index:30; padding:0; }
+.glg-welcome button { width:100%; min-height:44px; padding:10px 16px; border:0; background:transparent; color:inherit; font:inherit; cursor:pointer; }
+.glg [id] { scroll-margin-top:65px; }
+.glg-email-dialog { color:#2e1206; background:#fff8f0; border:0; border-radius:16px; width:min(480px,calc(100% - 32px)); max-height:calc(100dvh - 32px); overflow:auto; padding:38px 28px 28px; margin:auto; box-shadow:0 20px 80px #0004; font-family:var(--body-font); }
+.glg-email-dialog::backdrop { background:#15242cb3; }
+.glg-email-dialog h2 { font-size:34px; margin:0; }
+.glg-email-dialog .glg-body { font-size:16px; line-height:1.6; margin-top:16px!important; }
+.glg-email-close { position:absolute; top:4px; right:6px; width:44px; height:44px; font-size:30px; background:transparent; border:0; cursor:pointer; color:inherit; }
+.glg-email-form { margin-top:24px; }
+.glg-email-form label { display:block; font-size:14px; font-weight:700; margin-bottom:8px; }
+.glg-email-form input[type=email] { display:block; width:100%; min-height:50px; padding:12px; border:1px solid #78685c; border-radius:5px; font:inherit; font-size:16px; background:white; color:#2e1206; }
+.glg-email-form input:focus-visible { outline:3px solid #0066a6; outline-offset:3px; }
+.glg-email-consent { margin-block:14px!important; }
+.glg-email-form .glg-button { width:100%; }
+.glg-email-status { padding:16px; border:1px solid #0066a6; background:#eaf2f6; line-height:1.6; }
+body:has(.glg-email-dialog[open]) { overflow:hidden; }
+.glg-versus tbody tr:first-child td { font-size:clamp(23px,3vw,38px); font-weight:800; letter-spacing:-.04em; }
+.glg-versus tbody tr:first-child td:nth-child(2) { color:#0066a6; }
+.glg-month { background:#fff8f0; }
+.glg-month-scroll { overflow-x:auto; overscroll-behavior-x:contain; border-radius:8px; }
+.glg-month-scroll img { display:block; width:100%; min-width:1100px; height:auto; }
+.glg-month-scroll:focus-visible { outline:3px solid #0066a6; outline-offset:4px; }
+.glg-month-hint { display:none; margin-bottom:12px!important; color:#624d43; }
+.glg-month-transcript h3 { margin:22px 0 10px; font-size:20px; }
+.glg-month-transcript p { margin-bottom:14px; }
+@media(max-width:1199px) { .glg-month-hint { display:block; } }
+.glg-timeline {display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:32px 0 22px}
+.glg-timeline article {padding:30px;border:1px solid #d9c7b8;border-radius:16px;background:#fffdf9}
+.glg-day {font-size:36px;font-weight:800;letter-spacing:-.05em;color:#c4542c}
+.glg-timeline h3 {font-size:23px;margin:24px 0 12px}
+.glg-timeline p {font-size:15px;line-height:1.6}
+.glg-progress {height:5px;background:#eee2d6;margin-top:18px;border-radius:8px;overflow:hidden}
+.glg-progress i {height:100%;display:block;background:#c4542c}
+.glg-clean {margin-top:36px;padding:28px;background:#e9f1f6;border-radius:16px}
+.glg-clean h3 {font-size:27px;margin-bottom:18px}
+.glg-clean>div {display:flex;flex-wrap:wrap;gap:15px 32px;font-size:15px}
+.glg-clean span {color:#0066a6;font-weight:800}
+@media(max-width:749px){.glg-timeline{grid-template-columns:1fr;gap:12px}.glg-timeline article{padding:24px}.glg-timeline h3{margin-top:18px}.glg-clean>div{display:grid;gap:12px}}
+.glg-safety {margin:20px 0!important;line-height:1.65}.glg h1,.glg h2,.glg h3{opacity:1!important;transform:none!important}.glg .glg-day{color:#197c78}.glg .glg-progress i{background:#197c78}
+{% endstylesheet %}
+{% javascript %}
+(() => {
+  const initialize = (scope) => {
+    scope.querySelectorAll('.glg:not([data-guide-ready])').forEach((guide) => {
+      guide.dataset.guideReady = 'true';
+      let fitVisible = false;
+      let refreshSticky = () => {};
+      const fit = guide.querySelector('[data-tree]');
+      const result = guide.querySelector('[data-tree-result]');
+      if (fit && result) {
+        fit.hidden = false;
+        guide.querySelectorAll('[data-tree-choice]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const choice = button.dataset.treeChoice;
+            const path = choice;
+            const template = guide.querySelector(`[data-tree-template="${path}"]`);
+            if (!template) return;
+            guide.querySelectorAll('[data-tree-choice]').forEach((item) => {
+              item.setAttribute('aria-pressed', String(item.dataset.treeChoice === choice));
+            });
+            result.replaceChildren(template.content.cloneNode(true));
+            guide.querySelector('[data-tree-more]').hidden = false;
+            result.querySelector('h3').focus({ preventScroll: true });
+            result.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'nearest' });
+          });
+        });
+      }
+      const sticky = guide.querySelector('.glg-sticky');
+      const hero = guide.querySelector('.glg-hero');
+      const offer = guide.querySelector('.glg-offer');
+      if ('IntersectionObserver' in window && sticky && hero && offer) {
+        let pastHero = false;
+        let reachedOffer = false;
+        refreshSticky = () => { sticky.hidden = !pastHero || reachedOffer || fitVisible; };
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.target === fit) fitVisible = entry.isIntersecting;
+            if (entry.target === hero) pastHero = entry.boundingClientRect.bottom < 0;
+            if (entry.target === offer) {
+              reachedOffer = entry.isIntersecting || entry.boundingClientRect.top < 0;
+            }
+          });
+          refreshSticky();
+        });
+        observer.observe(hero);
+        observer.observe(offer);
+        if (fit) observer.observe(fit);
+        document.addEventListener('shopify:section:unload', (event) => {
+          if (event.target.contains(guide)) observer.disconnect();
+        }, { once: true });
+      }
+      const emailDialog = guide.querySelector('.glg-email-dialog');
+      if (emailDialog) {
+        let emailOpener;
+        const openEmail = () => {
+          emailOpener = document.activeElement;
+          if (!emailDialog.open) emailDialog.showModal();
+          (emailDialog.querySelector('[data-email-status]') || emailDialog.querySelector('input[type="email"]'))?.focus();
+        };
+        guide.querySelectorAll('[data-email-open]').forEach(button => button.addEventListener('click', openEmail));
+        emailDialog.querySelector('[data-email-close]').addEventListener('click', () => emailDialog.close());
+        emailDialog.addEventListener('click', event => {
+          if (event.target !== emailDialog) return;
+          const box = emailDialog.getBoundingClientRect();
+          if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) emailDialog.close();
+        });
+        emailDialog.addEventListener('close', () => emailOpener?.focus());
+        if (emailDialog.querySelector('[data-email-status]')) openEmail();
+      }
+      const liveOffer = guide.querySelector('[data-live-offer]');
+      if (liveOffer) {
+        fetch(liveOffer.dataset.productUrl + '.js', { credentials: 'same-origin' })
+          .then(response => { if (!response.ok) throw new Error('Unavailable'); return response.json(); })
+          .then(product => {
+            const variant = product.variants.find(item => String(item.id) === '44512991608898');
+            if (!variant || variant.requires_selling_plan) return;
+            const percent = Number(liveOffer.dataset.percent) || 0;
+            const money = new Intl.NumberFormat(document.documentElement.lang || 'en', {style:'currency',currency:liveOffer.dataset.currency || 'USD'});
+            liveOffer.querySelector('[data-guide-price]').textContent = money.format(Math.round(variant.price * (100-percent) / 100) / 100);
+            const original = liveOffer.querySelector('[data-guide-original]');
+            if (original) original.textContent = money.format(variant.price / 100);
+            const button = liveOffer.querySelector('.glg-buy');
+            button.disabled = !variant.available;
+            button.textContent = !variant.available ? liveOffer.dataset.soldLabel : percent > 0 ? liveOffer.dataset.buyLabel : liveOffer.dataset.standardLabel;
+            liveOffer.hidden = false;
+          }).catch(() => {});
+      }
+    });
+  };
+  initialize(document);
+  document.addEventListener('shopify:section:load', (event) => initialize(event.target));
+})();
+{% endjavascript %}
+{% schema %}
+{
+  "name": "GLP-1 nutrient guide",
+  "tag": "section",
+  "class": "glp1-guide-section",
+  "limit": 1,
+  "enabled_on": {
+    "templates": [
+      "page"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Headline override",
+      "info": "Leave blank to use the translated campaign headline."
+    },
+    {
+      "type": "image_picker",
+      "id": "nutrition_image",
+      "label": "Nutrient intake choice image"
+    },
+    {
+      "type": "image_picker",
+      "id": "digestion_image",
+      "label": "Digestive comfort choice image"
+    },
+    {
+      "type": "image_picker",
+      "id": "energy_image",
+      "label": "Energy choice image"
+    },
+    {
+      "type": "image_picker",
+      "id": "routine_image",
+      "label": "Simple routine choice image"
+    },
+    {
+      "type": "image_picker",
+      "id": "offer_image",
+      "label": "Offer product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "lifestyle_image",
+      "label": "Formula hero image"
+    },
+    {
+      "type": "image_picker",
+      "id": "facts_image",
+      "label": "Supplement facts image"
+    },
+    {
+      "type": "header",
+      "content": "First-order offer"
+    },
+    {
+      "type": "paragraph",
+      "content": "Create and test the matching discount in Shopify before enabling. Restrict it to first-time customers, one-time glp1 purchases and one use per customer. Disable combinations. This section cannot create or validate discounts."
+    },
+    {
+      "type": "checkbox",
+      "id": "offer_enabled",
+      "label": "Enable verified welcome offer",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Active Shopify discount code"
+    },
+    {
+      "type": "range",
+      "id": "discount_percent",
+      "label": "First-order discount",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Customer testimonial",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Use only a real, permissioned review of this product. Do not add unsupported health claims or invented customers."
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Customer\u2019s exact words"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer attribution"
+        },
+        {
+          "type": "url",
+          "id": "source_url",
+          "label": "Original review link"
+        },
+        {
+          "type": "text",
+          "id": "source_label",
+          "label": "Review link label",
+          "default": "Read the review"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GLP-1 nutrient guide"
+    }
+  ]
+}
+{% endschema %}
