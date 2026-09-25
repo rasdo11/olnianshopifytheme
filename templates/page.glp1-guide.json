@@ -7,12 +7,12 @@
         "discount_percent": 20,
         "discount_code": "GLP1WELCOME20",
         "offer_image": "shopify://shop_images/olnian-glp1-product.png",
-        "lifestyle_image": "shopify://shop_images/olnian-glp1-product.png",
+        "lifestyle_image": "shopify://shop_images/olnian-glp1-morning-v2.png",
         "facts_image": "shopify://shop_images/50db8267f202a34807922be20ad0b2fd829e5fc9-749x620.png",
-        "nutrition_image": "shopify://shop_images/olnian-glp1-nutrition.png",
-        "digestion_image": "shopify://shop_images/olnian-glp1-digestion.png",
-        "energy_image": "shopify://shop_images/olnian-glp1-energy.png",
-        "routine_image": "shopify://shop_images/olnian-glp1-routine.png"
+        "nutrition_image": "shopify://shop_images/olnian-glp1-nutrition-v2.png",
+        "digestion_image": "shopify://shop_images/olnian-glp1-digestion-v2.png",
+        "energy_image": "shopify://shop_images/olnian-glp1-energy-v2.png",
+        "routine_image": "shopify://shop_images/olnian-glp1-routine-v2.png"
       }
     }
   },
