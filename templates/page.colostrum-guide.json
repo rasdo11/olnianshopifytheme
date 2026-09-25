@@ -13,7 +13,8 @@
         "energy_image": "shopify://shop_images/olnian-energy-v5.png",
         "immune_image": "shopify://shop_images/olnian-immune-v5.png",
         "recovery_image": "shopify://shop_images/olnian-recovery-v4.png",
-        "discount_code": "CHATGPT20"
+        "discount_code": "CHATGPT20",
+        "timeline_image": "shopify://shop_images/olnian-30-day-checkins.png"
       }
     }
   },

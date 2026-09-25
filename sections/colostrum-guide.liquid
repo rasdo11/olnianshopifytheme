@@ -77,13 +77,21 @@
       </div>
     </div>
   </section>
-  <section class="cg-comparison cg-space" id="GuideFormula-{{ section.id }}" aria-labelledby="GuideFormulaTitle-{{ section.id }}">
+  <section class="cg-month cg-space" id="GuideFormula-{{ section.id }}" aria-labelledby="GuideFormulaTitle-{{ section.id }}">
     <div class="cg-wrap">
-      <div class="cg-section-intro"><p class="cg-eyebrow">{{ 'colostrum_guide.compare.eyebrow' | t }}</p><h2 id="GuideFormulaTitle-{{ section.id }}">{{ 'colostrum_guide.compare.heading' | t }}</h2><p class="cg-body">{{ 'colostrum_guide.compare.body' | t }}</p></div>
-      <div class="cg-choice-tiles">{% for i in (1..3) %}{% assign key = 'colostrum_guide.compare.tile' | append: i %}{% assign text_key = key | append: '_text' %}<article><h3>{{ key | t }}</h3><p>{{ text_key | t }}</p></article>{% endfor %}</div>
-      <table class="cg-table cg-versus"><caption class="visually-hidden">{{ 'colostrum_guide.compare.caption' | t }}</caption><thead><tr><th scope="col">{{ 'colostrum_guide.compare.check' | t }}</th><th scope="col">OLNIAN</th><th scope="col">ARMRA</th></tr></thead><tbody>
-      {% assign comparison_rows = '1,2,4,5' | split: ',' %}{% for row in comparison_rows %}{% assign i = row | plus: 0 %}{% assign row_key = 'colostrum_guide.compare.row' | append: i %}{% assign col_key = 'colostrum_guide.compare.col' | append: i %}{% assign pro_key = 'colostrum_guide.compare.pro' | append: i %}<tr><th scope="row">{{ row_key | t }}</th><td>{% if i == 1 %}{{ guide_variant.price | money }}{% else %}{{ col_key | t }}{% endif %}</td><td>{{ pro_key | t }}</td></tr>{% endfor %}
-      </tbody></table><p class="cg-fine cg-versus-note">{{ 'colostrum_guide.compare.note' | t }}</p><p class="cg-fine cg-comparison-sources"><a href="https://armra.com/apps/jurni/busy-moms-need-armra-colostrum" target="_blank" rel="noopener">{{ 'colostrum_guide.compare.price_source' | t }}</a> · <a href="https://help.tryarmra.com/en-US/what-is-the-ingredient-in-armra-colostrum-48989" target="_blank" rel="noopener">{{ 'colostrum_guide.compare.ingredient_source' | t }}</a></p>
+      <h2 class="visually-hidden" id="GuideFormulaTitle-{{ section.id }}">{{ 'colostrum_guide.month.heading' | t }}</h2>
+      {% if section.settings.timeline_image != blank %}
+        <p class="cg-fine cg-month-hint" id="GuideMonthHint-{{ section.id }}">{{ 'colostrum_guide.month.swipe' | t }}</p>
+        <div class="cg-month-scroll" tabindex="0" role="region" aria-label="{{ 'colostrum_guide.month.heading' | t }}" aria-describedby="GuideMonthHint-{{ section.id }}">
+          {% assign month_alt = 'colostrum_guide.month.alt' | t %}
+          {{ section.settings.timeline_image | image_url: width: 2400 | image_tag: widths: '1100, 1600, 2200, 2400', sizes: '(min-width: 1200px) 1240px, 1100px', loading: 'lazy', alt: month_alt }}
+        </div>
+      {% endif %}
+      <details class="cg-details cg-month-transcript" {% if section.settings.timeline_image == blank %}open{% endif %}><summary>{{ 'colostrum_guide.month.read' | t }}<span aria-hidden="true">+</span></summary><div>
+        <p>{{ 'colostrum_guide.month.intro' | t }}</p>
+        {% for day in (1..3) %}{% assign title_key = 'colostrum_guide.month.title' | append: day %}{% assign body_key = 'colostrum_guide.month.body' | append: day %}<h3>{{ title_key | t }}</h3><p>{{ body_key | t }}</p>{% endfor %}
+        <p>{{ 'colostrum_guide.month.science' | t }}</p><p>{{ 'colostrum_guide.month.safety' | t }}</p>
+      </div></details>
       {% if section.settings.facts_image != blank %}<details class="cg-details cg-facts-disclosure"><summary>{{ 'colostrum_guide.proof.facts' | t }}<span aria-hidden="true">+</span></summary><div>{% assign facts_alt = 'colostrum_guide.proof.alt' | t %}{{ section.settings.facts_image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: facts_alt }}</div></details>{% endif %}
     {% if review_count > 0 %}
       <div class="cg-reviews"><h3>{{ 'colostrum_guide.proof.reviews' | t }}</h3><div class="cg-review-grid">{% for block in section.blocks %}{% if block.type == 'testimonial' and block.settings.quote != blank and block.settings.author != blank %}<figure {{ block.shopify_attributes }}><blockquote>{{ block.settings.quote | escape }}</blockquote><figcaption>{{ block.settings.author | escape }}</figcaption>{% if block.settings.source_url != blank %}<a class="cg-text-link" href="{{ block.settings.source_url }}">{{ block.settings.source_label | escape }}</a>{% endif %}</figure>{% endif %}{% endfor %}</div></div>
@@ -423,6 +431,14 @@
 body:has(.cg-email-dialog[open]) { overflow:hidden; }
 .cg-versus tbody tr:first-child td { font-size:clamp(23px,3vw,38px); font-weight:800; letter-spacing:-.04em; }
 .cg-versus tbody tr:first-child td:nth-child(2) { color:#0066a6; }
+.cg-month { background:#fff8f0; }
+.cg-month-scroll { overflow-x:auto; overscroll-behavior-x:contain; border-radius:8px; }
+.cg-month-scroll img { display:block; width:100%; min-width:1100px; height:auto; }
+.cg-month-scroll:focus-visible { outline:3px solid #0066a6; outline-offset:4px; }
+.cg-month-hint { display:none; margin-bottom:12px!important; color:#624d43; }
+.cg-month-transcript h3 { margin:22px 0 10px; font-size:20px; }
+.cg-month-transcript p { margin-bottom:14px; }
+@media(max-width:1199px) { .cg-month-hint { display:block; } }
 {% endstylesheet %}
 {% javascript %}
 (() => {
@@ -548,6 +564,11 @@ body:has(.cg-email-dialog[open]) { overflow:hidden; }
       "id": "heading",
       "label": "Headline override",
       "info": "Leave blank to use the translated campaign headline."
+    },
+    {
+      "type": "image_picker",
+      "id": "timeline_image",
+      "label": "First 30 days graphic"
     },
     {
       "type": "image_picker",
