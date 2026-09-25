@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "main": {
+      "type": "creatine-guide",
+      "settings": {
+        "product": "creatine-monohydrate",
+        "offer_enabled": true,
+        "discount_percent": 20,
+        "discount_code": "CREATINE20",
+        "offer_image": "shopify://shop_images/olnian-creatine-guide-product.jpg",
+        "lifestyle_image": "shopify://shop_images/creatine_new15.png",
+        "facts_image": "shopify://shop_images/Supplement-facts.png",
+        "strength_image": "shopify://shop_images/olnian-creatine-strength.png",
+        "active_image": "shopify://shop_images/olnian-creatine-active.png",
+        "plant_image": "shopify://shop_images/olnian-creatine-plant.png",
+        "focus_image": "shopify://shop_images/olnian-creatine-focus.png"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
